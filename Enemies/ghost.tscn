@@ -1,0 +1,159 @@
+[gd_scene load_steps=22 format=3 uid="uid://dka5wc1yusobs"]
+
+[ext_resource type="Texture2D" uid="uid://caq81rsx6r0jl" path="res://Enemies/ghost.png" id="1_0fgnr"]
+[ext_resource type="Script" uid="uid://c16yjox0tt6u4" path="res://Enemies/ghost.gd" id="1_loe2b"]
+[ext_resource type="PackedScene" uid="uid://6c21m1l8r268" path="res://Combat/hurtbox.tscn" id="2_7n145"]
+[ext_resource type="Shader" uid="uid://cd25tciedu4h5" path="res://Combat/ShaderComplementary.gdshader" id="2_vynsj"]
+[ext_resource type="PackedScene" uid="uid://cfur0wgencjh8" path="res://Enemies/player_detection_zone.tscn" id="5_hfxwo"]
+[ext_resource type="PackedScene" uid="uid://lfrhnehwb41h" path="res://Combat/hitbox.tscn" id="6_qxvdp"]
+[ext_resource type="PackedScene" uid="uid://3od7ps120wrn" path="res://Enemies/soft_collision.tscn" id="7_lh42r"]
+[ext_resource type="PackedScene" uid="uid://hfj2qrgqwdms" path="res://Enemies/wander_controller.tscn" id="10_2qxec"]
+[ext_resource type="PackedScene" uid="uid://hakdr4fdj1fo" path="res://Combat/health_component.tscn" id="10_4od23"]
+[ext_resource type="PackedScene" uid="uid://dg5ho328cdniv" path="res://Effects/enemy_death_effect.tscn" id="11_2qxec"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_4od23"]
+resource_local_to_scene = true
+shader = ExtResource("2_vynsj")
+shader_parameter/active = false
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0fgnr"]
+atlas = ExtResource("1_0fgnr")
+region = Rect2(0, 0, 16, 16)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_7n145"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_0fgnr")
+}],
+"loop": true,
+"name": &"Fly",
+"speed": 5.0
+}]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_0fgnr"]
+radius = 4.0
+height = 12.0
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_loe2b"]
+size = Vector2(12.5, 13.5)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_qxvdp"]
+radius = 81.0247
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_lh42r"]
+size = Vector2(8, 9)
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_tt0oc"]
+radius = 4.0
+height = 12.0
+
+[sub_resource type="Animation" id="Animation_eeofm"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("AnimatedSprite:material:shader_parameter/active")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+
+[sub_resource type="Animation" id="Animation_2qxec"]
+resource_name = "Start"
+length = 0.2
+step = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("AnimatedSprite:material:shader_parameter/active")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_ce8b3"]
+_data = {
+&"RESET": SubResource("Animation_eeofm"),
+&"Start": SubResource("Animation_2qxec")
+}
+
+[node name="Ghost" type="CharacterBody2D" groups=["Enemy"]]
+collision_layer = 16
+script = ExtResource("1_loe2b")
+metadata/_edit_group_ = true
+
+[node name="Health_Component" parent="." instance=ExtResource("10_4od23")]
+MAX_HEALTH = 2
+DeathEffect = ExtResource("11_2qxec")
+
+[node name="AnimatedSprite" type="AnimatedSprite2D" parent="."]
+material = SubResource("ShaderMaterial_4od23")
+position = Vector2(0, -2)
+sprite_frames = SubResource("SpriteFrames_7n145")
+animation = &"Fly"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+visible = false
+position = Vector2(0, 1)
+rotation = 1.5708
+shape = SubResource("CapsuleShape2D_0fgnr")
+
+[node name="Hurtbox" parent="." node_paths=PackedStringArray("health", "blinkAnimationPlayer") instance=ExtResource("2_7n145")]
+visible = false
+position = Vector2(0, -2)
+collision_mask = 8
+health = NodePath("../Health_Component")
+invincibilityTime = 0.2
+blinkAnimationPlayer = NodePath("../BlinkAnimationPlayer")
+
+[node name="CollisionShape2D" parent="Hurtbox" index="0"]
+position = Vector2(-0.25, 0.25)
+shape = SubResource("RectangleShape2D_loe2b")
+
+[node name="PlayerDetectionZone" parent="." instance=ExtResource("5_hfxwo")]
+visible = false
+
+[node name="CollisionShape2D" parent="PlayerDetectionZone" index="0"]
+position = Vector2(-1, -2)
+shape = SubResource("CircleShape2D_qxvdp")
+debug_color = Color(0, 0.6, 0.701961, 0.121569)
+
+[node name="Hitbox" parent="." instance=ExtResource("6_qxvdp")]
+visible = false
+position = Vector2(0, -3)
+collision_layer = 4
+
+[node name="CollisionShape2D" parent="Hitbox" index="0"]
+position = Vector2(0, 1.5)
+shape = SubResource("RectangleShape2D_lh42r")
+
+[node name="SoftCollision" parent="." instance=ExtResource("7_lh42r")]
+visible = false
+
+[node name="CollisionShape2D" parent="SoftCollision" index="0"]
+position = Vector2(0, 1)
+rotation = 1.5708
+shape = SubResource("CapsuleShape2D_tt0oc")
+
+[node name="BlinkAnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("AnimationLibrary_ce8b3")
+}
+
+[node name="WanderController" parent="." instance=ExtResource("10_2qxec")]
+
+[connection signal="trigger_knockback" from="Hurtbox" to="." method="_on_hurtbox_trigger_knockback"]
+
+[editable path="Hurtbox"]
+[editable path="PlayerDetectionZone"]
+[editable path="Hitbox"]
+[editable path="SoftCollision"]

@@ -1,0 +1,67 @@
+[gd_scene load_steps=10 format=3 uid="uid://ukvccod4ru5w"]
+
+[ext_resource type="Script" uid="uid://dp7jmsfxqlifu" path="res://Dungeon/door.gd" id="1_63nin"]
+[ext_resource type="Texture2D" uid="uid://b74gg6sgus58n" path="res://Dungeon/door.png" id="2_1hnmd"]
+[ext_resource type="PackedScene" uid="uid://damjysxl382ea" path="res://Dialogue/dialogue_zone.tscn" id="3_6hxbr"]
+[ext_resource type="AudioStream" uid="uid://br7p7c4foggqm" path="res://Music and Sounds/button press.mp3" id="5_lkog6"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_av2vf"]
+atlas = ExtResource("2_1hnmd")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_o2cd7"]
+atlas = ExtResource("2_1hnmd")
+region = Rect2(0, 32, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_6gydx"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_av2vf")
+}],
+"loop": false,
+"name": &"Locked",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_o2cd7")
+}],
+"loop": false,
+"name": &"Open",
+"speed": 5.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_o2cd7"]
+size = Vector2(32, 24)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_6gydx"]
+size = Vector2(32, 20)
+
+[node name="Door" type="StaticBody2D" node_paths=PackedStringArray("doorButtons")]
+collision_mask = 0
+script = ExtResource("1_63nin")
+doorButtons = [null, null]
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_6gydx")
+animation = &"Locked"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, 4)
+shape = SubResource("RectangleShape2D_o2cd7")
+
+[node name="DialogueZone" parent="." instance=ExtResource("3_6hxbr")]
+
+[node name="DoorTransition" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="DoorTransition"]
+position = Vector2(0, 2)
+shape = SubResource("RectangleShape2D_6gydx")
+
+[node name="Button" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("5_lkog6")
+
+[connection signal="body_entered" from="DoorTransition" to="." method="_on_door_transition_body_entered"]

@@ -1,0 +1,216 @@
+[gd_scene load_steps=23 format=4 uid="uid://deiqhbrvo1oo6"]
+
+[ext_resource type="Script" uid="uid://kug8gsqfbi73" path="res://World/prison_1.gd" id="1_fs6ax"]
+[ext_resource type="PackedScene" uid="uid://cqv7hf2dkuljw" path="res://Dialogue/dialogue_room_manager.tscn" id="2_5exfy"]
+[ext_resource type="Texture2D" uid="uid://byyg3l5ufieug" path="res://World/prison_tileset.png" id="2_61v2m"]
+[ext_resource type="PackedScene" uid="uid://damjysxl382ea" path="res://Dialogue/dialogue_zone.tscn" id="3_jvh6w"]
+[ext_resource type="Resource" uid="uid://kjacxpbvk5gh" path="res://Dialogue/prison.dialogue" id="3_k5jer"]
+[ext_resource type="Script" uid="uid://sh25djq0yt3j" path="res://World/tile_map_astar.gd" id="3_tsyw4"]
+[ext_resource type="PackedScene" uid="uid://bursypx5unela" path="res://Player/player.tscn" id="4_tsyw4"]
+[ext_resource type="PackedScene" uid="uid://cblilm1d3bree" path="res://transition_area.tscn" id="5_fs6ax"]
+[ext_resource type="Texture2D" uid="uid://bl82kmgy5le5g" path="res://World/sword.png" id="6_ejvt2"]
+[ext_resource type="Texture2D" uid="uid://cq66dbdjkplv1" path="res://World/generic door.png" id="7_pilnj"]
+[ext_resource type="Texture2D" uid="uid://d4580s087nsr" path="res://NPCs/Prison Guard Walk Cycle.png" id="8_61v2m"]
+[ext_resource type="Texture2D" uid="uid://dxw18c1dw0ykq" path="res://World/sandwich.png" id="8_jq7x1"]
+[ext_resource type="PackedScene" uid="uid://cm005kc7svare" path="res://NPCs/guard.tscn" id="9_jvh6w"]
+[ext_resource type="Texture2D" uid="uid://bjr8vb16bncp2" path="res://NPCs/Prison Guard 2 Walk Cycle.png" id="11_dubdr"]
+[ext_resource type="Texture2D" uid="uid://5iocau8doqpu" path="res://World/prisonpaper.png" id="12_ft4sl"]
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_klnra"]
+texture = ExtResource("2_61v2m")
+1:1/0 = 0
+1:1/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
+1:1/0/custom_data_0 = "wall"
+1:2/0 = 0
+1:2/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
+1:2/0/custom_data_0 = "wall"
+4:3/0 = 0
+5:3/0 = 0
+6:3/0 = 0
+7:3/0 = 0
+8:3/0 = 0
+9:3/0 = 0
+10:3/0 = 0
+11:3/0 = 0
+12:3/0 = 0
+13:3/0 = 0
+1:4/0 = 0
+4:4/0 = 0
+5:4/0 = 0
+6:4/0 = 0
+7:4/0 = 0
+8:4/0 = 0
+9:4/0 = 0
+10:4/0 = 0
+11:4/0 = 0
+12:4/0 = 0
+13:4/0 = 0
+1:5/0 = 0
+1:5/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
+1:5/0/custom_data_0 = "wall"
+4:5/0 = 0
+5:5/0 = 0
+6:5/0 = 0
+7:5/0 = 0
+8:5/0 = 0
+9:5/0 = 0
+10:5/0 = 0
+11:5/0 = 0
+12:5/0 = 0
+13:5/0 = 0
+14:5/0 = 0
+4:6/0 = 0
+5:6/0 = 0
+6:6/0 = 0
+7:6/0 = 0
+8:6/0 = 0
+9:6/0 = 0
+10:6/0 = 0
+11:6/0 = 0
+12:6/0 = 0
+13:6/0 = 0
+14:6/0 = 0
+8:7/0 = 0
+9:7/0 = 0
+10:7/0 = 0
+11:7/0 = 0
+12:7/0 = 0
+
+[sub_resource type="TileSet" id="TileSet_crwjn"]
+physics_layer_0/collision_layer = 1
+physics_layer_0/collision_mask = 0
+custom_data_layer_0/name = "type"
+custom_data_layer_0/type = 4
+sources/0 = SubResource("TileSetAtlasSource_klnra")
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_jc6we"]
+size = Vector2(176, 28)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_jq7x1"]
+radius = 28.0179
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_5exfy"]
+radius = 16.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_pilnj"]
+radius = 17.8885
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_61v2m"]
+size = Vector2(32, 32)
+
+[node name="Prison1" type="Node2D" node_paths=PackedStringArray("markers")]
+script = ExtResource("1_fs6ax")
+markers = [null]
+
+[node name="Camera2D" type="Camera2D" parent="."]
+anchor_mode = 0
+
+[node name="DialogueRoomManager" parent="." instance=ExtResource("2_5exfy")]
+dialogueResource = ExtResource("3_k5jer")
+
+[node name="TileMapLayer" type="TileMapLayer" parent="."]
+z_index = -2
+tile_map_data = PackedByteArray("AAAAAAAAAAABAAUAAAAAAAEAAAABAAUAAAAAAAIAAAABAAUAAAAAAAMAAAABAAUAAAAAAAQAAAABAAUAAAAAAAUAAAABAAUAAAAAAAYAAAABAAUAAAAAAAcAAAABAAUAAAAAAAgAAAABAAUAAAAAAAkAAAABAAUAAAAAAAoAAAABAAUAAAAAAAsAAAABAAUAAAAAAAwAAAABAAUAAAAAAA0AAAABAAUAAAAAAA4AAAABAAUAAAABAAAAAAABAAUAAAABAAEAAAABAAUAAAABAAIAAAABAAUAAAABAAMAAAABAAUAAAABAAQAAAABAAUAAAABAAUAAAABAAUAAAABAAYAAAABAAUAAAABAAcAAAABAAUAAAABAAgAAAABAAUAAAABAAkAAAABAAUAAAABAAoAAAABAAUAAAABAAsAAAABAAUAAAABAAwAAAABAAUAAAABAA0AAAABAAUAAAABAA4AAAABAAUAAAACAAAAAAABAAIAAAACAAEAAAABAAIAAAACAAIAAAABAAIAAAACAAMAAAABAAIAAAACAAQAAAABAAIAAAACAAUAAAABAAIAAAACAAYAAAAEAAMAAAACAAcAAAAEAAQAAAACAAgAAAAEAAQAAAACAAkAAAAEAAQAAAACAAoAAAAEAAUAAAACAAsAAAABAAUAAAACAAwAAAABAAUAAAACAA0AAAABAAUAAAACAA4AAAABAAUAAAADAAAAAAABAAIAAAADAAEAAAABAAIAAAADAAIAAAABAAEAAAADAAMAAAABAAIAAAADAAQAAAABAAIAAAADAAUAAAABAAIAAAADAAYAAAAFAAMAAAADAAcAAAAFAAQAAAADAAgAAAAFAAQAAAADAAkAAAAFAAQAAAADAAoAAAAFAAUAAAADAAsAAAABAAUAAAADAAwAAAABAAUAAAADAA0AAAABAAUAAAADAA4AAAABAAUAAAAEAAQAAAABAAIAAAAEAAUAAAABAAIAAAAEAAYAAAAFAAMAAAAEAAcAAAAFAAQAAAAEAAgAAAAFAAQAAAAEAAkAAAAFAAQAAAAEAAoAAAAFAAUAAAAEAAsAAAABAAUAAAAEAAwAAAABAAUAAAAEAA0AAAABAAUAAAAEAA4AAAABAAUAAAAFAAQAAAABAAIAAAAFAAUAAAABAAIAAAAFAAYAAAAFAAMAAAAFAAcAAAAFAAQAAAAFAAgAAAAFAAQAAAAFAAkAAAAFAAQAAAAFAAoAAAAFAAUAAAAFAAsAAAABAAUAAAAFAAwAAAABAAUAAAAFAA0AAAABAAUAAAAFAA4AAAABAAUAAAAGAAQAAAABAAIAAAAGAAUAAAABAAIAAAAGAAYAAAAFAAMAAAAGAAcAAAAFAAQAAAAGAAgAAAAFAAQAAAAGAAkAAAAFAAQAAAAGAAoAAAAFAAUAAAAGAAsAAAABAAUAAAAGAAwAAAABAAUAAAAGAA0AAAABAAUAAAAGAA4AAAABAAUAAAAHAAQAAAABAAIAAAAHAAUAAAABAAIAAAAHAAYAAAAFAAMAAAAHAAcAAAAFAAQAAAAHAAgAAAAFAAQAAAAHAAkAAAAFAAQAAAAHAAoAAAAFAAUAAAAHAAsAAAABAAUAAAAHAAwAAAABAAUAAAAHAA0AAAABAAUAAAAHAA4AAAABAAUAAAAIAAQAAAAFAAQAAAAIAAUAAAAFAAQAAAAIAAYAAAAFAAQAAAAIAAcAAAAFAAQAAAAIAAgAAAAFAAQAAAAJAAQAAAAFAAQAAAAJAAUAAAAFAAQAAAAJAAYAAAAFAAQAAAAJAAcAAAAFAAQAAAAJAAgAAAAFAAQAAAAJAAkAAAAFAAQAAAAJAAoAAAAFAAQAAAAJAAsAAAAFAAQAAAAJAAwAAAAFAAQAAAAJAA0AAAAFAAQAAAAJAA4AAAAFAAQAAAAKAAAAAAABAAIAAAAKAAEAAAABAAIAAAAKAAIAAAABAAIAAAAKAAMAAAABAAIAAAAKAAQAAAABAAIAAAAKAAUAAAABAAIAAAAKAAYAAAAFAAMAAAAKAAcAAAAFAAQAAAAKAAgAAAAFAAQAAAAKAAkAAAAFAAQAAAAKAAoAAAAFAAUAAAAKAAsAAAABAAUAAAAKAAwAAAABAAUAAAAKAA0AAAABAAUAAAAKAA4AAAABAAUAAAALAAAAAAABAAIAAAALAAEAAAABAAIAAAALAAIAAAABAAIAAAALAAMAAAABAAIAAAALAAQAAAABAAIAAAALAAUAAAABAAIAAAALAAYAAAAFAAMAAAALAAcAAAAFAAQAAAALAAgAAAAFAAQAAAALAAkAAAAFAAQAAAALAAoAAAAFAAUAAAALAAsAAAABAAUAAAALAAwAAAABAAUAAAALAA0AAAABAAUAAAALAA4AAAABAAUAAAAMAAAAAAABAAIAAAAMAAEAAAABAAIAAAAMAAIAAAABAAIAAAAMAAMAAAABAAEAAAAMAAQAAAABAAIAAAAMAAUAAAABAAIAAAAMAAYAAAAFAAMAAAAMAAcAAAAFAAQAAAAMAAgAAAAFAAQAAAAMAAkAAAAFAAQAAAAMAAoAAAAFAAUAAAAMAAsAAAABAAUAAAAMAAwAAAABAAUAAAAMAA0AAAABAAUAAAAMAA4AAAABAAUAAAANAAAAAAABAAIAAAANAAEAAAABAAIAAAANAAIAAAABAAIAAAANAAMAAAABAAIAAAANAAQAAAABAAIAAAANAAUAAAABAAIAAAANAAYAAAAFAAMAAAANAAcAAAAFAAQAAAANAAgAAAAFAAQAAAANAAkAAAAFAAQAAAANAAoAAAAFAAUAAAANAAsAAAABAAUAAAANAAwAAAABAAUAAAANAA0AAAABAAUAAAANAA4AAAABAAUAAAAOAAAAAAABAAIAAAAOAAEAAAABAAIAAAAOAAIAAAABAAIAAAAOAAMAAAABAAIAAAAOAAQAAAABAAIAAAAOAAUAAAABAAIAAAAOAAYAAAAFAAMAAAAOAAcAAAAFAAQAAAAOAAgAAAAFAAQAAAAOAAkAAAAFAAQAAAAOAAoAAAAFAAUAAAAOAAsAAAABAAUAAAAOAAwAAAABAAUAAAAOAA0AAAABAAUAAAAOAA4AAAABAAUAAAAPAAAAAAABAAIAAAAPAAEAAAABAAEAAAAPAAIAAAABAAIAAAAPAAMAAAABAAIAAAAPAAQAAAABAAIAAAAPAAUAAAABAAIAAAAPAAYAAAAFAAMAAAAPAAcAAAAFAAQAAAAPAAgAAAAFAAQAAAAPAAkAAAAFAAQAAAAPAAoAAAAFAAUAAAAPAAsAAAABAAUAAAAPAAwAAAABAAUAAAAPAA0AAAABAAUAAAAPAA4AAAABAAUAAAAQAAAAAAABAAIAAAAQAAEAAAABAAIAAAAQAAIAAAABAAIAAAAQAAMAAAABAAIAAAAQAAQAAAABAAEAAAAQAAUAAAABAAIAAAAQAAYAAAAFAAMAAAAQAAcAAAAFAAQAAAAQAAgAAAAFAAQAAAAQAAkAAAAFAAQAAAAQAAoAAAAFAAUAAAAQAAsAAAABAAUAAAAQAAwAAAABAAUAAAAQAA0AAAABAAUAAAAQAA4AAAABAAUAAAARAAAAAAABAAIAAAARAAEAAAABAAIAAAARAAIAAAABAAIAAAARAAMAAAABAAIAAAARAAQAAAABAAIAAAARAAUAAAABAAIAAAARAAYAAAAGAAMAAAARAAcAAAAGAAQAAAARAAgAAAAGAAQAAAARAAkAAAAGAAQAAAARAAoAAAAGAAUAAAARAAsAAAABAAUAAAARAAwAAAABAAUAAAARAA0AAAABAAUAAAARAA4AAAABAAUAAAASAAAAAAABAAUAAAASAAEAAAABAAUAAAASAAIAAAABAAUAAAASAAMAAAABAAUAAAASAAQAAAABAAUAAAASAAUAAAABAAUAAAASAAYAAAABAAUAAAASAAcAAAABAAUAAAASAAgAAAABAAUAAAASAAkAAAABAAUAAAASAAoAAAABAAUAAAASAAsAAAABAAUAAAASAAwAAAABAAUAAAASAA0AAAABAAUAAAASAA4AAAABAAUAAAATAAAAAAABAAUAAAATAAEAAAABAAUAAAATAAIAAAABAAUAAAATAAMAAAABAAUAAAATAAQAAAABAAUAAAATAAUAAAABAAUAAAATAAYAAAABAAUAAAATAAcAAAABAAUAAAATAAgAAAABAAUAAAATAAkAAAABAAUAAAATAAoAAAABAAUAAAATAAsAAAABAAUAAAATAAwAAAABAAUAAAATAA0AAAABAAUAAAATAA4AAAABAAUAAAAIAAkAAAAFAAQAAAAIAAoAAAAFAAQAAAAIAAsAAAAFAAQAAAAIAAwAAAAFAAQAAAAIAA0AAAAFAAQAAAAIAA4AAAAFAAQAAAAIAAMAAAAFAAQAAAAJAAMAAAAFAAQAAAAJAAIAAAAFAAQAAAAJAAEAAAAFAAQAAAAJAAAAAAAFAAQAAAAIAAAAAAAFAAQAAAAIAAEAAAAFAAQAAAAIAAIAAAAFAAQAAAAEAAAAAAABAAIAAAAEAAEAAAABAAIAAAAEAAIAAAABAAIAAAAEAAMAAAABAAIAAAAFAAAAAAABAAIAAAAFAAEAAAABAAEAAAAFAAIAAAABAAIAAAAFAAMAAAABAAIAAAAGAAAAAAABAAIAAAAGAAEAAAABAAIAAAAGAAIAAAABAAIAAAAGAAMAAAABAAIAAAAHAAAAAAABAAIAAAAHAAEAAAABAAIAAAAHAAIAAAABAAIAAAAHAAMAAAABAAIAAAAIAA8AAAAFAAQAAAAIABAAAAAFAAQAAAAJABAAAAAFAAQAAAAJAA8AAAAFAAQAAAAIABEAAAAFAAQAAAAJABEAAAAFAAQAAAAIABIAAAAFAAQAAAAJABIAAAAFAAQAAAA=")
+tile_set = SubResource("TileSet_crwjn")
+script = ExtResource("3_tsyw4")
+
+[node name="WallDialogueZone" parent="TileMapLayer" instance=ExtResource("3_jvh6w")]
+position = Vector2(96, 56)
+
+[node name="CollisionShape2D" parent="TileMapLayer/WallDialogueZone" index="0"]
+position = Vector2(56, 8)
+shape = SubResource("RectangleShape2D_jc6we")
+
+[node name="Player" parent="." instance=ExtResource("4_tsyw4")]
+position = Vector2(232, 120)
+
+[node name="TransitionArea" parent="." instance=ExtResource("5_fs6ax")]
+position = Vector2(144, 14)
+
+[node name="PaperDialogueZone" parent="." instance=ExtResource("3_jvh6w")]
+visible = true
+z_index = -1
+position = Vector2(72, 80)
+
+[node name="CollisionShape2D" parent="PaperDialogueZone" index="0"]
+visible = false
+shape = SubResource("CircleShape2D_jq7x1")
+
+[node name="Sprite2D" type="Sprite2D" parent="PaperDialogueZone"]
+texture = ExtResource("12_ft4sl")
+
+[node name="SandwichDialogueZone" parent="." instance=ExtResource("3_jvh6w")]
+visible = true
+z_index = -1
+position = Vector2(232, 160)
+
+[node name="CollisionShape2D" parent="SandwichDialogueZone" index="0"]
+shape = SubResource("CircleShape2D_5exfy")
+
+[node name="Sprite2D" type="Sprite2D" parent="SandwichDialogueZone"]
+texture = ExtResource("8_jq7x1")
+
+[node name="SwordDialogueZone" parent="." instance=ExtResource("3_jvh6w")]
+visible = true
+z_index = -1
+position = Vector2(264, 136)
+rotation = -0.785398
+metadata/_edit_group_ = true
+
+[node name="CollisionShape2D" parent="SwordDialogueZone" index="0"]
+shape = SubResource("CircleShape2D_pilnj")
+
+[node name="Sprite2D" type="Sprite2D" parent="SwordDialogueZone"]
+texture = ExtResource("6_ejvt2")
+
+[node name="GenericDoor" type="StaticBody2D" parent="."]
+position = Vector2(144, 192)
+metadata/_edit_group_ = true
+
+[node name="Sprite2D" type="Sprite2D" parent="GenericDoor"]
+texture = ExtResource("7_pilnj")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="GenericDoor"]
+visible = false
+shape = SubResource("RectangleShape2D_61v2m")
+
+[node name="DoorDialogueZone" parent="GenericDoor" instance=ExtResource("3_jvh6w")]
+
+[node name="Guard" parent="." instance=ExtResource("9_jvh6w")]
+position = Vector2(152, 256)
+
+[node name="Sprite2D_RunIdle" parent="Guard" index="0"]
+texture = ExtResource("8_61v2m")
+
+[node name="Guard2" parent="." instance=ExtResource("9_jvh6w")]
+position = Vector2(136, 256)
+
+[node name="Sprite2D_RunIdle" parent="Guard2" index="0"]
+texture = ExtResource("11_dubdr")
+
+[node name="guard2_enter" type="Marker2D" parent="."]
+position = Vector2(192, 136)
+
+[node name="GenericGuard" parent="." instance=ExtResource("9_jvh6w")]
+position = Vector2(152, 280)
+
+[node name="GenericGuard2" parent="." instance=ExtResource("9_jvh6w")]
+position = Vector2(136, 288)
+
+[node name="GenericGuard3" parent="." instance=ExtResource("9_jvh6w")]
+position = Vector2(152, 288)
+
+[connection signal="zone_triggered" from="TileMapLayer/WallDialogueZone" to="." method="_on_wall_dialogue_zone_zone_triggered"]
+[connection signal="body_entered" from="TransitionArea" to="." method="_on_transition_body_entered"]
+[connection signal="zone_triggered" from="PaperDialogueZone" to="." method="_on_paper_dialogue_zone_zone_triggered"]
+[connection signal="zone_triggered" from="SandwichDialogueZone" to="." method="_on_sandwich_dialogue_zone_zone_triggered"]
+[connection signal="zone_triggered" from="SwordDialogueZone" to="." method="_on_sword_dialogue_zone_zone_triggered"]
+[connection signal="zone_triggered" from="GenericDoor/DoorDialogueZone" to="." method="_on_door_dialogue_zone_zone_triggered"]
+
+[editable path="TileMapLayer/WallDialogueZone"]
+[editable path="PaperDialogueZone"]
+[editable path="SandwichDialogueZone"]
+[editable path="SwordDialogueZone"]
+[editable path="GenericDoor/DoorDialogueZone"]
+[editable path="Guard"]
+[editable path="Guard2"]

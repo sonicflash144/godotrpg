@@ -1,0 +1,12 @@
+[gd_scene load_steps=2 format=3 uid="uid://2mfjsp25iyul"]
+
+[ext_resource type="PackedScene" uid="uid://bursypx5unela" path="res://Player/player.tscn" id="2_epypp"]
+
+[node name="Node2D" type="Node2D"]
+
+[node name="Player" parent="." instance=ExtResource("2_epypp")]
+position = Vector2(224, 128)
+
+[editable path="Player"]
+[editable path="Player/Hurtbox"]
+[editable path="Player/HitboxPivot/SwordHitbox"]

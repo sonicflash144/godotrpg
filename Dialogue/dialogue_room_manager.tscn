@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://cqv7hf2dkuljw"]
+
+[ext_resource type="Script" uid="uid://buxgnpsbb50pu" path="res://Dialogue/dialogue_room_manager.gd" id="1_jrsri"]
+
+[node name="DialogueRoomManager" type="Node"]
+script = ExtResource("1_jrsri")

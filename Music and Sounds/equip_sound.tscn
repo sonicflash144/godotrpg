@@ -1,0 +1,9 @@
+[gd_scene load_steps=3 format=3 uid="uid://dmbreshutufpe"]
+
+[ext_resource type="AudioStream" uid="uid://cncvubylyla2" path="res://Music and Sounds/equip.mp3" id="1_0xse8"]
+[ext_resource type="Script" uid="uid://dmyrrmqxy7bkp" path="res://Music and Sounds/sound_self_destroy.gd" id="2_a3deq"]
+
+[node name="EquipSound" type="AudioStreamPlayer"]
+stream = ExtResource("1_0xse8")
+autoplay = true
+script = ExtResource("2_a3deq")

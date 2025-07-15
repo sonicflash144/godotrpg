@@ -1,0 +1,116 @@
+[gd_scene load_steps=8 format=4 uid="uid://cfx4q0mmc3g5g"]
+
+[ext_resource type="Script" uid="uid://cp16te5tr7okn" path="res://Dialogue/balloon.gd" id="1_uuw0i"]
+[ext_resource type="FontFile" uid="uid://d2am80them5he" path="res://UI/PixeloidSans-mLxMm.ttf" id="2_ulefp"]
+[ext_resource type="StyleBox" uid="uid://dp3llhkykreur" path="res://UI/styleBox.tres" id="3_3kfog"]
+[ext_resource type="PackedScene" uid="uid://ckvgyvclnwggo" path="res://addons/dialogue_manager/dialogue_label.tscn" id="4_ocdyn"]
+[ext_resource type="Script" uid="uid://bb52rsfwhkxbn" path="res://addons/dialogue_manager/dialogue_responses_menu.gd" id="5_mnop8"]
+
+[sub_resource type="Theme" id="Theme_qq3yp"]
+default_font = ExtResource("2_ulefp")
+default_font_size = 9
+Button/colors/font_color = Color(1, 1, 1, 1)
+Button/colors/font_focus_color = Color(1, 1, 0, 1)
+Button/colors/font_hover_color = Color(1, 1, 1, 1)
+Button/colors/font_pressed_color = Color(1, 1, 1, 1)
+Button/fonts/font = ExtResource("2_ulefp")
+Button/styles/focus = ExtResource("3_3kfog")
+Button/styles/hover = ExtResource("3_3kfog")
+Button/styles/normal = ExtResource("3_3kfog")
+Button/styles/pressed = ExtResource("3_3kfog")
+MarginContainer/constants/margin_bottom = 4
+MarginContainer/constants/margin_left = 8
+MarginContainer/constants/margin_right = 8
+MarginContainer/constants/margin_top = 4
+PanelContainer/styles/panel = ExtResource("3_3kfog")
+
+[sub_resource type="AudioStreamWAV" id="AudioStreamWAV_80h8d"]
+data = PackedByteArray("cW9hZgAAD3UCAKxED3UMiAAAAAAAAAAAAAAAAOAAQAAAAAAAAAAAAAAAAADgAEAAANENAgAFFFEA0Q0CAAUUUQRRRRRRRRRRBFFFFFFFFFEEUUUUUUUUUQRRRRRRRRRRBFFFFFFFFFEEUUUUUUUUUQRRRRRRRRRRBFFFFFFFFFEEUUUUUUUUUQRRRRRRRRRRBFFFFFFFFFEEUUUUUUUUUQRRRRRRRRRRBFFFFFFFFFEEUUUUUUUUUQRRRRRRRRRRBFFFFFFFFFEEUUUUUUUUUQRRRRRRRRRRBFFFFFFFFFEEUUUUUUUUUQRRRRRRRRRRBFFFFFFFFFEEUUUUUUUUUQRRRRRRRRRRBFFFFFFFFFEEUUUUUUUUUQRRRRRRRRRRBFFFFFFFFFEEUUUUUUUUUQRRRRRRRRRRBFFFFFFFFFEEUUUUUUUUUQRRRRRRRRRRBFFFFFFFFFEEUUUUUUUUUQRRRRRRRRRRBFFFFFFFFFEEUUUUUUUUUQRRRRRRRRRRBFFFFFFFFFEEUUUUUUUUUQRRRRRRRRRRBFFFFFFFFFEEUUUUUUUUUQRRRRRRRRRRBFFFFFFFFFEEUUUUUUUUUQRRRRRRRRRRBFFFFFFFFFEEUUUUUUUUUQRRRRRRRRRRBFFFFFFFFFEEUUUUUUUUUQRRRRRRRRRRBFFFFFFFFFEEUUUUUUUUUQRRRRRRRRRRBFFFFFFFFFEEUUUUUUUUUQRRRRRRRRRRBFFFFFFFFFEEUUUUUUUUUQRRRRRRRRRRBFFFFFFFFFEEUUUUUUUUUQRRRRRRRRRRBFFFFFFFFFEEUUUUUUUUUQRRRRRRRRRRBFFFFFFFFFEEUUUUUUUUUQRRRRRRRRRRBFFFFFFFFFEEUUUUUUUUUQRRRRRRRRRRBFFFFFFFFFEEUUUUUUUUUQRRRRRRRRRRBFFFFFFFFFEEUUUUUUUUUQRRRRRRRRRRBFFFFFFFFFEEUUUUUUUUUQRRRRRRRRRRBFFFFFFFFFEEUUUUUUUUUQRRRRRRRRRRBFFFFFFFFFEEUUUUUUUUUQRRRRRRRRRRBFFFFFFFFFEEUUUUUUUUUQRRRRRRRRRRBFFFFFFFFFEEUUUUUUUUUQRRRRRRRRRRBFFFFFFFFFEEUUUUUUUUUQRRRRRRRRRRBFFFFFFFFFEEUUUUUUUUUQRRRRRRRRRRBFFFFFFFFFEEUUUU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AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")
+format = 3
+stereo = true
+
+[node name="ExampleBalloon" type="CanvasLayer"]
+layer = 100
+script = ExtResource("1_uuw0i")
+
+[node name="Balloon" type="Control" parent="."]
+unique_name_in_owner = true
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = SubResource("Theme_qq3yp")
+
+[node name="MarginContainer" type="MarginContainer" parent="Balloon"]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 52.0
+grow_horizontal = 2
+
+[node name="PanelContainer" type="PanelContainer" parent="Balloon/MarginContainer"]
+clip_children = 2
+layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="Balloon/MarginContainer/PanelContainer"]
+layout_mode = 2
+theme_override_constants/margin_top = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Balloon/MarginContainer/PanelContainer/MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="Portrait" type="TextureRect" parent="Balloon/MarginContainer/PanelContainer/MarginContainer/HBoxContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Balloon/MarginContainer/PanelContainer/MarginContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="CharacterLabel" type="RichTextLabel" parent="Balloon/MarginContainer/PanelContainer/MarginContainer/HBoxContainer/VBoxContainer"]
+unique_name_in_owner = true
+visible = false
+modulate = Color(1, 1, 1, 0.501961)
+layout_mode = 2
+bbcode_enabled = true
+text = "Character"
+fit_content = true
+scroll_active = false
+
+[node name="DialogueLabel" parent="Balloon/MarginContainer/PanelContainer/MarginContainer/HBoxContainer/VBoxContainer" instance=ExtResource("4_ocdyn")]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 3
+text = "Dialogue..."
+
+[node name="ResponsesMenu" type="VBoxContainer" parent="Balloon"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.897
+anchor_top = 0.244
+anchor_right = 0.897
+anchor_bottom = 0.244
+offset_left = -9.04001
+offset_top = -8.56001
+offset_right = 8.95999
+offset_bottom = 8.43999
+grow_horizontal = 0
+size_flags_vertical = 8
+theme_override_constants/separation = 2
+script = ExtResource("5_mnop8")
+
+[node name="ResponseExample" type="Button" parent="Balloon/ResponsesMenu"]
+layout_mode = 2
+text = "A"
+
+[node name="TalkSound" type="AudioStreamPlayer" parent="."]
+stream = SubResource("AudioStreamWAV_80h8d")
+
+[connection signal="gui_input" from="Balloon" to="." method="_on_balloon_gui_input"]
+[connection signal="spoke" from="Balloon/MarginContainer/PanelContainer/MarginContainer/HBoxContainer/VBoxContainer/DialogueLabel" to="." method="_on_dialogue_label_spoke"]
+[connection signal="response_selected" from="Balloon/ResponsesMenu" to="." method="_on_responses_menu_response_selected"]

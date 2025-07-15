@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://1bx67kwogixo"
+path="res://.godot/imported/Guard_talksound.wav-20e09faa76b4538acdee3f67a4260c90.sample"
+
+[deps]
+
+source_file="res://Music and Sounds/Guard_talksound.wav"
+dest_files=["res://.godot/imported/Guard_talksound.wav-20e09faa76b4538acdee3f67a4260c90.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=2

@@ -1,0 +1,43 @@
+[gd_scene load_steps=6 format=3 uid="uid://cbtcrvc8377r3"]
+
+[ext_resource type="Script" uid="uid://cgsltphcc1nge" path="res://Dungeon/dungeon_room.gd" id="1_pgo2k"]
+[ext_resource type="PackedScene" uid="uid://c62aoma18kbto" path="res://Music and Sounds/combat_lock_sound.tscn" id="2_iy6k4"]
+[ext_resource type="Texture2D" uid="uid://cocr6bjps4vbi" path="res://Dungeon/dungeonroomfloor.png" id="2_pgo2k"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_cmk5g"]
+size = Vector2(308, 228)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ehn70"]
+size = Vector2(288, 208)
+
+[node name="DungeonRoom" type="Node2D"]
+script = ExtResource("1_pgo2k")
+CombatLockSound = ExtResource("2_iy6k4")
+metadata/_edit_group_ = true
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+z_index = -3
+position = Vector2(160, 120)
+texture = ExtResource("2_pgo2k")
+
+[node name="PlayerDetector" type="Area2D" parent="."]
+visible = false
+collision_layer = 0
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="PlayerDetector"]
+position = Vector2(160, 120)
+shape = SubResource("RectangleShape2D_cmk5g")
+
+[node name="RoomDetector" type="Area2D" parent="."]
+visible = false
+collision_layer = 0
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="RoomDetector"]
+position = Vector2(160, 120)
+shape = SubResource("RectangleShape2D_ehn70")
+
+[connection signal="body_entered" from="PlayerDetector" to="." method="_on_player_detector_body_entered"]
+[connection signal="body_entered" from="RoomDetector" to="." method="_on_room_detector_body_entered"]
+[connection signal="body_exited" from="RoomDetector" to="." method="_on_room_detector_body_exited"]

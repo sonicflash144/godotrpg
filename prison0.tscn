@@ -1,0 +1,241 @@
+[gd_scene load_steps=25 format=4 uid="uid://dfbu4k4ayhgf5"]
+
+[ext_resource type="Script" uid="uid://f0syhvxuvmx8" path="res://World/prison_0.gd" id="1_5yhik"]
+[ext_resource type="Texture2D" uid="uid://byyg3l5ufieug" path="res://World/prison_tileset.png" id="2_26nui"]
+[ext_resource type="PackedScene" uid="uid://cqv7hf2dkuljw" path="res://Dialogue/dialogue_room_manager.tscn" id="2_khfy0"]
+[ext_resource type="Script" uid="uid://sh25djq0yt3j" path="res://World/tile_map_astar.gd" id="3_66yvb"]
+[ext_resource type="PackedScene" uid="uid://damjysxl382ea" path="res://Dialogue/dialogue_zone.tscn" id="3_enkg1"]
+[ext_resource type="Resource" uid="uid://kjacxpbvk5gh" path="res://Dialogue/prison.dialogue" id="3_gwwd2"]
+[ext_resource type="PackedScene" uid="uid://bursypx5unela" path="res://Player/player.tscn" id="4_ki7he"]
+[ext_resource type="Texture2D" uid="uid://bekkrhym6tjsm" path="res://World/prisondoor.png" id="6_ko0n3"]
+[ext_resource type="Texture2D" uid="uid://dfimqtqtdp8du" path="res://World/prisonblood.png" id="7_pd45d"]
+[ext_resource type="PackedScene" uid="uid://cblilm1d3bree" path="res://transition_area.tscn" id="8_26nui"]
+[ext_resource type="PackedScene" uid="uid://cm005kc7svare" path="res://NPCs/guard.tscn" id="9_ki7he"]
+[ext_resource type="Texture2D" uid="uid://d4580s087nsr" path="res://NPCs/Prison Guard Walk Cycle.png" id="10_66yvb"]
+[ext_resource type="AudioStream" uid="uid://tgwifca6o6fa" path="res://Music and Sounds/alarm.mp3" id="12_ko0n3"]
+[ext_resource type="Texture2D" uid="uid://cr24bdg8ceqfc" path="res://World/vent.png" id="13_pd45d"]
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_klnra"]
+texture = ExtResource("2_26nui")
+1:1/0 = 0
+1:1/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
+1:1/0/custom_data_0 = "wall"
+1:2/0 = 0
+1:2/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
+1:2/0/custom_data_0 = "wall"
+4:3/0 = 0
+5:3/0 = 0
+6:3/0 = 0
+7:3/0 = 0
+8:3/0 = 0
+9:3/0 = 0
+10:3/0 = 0
+11:3/0 = 0
+12:3/0 = 0
+13:3/0 = 0
+1:4/0 = 0
+4:4/0 = 0
+5:4/0 = 0
+6:4/0 = 0
+7:4/0 = 0
+8:4/0 = 0
+9:4/0 = 0
+10:4/0 = 0
+11:4/0 = 0
+12:4/0 = 0
+13:4/0 = 0
+1:5/0 = 0
+1:5/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
+1:5/0/custom_data_0 = "wall"
+4:5/0 = 0
+5:5/0 = 0
+6:5/0 = 0
+7:5/0 = 0
+8:5/0 = 0
+9:5/0 = 0
+10:5/0 = 0
+11:5/0 = 0
+12:5/0 = 0
+13:5/0 = 0
+14:5/0 = 0
+4:6/0 = 0
+5:6/0 = 0
+6:6/0 = 0
+7:6/0 = 0
+8:6/0 = 0
+9:6/0 = 0
+10:6/0 = 0
+11:6/0 = 0
+12:6/0 = 0
+13:6/0 = 0
+14:6/0 = 0
+8:7/0 = 0
+9:7/0 = 0
+10:7/0 = 0
+11:7/0 = 0
+12:7/0 = 0
+
+[sub_resource type="TileSet" id="TileSet_crwjn"]
+physics_layer_0/collision_layer = 1
+physics_layer_0/collision_mask = 0
+custom_data_layer_0/name = "type"
+custom_data_layer_0/type = 4
+sources/0 = SubResource("TileSetAtlasSource_klnra")
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_jc6we"]
+size = Vector2(144, 28)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_r3xfc"]
+size = Vector2(32, 32)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_jc6we"]
+radius = 34.9285
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_jtpqp"]
+radius = 19.0263
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_pd45d"]
+size = Vector2(32, 38)
+
+[sub_resource type="Animation" id="Animation_ko0n3"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("ColorRect:color")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 0, 0, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_66yvb"]
+resource_name = "alarm"
+length = 4.0
+step = 0.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("ColorRect:color")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5, 1, 1.5, 2, 2.5, 3, 3.5),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [Color(1, 0, 0, 0.164706), Color(1, 0, 0, 0), Color(1, 0, 0, 0.164706), Color(1, 0, 0, 0), Color(1, 0, 0, 0.164706), Color(1, 0, 0, 0), Color(1, 0, 0, 0.164706), Color(1, 0, 0, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_pd45d"]
+_data = {
+&"RESET": SubResource("Animation_ko0n3"),
+&"alarm": SubResource("Animation_66yvb")
+}
+
+[node name="Prison0" type="Node2D"]
+script = ExtResource("1_5yhik")
+
+[node name="Camera2D" type="Camera2D" parent="."]
+anchor_mode = 0
+
+[node name="DialogueRoomManager" parent="." instance=ExtResource("2_khfy0")]
+dialogueResource = ExtResource("3_gwwd2")
+
+[node name="TileMapLayer" type="TileMapLayer" parent="."]
+z_index = -2
+tile_map_data = PackedByteArray("AAAAAAAAAAABAAUAAAAAAAEAAAABAAUAAAAAAAIAAAABAAUAAAAAAAMAAAABAAUAAAAAAAQAAAABAAUAAAAAAAUAAAABAAUAAAAAAAYAAAABAAUAAAAAAAcAAAABAAUAAAAAAAgAAAABAAUAAAAAAAkAAAABAAUAAAAAAAoAAAABAAUAAAAAAAsAAAABAAUAAAAAAAwAAAABAAUAAAAAAA0AAAABAAUAAAAAAA4AAAABAAUAAAABAAAAAAABAAUAAAABAAEAAAABAAUAAAABAAIAAAABAAUAAAABAAMAAAABAAUAAAABAAQAAAABAAUAAAABAAUAAAABAAUAAAABAAYAAAABAAUAAAABAAcAAAABAAUAAAABAAgAAAABAAUAAAABAAkAAAABAAUAAAABAAoAAAABAAUAAAABAAsAAAABAAUAAAABAAwAAAABAAUAAAABAA0AAAABAAUAAAABAA4AAAABAAUAAAACAAAAAAABAAUAAAACAAEAAAABAAUAAAACAAIAAAABAAUAAAACAAMAAAABAAUAAAACAAQAAAABAAUAAAACAAUAAAABAAUAAAACAAYAAAABAAUAAAACAAcAAAABAAUAAAACAAgAAAABAAUAAAACAAkAAAABAAUAAAACAAoAAAABAAUAAAACAAsAAAABAAUAAAACAAwAAAABAAUAAAACAA0AAAABAAUAAAACAA4AAAABAAUAAAADAAAAAAABAAUAAAADAAEAAAABAAUAAAADAAIAAAABAAUAAAADAAMAAAABAAUAAAADAAQAAAABAAUAAAADAAUAAAABAAUAAAADAAYAAAABAAUAAAADAAcAAAABAAUAAAADAAgAAAABAAUAAAADAAkAAAABAAUAAAADAAoAAAABAAUAAAADAAsAAAABAAUAAAADAAwAAAABAAUAAAADAA0AAAABAAUAAAADAA4AAAABAAUAAAAEAAAAAAABAAIAAAAEAAEAAAABAAIAAAAEAAIAAAABAAIAAAAEAAMAAAABAAEAAAAEAAQAAAAEAAMAAAAEAAUAAAAEAAQAAAAEAAYAAAAEAAQAAAAEAAcAAAAEAAQAAAAEAAgAAAAEAAUAAAAEAAkAAAABAAUAAAAEAAoAAAABAAUAAAAEAAsAAAABAAUAAAAEAAwAAAABAAUAAAAEAA0AAAABAAUAAAAEAA4AAAABAAUAAAAFAAAAAAABAAIAAAAFAAEAAAABAAIAAAAFAAIAAAABAAIAAAAFAAMAAAABAAIAAAAFAAQAAAAFAAMAAAAFAAUAAAAFAAQAAAAFAAYAAAAFAAQAAAAFAAcAAAAFAAQAAAAFAAgAAAAFAAUAAAAFAAkAAAABAAUAAAAFAAoAAAABAAUAAAAFAAsAAAABAAUAAAAFAAwAAAABAAUAAAAFAA0AAAABAAUAAAAFAA4AAAABAAUAAAAGAAAAAAABAAIAAAAGAAEAAAABAAEAAAAGAAIAAAABAAIAAAAGAAMAAAABAAIAAAAGAAQAAAAFAAMAAAAGAAUAAAAFAAQAAAAGAAYAAAAFAAQAAAAGAAcAAAAFAAQAAAAGAAgAAAAFAAUAAAAGAAkAAAABAAUAAAAGAAoAAAABAAUAAAAGAAsAAAABAAUAAAAGAAwAAAABAAUAAAAGAA0AAAABAAUAAAAGAA4AAAABAAUAAAAHAAAAAAABAAIAAAAHAAEAAAABAAIAAAAHAAIAAAABAAIAAAAHAAMAAAABAAIAAAAHAAQAAAAFAAMAAAAHAAUAAAAFAAQAAAAHAAYAAAAFAAQAAAAHAAcAAAAFAAQAAAAHAAgAAAAFAAUAAAAHAAkAAAABAAUAAAAHAAoAAAABAAUAAAAHAAsAAAABAAUAAAAHAAwAAAABAAUAAAAHAA0AAAABAAUAAAAHAA4AAAABAAUAAAAIAAAAAAABAAIAAAAIAAEAAAABAAIAAAAIAAIAAAABAAIAAAAIAAMAAAABAAIAAAAIAAQAAAAFAAMAAAAIAAUAAAAFAAQAAAAIAAYAAAAFAAQAAAAIAAcAAAAFAAQAAAAIAAgAAAAFAAQAAAAJAAAAAAABAAIAAAAJAAEAAAABAAIAAAAJAAIAAAABAAIAAAAJAAMAAAABAAIAAAAJAAQAAAAFAAMAAAAJAAUAAAAFAAQAAAAJAAYAAAAFAAQAAAAJAAcAAAAFAAQAAAAJAAgAAAAFAAQAAAAJAAkAAAAFAAQAAAAJAAoAAAAFAAQAAAAJAAsAAAAFAAQAAAAJAAwAAAAFAAQAAAAJAA0AAAAFAAQAAAAJAA4AAAAFAAQAAAAKAAAAAAABAAEAAAAKAAEAAAABAAIAAAAKAAIAAAABAAIAAAAKAAMAAAABAAIAAAAKAAQAAAAFAAMAAAAKAAUAAAAFAAQAAAAKAAYAAAAFAAQAAAAKAAcAAAAFAAQAAAAKAAgAAAAFAAUAAAAKAAkAAAABAAUAAAAKAAoAAAABAAUAAAAKAAsAAAABAAUAAAAKAAwAAAABAAUAAAAKAA0AAAABAAUAAAAKAA4AAAABAAUAAAALAAAAAAABAAIAAAALAAEAAAABAAIAAAALAAIAAAABAAEAAAALAAMAAAABAAIAAAALAAQAAAAFAAMAAAALAAUAAAAFAAQAAAALAAYAAAAFAAQAAAALAAcAAAAFAAQAAAALAAgAAAAFAAUAAAALAAkAAAABAAUAAAALAAoAAAABAAUAAAALAAsAAAABAAUAAAALAAwAAAABAAUAAAALAA0AAAABAAUAAAALAA4AAAABAAUAAAAMAAAAAAABAAIAAAAMAAEAAAABAAIAAAAMAAIAAAABAAIAAAAMAAMAAAABAAIAAAAMAAQAAAAFAAMAAAAMAAUAAAAFAAQAAAAMAAYAAAAFAAQAAAAMAAcAAAAFAAQAAAAMAAgAAAAFAAUAAAAMAAkAAAABAAUAAAAMAAoAAAABAAUAAAAMAAsAAAABAAUAAAAMAAwAAAABAAUAAAAMAA0AAAABAAUAAAAMAA4AAAABAAUAAAANAAAAAAABAAIAAAANAAEAAAABAAIAAAANAAIAAAABAAIAAAANAAMAAAABAAIAAAANAAQAAAAFAAMAAAANAAUAAAAFAAQAAAANAAYAAAAFAAQAAAANAAcAAAAFAAQAAAANAAgAAAAFAAUAAAANAAkAAAABAAUAAAANAAoAAAABAAUAAAANAAsAAAABAAUAAAANAAwAAAABAAUAAAANAA0AAAABAAUAAAANAA4AAAABAAUAAAAOAAAAAAABAAIAAAAOAAEAAAABAAEAAAAOAAIAAAABAAIAAAAOAAMAAAABAAIAAAAOAAQAAAAGAAMAAAAOAAUAAAAGAAQAAAAOAAYAAAAGAAQAAAAOAAcAAAAGAAQAAAAOAAgAAAAGAAUAAAAOAAkAAAABAAUAAAAOAAoAAAABAAUAAAAOAAsAAAABAAUAAAAOAAwAAAABAAUAAAAOAA0AAAABAAUAAAAOAA4AAAABAAUAAAAPAAAAAAABAAUAAAAPAAEAAAABAAUAAAAPAAIAAAABAAUAAAAPAAMAAAABAAUAAAAPAAQAAAABAAUAAAAPAAUAAAABAAUAAAAPAAYAAAABAAUAAAAPAAcAAAABAAUAAAAPAAgAAAABAAUAAAAPAAkAAAABAAUAAAAPAAoAAAABAAUAAAAPAAsAAAABAAUAAAAPAAwAAAABAAUAAAAPAA0AAAABAAUAAAAPAA4AAAABAAUAAAAQAAAAAAABAAUAAAAQAAEAAAABAAUAAAAQAAIAAAABAAUAAAAQAAMAAAABAAUAAAAQAAQAAAABAAUAAAAQAAUAAAABAAUAAAAQAAYAAAABAAUAAAAQAAcAAAABAAUAAAAQAAgAAAABAAUAAAAQAAkAAAABAAUAAAAQAAoAAAABAAUAAAAQAAsAAAABAAUAAAAQAAwAAAABAAUAAAAQAA0AAAABAAUAAAAQAA4AAAABAAUAAAARAAAAAAABAAUAAAARAAEAAAABAAUAAAARAAIAAAABAAUAAAARAAMAAAABAAUAAAARAAQAAAABAAUAAAARAAUAAAABAAUAAAARAAYAAAABAAUAAAARAAcAAAABAAUAAAARAAgAAAABAAUAAAARAAkAAAABAAUAAAARAAoAAAABAAUAAAARAAsAAAABAAUAAAARAAwAAAABAAUAAAARAA0AAAABAAUAAAARAA4AAAABAAUAAAASAAAAAAABAAUAAAASAAEAAAABAAUAAAASAAIAAAABAAUAAAASAAMAAAABAAUAAAASAAQAAAABAAUAAAASAAUAAAABAAUAAAASAAYAAAABAAUAAAASAAcAAAABAAUAAAASAAgAAAABAAUAAAASAAkAAAABAAUAAAASAAoAAAABAAUAAAASAAsAAAABAAUAAAASAAwAAAABAAUAAAASAA0AAAABAAUAAAASAA4AAAABAAUAAAATAAAAAAABAAUAAAATAAEAAAABAAUAAAATAAIAAAABAAUAAAATAAMAAAABAAUAAAATAAQAAAABAAUAAAATAAUAAAABAAUAAAATAAYAAAABAAUAAAATAAcAAAABAAUAAAATAAgAAAABAAUAAAATAAkAAAABAAUAAAATAAoAAAABAAUAAAATAAsAAAABAAUAAAATAAwAAAABAAUAAAATAA0AAAABAAUAAAATAA4AAAABAAUAAAAIAAkAAAAFAAQAAAAIAAoAAAAFAAQAAAAIAAsAAAAFAAQAAAAIAAwAAAAFAAQAAAAIAA0AAAAFAAQAAAAIAA4AAAAFAAQAAAAIAA8AAAAFAAQAAAAJAA8AAAAFAAQAAAAIABAAAAAFAAQAAAAJABAAAAAFAAQAAAAIABEAAAAFAAQAAAAJABEAAAAFAAQAAAA=")
+tile_set = SubResource("TileSet_crwjn")
+script = ExtResource("3_66yvb")
+
+[node name="WallDialogueZone" parent="TileMapLayer" instance=ExtResource("3_enkg1")]
+position = Vector2(96, 56)
+
+[node name="CollisionShape2D" parent="TileMapLayer/WallDialogueZone" index="0"]
+position = Vector2(40, 8)
+shape = SubResource("RectangleShape2D_jc6we")
+
+[node name="Player" parent="." instance=ExtResource("4_ki7he")]
+position = Vector2(152, 80)
+
+[node name="Door" type="StaticBody2D" parent="."]
+position = Vector2(144, 160)
+metadata/_edit_group_ = true
+
+[node name="Sprite2D" type="Sprite2D" parent="Door"]
+texture = ExtResource("6_ko0n3")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Door"]
+visible = false
+shape = SubResource("RectangleShape2D_r3xfc")
+
+[node name="DoorDialogueZone" parent="Door" instance=ExtResource("3_enkg1")]
+
+[node name="CollisionShape2D" parent="Door/DoorDialogueZone" index="0"]
+shape = SubResource("CircleShape2D_jc6we")
+
+[node name="Door" type="AudioStreamPlayer" parent="Door"]
+
+[node name="Blood" type="Sprite2D" parent="."]
+z_index = -1
+position = Vector2(88, 120)
+texture = ExtResource("7_pd45d")
+metadata/_edit_group_ = true
+
+[node name="BloodDialogueZone" parent="Blood" instance=ExtResource("3_enkg1")]
+
+[node name="CollisionShape2D" parent="Blood/BloodDialogueZone" index="0"]
+shape = SubResource("CircleShape2D_jtpqp")
+
+[node name="VentDialogueZone" parent="." instance=ExtResource("3_enkg1")]
+visible = true
+z_index = -1
+position = Vector2(224, 56)
+
+[node name="CollisionShape2D" parent="VentDialogueZone" index="0"]
+visible = false
+position = Vector2(0, 3)
+shape = SubResource("RectangleShape2D_pd45d")
+
+[node name="Sprite2D" type="Sprite2D" parent="VentDialogueZone"]
+texture = ExtResource("13_pd45d")
+
+[node name="TransitionArea" parent="." instance=ExtResource("8_26nui")]
+position = Vector2(144, 226)
+rotation = 3.14159
+
+[node name="Guard" parent="." instance=ExtResource("9_ki7he")]
+position = Vector2(144, 272)
+
+[node name="Sprite2D_RunIdle" parent="Guard" index="0"]
+texture = ExtResource("10_66yvb")
+
+[node name="Marker2D" type="Marker2D" parent="."]
+position = Vector2(144, 152)
+
+[node name="ColorRect" type="ColorRect" parent="."]
+offset_right = 320.0
+offset_bottom = 240.0
+color = Color(1, 0, 0, 0)
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("AnimationLibrary_pd45d")
+}
+
+[node name="Alarm" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("12_ko0n3")
+
+[connection signal="zone_triggered" from="TileMapLayer/WallDialogueZone" to="." method="_on_wall_dialogue_zone_zone_triggered"]
+[connection signal="zone_triggered" from="Door/DoorDialogueZone" to="." method="_on_door_dialogue_zone_zone_triggered"]
+[connection signal="zone_triggered" from="Blood/BloodDialogueZone" to="." method="_on_blood_dialogue_zone_zone_triggered"]
+[connection signal="zone_triggered" from="VentDialogueZone" to="." method="_on_vent_dialogue_zone_zone_triggered"]
+[connection signal="body_entered" from="TransitionArea" to="." method="_on_transition_body_entered"]
+
+[editable path="TileMapLayer/WallDialogueZone"]
+[editable path="Door/DoorDialogueZone"]
+[editable path="Blood/BloodDialogueZone"]
+[editable path="VentDialogueZone"]
+[editable path="Guard"]

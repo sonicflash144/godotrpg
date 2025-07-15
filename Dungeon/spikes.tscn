@@ -1,0 +1,63 @@
+[gd_scene load_steps=9 format=3 uid="uid://mvgpyyrkt607"]
+
+[ext_resource type="Texture2D" uid="uid://dl1e7uc8gla06" path="res://Dungeon/spikes.png" id="1_gjqyh"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_o2cd7"]
+atlas = ExtResource("1_gjqyh")
+region = Rect2(16, 32, 16, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_av2vf"]
+atlas = ExtResource("1_gjqyh")
+region = Rect2(0, 0, 16, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_6gydx"]
+atlas = ExtResource("1_gjqyh")
+region = Rect2(16, 0, 16, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_85cul"]
+atlas = ExtResource("1_gjqyh")
+region = Rect2(32, 0, 16, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_77ujo"]
+atlas = ExtResource("1_gjqyh")
+region = Rect2(0, 32, 16, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_v3ata"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_o2cd7")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_av2vf")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_6gydx")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_85cul")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_77ujo")
+}],
+"loop": false,
+"name": &"Animate",
+"speed": 20.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_o2cd7"]
+size = Vector2(6, 32)
+
+[node name="Spikes" type="StaticBody2D" groups=["Spikes"]]
+collision_mask = 0
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+position = Vector2(8, 0)
+sprite_frames = SubResource("SpriteFrames_v3ata")
+animation = &"Animate"
+frame = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(3, 0)
+shape = SubResource("RectangleShape2D_o2cd7")
+disabled = true

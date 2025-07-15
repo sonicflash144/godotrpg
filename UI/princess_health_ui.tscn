@@ -1,0 +1,28 @@
+[gd_scene load_steps=3 format=3 uid="uid://f75n6uvmavva"]
+
+[ext_resource type="Script" uid="uid://cqv7chn2x1lih" path="res://UI/health_ui.gd" id="1_h0o3p"]
+[ext_resource type="Texture2D" uid="uid://dlguv73pxbpqx" path="res://UI/health bar.png" id="2_xiai8"]
+
+[node name="PrincessHealthUI" type="Control"]
+layout_mode = 3
+anchor_left = 0.212
+anchor_right = 0.212
+offset_left = 0.159996
+offset_right = 40.16
+offset_bottom = 40.0
+script = ExtResource("1_h0o3p")
+
+[node name="BarBackground" type="TextureRect" parent="."]
+layout_mode = 0
+offset_right = 64.0
+offset_bottom = 16.0
+texture = ExtResource("2_xiai8")
+stretch_mode = 2
+
+[node name="Fill" type="ColorRect" parent="."]
+layout_mode = 0
+offset_left = 7.0
+offset_top = 5.0
+offset_right = 49.0
+offset_bottom = 11.0
+color = Color(0.988235, 0.486275, 0.486275, 1)

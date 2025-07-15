@@ -1,0 +1,26 @@
+[gd_scene load_steps=3 format=3 uid="uid://c1onywepqrykl"]
+
+[ext_resource type="Script" uid="uid://cqv7chn2x1lih" path="res://UI/health_ui.gd" id="1_nc0x1"]
+[ext_resource type="Texture2D" uid="uid://dlguv73pxbpqx" path="res://UI/health bar.png" id="2_21wld"]
+
+[node name="PlayerHealthUI" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("1_nc0x1")
+
+[node name="BarBackground" type="TextureRect" parent="."]
+layout_mode = 0
+offset_right = 64.0
+offset_bottom = 16.0
+texture = ExtResource("2_21wld")
+stretch_mode = 2
+
+[node name="Fill" type="ColorRect" parent="."]
+layout_mode = 0
+offset_left = 7.0
+offset_top = 5.0
+offset_right = 49.0
+offset_bottom = 11.0
+color = Color(0.121569, 0.811765, 0.678431, 1)

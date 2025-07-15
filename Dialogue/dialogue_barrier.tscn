@@ -1,0 +1,16 @@
+[gd_scene load_steps=3 format=3 uid="uid://brme23g7yalcu"]
+
+[ext_resource type="Script" uid="uid://87l5icvsjjan" path="res://Dialogue/dialogue_barrier.gd" id="1_jg13a"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_o2cd7"]
+size = Vector2(32, 16)
+
+[node name="DialogueBarrier" type="Area2D"]
+collision_layer = 0
+collision_mask = 2
+script = ExtResource("1_jg13a")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_o2cd7")
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]

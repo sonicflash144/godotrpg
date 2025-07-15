@@ -1,0 +1,36 @@
+[gd_scene load_steps=6 format=3 uid="uid://grgke6m8ks1x"]
+
+[ext_resource type="Script" uid="uid://dfvjrsgvwl51o" path="res://World/cactus.gd" id="1_4j0ih"]
+[ext_resource type="Texture2D" uid="uid://bp6exd62tqvjb" path="res://World/cactus.png" id="1_h3ljj"]
+[ext_resource type="PackedScene" uid="uid://6c21m1l8r268" path="res://Combat/hurtbox.tscn" id="3_r10j4"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_j3438"]
+radius = 5.0
+height = 14.0
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_oeidv"]
+size = Vector2(12, 13)
+
+[node name="Cactus" type="StaticBody2D"]
+collision_mask = 0
+script = ExtResource("1_4j0ih")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(0, -4)
+texture = ExtResource("1_h3ljj")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, -1)
+rotation = 1.5708
+shape = SubResource("CapsuleShape2D_j3438")
+
+[node name="Hurtbox" parent="." instance=ExtResource("3_r10j4")]
+collision_mask = 8
+
+[node name="CollisionShape2D" parent="Hurtbox" index="0"]
+position = Vector2(0, -2.5)
+shape = SubResource("RectangleShape2D_oeidv")
+
+[connection signal="area_entered" from="Hurtbox" to="." method="_on_hurtbox_area_entered"]
+
+[editable path="Hurtbox"]

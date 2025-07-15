@@ -1,0 +1,22 @@
+[gd_scene load_steps=3 format=3 uid="uid://b0remykkrywdf"]
+
+[ext_resource type="Texture2D" uid="uid://drf1q1if3kac2" path="res://Player/Player Walk Cycle.png" id="1_f3sb7"]
+[ext_resource type="Script" uid="uid://ci5s3yt3heq27" path="res://Player/player.gd" id="2_fj7yv"]
+
+[node name="World" type="Node2D"]
+
+[node name="PlayerWalkCycle" type="Sprite2D" parent="."]
+visible = false
+position = Vector2(70, 46)
+texture = ExtResource("1_f3sb7")
+
+[node name="Player" type="CharacterBody2D" parent="."]
+position = Vector2(29, 18)
+script = ExtResource("2_fj7yv")
+metadata/_edit_group_ = true
+
+[node name="Sprite2D" type="Sprite2D" parent="Player"]
+texture = ExtResource("1_f3sb7")
+hframes = 3
+vframes = 3
+frame = 1

@@ -1,0 +1,33 @@
+[gd_scene load_steps=5 format=3 uid="uid://b0remykkrywdf"]
+
+[ext_resource type="PackedScene" uid="uid://uk7yry3huvf4" path="res://Dungeon/dungeon_room.tscn" id="1_tlwt5"]
+[ext_resource type="PackedScene" uid="uid://bursypx5unela" path="res://Player/player.tscn" id="2_fj7yv"]
+[ext_resource type="Script" uid="uid://5shhc343p2a4" path="res://Dungeon/camera_2d.gd" id="3_aqk2v"]
+[ext_resource type="PackedScene" uid="uid://c1onywepqrykl" path="res://UI/health_ui.tscn" id="4_036b0"]
+
+[node name="World" type="Node2D"]
+y_sort_enabled = true
+
+[node name="DungeonRoom" parent="." instance=ExtResource("1_tlwt5")]
+
+[node name="DungeonRoom2" parent="." instance=ExtResource("1_tlwt5")]
+visible = false
+position = Vector2(0, -180)
+
+[node name="DungeonRoom3" parent="." instance=ExtResource("1_tlwt5")]
+visible = false
+position = Vector2(320, 0)
+
+[node name="Player" parent="." instance=ExtResource("2_fj7yv")]
+position = Vector2(112, 72)
+
+[node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2(160, 88)
+position_smoothing_speed = 10.0
+script = ExtResource("3_aqk2v")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="HealthUI" parent="CanvasLayer" instance=ExtResource("4_036b0")]
+visible = false
+z_index = 1
