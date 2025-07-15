@@ -2,7 +2,7 @@ extends Node
 
 @onready var player = $"../Player"
 
-@export var dialogueResource: Resource
+@export var dialogueResource: DialogueResource
 
 func _ready():
 	DialogueManager.dialogue_ended.connect(_on_dialogue_ended)

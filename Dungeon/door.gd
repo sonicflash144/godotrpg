@@ -2,59 +2,75 @@ extends StaticBody2D
 
 @onready var dungeon = $".."
 @onready var buttonSound: AudioStreamPlayer = $Button
+@onready var doorSound: AudioStreamPlayer = $Door
 @onready var dialogueZone: Area2D = $DialogueZone
 @onready var animatedSprite = $AnimatedSprite2D
 @onready var collisionShape = $CollisionShape2D
 
 @export var doorButtons: Array[Area2D]
 
-var DoorSound = load("res://Music and Sounds/door_sound.tscn")
-
-var pressed_buttons := {}
+# Use a dictionary to store the count of bodies on each button
+var bodies_on_button := {}
 var door_opened := false
 
 func _ready():
 	for button in doorButtons:
+		# Connect signals and initialize the body count for each button to 0
 		button.body_entered.connect(on_door_button_body_entered.bind(button))
 		button.body_exited.connect(on_door_button_body_exited.bind(button))
-		pressed_buttons[button] = false
+		bodies_on_button[button] = 0
 
-func on_door_button_body_entered(_body: Node2D, button: Node) -> void:
+func on_door_button_body_entered(_body: Node2D, button: Area2D) -> void:
 	if door_opened:
 		return
 	
-	buttonSound.play()
-	var anim_sprite = button.get_node_or_null("AnimatedSprite2D")
-	anim_sprite.play("On")
+	# Only play sound/animation if this is the FIRST body to press the button
+	if bodies_on_button[button] == 0:
+		buttonSound.play()
+		var anim_sprite = button.get_node_or_null("AnimatedSprite2D")
+		if anim_sprite:
+			anim_sprite.play("On")
 
-	pressed_buttons[button] = true
+	# Increment the count of bodies on the button
+	bodies_on_button[button] += 1
 	check_all_buttons()
 
-func on_door_button_body_exited(_body: Node2D, button: Node) -> void:
-	if door_opened:
+func on_door_button_body_exited(_body: Node2D, button: Area2D) -> void:
+	# Ignore if the door is open or if the count is somehow already zero
+	if door_opened or bodies_on_button.get(button, 0) == 0:
 		return
 
-	buttonSound.play()
-	var anim_sprite = button.get_node_or_null("AnimatedSprite2D")
-	anim_sprite.play("Off")
+	# Decrement the count of bodies on the button
+	bodies_on_button[button] -= 1
 
-	pressed_buttons[button] = false
+	# Only play sound/animation if this was the LAST body to leave the button
+	if bodies_on_button[button] == 0:
+		buttonSound.play()
+		var anim_sprite = button.get_node_or_null("AnimatedSprite2D")
+		if anim_sprite:
+			anim_sprite.play("Off")
 
 func check_all_buttons():
-	for state in pressed_buttons.values():
-		if not state:
-			return  # At least one button not pressed
+	if door_opened:
+		return
+		
+	for count in bodies_on_button.values():
+		# If any button has 0 bodies on it, the condition is not met
+		if count == 0:
+			return
+			
+	# If we get here, it means all buttons have at least 1 body on them
 	open_door()
 
 func open_door():
-	var doorSound = DoorSound.instantiate()
-	get_tree().current_scene.add_child(doorSound)
+	doorSound.play()
 	door_opened = true
 	dungeon.open_door()
 	
 	animatedSprite.play("Open")
 	collisionShape.set_deferred("disabled", true)
-	dialogueZone.queue_free()
+	if is_instance_valid(dialogueZone):
+		dialogueZone.queue_free()
 
 func _on_door_transition_body_entered(body: Node2D) -> void:
 	if body.is_in_group("Player"):

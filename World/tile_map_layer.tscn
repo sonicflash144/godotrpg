@@ -1,0 +1,7 @@
+[gd_scene load_steps=2 format=3 uid="uid://4tgk781ue0k4"]
+
+[ext_resource type="Script" uid="uid://sh25djq0yt3j" path="res://World/tile_map_astar.gd" id="2_bcg6v"]
+
+[node name="TileMapLayer" type="TileMapLayer"]
+z_index = -2
+script = ExtResource("2_bcg6v")

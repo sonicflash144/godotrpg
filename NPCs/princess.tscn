@@ -298,7 +298,7 @@ MAX_HEALTH = 6
 
 [node name="PrincessDialogue" type="Node" parent="." node_paths=PackedStringArray("markers")]
 script = ExtResource("3_wjjwx")
-markers = [NodePath(""), NodePath(""), NodePath(""), NodePath("")]
+markers = [null, null, null, null]
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 material = SubResource("ShaderMaterial_ic0uy")
@@ -306,6 +306,7 @@ position = Vector2(0, -5)
 texture = ExtResource("5_cqbqj")
 hframes = 3
 vframes = 3
+frame = 2
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(0, -1)
@@ -314,7 +315,8 @@ shape = SubResource("CapsuleShape2D_77ujo")
 
 [node name="Hurtbox" parent="." node_paths=PackedStringArray("health", "blinkAnimationPlayer") instance=ExtResource("6_iopym")]
 visible = false
-collision_mask = 12
+collision_layer = 256
+collision_mask = 8
 health = NodePath("../Health_Component")
 invincibilityTime = 1.0
 blinkAnimationPlayer = NodePath("../BlinkAnimationPlayer")
