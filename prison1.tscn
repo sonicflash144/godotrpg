@@ -60,7 +60,6 @@ position = Vector2(144, 14)
 
 [node name="PaperDialogueZone" parent="." instance=ExtResource("3_jvh6w")]
 visible = true
-z_index = -1
 position = Vector2(72, 80)
 
 [node name="CollisionShape2D" parent="PaperDialogueZone" index="0"]
@@ -72,7 +71,6 @@ texture = ExtResource("12_ft4sl")
 
 [node name="SandwichDialogueZone" parent="." instance=ExtResource("3_jvh6w")]
 visible = true
-z_index = -1
 position = Vector2(232, 160)
 
 [node name="CollisionShape2D" parent="SandwichDialogueZone" index="0"]
@@ -83,7 +81,6 @@ texture = ExtResource("8_jq7x1")
 
 [node name="SwordDialogueZone" parent="." instance=ExtResource("3_jvh6w")]
 visible = true
-z_index = -1
 position = Vector2(264, 136)
 rotation = -0.785398
 metadata/_edit_group_ = true

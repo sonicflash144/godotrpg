@@ -23,8 +23,7 @@ func _on_hurtbox_area_entered(_area: Area2D) -> void:
 	else:
 		dialogueRoomManager.dialogue("hit_loop")
 		princessHurtbox.set_collision_mask_value(7, false)
-		playerHitbox.set_collision_mask_value(9, true)
-
+		playerHitbox.set_collision_mask_value(9, false)
 
 func _on_dialogue_zone_zone_triggered() -> void:
 	var value = Events.princess_dialogue_value
@@ -40,9 +39,9 @@ func _on_dialogue_zone_zone_triggered() -> void:
 			dialogueRoomManager.dialogue("fled_loop")
 		"fled_visited_door":
 			princessHurtbox.set_collision_mask_value(7, false)
-			playerHitbox.set_collision_mask_value(9, true)
+			playerHitbox.set_collision_mask_value(9, false)
 			dialogueRoomManager.dialogue("fled_visited_door")
 		"door_help":
 			princessHurtbox.set_collision_mask_value(7, false)
-			playerHitbox.set_collision_mask_value(9, true)
+			playerHitbox.set_collision_mask_value(9, false)
 			dialogueRoomManager.dialogue("door_help")

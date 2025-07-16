@@ -11,6 +11,17 @@ signal trigger_knockback(knockback_vector: Vector2)
 @export var HurtSound: PackedScene
 
 var is_invincible: bool = false
+var collider_disabled: bool = false
+
+func disable_collider():
+	is_invincible = true
+	collider_disabled = true
+	collisionShape.set_deferred("disabled", true)
+		
+func enable_collider():
+	collider_disabled = false
+	_on_timer_timeout()
+	start_invincibility()
 
 func start_invincibility():
 	is_invincible = true
@@ -20,8 +31,11 @@ func start_invincibility():
 	timer.start(invincibilityTime)
 
 func _on_timer_timeout():
+	if collider_disabled:
+		return
+		
 	is_invincible = false
-	collisionShape.disabled = false
+	collisionShape.set_deferred("disabled", false)
 
 func _on_area_entered(area: Area2D) -> void:
 	if is_invincible:

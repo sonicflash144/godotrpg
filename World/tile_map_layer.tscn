@@ -3,5 +3,5 @@
 [ext_resource type="Script" uid="uid://sh25djq0yt3j" path="res://World/tile_map_astar.gd" id="2_bcg6v"]
 
 [node name="TileMapLayer" type="TileMapLayer"]
-z_index = -2
+z_index = -3
 script = ExtResource("2_bcg6v")

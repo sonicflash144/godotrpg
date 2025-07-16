@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=4 uid="uid://ct5nw3i3nuv6l"]
+[gd_scene load_steps=19 format=4 uid="uid://ct5nw3i3nuv6l"]
 
 [ext_resource type="Script" uid="uid://onc2fdweedn7" path="res://Dungeon/dungeon.gd" id="1_jqckn"]
 [ext_resource type="PackedScene" uid="uid://bursypx5unela" path="res://Player/player.tscn" id="2_7wc3a"]
@@ -17,6 +17,7 @@
 [ext_resource type="PackedScene" uid="uid://dka5wc1yusobs" path="res://Enemies/ghost.tscn" id="11_7wc3a"]
 [ext_resource type="PackedScene" uid="uid://4tgk781ue0k4" path="res://World/tile_map_layer.tscn" id="12_77ujo"]
 [ext_resource type="PackedScene" uid="uid://bixth4v8wdly8" path="res://NPCs/princess.tscn" id="16_77ujo"]
+[ext_resource type="Script" uid="uid://b6wora7ce8fsi" path="res://Dialogue/princess_dialogue_dungeon.gd" id="18_77ujo"]
 
 [node name="Dungeon" type="Node2D"]
 y_sort_enabled = true
@@ -109,7 +110,7 @@ flip_h = true
 position = Vector2(16, 7.5)
 
 [node name="Player" parent="." instance=ExtResource("2_7wc3a")]
-position = Vector2(208, 120)
+position = Vector2(432, 112)
 
 [node name="Health_Component" parent="Player" index="0" node_paths=PackedStringArray("healthUI")]
 healthUI = NodePath("../../CanvasLayer/PlayerHealthUI")
@@ -120,11 +121,12 @@ collision_mask = 264
 [node name="Princess" parent="." instance=ExtResource("16_77ujo")]
 position = Vector2(152, 128)
 
-[node name="PrincessDialogue" parent="Princess" index="1" node_paths=PackedStringArray("markers")]
-markers = [NodePath("../../enter_ghost_room"), NodePath("../../exit_ghost_room"), NodePath("../../enter_door_room"), NodePath("../../stand_door_button")]
-
-[node name="Hurtbox" parent="Princess" index="4"]
+[node name="Hurtbox" parent="Princess" index="3"]
 collision_mask = 128
+
+[node name="PrincessDialogue" type="Node" parent="Princess" node_paths=PackedStringArray("markers")]
+script = ExtResource("18_77ujo")
+markers = [NodePath("../../enter_ghost_room"), NodePath("../../exit_ghost_room"), NodePath("../../enter_door_room"), NodePath("../../stand_door_button")]
 
 [node name="enter_ghost_room" type="Marker2D" parent="."]
 position = Vector2(152, -64)
@@ -139,7 +141,8 @@ position = Vector2(120, -352)
 position = Vector2(120, -424)
 
 [connection signal="zone_triggered" from="Door/DialogueZone" to="." method="_on_dialogue_zone_zone_triggered"]
-[connection signal="player_died" from="Player/Health_Component" to="." method="_on_health_component_player_died"]
+[connection signal="area_entered" from="Princess/Hurtbox" to="Princess/PrincessDialogue" method="_on_hurtbox_area_entered"]
+[connection signal="zone_triggered" from="Princess/DialogueZone" to="Princess/PrincessDialogue" method="_on_dialogue_zone_zone_triggered"]
 
 [editable path="Door"]
 [editable path="Door/DoorButtonRight"]

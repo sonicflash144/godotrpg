@@ -2,19 +2,29 @@ extends Node2D
 
 @onready var dialogueRoomManager = $DialogueRoomManager
 @onready var player = $Player
+@onready var princess = $Princess
 @onready var DungeonRoom1 = $DungeonRoom1
 @onready var DungeonRoom2 = $DungeonRoom2
 @onready var DungeonRoom3 = $DungeonRoom3
 
+enum {
+	MOVE,
+	FOLLOW,
+	NAV
+}
 var last_valid_position: Vector2
 var currentRoom: Node2D
 
 func _ready():
+	Events.playerDown = false
+	Events.princessDown = true
 	Events.playerDead = false
 	Events.player_has_sword = true
+	Events.num_party_members = 1
+	Events.player_died.connect(_on_player_died)
 	Events.room_entered.connect(_on_room_entered)
 	Events.room_locked.connect(_on_room_locked)
-	#Events.room_exited.connect(on_room_exited)
+	princess.state = NAV
 	
 	await load_first_room()
 	combat_lock_signal()
@@ -33,7 +43,9 @@ func combat_lock_signal():
 
 func _on_room_entered(room):
 	currentRoom = room
-	if room == DungeonRoom3:
+	if room == DungeonRoom1:
+		Events.num_party_members = 2
+	elif room == DungeonRoom3:
 		var value = Events.princess_dialogue_value
 		if value == "door":
 			return
@@ -63,8 +75,12 @@ func _on_dialogue_zone_zone_triggered() -> void:
 	
 func open_door() -> void:
 	dialogueRoomManager.dialogue("door_opened")
+	
+func _unhandled_key_input(event: InputEvent) -> void:
+	if event.is_action_pressed("debug_killall"):
+		currentRoom.debug_killall()
 
-func _on_health_component_player_died() -> void:
+func _on_player_died() -> void:
 	Events.princess_dialogue_value = ""
 	await get_tree().create_timer(1).timeout
 	get_tree().reload_current_scene()

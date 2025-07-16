@@ -87,6 +87,7 @@ _data = {
 }
 
 [node name="Ghost" type="CharacterBody2D" groups=["Enemy"]]
+collision_layer = 16
 script = ExtResource("1_loe2b")
 metadata/_edit_group_ = true
 

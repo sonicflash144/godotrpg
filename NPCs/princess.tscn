@@ -2,7 +2,6 @@
 
 [ext_resource type="Script" uid="uid://diaqv1m08dd22" path="res://NPCs/princess.gd" id="1_443jn"]
 [ext_resource type="PackedScene" uid="uid://hakdr4fdj1fo" path="res://Combat/health_component.tscn" id="2_kl78w"]
-[ext_resource type="Script" uid="uid://b6wora7ce8fsi" path="res://Dialogue/princess_dialogue_dungeon.gd" id="3_wjjwx"]
 [ext_resource type="Shader" uid="uid://d3peyev02dgjd" path="res://Combat/ShaderTransparent.gdshader" id="4_tksp3"]
 [ext_resource type="Texture2D" uid="uid://cg62kjls2verx" path="res://NPCs/princess walk cycle.png" id="5_cqbqj"]
 [ext_resource type="PackedScene" uid="uid://6c21m1l8r268" path="res://Combat/hurtbox.tscn" id="6_iopym"]
@@ -11,7 +10,7 @@
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_ic0uy"]
 shader = ExtResource("4_tksp3")
-shader_parameter/active = false
+shader_parameter/effect_type = 0
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_77ujo"]
 radius = 4.0
@@ -250,19 +249,36 @@ states/Run/node = SubResource("AnimationNodeBlendSpace2D_uj8uw")
 states/Run/position = Vector2(630, 100)
 transitions = ["Start", "Idle", SubResource("AnimationNodeStateMachineTransition_85cul"), "Idle", "Run", SubResource("AnimationNodeStateMachineTransition_k21r5")]
 
-[sub_resource type="Animation" id="Animation_2o6r5"]
-length = 0.001
+[sub_resource type="Animation" id="Animation_443jn"]
+resource_name = "Disabled"
+loop_mode = 1
+step = 0.0625
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("Sprite2D:material:shader_parameter/active")
+tracks/0/path = NodePath("Sprite2D:material:shader_parameter/effect_type")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 1,
-"values": [false]
+"values": [2]
+}
+
+[sub_resource type="Animation" id="Animation_2o6r5"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:material:shader_parameter/effect_type")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
 }
 
 [sub_resource type="Animation" id="Animation_k3n1d"]
@@ -272,33 +288,30 @@ step = 0.0625
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("Sprite2D:material:shader_parameter/active")
+tracks/0/path = NodePath("Sprite2D:material:shader_parameter/effect_type")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
 "times": PackedFloat32Array(0, 0.0625, 0.125, 0.1875, 0.25, 0.3125, 0.375, 0.4375),
 "transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1),
 "update": 1,
-"values": [true, false, true, false, true, false, true, false]
+"values": [1, 0, 1, 0, 1, 0, 1, 0]
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_70uel"]
 _data = {
+&"Disabled": SubResource("Animation_443jn"),
 &"RESET": SubResource("Animation_2o6r5"),
 &"Start": SubResource("Animation_k3n1d")
 }
 
-[node name="Princess" type="CharacterBody2D"]
+[node name="Princess" type="CharacterBody2D" groups=["Princess"]]
 collision_layer = 2
 script = ExtResource("1_443jn")
 metadata/_edit_group_ = true
 
 [node name="Health_Component" parent="." instance=ExtResource("2_kl78w")]
 MAX_HEALTH = 6
-
-[node name="PrincessDialogue" type="Node" parent="." node_paths=PackedStringArray("markers")]
-script = ExtResource("3_wjjwx")
-markers = [null, null, null, null]
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 material = SubResource("ShaderMaterial_ic0uy")
@@ -350,8 +363,6 @@ path_desired_distance = 10.0
 target_desired_distance = 4.0
 debug_enabled = true
 
-[connection signal="area_entered" from="Hurtbox" to="PrincessDialogue" method="_on_hurtbox_area_entered"]
 [connection signal="trigger_knockback" from="Hurtbox" to="." method="_on_hurtbox_trigger_knockback"]
-[connection signal="zone_triggered" from="DialogueZone" to="PrincessDialogue" method="_on_dialogue_zone_zone_triggered"]
 
 [editable path="Hurtbox"]
