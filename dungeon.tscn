@@ -121,7 +121,7 @@ collision_mask = 264
 [node name="Princess" parent="." instance=ExtResource("16_77ujo")]
 position = Vector2(152, 128)
 
-[node name="Hurtbox" parent="Princess" index="3"]
+[node name="Hurtbox" parent="Princess" index="6"]
 collision_mask = 128
 
 [node name="PrincessDialogue" type="Node" parent="Princess" node_paths=PackedStringArray("markers")]

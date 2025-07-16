@@ -1,5 +1,7 @@
 extends Area2D
 
+class_name Hurtbox
+
 signal trigger_knockback(knockback_vector: Vector2)
 
 @onready var timer = $Timer

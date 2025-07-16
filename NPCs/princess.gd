@@ -10,10 +10,19 @@ extends CharacterBody2D
 
 enum {
 	MOVE,
+	ATTACK,
 	FOLLOW,
 	NAV
 }
 var state
+var MAX_SPEED = 80
+var last_input_vector := Vector2.ZERO
+var buffered_input := Vector2.ZERO
+var knockback = Vector2.ZERO
+var astar_path: Array[Vector2i]
+
+var attackCharged: bool = false
+var arrow = load("res://NPCs/arrow.tscn")
 
 # --- Path History (for being followed) ---
 var path_history: Array[Vector2] = []
@@ -23,18 +32,15 @@ const MAX_PATH_HISTORY = 100
 var follow_delay_points = 24
 const FOLLOW_DISTANCE = 32.0
 
-# --- Navigation/Movement State Variables ---
-var MAX_SPEED = 80
-var knockback = Vector2.ZERO
-var astar_path: Array[Vector2i]
-
 func _physics_process(delta: float):
-	if state == NAV:
-		pass
-	elif not Events.is_player_controlled:
-		state = MOVE
-	else: 
-		state = FOLLOW
+	# Don't let the state be overridden while attacking
+	if state != ATTACK:
+		if state == NAV:
+			pass
+		elif not Events.is_player_controlled:
+			state = MOVE
+		else:
+			state = FOLLOW
 
 	knockback = knockback.move_toward(Vector2.ZERO, 200 * delta)
 	
@@ -45,6 +51,8 @@ func _physics_process(delta: float):
 			follow_state()
 		MOVE:
 			player_move_state()
+		ATTACK:
+			attack_state()
 
 	velocity += knockback
 	move_and_slide()
@@ -59,10 +67,52 @@ func player_move_state():
 		var input_vector = Vector2.ZERO
 		input_vector.x = Input.get_action_strength("ui_right") - Input.get_action_strength("ui_left")
 		input_vector.y = Input.get_action_strength("ui_down") - Input.get_action_strength("ui_up")
-		
-		update_velocity_and_animation(input_vector.normalized())
+
+		var final_vector = input_vector
+
+		# Diagonal to cardinal direction buffering
+		if last_input_vector.x != 0 and last_input_vector.y != 0 and \
+		   ((input_vector.x != 0 and input_vector.y == 0) or \
+		   (input_vector.x == 0 and input_vector.y != 0)):
+			buffered_input = input_vector
+			final_vector = last_input_vector
+		elif buffered_input != Vector2.ZERO:
+			if input_vector == Vector2.ZERO:
+				final_vector = Vector2.ZERO
+			else:
+				final_vector = buffered_input		
+			buffered_input = Vector2.ZERO
+
+		update_velocity_and_animation(final_vector.normalized())
+		last_input_vector = input_vector
+
+		if Input.is_action_just_pressed("attack"):
+			state = ATTACK
 	else:
 		update_velocity_and_animation(Vector2.ZERO)
+		last_input_vector = Vector2.ZERO
+		buffered_input = Vector2.ZERO
+
+func attack_state():
+	velocity = Vector2.ZERO
+	animationState.travel("Attack")
+	
+	if Input.is_action_just_released("attack"):
+		state = MOVE
+		if attackCharged:
+			shoot_arrow()
+
+func charge_animation_finished():
+	attackCharged = true
+	
+func shoot_arrow():
+	attackCharged = false
+	var arrow_instance = arrow.instantiate()
+	var shoot_direction = animationTree.get("parameters/Attack/blend_position")
+	arrow_instance.global_position = global_position
+	arrow_instance.rotation = shoot_direction.angle()
+	arrow_instance.direction = shoot_direction
+	get_parent().add_child(arrow_instance)
 
 func follow_state():
 	var player_path: Array[Vector2] = player.path_history
@@ -78,8 +128,6 @@ func follow_state():
 	var direction_to_target = target_position - global_position
 	var distance_to_player = global_position.distance_to(player.global_position)
 
-	# Only move if the distance to the target point is > 1.0 (prevents stuttering)
-	# AND either the player is moving OR we are too far away from the idle player.
 	if direction_to_target.length() > 1.0 and (player_is_moving or distance_to_player > FOLLOW_DISTANCE):
 		update_velocity_and_animation(direction_to_target.normalized())
 	else:
@@ -102,6 +150,7 @@ func update_velocity_and_animation(direction: Vector2):
 	if direction != Vector2.ZERO:
 		animationTree.set("parameters/Idle/blend_position", direction)
 		animationTree.set("parameters/Run/blend_position", direction)
+		animationTree.set("parameters/Attack/blend_position", direction)
 		animationState.travel("Run")
 		velocity = direction * MAX_SPEED
 	else:

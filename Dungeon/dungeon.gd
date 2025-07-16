@@ -9,6 +9,7 @@ extends Node2D
 
 enum {
 	MOVE,
+	ATTACK,
 	FOLLOW,
 	NAV
 }

@@ -7,6 +7,7 @@ extends CharacterBody2D
 @onready var playerBlinkAnimation = $BlinkAnimationPlayer
 @onready var swordHitbox = $HitboxPivot/SwordHitbox
 @onready var hurtbox: Area2D = $Hurtbox
+@onready var swapCooldownTimer: Timer = $SwapCooldownTimer
 
 @onready var princess: CharacterBody2D = get_node_or_null("../Princess")
 @onready var princessHealthComponent: Health_Component = get_node_or_null("../Princess/Health_Component")
@@ -20,10 +21,14 @@ enum {
 	ATTACK,
 	FOLLOW
 }
-var MAX_SPEED = 80
 var state = MOVE
+var MAX_SPEED = 80
+var last_input_vector := Vector2.ZERO
+var buffered_input := Vector2.ZERO
 var knockback = Vector2.ZERO
 var combat_locked: bool = false
+var can_swap_control: bool = true
+const SWAP_COOLDOWN_DURATION := 4.0
 
 # --- Path History (for being followed) ---
 var path_history: Array[Vector2] = []
@@ -66,12 +71,30 @@ func move_state():
 		input_vector.x = Input.get_action_strength("ui_right") - Input.get_action_strength("ui_left")
 		input_vector.y = Input.get_action_strength("ui_down") - Input.get_action_strength("ui_up")
 
-		update_velocity_and_animation(input_vector.normalized())
+		var final_vector = input_vector
+
+		# Diagonal to cardinal direction buffering
+		if last_input_vector.x != 0 and last_input_vector.y != 0 and \
+		   ((input_vector.x != 0 and input_vector.y == 0) or \
+		   (input_vector.x == 0 and input_vector.y != 0)):
+			buffered_input = input_vector
+			final_vector = last_input_vector
+		elif buffered_input != Vector2.ZERO:
+			if input_vector == Vector2.ZERO:
+				final_vector = Vector2.ZERO
+			else:
+				final_vector = buffered_input
+			buffered_input = Vector2.ZERO
+
+		update_velocity_and_animation(final_vector.normalized())
+		last_input_vector = input_vector
 
 		if Events.player_has_sword and Input.is_action_just_pressed("attack"):
 			state = ATTACK
 	else:
 		update_velocity_and_animation(Vector2.ZERO)
+		last_input_vector = Vector2.ZERO
+		buffered_input = Vector2.ZERO
 
 func follow_state():
 	var follow_target_path: Array[Vector2] = princess.path_history
@@ -112,23 +135,26 @@ func swap_controlled_player():
 	princess.path_history.clear()
 	update_controlled_player()
 
-func update_controlled_player():
+func update_controlled_player(justEntered := false):
 	if Events.is_player_controlled:
 		hurtbox.enable_collider()
 		princessHurtbox.disable_collider()
 		playerHealthUI.enable_texture()
-		princessHealthUI.disable_texture()
-		playerBlinkAnimation.play("RESET")
+		if justEntered:
+			princessHealthUI.disable_texture()
+		else:
+			princessHealthUI.disable_texture(SWAP_COOLDOWN_DURATION)
+		playerBlinkAnimation.play("Enabled")
 		princessBlinkAnimation.play("Disabled")
 		z_index = 0
 		princess.z_index = -1
 	else:
 		hurtbox.disable_collider()
 		princessHurtbox.enable_collider()
-		playerHealthUI.disable_texture()
+		playerHealthUI.disable_texture(SWAP_COOLDOWN_DURATION)
 		princessHealthUI.enable_texture()
 		playerBlinkAnimation.play("Disabled")
-		princessBlinkAnimation.play("RESET")
+		princessBlinkAnimation.play("Enabled")
 		z_index = -1
 		princess.z_index = 0
 
@@ -141,10 +167,14 @@ func attack_animation_finished():
 
 func _on_room_combat_locked():
 	combat_locked = true
-	update_controlled_player()
+	if not Events.playerDown and not Events.princessDown:
+		update_controlled_player(true)
 	
 func _on_room_un_combat_locked():
 	combat_locked = false
+	if Events.num_party_members < 2:
+		return
+		
 	if not Events.is_player_controlled:
 		Events.is_player_controlled = true
 		path_history.clear()
@@ -176,5 +206,11 @@ func _on_hurtbox_trigger_knockback(knockback_vector: Vector2) -> void:
 	knockback = knockback_vector * 100
 	
 func _unhandled_key_input(event: InputEvent) -> void:
-	if combat_locked and event.is_action_pressed("swap_player") and not Events.playerDown and not Events.princessDown:
+	if combat_locked and event.is_action_pressed("swap_player") and can_swap_control \
+	and not Events.playerDown and not Events.princessDown:
 		swap_controlled_player()
+		can_swap_control = false
+		swapCooldownTimer.start(SWAP_COOLDOWN_DURATION)
+
+func _on_swap_cooldown_timer_timeout() -> void:
+	can_swap_control = true

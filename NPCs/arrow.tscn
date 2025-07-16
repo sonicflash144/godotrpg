@@ -1,0 +1,43 @@
+[gd_scene load_steps=7 format=3 uid="uid://besijk58oig40"]
+
+[ext_resource type="Script" uid="uid://cgctpj0latscu" path="res://NPCs/arrow.gd" id="1_laksj"]
+[ext_resource type="Texture2D" uid="uid://ucaprv1u2mtm" path="res://NPCs/arrow.png" id="1_t5veo"]
+[ext_resource type="PackedScene" uid="uid://lfrhnehwb41h" path="res://Combat/hitbox.tscn" id="2_2vbe0"]
+[ext_resource type="AudioStream" uid="uid://cr2xto1is78bs" path="res://Music and Sounds/arrow.mp3" id="4_xlt4l"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_xlt4l"]
+size = Vector2(16, 6)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_laksj"]
+size = Vector2(16, 6)
+
+[node name="Arrow" type="Area2D"]
+collision_layer = 0
+collision_mask = 9
+script = ExtResource("1_laksj")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+visible = false
+position = Vector2(6, 0)
+shape = SubResource("RectangleShape2D_xlt4l")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(6, 0)
+texture = ExtResource("1_t5veo")
+
+[node name="Hitbox" parent="." instance=ExtResource("2_2vbe0")]
+position = Vector2(6, 0)
+collision_layer = 64
+collision_mask = 8
+
+[node name="CollisionShape2D" parent="Hitbox" index="0"]
+shape = SubResource("RectangleShape2D_laksj")
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("4_xlt4l")
+autoplay = true
+
+[connection signal="area_entered" from="." to="." method="_on_area_entered"]
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
+
+[editable path="Hitbox"]
