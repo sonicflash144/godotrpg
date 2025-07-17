@@ -1,12 +1,12 @@
 extends Node2D
 
 @onready var dialogueRoomManager = $DialogueRoomManager
-@onready var animationPlayer: AnimationPlayer = $AnimationPlayer
 @onready var player: CharacterBody2D = $Player
-@onready var transitionArea: Area2D = $TransitionArea
-@onready var guard: CharacterBody2D = $Guard
+@onready var transitionArea = $TransitionArea
+@onready var guard = $Guard
 @onready var marker: Marker2D = $Marker2D
-@onready var door: StaticBody2D = $Door
+@onready var door = $Door
+@onready var animationPlayer = $AnimationPlayer
 @onready var alarmSound: AudioStreamPlayer = $Alarm
 
 var DoorSound = load("res://Music and Sounds/door_sound.tscn")
@@ -32,16 +32,6 @@ func _on_dialogue_movement(key: String) -> void:
 	elif key == "guard_leave":
 		guard.move_to_position_astar(guardOriginalPosition)
 
-func open_prison_door():
-	door.queue_free()
-	var doorSound = DoorSound.instantiate()
-	get_tree().current_scene.add_child(doorSound)
-	Events.prisonDoorOpened = true
-	
-func alarm_animation():
-	alarmSound.play()
-	animationPlayer.play("alarm")
-
 func _on_wall_dialogue_zone_zone_triggered() -> void:
 	dialogueRoomManager.dialogue("wall_description")
 
@@ -53,6 +43,16 @@ func _on_vent_dialogue_zone_zone_triggered() -> void:
 
 func _on_door_dialogue_zone_zone_triggered() -> void:
 	dialogueRoomManager.dialogue("cell_door_description")
+
+func open_prison_door():
+	door.queue_free()
+	var doorSound = DoorSound.instantiate()
+	get_tree().current_scene.add_child(doorSound)
+	Events.prisonDoorOpened = true
+	
+func alarm_animation():
+	alarmSound.play()
+	animationPlayer.play("alarm")
 
 func _on_transition_body_entered(body: Node2D) -> void:
 	if body.is_in_group("Player"):

@@ -1,28 +1,31 @@
 extends Node
 
-@onready var player = $"../Player"
+@onready var player: CharacterBody2D = $"../Player"
 
 @export var dialogueResource: DialogueResource
+
+var balloon_top = "res://Dialogue/balloon_top.tscn"
+var balloon_bottom = "res://Dialogue/balloon.tscn"
 
 func _ready():
 	DialogueManager.dialogue_ended.connect(_on_dialogue_ended)
 
+func get_balloon_path():
+	if player.global_position.y > get_viewport().get_camera_2d().get_screen_center_position().y:
+		return balloon_top
+	else:
+		return balloon_bottom
+
 func dialogue(value: String, balloon_override: String = ""):
 	var balloon_path
 	if balloon_override == "top":
-		balloon_path = "res://Dialogue/balloon_top.tscn"
+		balloon_path = balloon_top
 	elif balloon_override == "bottom":
-		balloon_path = "res://Dialogue/balloon.tscn"
+		balloon_path = balloon_bottom
 	else:
 		balloon_path = get_balloon_path()
 	Events.controlsEnabled = false
 	DialogueManager.show_dialogue_balloon(dialogueResource, value, balloon_path)
-
-func get_balloon_path():
-	if player.global_position.y > get_viewport().get_camera_2d().get_screen_center_position().y:
-		return "res://Dialogue/balloon_top.tscn"
-	else:
-		return "res://Dialogue/balloon.tscn"
 
 func _on_dialogue_ended(_resource: DialogueResource):
 	await get_tree().create_timer(0.1).timeout

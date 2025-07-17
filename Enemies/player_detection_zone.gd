@@ -1,6 +1,6 @@
 extends Area2D
 
-var players_in_zone: Array = []
+var players_in_zone: Array[CharacterBody2D] = []
 
 func can_see_player() -> bool:
 	var target_group = "Player" if Events.is_player_controlled else "Princess"

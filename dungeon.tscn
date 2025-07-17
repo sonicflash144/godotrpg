@@ -32,6 +32,7 @@ z_index = 1
 visible = false
 
 [node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2(320, 0)
 anchor_mode = 0
 position_smoothing_enabled = true
 position_smoothing_speed = 8.0
@@ -107,10 +108,10 @@ position = Vector2(24, 32)
 flip_h = true
 
 [node name="CollisionShape2D" parent="Door/DoorButtonRight" index="1"]
-position = Vector2(16, 7.5)
+position = Vector2(16, 7)
 
 [node name="Player" parent="." instance=ExtResource("2_7wc3a")]
-position = Vector2(432, 112)
+position = Vector2(480, 120)
 
 [node name="Health_Component" parent="Player" index="0" node_paths=PackedStringArray("healthUI")]
 healthUI = NodePath("../../CanvasLayer/PlayerHealthUI")

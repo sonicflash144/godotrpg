@@ -1288,11 +1288,6 @@ libraries = {
 
 [node name="Bow String" type="AudioStreamPlayer" parent="."]
 
-[node name="NavigationAgent2D" type="NavigationAgent2D" parent="."]
-path_desired_distance = 10.0
-target_desired_distance = 4.0
-debug_enabled = true
-
 [connection signal="trigger_knockback" from="Hurtbox" to="." method="_on_hurtbox_trigger_knockback"]
 
 [editable path="Hurtbox"]

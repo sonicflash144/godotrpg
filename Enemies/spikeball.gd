@@ -2,13 +2,11 @@ extends CharacterBody2D
 
 @onready var animationPlayer = $AnimationPlayer
 @onready var playerDetectionZone = $PlayerDetectionZone
-@onready var hurtbox = $Hurtbox
+@onready var hurtbox: Hurtbox = $Hurtbox
 @onready var softCollision = $SoftCollision
-@onready var enemyHitbox = $Hitbox
+@onready var enemyHitbox: Hitbox = $Hitbox
 @onready var chargeTimer = $ChargeTimer
 @onready var idleCooldownTimer = $IdleCooldownTimer
-
-const EnemyDeathEffect = preload("res://Effects/enemy_death_effect.tscn")
 
 enum {
 	INACTIVE,

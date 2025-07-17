@@ -1,5 +1,0 @@
-[gd_scene format=3 uid="uid://blm6ermuhcl8n"]
-
-[node name="HitEffect" type="Node"]
-
-[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]

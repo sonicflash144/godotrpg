@@ -1,5 +1,4 @@
 shader_type canvas_item;
-
 uniform int effect_type = 0;
 
 void fragment() {

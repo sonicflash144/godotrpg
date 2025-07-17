@@ -1,10 +1,10 @@
 extends Node2D
 
 @onready var dialogueRoomManager = $DialogueRoomManager
-@onready var player = $Player
-@onready var transitionArea: Area2D = $TransitionArea
-@onready var sandwich = $SandwichDialogueZone
-@onready var sword = $SwordDialogueZone
+@onready var player: CharacterBody2D = $Player
+@onready var transitionArea = $TransitionArea
+@onready var sandwich: DialogueZone = $SandwichDialogueZone
+@onready var sword: DialogueZone = $SwordDialogueZone
 @onready var guard = $Guard
 @onready var guard2 = $Guard2
 @onready var genericGuard = $GenericGuard

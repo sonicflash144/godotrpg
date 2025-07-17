@@ -1,25 +1,25 @@
 extends Node2D
 
-@onready var player = $Player
-@onready var DungeonRoom1 = $DungeonRoom1
-@onready var DungeonRoom2 = $DungeonRoom2
-@onready var DungeonRoom3 = $DungeonRoom3
+@onready var player: CharacterBody2D = $Player
+@onready var DungeonRoom1: DungeonRoom = $DungeonRoom1
+@onready var DungeonRoom2: DungeonRoom = $DungeonRoom2
+@onready var DungeonRoom3: DungeonRoom = $DungeonRoom3
 
 var last_valid_position: Vector2
-var currentRoom: Node2D
+var currentRoom: DungeonRoom
 
 func _ready():
 	Events.playerDown = false
 	Events.princessDown = false
 	Events.playerDead = false
 	Events.is_player_controlled = true
+	
 	Events.player_died.connect(_on_player_died)
 	Events.room_entered.connect(_on_room_entered)
 	Events.room_locked.connect(_on_room_locked)
 
 func _physics_process(_delta: float) -> void:
-	if player:
-		last_valid_position = player.global_position
+	last_valid_position = player.global_position
 
 func combat_lock_signal():
 	currentRoom.combat_lock_room()

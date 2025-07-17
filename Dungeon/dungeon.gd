@@ -1,11 +1,11 @@
 extends Node2D
 
 @onready var dialogueRoomManager = $DialogueRoomManager
-@onready var player = $Player
-@onready var princess = $Princess
-@onready var DungeonRoom1 = $DungeonRoom1
-@onready var DungeonRoom2 = $DungeonRoom2
-@onready var DungeonRoom3 = $DungeonRoom3
+@onready var player: CharacterBody2D = $Player
+@onready var princess: CharacterBody2D = $Princess
+@onready var DungeonRoom1: DungeonRoom = $DungeonRoom1
+@onready var DungeonRoom2: DungeonRoom = $DungeonRoom2
+@onready var DungeonRoom3: DungeonRoom = $DungeonRoom3
 
 enum {
 	MOVE,
@@ -14,7 +14,7 @@ enum {
 	NAV
 }
 var last_valid_position: Vector2
-var currentRoom: Node2D
+var currentRoom: DungeonRoom
 
 func _ready():
 	Events.playerDown = false
@@ -22,9 +22,11 @@ func _ready():
 	Events.playerDead = false
 	Events.player_has_sword = true
 	Events.num_party_members = 1
+	
 	Events.player_died.connect(_on_player_died)
 	Events.room_entered.connect(_on_room_entered)
 	Events.room_locked.connect(_on_room_locked)
+	
 	princess.state = NAV
 	
 	await load_first_room()
@@ -33,11 +35,10 @@ func _ready():
 func load_first_room() -> void:
 	while currentRoom == null:
 		await get_tree().process_frame
-	await get_tree().create_timer(1).timeout
+	await get_tree().create_timer(0.5).timeout
 
 func _physics_process(_delta: float) -> void:
-	if player:
-		last_valid_position = player.global_position
+	last_valid_position = player.global_position
 
 func combat_lock_signal():
 	currentRoom.combat_lock_room()

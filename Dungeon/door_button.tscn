@@ -1,6 +1,8 @@
-[gd_scene load_steps=6 format=3 uid="uid://cq0lkubnbnja4"]
+[gd_scene load_steps=8 format=3 uid="uid://cq0lkubnbnja4"]
 
 [ext_resource type="Texture2D" uid="uid://xw4t47ird320" path="res://Dungeon/door button.png" id="1_dcfi6"]
+[ext_resource type="Script" uid="uid://do5pyc75sq1r3" path="res://Dungeon/door_button.gd" id="1_s2qsd"]
+[ext_resource type="AudioStream" uid="uid://br7p7c4foggqm" path="res://Music and Sounds/button press.mp3" id="3_whgtg"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_6gydx"]
 atlas = ExtResource("1_dcfi6")
@@ -30,17 +32,21 @@ animations = [{
 }]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_av2vf"]
-size = Vector2(10, 7)
+size = Vector2(10, 5)
 
 [node name="Door Button" type="Area2D"]
 z_index = -1
 collision_layer = 0
 collision_mask = 2
+script = ExtResource("1_s2qsd")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_77ujo")
 animation = &"Off"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(-16, 7.5)
+position = Vector2(-16, 6.5)
 shape = SubResource("RectangleShape2D_av2vf")
+
+[node name="Button" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("3_whgtg")

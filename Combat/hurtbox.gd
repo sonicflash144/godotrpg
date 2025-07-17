@@ -12,8 +12,8 @@ signal trigger_knockback(knockback_vector: Vector2)
 @export var blinkAnimationPlayer: AnimationPlayer
 @export var HurtSound: PackedScene
 
-var is_invincible: bool = false
-var collider_disabled: bool = false
+var is_invincible := false
+var collider_disabled := false
 
 func disable_collider():
 	is_invincible = true
@@ -45,6 +45,7 @@ func _on_area_entered(area: Area2D) -> void:
 		
 	if health:
 		health.damage(area.damage)
+		
 	start_invincibility()
 	var hurtSound = HurtSound.instantiate()
 	get_tree().current_scene.add_child(hurtSound)

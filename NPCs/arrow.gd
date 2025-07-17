@@ -1,12 +1,12 @@
-extends Node2D
+extends Area2D
 
-@onready var hitbox = $Hitbox
+@onready var hitbox: Hitbox = $Hitbox
 
-var direction: Vector2 = Vector2.ZERO
-var speed: float = 400.0
-var horizontal_offset: float = -3.0
+var direction := Vector2.ZERO
+var speed := 400.0
+var horizontal_offset := -3
 
-var piercing: bool = false
+var piercing := false
 
 func _ready():
 	hitbox.knockback_vector = direction
