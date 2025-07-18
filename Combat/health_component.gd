@@ -12,9 +12,9 @@ signal enemy_died(enemy: CharacterBody2D)
 
 var health: int
 
-func _ready():
+func _ready() -> void:
 	health = MAX_HEALTH
-	
+
 func heal(heal_value: int):
 	if health <= 0:
 		get_parent().visible = true

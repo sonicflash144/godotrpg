@@ -5,76 +5,95 @@ extends CharacterBody2D
 @onready var hurtbox: Hurtbox = $Hurtbox
 @onready var softCollision = $SoftCollision
 @onready var enemyHitbox: Hitbox = $Hitbox
-@onready var chargeTimer = $ChargeTimer
-@onready var idleCooldownTimer = $IdleCooldownTimer
+@onready var cooldownTimer = $CooldownTimer
+@onready var wanderController = $WanderController
 
 enum {
 	INACTIVE,
 	IDLE,
-	CHASE
+	WANDER,
+	CHASE,
+	COOLDOWN
 }
-
-var MAX_SPEED = 120
-var knockback = Vector2.ZERO
+var MAX_SPEED := 120
+var WANDER_SPEED := 60
+var knockback := Vector2.ZERO
 var state = INACTIVE
 
 var charge_direction := Vector2.ZERO
 var is_charging := false
-var is_in_cooldown := false
 
-func _physics_process(delta: float):
+func _physics_process(delta: float) -> void:
 	knockback = knockback.move_toward(Vector2.ZERO, 200 * delta)
 
 	match state:
 		INACTIVE:
 			velocity = Vector2.ZERO
+
 		IDLE:
 			animationPlayer.play("Idle")
 			velocity = Vector2.ZERO
 			seek_player()
+			if wanderController.get_time_left() == 0:
+				update_wander_timer()
+
+		WANDER:
+			seek_player()
+			if wanderController.get_time_left() == 0 or global_position.distance_to(wanderController.target_position) < 4:
+				update_wander_timer()
+			var direction = global_position.direction_to(wanderController.target_position)
+			velocity = direction * WANDER_SPEED
+
 		CHASE:
 			animationPlayer.play("Attack")
-
-			if is_in_cooldown:
-				state = IDLE
-				return
-
 			if not is_charging:
 				var player = playerDetectionZone.get_target_player()
 				if player:
 					var predicted_position = player.global_position + player.velocity * 0.8
-					var t = randf()  # Random float between 0.0 and 1.0
-					var blended_position = player.global_position.lerp(predicted_position, t)
+					var blended_position = player.global_position.lerp(predicted_position, randf())
 					charge_direction = global_position.direction_to(blended_position)
 					enemyHitbox.knockback_vector = charge_direction
 					is_charging = true
-					chargeTimer.start()
 				else:
 					state = IDLE
 					return
 
 			velocity = charge_direction * MAX_SPEED
+		
+		COOLDOWN:
+			animationPlayer.play("Idle")
+			velocity = Vector2.ZERO
 
 	velocity += knockback
 
+	# Prevents enemies from stacking directly on top of each other
 	if softCollision.is_colliding():
 		velocity += softCollision.get_push_vector() * delta * 250
 
+	# Transtions to COOLDOWN state upon collision
+	if is_charging and get_slide_collision_count() > 0:
+		is_charging = false
+		state = COOLDOWN
+		cooldownTimer.start()
+
 	move_and_slide()
 
+func set_idle_state():
+	state = IDLE
+
 func seek_player():
-	if playerDetectionZone.can_see_player():
+	if playerDetectionZone.get_target_player():
 		state = CHASE
 
-func _on_charge_timer_timeout():
-	is_charging = false
-	is_in_cooldown = true
+func update_wander_timer():
+	var state_list = [IDLE, WANDER]
+	state_list.shuffle()
+	state = state_list.pop_front()
+	wanderController.start_wander_timer(randf_range(1.0, 3.0))
+
+func _on_cooldown_timer_timeout() -> void:
 	state = IDLE
-	idleCooldownTimer.wait_time = randf_range(0, 2)
-	idleCooldownTimer.start()
-	
-func _on_idle_cooldown_timer_timeout() -> void:
-	is_in_cooldown = false
+	update_wander_timer()
 
 func _on_hurtbox_trigger_knockback(knockback_vector: Vector2) -> void:
 	if is_charging:

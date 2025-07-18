@@ -25,27 +25,6 @@ func _ready() -> void:
 	if Events.player_transition == "down":
 		player.global_position = transitionArea.global_position
 	
-func _on_dialogue_movement(key: String) -> void:
-	if key == "guard_return":
-		guard.move_to_position_astar(player.global_position + Vector2(-32, 0))
-	elif key == "guard2_enter":
-		guard2.move_to_position_astar(marker.global_position)
-		genericGuard.move_to_position_astar(marker.global_position + Vector2(-16, 16))
-		genericGuard2.move_to_position_astar(marker.global_position + Vector2(-32, 0))
-		genericGuard3.move_to_position_astar(marker.global_position + Vector2(-16, -16))
-			
-func _on_door_dialogue_zone_zone_triggered() -> void:
-	dialogueRoomManager.dialogue("generic_door_description")
-
-func _on_sword_dialogue_zone_zone_triggered() -> void:
-	dialogueRoomManager.dialogue("sword_description")
-	
-func _on_paper_dialogue_zone_zone_triggered() -> void:
-	dialogueRoomManager.dialogue("paper_description")
-	
-func _on_sandwich_dialogue_zone_zone_triggered() -> void:
-	dialogueRoomManager.dialogue("sandwich_description")
-	
 func eat_sandwich():
 	sandwich.queue_free()
 	Events.prison_dialogue_value = "sandwich"
@@ -74,6 +53,27 @@ func guard_face_player():
 	var guardAnimationTree = guard.get_node_or_null("AnimationTree")
 	var direction = guard.global_position.direction_to(player.global_position)
 	guardAnimationTree.set("parameters/Idle/blend_position", direction)
+
+func _on_dialogue_movement(key: String):
+	if key == "guard_return":
+		guard.move_to_position_astar(player.global_position + Vector2(-32, 0))
+	elif key == "guard2_enter":
+		guard2.move_to_position_astar(marker.global_position)
+		genericGuard.move_to_position_astar(marker.global_position + Vector2(-16, 16))
+		genericGuard2.move_to_position_astar(marker.global_position + Vector2(-32, 0))
+		genericGuard3.move_to_position_astar(marker.global_position + Vector2(-16, -16))
+			
+func _on_door_dialogue_zone_zone_triggered() -> void:
+	dialogueRoomManager.dialogue("generic_door_description")
+
+func _on_sword_dialogue_zone_zone_triggered() -> void:
+	dialogueRoomManager.dialogue("sword_description")
+	
+func _on_paper_dialogue_zone_zone_triggered() -> void:
+	dialogueRoomManager.dialogue("paper_description")
+	
+func _on_sandwich_dialogue_zone_zone_triggered() -> void:
+	dialogueRoomManager.dialogue("sandwich_description")
 
 func _on_transition_body_entered(body: Node2D) -> void:
 	if body.is_in_group("Player"):

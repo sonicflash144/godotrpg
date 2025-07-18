@@ -32,7 +32,6 @@ color = Color(0.988235, 0.486275, 0.486275, 1)
 layout_mode = 0
 offset_right = 64.0
 offset_bottom = 16.0
-value = 50.0
 fill_mode = 1
 texture_progress = ExtResource("3_xiai8")
 tint_progress = Color(1, 1, 1, 0.423529)

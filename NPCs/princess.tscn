@@ -1,4 +1,4 @@
-[gd_scene load_steps=66 format=3 uid="uid://bixth4v8wdly8"]
+[gd_scene load_steps=69 format=3 uid="uid://bixth4v8wdly8"]
 
 [ext_resource type="Script" uid="uid://diaqv1m08dd22" path="res://NPCs/princess.gd" id="1_443jn"]
 [ext_resource type="PackedScene" uid="uid://hakdr4fdj1fo" path="res://Combat/health_component.tscn" id="2_kl78w"]
@@ -11,6 +11,9 @@
 [ext_resource type="Texture2D" uid="uid://c0uyuent5pq1o" path="res://NPCs/Princess Bow Diagonal.png" id="7_wjjwx"]
 [ext_resource type="PackedScene" uid="uid://damjysxl382ea" path="res://Dialogue/dialogue_zone.tscn" id="8_rul3p"]
 [ext_resource type="AudioStream" uid="uid://cg68t8670b5qo" path="res://Music and Sounds/bow string.mp3" id="11_tksp3"]
+[ext_resource type="PackedScene" uid="uid://c5oie56bljaao" path="res://Components/movement_component.tscn" id="12_o1huv"]
+[ext_resource type="PackedScene" uid="uid://bf33ttr2v7mwh" path="res://Components/follow_component.tscn" id="13_rul3p"]
+[ext_resource type="PackedScene" uid="uid://bhc7gpvpcip7x" path="res://Components/navigation_component.tscn" id="14_wduec"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_ic0uy"]
 shader = ExtResource("4_tksp3")
@@ -104,7 +107,7 @@ tracks/4/keys = {
 tracks/5/type = "audio"
 tracks/5/imported = false
 tracks/5/enabled = true
-tracks/5/path = NodePath("Bow String")
+tracks/5/path = NodePath("AnimationPlayer/Bow String")
 tracks/5/interp = 1
 tracks/5/loop_wrap = true
 tracks/5/keys = {
@@ -186,7 +189,7 @@ tracks/4/keys = {
 tracks/5/type = "audio"
 tracks/5/imported = false
 tracks/5/enabled = true
-tracks/5/path = NodePath("Bow String")
+tracks/5/path = NodePath("AnimationPlayer/Bow String")
 tracks/5/interp = 1
 tracks/5/loop_wrap = true
 tracks/5/keys = {
@@ -268,7 +271,7 @@ tracks/4/keys = {
 tracks/5/type = "audio"
 tracks/5/imported = false
 tracks/5/enabled = true
-tracks/5/path = NodePath("Bow String")
+tracks/5/path = NodePath("AnimationPlayer/Bow String")
 tracks/5/interp = 1
 tracks/5/loop_wrap = true
 tracks/5/keys = {
@@ -350,7 +353,7 @@ tracks/4/keys = {
 tracks/5/type = "audio"
 tracks/5/imported = false
 tracks/5/enabled = true
-tracks/5/path = NodePath("Bow String")
+tracks/5/path = NodePath("AnimationPlayer/Bow String")
 tracks/5/interp = 1
 tracks/5/loop_wrap = true
 tracks/5/keys = {
@@ -432,7 +435,7 @@ tracks/4/keys = {
 tracks/5/type = "audio"
 tracks/5/imported = false
 tracks/5/enabled = true
-tracks/5/path = NodePath("Bow String")
+tracks/5/path = NodePath("AnimationPlayer/Bow String")
 tracks/5/interp = 1
 tracks/5/loop_wrap = true
 tracks/5/keys = {
@@ -514,7 +517,7 @@ tracks/4/keys = {
 tracks/5/type = "audio"
 tracks/5/imported = false
 tracks/5/enabled = true
-tracks/5/path = NodePath("Bow String")
+tracks/5/path = NodePath("AnimationPlayer/Bow String")
 tracks/5/interp = 1
 tracks/5/loop_wrap = true
 tracks/5/keys = {
@@ -596,7 +599,7 @@ tracks/4/keys = {
 tracks/5/type = "audio"
 tracks/5/imported = false
 tracks/5/enabled = true
-tracks/5/path = NodePath("Bow String")
+tracks/5/path = NodePath("AnimationPlayer/Bow String")
 tracks/5/interp = 1
 tracks/5/loop_wrap = true
 tracks/5/keys = {
@@ -678,7 +681,7 @@ tracks/4/keys = {
 tracks/5/type = "audio"
 tracks/5/imported = false
 tracks/5/enabled = true
-tracks/5/path = NodePath("Bow String")
+tracks/5/path = NodePath("AnimationPlayer/Bow String")
 tracks/5/interp = 1
 tracks/5/loop_wrap = true
 tracks/5/keys = {
@@ -1202,6 +1205,42 @@ tracks/0/keys = {
 "update": 1,
 "values": [1, 0, 1, 0, 1, 0, 1, 0]
 }
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Sprite2D_AttackUpDown:material:shader_parameter/effect_type")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.0625, 0.125, 0.1875, 0.25, 0.3125, 0.375, 0.4375),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [1, 0, 1, 0, 1, 0, 1, 0]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Sprite2D_AttackSide:material:shader_parameter/effect_type")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.0625, 0.125, 0.1875, 0.25, 0.3125, 0.375, 0.4375),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [1, 0, 1, 0, 1, 0, 1, 0]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Sprite2D_AttackDiagonal:material:shader_parameter/effect_type")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0, 0.0625, 0.125, 0.1875, 0.25, 0.3125, 0.375, 0.4375),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [1, 0, 1, 0, 1, 0, 1, 0]
+}
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_70uel"]
 _data = {
@@ -1274,6 +1313,8 @@ libraries = {
 &"": SubResource("AnimationLibrary_85cul")
 }
 
+[node name="Bow String" type="AudioStreamPlayer" parent="AnimationPlayer"]
+
 [node name="AnimationTree" type="AnimationTree" parent="."]
 tree_root = SubResource("AnimationNodeStateMachine_77ujo")
 anim_player = NodePath("../AnimationPlayer")
@@ -1286,8 +1327,12 @@ libraries = {
 &"": SubResource("AnimationLibrary_70uel")
 }
 
-[node name="Bow String" type="AudioStreamPlayer" parent="."]
+[node name="Movement_Component" parent="." instance=ExtResource("12_o1huv")]
 
-[connection signal="trigger_knockback" from="Hurtbox" to="." method="_on_hurtbox_trigger_knockback"]
+[node name="Follow_Component" parent="." instance=ExtResource("13_rul3p")]
+
+[node name="Navigation_Component" parent="." instance=ExtResource("14_wduec")]
+
+[connection signal="trigger_knockback" from="Hurtbox" to="Movement_Component" method="_on_hurtbox_trigger_knockback"]
 
 [editable path="Hurtbox"]

@@ -1,4 +1,4 @@
 extends AudioStreamPlayer
 
-func _ready():
+func _ready() -> void:
 	connect("finished", Callable(self, "queue_free"))

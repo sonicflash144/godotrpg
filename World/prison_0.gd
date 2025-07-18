@@ -26,7 +26,17 @@ func _ready() -> void:
 		
 	guardOriginalPosition = guard.global_position
 
-func _on_dialogue_movement(key: String) -> void:
+func open_prison_door():
+	door.queue_free()
+	var doorSound = DoorSound.instantiate()
+	get_tree().current_scene.add_child(doorSound)
+	Events.prisonDoorOpened = true
+	
+func alarm_animation():
+	alarmSound.play()
+	animationPlayer.play("alarm")
+
+func _on_dialogue_movement(key: String):
 	if key == "guard_enter":
 		guard.move_to_position_astar(marker.global_position)
 	elif key == "guard_leave":
@@ -43,16 +53,6 @@ func _on_vent_dialogue_zone_zone_triggered() -> void:
 
 func _on_door_dialogue_zone_zone_triggered() -> void:
 	dialogueRoomManager.dialogue("cell_door_description")
-
-func open_prison_door():
-	door.queue_free()
-	var doorSound = DoorSound.instantiate()
-	get_tree().current_scene.add_child(doorSound)
-	Events.prisonDoorOpened = true
-	
-func alarm_animation():
-	alarmSound.play()
-	animationPlayer.play("alarm")
 
 func _on_transition_body_entered(body: Node2D) -> void:
 	if body.is_in_group("Player"):

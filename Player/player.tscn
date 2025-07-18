@@ -1,4 +1,4 @@
-[gd_scene load_steps=67 format=3 uid="uid://bursypx5unela"]
+[gd_scene load_steps=69 format=3 uid="uid://bursypx5unela"]
 
 [ext_resource type="Script" uid="uid://ci5s3yt3heq27" path="res://Player/player.gd" id="1_4ntmi"]
 [ext_resource type="Shader" uid="uid://d3peyev02dgjd" path="res://Combat/ShaderTransparent.gdshader" id="2_00tjw"]
@@ -11,6 +11,8 @@
 [ext_resource type="PackedScene" uid="uid://6c21m1l8r268" path="res://Combat/hurtbox.tscn" id="7_vtle1"]
 [ext_resource type="PackedScene" uid="uid://hakdr4fdj1fo" path="res://Combat/health_component.tscn" id="9_00tjw"]
 [ext_resource type="PackedScene" uid="uid://wexrq1aj01bm" path="res://Music and Sounds/player_hurt_sound.tscn" id="9_x3vf3"]
+[ext_resource type="PackedScene" uid="uid://c5oie56bljaao" path="res://Components/movement_component.tscn" id="12_p5o4e"]
+[ext_resource type="PackedScene" uid="uid://bf33ttr2v7mwh" path="res://Components/follow_component.tscn" id="13_gu6f8"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_x3vf3"]
 shader = ExtResource("2_00tjw")
@@ -143,7 +145,7 @@ tracks/7/keys = {
 tracks/8/type = "audio"
 tracks/8/imported = false
 tracks/8/enabled = true
-tracks/8/path = NodePath("../Sword")
+tracks/8/path = NodePath("../AnimationPlayer/Sword")
 tracks/8/interp = 1
 tracks/8/loop_wrap = true
 tracks/8/keys = {
@@ -237,7 +239,7 @@ tracks/5/keys = {
 tracks/6/type = "audio"
 tracks/6/imported = false
 tracks/6/enabled = true
-tracks/6/path = NodePath("../Sword")
+tracks/6/path = NodePath("../AnimationPlayer/Sword")
 tracks/6/interp = 1
 tracks/6/loop_wrap = true
 tracks/6/keys = {
@@ -355,7 +357,7 @@ tracks/5/keys = {
 tracks/6/type = "audio"
 tracks/6/imported = false
 tracks/6/enabled = true
-tracks/6/path = NodePath("../Sword")
+tracks/6/path = NodePath("../AnimationPlayer/Sword")
 tracks/6/interp = 1
 tracks/6/loop_wrap = true
 tracks/6/keys = {
@@ -497,7 +499,7 @@ tracks/7/keys = {
 tracks/8/type = "audio"
 tracks/8/imported = false
 tracks/8/enabled = true
-tracks/8/path = NodePath("../Sword")
+tracks/8/path = NodePath("../AnimationPlayer/Sword")
 tracks/8/interp = 1
 tracks/8/loop_wrap = true
 tracks/8/keys = {
@@ -615,7 +617,7 @@ tracks/7/keys = {
 tracks/8/type = "audio"
 tracks/8/imported = false
 tracks/8/enabled = true
-tracks/8/path = NodePath("../Sword")
+tracks/8/path = NodePath("../AnimationPlayer/Sword")
 tracks/8/interp = 1
 tracks/8/loop_wrap = true
 tracks/8/keys = {
@@ -733,7 +735,7 @@ tracks/7/keys = {
 tracks/8/type = "audio"
 tracks/8/imported = false
 tracks/8/enabled = true
-tracks/8/path = NodePath("../Sword")
+tracks/8/path = NodePath("../AnimationPlayer/Sword")
 tracks/8/interp = 1
 tracks/8/loop_wrap = true
 tracks/8/keys = {
@@ -827,7 +829,7 @@ tracks/5/keys = {
 tracks/6/type = "audio"
 tracks/6/imported = false
 tracks/6/enabled = true
-tracks/6/path = NodePath("../Sword")
+tracks/6/path = NodePath("../AnimationPlayer/Sword")
 tracks/6/interp = 1
 tracks/6/loop_wrap = true
 tracks/6/keys = {
@@ -945,7 +947,7 @@ tracks/5/keys = {
 tracks/6/type = "audio"
 tracks/6/imported = false
 tracks/6/enabled = true
-tracks/6/path = NodePath("../Sword")
+tracks/6/path = NodePath("../AnimationPlayer/Sword")
 tracks/6/interp = 1
 tracks/6/loop_wrap = true
 tracks/6/keys = {
@@ -1750,6 +1752,8 @@ libraries = {
 &"": SubResource("AnimationLibrary_gwnis")
 }
 
+[node name="Sword" type="AudioStreamPlayer" parent="AnimationPlayer"]
+
 [node name="AnimationTree" type="AnimationTree" parent="."]
 root_node = NodePath("../CollisionShape2D")
 tree_root = SubResource("AnimationNodeStateMachine_fhl08")
@@ -1763,14 +1767,11 @@ libraries = {
 &"": SubResource("AnimationLibrary_pisgm")
 }
 
-[node name="Sword" type="AudioStreamPlayer" parent="."]
+[node name="Movement_Component" parent="." instance=ExtResource("12_p5o4e")]
 
-[node name="SwapCooldownTimer" type="Timer" parent="."]
-wait_time = 3.0
-one_shot = true
+[node name="Follow_Component" parent="." instance=ExtResource("13_gu6f8")]
 
-[connection signal="trigger_knockback" from="Hurtbox" to="." method="_on_hurtbox_trigger_knockback"]
-[connection signal="timeout" from="SwapCooldownTimer" to="." method="_on_swap_cooldown_timer_timeout"]
+[connection signal="trigger_knockback" from="Hurtbox" to="Movement_Component" method="_on_hurtbox_trigger_knockback"]
 
 [editable path="Hurtbox"]
 [editable path="HitboxPivot/SwordHitbox"]

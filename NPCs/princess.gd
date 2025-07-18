@@ -1,12 +1,10 @@
 extends CharacterBody2D
 
-@onready var hurtbox: Hurtbox = $Hurtbox
-@onready var blinkAnimationPlayer = $BlinkAnimationPlayer
-@onready var animationTree = $AnimationTree
-@onready var animationState = animationTree.get("parameters/playback")
+@onready var movement_component: Movement_Component = $Movement_Component
+@onready var follow_component: Follow_Component = $Follow_Component
+@onready var navigation_component: Navigation_Component = $Navigation_Component
 
 @onready var player: CharacterBody2D = $"../Player"
-@onready var tilemap = $"../TileMapLayer"
 
 enum {
 	MOVE,
@@ -15,174 +13,59 @@ enum {
 	NAV
 }
 var state = FOLLOW
-var MAX_SPEED = 80
-var ATTACK_MOVE_SPEED = 24
-var last_input_vector := Vector2.ZERO
-var buffered_input := Vector2.ZERO
-var knockback := Vector2.ZERO
-var astar_path: Array[Vector2i]
-
 var attackCharged := false
 var arrow = load("res://NPCs/arrow.tscn")
 
-# --- Path History (for being followed) ---
-var path_history: Array[Vector2] = []
-const MAX_PATH_HISTORY = 100
+func _ready() -> void:
+	follow_component.set_target(player)
 
-# --- Follow State Variables ---
-var follow_delay_points = 24
-const FOLLOW_DISTANCE = 32
-
-func _physics_process(delta: float):
-	# Don't let the state be overridden while attacking
-	if state != ATTACK:
-		if state == NAV:
-			pass
-		elif not Events.is_player_controlled:
+func _physics_process(_delta: float) -> void:
+	if state != ATTACK and state != NAV:
+		if not Events.is_player_controlled:
 			state = MOVE
 		else:
 			state = FOLLOW
 
-	knockback = knockback.move_toward(Vector2.ZERO, 200 * delta)
-	
 	match state:
-		NAV:
-			nav_state()
-		FOLLOW:
-			follow_state()
 		MOVE:
 			move_state()
 		ATTACK:
 			attack_state()
-
-	velocity += knockback
-	move_and_slide()
-
-	if velocity.length() > 0:
-		path_history.push_back(global_position)
-		if path_history.size() > MAX_PATH_HISTORY:
-			path_history.pop_front()
-
-func get_player_input_vector() -> Vector2:
-	if not Events.controlsEnabled:
-		last_input_vector = Vector2.ZERO
-		buffered_input = Vector2.ZERO
-		return Vector2.ZERO
-
-	var input_vector = Vector2.ZERO
-	input_vector.x = Input.get_action_strength("ui_right") - Input.get_action_strength("ui_left")
-	input_vector.y = Input.get_action_strength("ui_down") - Input.get_action_strength("ui_up")
-
-	var final_vector = input_vector
-
-	# Diagonal to cardinal direction buffering
-	if last_input_vector.x != 0 and last_input_vector.y != 0 and \
-		((input_vector.x != 0 and input_vector.y == 0) or \
-		(input_vector.x == 0 and input_vector.y != 0)):
-		buffered_input = input_vector
-		final_vector = last_input_vector
-	elif buffered_input != Vector2.ZERO:
-		if input_vector == Vector2.ZERO:
-			final_vector = Vector2.ZERO
-		else:
-			final_vector = buffered_input
-		buffered_input = Vector2.ZERO
-
-	last_input_vector = input_vector
-	return final_vector
+		FOLLOW:
+			follow_component.follow()
+		NAV:
+			navigation_component.update_physics_process()
 
 func move_state():
-	var move_direction = get_player_input_vector().normalized()
-	update_velocity_and_animation(move_direction)
-
+	var move_direction = movement_component.get_player_input_vector().normalized()
+	movement_component.move(move_direction)
 	if Events.controlsEnabled and Input.is_action_just_pressed("attack"):
 		state = ATTACK
 
 func attack_state():
-	animationState.travel("Attack")
-	
-	var move_direction = get_player_input_vector().normalized()
-	
-	# Update the character's facing direction based on input without changing the animation state.
-	update_animation_direction(move_direction)
-	
-	# Set velocity to a slower speed.
-	if move_direction != Vector2.ZERO:
-		velocity = move_direction * ATTACK_MOVE_SPEED
-	else:
-		velocity = Vector2.ZERO
-
+	var move_direction = movement_component.get_player_input_vector().normalized()
+	movement_component.move(move_direction, movement_component.ATTACK_MOVE_SPEED, "Attack")
 	if Input.is_action_just_released("attack"):
 		state = MOVE
 		if attackCharged and not Events.princessDown:
 			shoot_arrow()
 
-func follow_state():
-	var player_path: Array[Vector2] = player.path_history
-	var player_is_moving = player.velocity.length() > 1.0
-	
-	if player_path.is_empty():
-		update_velocity_and_animation(Vector2.ZERO)
-		return
-
-	var target_index = max(0, player_path.size() - follow_delay_points)
-	var target_position = player_path[target_index]
-	
-	var direction_to_target = target_position - global_position
-	var distance_to_player = global_position.distance_to(player.global_position)
-
-	if direction_to_target.length() > 1.0 and (player_is_moving or distance_to_player > FOLLOW_DISTANCE):
-		update_velocity_and_animation(direction_to_target.normalized())
-	else:
-		update_velocity_and_animation(Vector2.ZERO)
-
-func update_animation_direction(direction: Vector2):
-	if direction != Vector2.ZERO:
-		animationTree.set("parameters/Idle/blend_position", direction)
-		animationTree.set("parameters/Run/blend_position", direction)
-		animationTree.set("parameters/Attack/blend_position", direction)
-
-func update_velocity_and_animation(direction: Vector2):
-	update_animation_direction(direction)
-	
-	if direction != Vector2.ZERO:
-		animationState.travel("Run")
-		velocity = direction * MAX_SPEED
-	else:
-		animationState.travel("Idle")
-		velocity = Vector2.ZERO
-
-func _on_hurtbox_trigger_knockback(knockback_vector: Vector2) -> void:
-	knockback = knockback_vector * 100
+func set_nav_state():
+	state = NAV
 
 func charge_animation_finished():
 	attackCharged = true
-	
+
 func shoot_arrow():
 	attackCharged = false
 	var arrow_instance = arrow.instantiate()
-	var shoot_direction = animationTree.get("parameters/Attack/blend_position")
+	var shoot_direction = movement_component.animation_tree.get("parameters/Attack/blend_position")
 	arrow_instance.global_position = global_position
 	arrow_instance.rotation = shoot_direction.angle()
 	arrow_instance.direction = shoot_direction
 	get_parent().add_child(arrow_instance)
 
-func nav_state():
-	var move_direction = Vector2.ZERO
-	if not astar_path.is_empty():
-		var target_position = tilemap.map_to_local(astar_path.front())
-		var direction = target_position - global_position
-		if direction.length() < 2:
-			astar_path.pop_front()
-		move_direction = direction
-	
-	update_velocity_and_animation(move_direction.normalized())
-
 func move_to_position_astar(target_position: Vector2):
 	if Events.is_player_controlled:
 		state = NAV
-		if tilemap.is_point_walkable(target_position):
-			astar_path = tilemap.astar.get_id_path(
-				tilemap.local_to_map(global_position),
-				tilemap.local_to_map(target_position)
-			).slice(1)
+		navigation_component.move_to_position_astar(target_position)

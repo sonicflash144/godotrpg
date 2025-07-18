@@ -2,12 +2,6 @@ extends Node2D
 
 class_name DungeonRoom
 
-enum {
-	INACTIVE,
-	IDLE,
-	WANDER,
-	CHASE
-}
 var players_in_room := {}
 var combat_locked := false
 var roomCompleted := false
@@ -25,21 +19,6 @@ func _ready() -> void:
 			spikes.append(child)
 			var anim_sprite = child.get_node_or_null("AnimatedSprite2D")
 			anim_sprite.set_frame(0)
-
-func _on_player_detector_body_entered(body: Node2D) -> void:
-	if body.is_in_group("Player"):
-		Events.room_entered.emit(self)
-
-func _on_room_detector_body_entered(body: Node2D) -> void:
-	if body.is_in_group("Player") or body.is_in_group("Princess"):
-		players_in_room[body.get_instance_id()] = true
-
-		if players_in_room.size() >= Events.num_party_members:
-			Events.room_locked.emit(self)
-
-func _on_room_detector_body_exited(body: Node2D) -> void:
-	if body.is_in_group("Player") or body.is_in_group("Princess"):
-		players_in_room.erase(body.get_instance_id())
 	
 func activate_spikes():
 	for spike in spikes:
@@ -68,7 +47,7 @@ func combat_lock_room():
 	activate_spikes()
 	
 	for enemy in enemies:
-		enemy.state = IDLE
+		enemy.set_idle_state()
 
 func un_combat_lock_room():
 	combat_locked = false
@@ -78,15 +57,30 @@ func un_combat_lock_room():
 	deactivate_spikes()
 	roomCompleted = true
 
-func _on_enemy_died(enemy: CharacterBody2D) -> void:
-	enemies.erase(enemy)
-	if enemies.size() <= 0:
-		un_combat_lock_room()
-
-func debug_killall() -> void:
-	if not combat_locked:
+func debug_killall():
+	if not OS.is_debug_build() or not combat_locked:
 		return
 		
 	for enemy in enemies.duplicate():
 		var health_component = enemy.get_node_or_null("Health_Component")
 		health_component.damage(INF)
+		
+func _on_enemy_died(enemy: CharacterBody2D):
+	enemies.erase(enemy)
+	if enemies.size() <= 0:
+		un_combat_lock_room()
+		
+func _on_player_detector_body_entered(body: Node2D) -> void:
+	if body.is_in_group("Player"):
+		Events.room_entered.emit(self)
+
+func _on_room_detector_body_entered(body: Node2D) -> void:
+	if body.is_in_group("Player") or body.is_in_group("Princess"):
+		players_in_room[body.get_instance_id()] = true
+
+		if players_in_room.size() >= Events.num_party_members:
+			Events.room_locked.emit(self)
+
+func _on_room_detector_body_exited(body: Node2D) -> void:
+	if body.is_in_group("Player") or body.is_in_group("Princess"):
+		players_in_room.erase(body.get_instance_id())

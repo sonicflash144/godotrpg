@@ -9,7 +9,7 @@ var SCREEN: Dictionary = {
 func _ready() -> void:
 	SCREEN.center = Vector2(SCREEN.width / 2, SCREEN.height / 2)
 	
-func fade_out(from, to, duration: float) -> void:
+func fade_out(from, to, duration: float):
 	Events.controlsEnabled = false
 	var rootControl = CanvasLayer.new()
 	var colorRect = ColorRect.new()

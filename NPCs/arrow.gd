@@ -8,12 +8,12 @@ var horizontal_offset := -3
 
 var piercing := false
 
-func _ready():
+func _ready() -> void:
 	hitbox.knockback_vector = direction
 	if direction.y == 0 and direction.x != 0:
 		position.y += horizontal_offset
 
-func _physics_process(delta: float):
+func _physics_process(delta: float) -> void:
 	global_position += direction * speed * delta
 
 func _on_area_entered(area: Area2D) -> void:

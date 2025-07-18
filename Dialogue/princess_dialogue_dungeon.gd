@@ -10,16 +10,16 @@ func _ready() -> void:
 	Events.dialogue_movement.connect(_on_dialogue_movement)
 	set_collision_masks(true)
 	
-func _on_dialogue_movement(key: String) -> void:
-	for marker in markers:
-		if marker.name == key:
-			get_parent().move_to_position_astar(marker.global_position)
-			return
-			
 func set_collision_masks(value: bool):
 	princessHurtbox.set_collision_mask_value(7, value)
 	playerHitbox.set_collision_mask_value(9, value)
 	
+func _on_dialogue_movement(key: String):
+	for marker in markers:
+		if marker.name == key:
+			get_parent().move_to_position_astar(marker.global_position)
+			return
+
 func _on_hurtbox_area_entered(_area: Area2D) -> void:
 	if not Events.princess_dialogue_value or Events.princess_dialogue_value == "talked_loop":
 		dialogueRoomManager.dialogue("hit")

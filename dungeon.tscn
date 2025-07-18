@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=4 uid="uid://ct5nw3i3nuv6l"]
+[gd_scene load_steps=20 format=4 uid="uid://ct5nw3i3nuv6l"]
 
 [ext_resource type="Script" uid="uid://onc2fdweedn7" path="res://Dungeon/dungeon.gd" id="1_jqckn"]
 [ext_resource type="PackedScene" uid="uid://bursypx5unela" path="res://Player/player.tscn" id="2_7wc3a"]
@@ -8,10 +8,11 @@
 [ext_resource type="PackedScene" uid="uid://cqv7hf2dkuljw" path="res://Dialogue/dialogue_room_manager.tscn" id="5_85cul"]
 [ext_resource type="PackedScene" uid="uid://brme23g7yalcu" path="res://Dialogue/dialogue_barrier.tscn" id="5_av2vf"]
 [ext_resource type="PackedScene" uid="uid://cbtcrvc8377r3" path="res://Dungeon/dungeon_room.tscn" id="5_v3ata"]
-[ext_resource type="Resource" uid="uid://fqwltrnnpsc5" path="res://Dialogue/princessIntro.dialogue" id="6_77ujo"]
+[ext_resource type="Resource" uid="uid://fqwltrnnpsc5" path="res://Dialogue/Literal Dialogue/princessIntro.dialogue" id="6_77ujo"]
 [ext_resource type="PackedScene" uid="uid://mvgpyyrkt607" path="res://Dungeon/spikes.tscn" id="6_uj8uw"]
 [ext_resource type="PackedScene" uid="uid://cq0lkubnbnja4" path="res://Dungeon/door_button.tscn" id="7_av2vf"]
 [ext_resource type="TileSet" uid="uid://mt4o7s2t6ie6" path="res://World/desert_bg.tres" id="7_uj8uw"]
+[ext_resource type="PackedScene" uid="uid://l10kiwsexaab" path="res://Combat/combat_manager.tscn" id="7_v3ata"]
 [ext_resource type="PackedScene" uid="uid://6wkafegtbmeu" path="res://Enemies/spikeball.tscn" id="9_6gydx"]
 [ext_resource type="PackedScene" uid="uid://ukvccod4ru5w" path="res://Dungeon/door.tscn" id="9_o2cd7"]
 [ext_resource type="PackedScene" uid="uid://dka5wc1yusobs" path="res://Enemies/ghost.tscn" id="11_7wc3a"]
@@ -40,6 +41,8 @@ script = ExtResource("4_jqckn")
 
 [node name="DialogueRoomManager" parent="." instance=ExtResource("5_85cul")]
 dialogueResource = ExtResource("6_77ujo")
+
+[node name="CombatManager" parent="." instance=ExtResource("7_v3ata")]
 
 [node name="DialogueBarrier" parent="." instance=ExtResource("5_av2vf")]
 position = Vector2(160, 8)

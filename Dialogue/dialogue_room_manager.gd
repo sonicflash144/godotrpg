@@ -4,10 +4,10 @@ extends Node
 
 @export var dialogueResource: DialogueResource
 
-var balloon_top = "res://Dialogue/balloon_top.tscn"
-var balloon_bottom = "res://Dialogue/balloon.tscn"
+const balloon_top = "res://Dialogue/balloon_top.tscn"
+const balloon_bottom = "res://Dialogue/balloon.tscn"
 
-func _ready():
+func _ready() -> void:
 	DialogueManager.dialogue_ended.connect(_on_dialogue_ended)
 
 func get_balloon_path():

@@ -1,14 +1,15 @@
-[gd_scene load_steps=23 format=3 uid="uid://6wkafegtbmeu"]
+[gd_scene load_steps=24 format=3 uid="uid://6wkafegtbmeu"]
 
 [ext_resource type="Texture2D" uid="uid://14ynmo50gfvw" path="res://Enemies/spikeball.png" id="1_4ddum"]
 [ext_resource type="Script" uid="uid://cjj2qj3qnrasn" path="res://Enemies/spikeball.gd" id="1_fs5hn"]
-[ext_resource type="Script" uid="uid://dj5wdqbn6athc" path="res://Combat/health_component.gd" id="1_gvbuj"]
 [ext_resource type="PackedScene" uid="uid://dg5ho328cdniv" path="res://Effects/enemy_death_effect.tscn" id="2_1h7qc"]
+[ext_resource type="PackedScene" uid="uid://hakdr4fdj1fo" path="res://Combat/health_component.tscn" id="2_81w6i"]
 [ext_resource type="Shader" uid="uid://cd25tciedu4h5" path="res://Combat/ShaderComplementary.gdshader" id="3_kpmjd"]
 [ext_resource type="PackedScene" uid="uid://6c21m1l8r268" path="res://Combat/hurtbox.tscn" id="4_1h7qc"]
 [ext_resource type="PackedScene" uid="uid://cfur0wgencjh8" path="res://Enemies/player_detection_zone.tscn" id="5_mmtor"]
 [ext_resource type="PackedScene" uid="uid://lfrhnehwb41h" path="res://Combat/hitbox.tscn" id="6_brwps"]
 [ext_resource type="PackedScene" uid="uid://3od7ps120wrn" path="res://Enemies/soft_collision.tscn" id="7_brwps"]
+[ext_resource type="PackedScene" uid="uid://hfj2qrgqwdms" path="res://Enemies/wander_controller.tscn" id="10_fs5hn"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_81w6i"]
 resource_local_to_scene = true
@@ -131,11 +132,9 @@ collision_layer = 16
 script = ExtResource("1_fs5hn")
 metadata/_edit_group_ = true
 
-[node name="Health_Component" type="Node" parent="."]
-script = ExtResource("1_gvbuj")
+[node name="Health_Component" parent="." instance=ExtResource("2_81w6i")]
 MAX_HEALTH = 3
 DeathEffect = ExtResource("2_1h7qc")
-metadata/_custom_type_script = "uid://dj5wdqbn6athc"
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 material = SubResource("ShaderMaterial_81w6i")
@@ -192,16 +191,14 @@ libraries = {
 &"": SubResource("AnimationLibrary_1dk0y")
 }
 
-[node name="ChargeTimer" type="Timer" parent="."]
+[node name="CooldownTimer" type="Timer" parent="."]
 wait_time = 2.0
 one_shot = true
 
-[node name="IdleCooldownTimer" type="Timer" parent="."]
-one_shot = true
+[node name="WanderController" parent="." instance=ExtResource("10_fs5hn")]
 
 [connection signal="trigger_knockback" from="Hurtbox" to="." method="_on_hurtbox_trigger_knockback"]
-[connection signal="timeout" from="ChargeTimer" to="." method="_on_charge_timer_timeout"]
-[connection signal="timeout" from="IdleCooldownTimer" to="." method="_on_idle_cooldown_timer_timeout"]
+[connection signal="timeout" from="CooldownTimer" to="." method="_on_cooldown_timer_timeout"]
 
 [editable path="Hurtbox"]
 [editable path="PlayerDetectionZone"]

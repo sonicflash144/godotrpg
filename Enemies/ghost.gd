@@ -11,22 +11,25 @@ enum {
 	INACTIVE,
 	IDLE,
 	WANDER,
-	CHASE
+	CHASE,
+	COOLDOWN
 }
-var MAX_SPEED = 50
-var knockback = Vector2.ZERO
+var MAX_SPEED := 50
+var knockback := Vector2.ZERO
 var state = INACTIVE
 
-func _physics_process(delta: float):
+func _physics_process(delta: float) -> void:
 	knockback = knockback.move_toward(Vector2.ZERO, 200 * delta)
 	match state:
 		INACTIVE:
 			velocity = Vector2.ZERO
+			
 		IDLE:
 			velocity = Vector2.ZERO
 			seek_player()
 			if wanderController.get_time_left() == 0:
 				update_wander_timer()
+				
 		WANDER:
 			seek_player()
 			if wanderController.get_time_left() == 0 or global_position.distance_to(wanderController.target_position) < 4:
@@ -34,6 +37,7 @@ func _physics_process(delta: float):
 			var direction = global_position.direction_to(wanderController.target_position)
 			velocity = direction * MAX_SPEED
 			sprite.flip_h = velocity.x > 0
+			
 		CHASE:
 			var player = playerDetectionZone.get_target_player()
 			if player and global_position.distance_to(player.global_position) > 4:
@@ -45,22 +49,25 @@ func _physics_process(delta: float):
 				state = IDLE
 
 	velocity += knockback
+	
+	# Prevents enemies from stacking directly on top of each other
 	if softCollision.is_colliding():
 		velocity += softCollision.get_push_vector() * delta * 250
 	
 	move_and_slide()
 
-func update_wander_timer():
-	state = pick_random_state([IDLE, WANDER])
-	wanderController.start_wander_timer(randf_range(1, 3))
+func set_idle_state():
+	state = IDLE
 
 func seek_player():
-	if playerDetectionZone.can_see_player():
+	if playerDetectionZone.get_target_player():
 		state = CHASE
 
-func pick_random_state(state_list):
+func update_wander_timer():
+	var state_list = [IDLE, WANDER]
 	state_list.shuffle()
-	return state_list.pop_front()
+	state = state_list.pop_front()
+	wanderController.start_wander_timer(randf_range(1.0, 3.0))
 
 func _on_hurtbox_trigger_knockback(knockback_vector: Vector2) -> void:
 	knockback = knockback_vector * 125
