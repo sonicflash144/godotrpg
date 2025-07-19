@@ -1,9 +1,11 @@
 extends Node2D
 
+@onready var dialogueRoomManager = $DialogueRoomManager
 @onready var player: CharacterBody2D = $Player
 @onready var DungeonRoom1: DungeonRoom = $DungeonRoom1
 @onready var DungeonRoom2: DungeonRoom = $DungeonRoom2
 @onready var DungeonRoom3: DungeonRoom = $DungeonRoom3
+@onready var chest = $Chest
 
 var last_valid_position: Vector2
 var currentRoom: DungeonRoom
@@ -23,7 +25,7 @@ func _physics_process(_delta: float) -> void:
 
 func combat_lock_signal():
 	currentRoom.combat_lock_room()
-		
+
 func _on_room_entered(room):
 	currentRoom = room
 		
@@ -38,3 +40,7 @@ func _on_player_died():
 func _unhandled_key_input(event: InputEvent) -> void:
 	if event.is_action_pressed("debug_killall"):
 		currentRoom.debug_killall()
+
+func _on_chest_dialogue_zone_zone_triggered() -> void:
+	chest.open_chest()
+	dialogueRoomManager.dialogue("chest_description")

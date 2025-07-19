@@ -1,11 +1,15 @@
-[gd_scene load_steps=2 format=3 uid="uid://l10kiwsexaab"]
+[gd_scene load_steps=3 format=3 uid="uid://l10kiwsexaab"]
 
 [ext_resource type="Script" uid="uid://codg55dgiiham" path="res://Combat/combat_manager.gd" id="1_ci4w0"]
+[ext_resource type="AudioStream" uid="uid://c5vl4ougqg6hm" path="res://Music and Sounds/swap.mp3" id="2_3m3na"]
 
 [node name="CombatManager" type="Node"]
 script = ExtResource("1_ci4w0")
 
 [node name="SwapCooldownTimer" type="Timer" parent="."]
 one_shot = true
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("2_3m3na")
 
 [connection signal="timeout" from="SwapCooldownTimer" to="." method="_on_swap_cooldown_timer_timeout"]

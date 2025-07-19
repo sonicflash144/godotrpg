@@ -1,4 +1,4 @@
-[gd_scene load_steps=22 format=3 uid="uid://dka5wc1yusobs"]
+[gd_scene load_steps=23 format=3 uid="uid://dka5wc1yusobs"]
 
 [ext_resource type="Texture2D" uid="uid://caq81rsx6r0jl" path="res://Enemies/ghost.png" id="1_0fgnr"]
 [ext_resource type="Script" uid="uid://c16yjox0tt6u4" path="res://Enemies/ghost.gd" id="1_loe2b"]
@@ -10,6 +10,7 @@
 [ext_resource type="PackedScene" uid="uid://hfj2qrgqwdms" path="res://Enemies/wander_controller.tscn" id="10_2qxec"]
 [ext_resource type="PackedScene" uid="uid://hakdr4fdj1fo" path="res://Combat/health_component.tscn" id="10_4od23"]
 [ext_resource type="PackedScene" uid="uid://dg5ho328cdniv" path="res://Effects/enemy_death_effect.tscn" id="11_2qxec"]
+[ext_resource type="PackedScene" uid="uid://gh2hmf87o2ox" path="res://Enemies/sword_slow_controller.tscn" id="11_eeofm"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_4od23"]
 resource_local_to_scene = true
@@ -152,6 +153,8 @@ libraries = {
 }
 
 [node name="WanderController" parent="." instance=ExtResource("10_2qxec")]
+
+[node name="SwordSlowController" parent="." instance=ExtResource("11_eeofm")]
 
 [connection signal="trigger_knockback" from="Hurtbox" to="." method="_on_hurtbox_trigger_knockback"]
 

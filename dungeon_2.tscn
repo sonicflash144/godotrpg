@@ -1,16 +1,19 @@
-[gd_scene load_steps=14 format=4 uid="uid://bl2s883me6tip"]
+[gd_scene load_steps=17 format=4 uid="uid://bl2s883me6tip"]
 
 [ext_resource type="Script" uid="uid://drlqthyfnl327" path="res://Dungeon/dungeon_2.gd" id="1_75ekg"]
 [ext_resource type="PackedScene" uid="uid://c1onywepqrykl" path="res://UI/player_health_ui.tscn" id="2_hissl"]
 [ext_resource type="PackedScene" uid="uid://f75n6uvmavva" path="res://UI/princess_health_ui.tscn" id="3_ww7ku"]
 [ext_resource type="Script" uid="uid://5shhc343p2a4" path="res://Dungeon/dungeon_camera_2d.gd" id="4_v87w3"]
 [ext_resource type="PackedScene" uid="uid://l10kiwsexaab" path="res://Combat/combat_manager.tscn" id="5_x6csh"]
+[ext_resource type="PackedScene" uid="uid://cqv7hf2dkuljw" path="res://Dialogue/dialogue_room_manager.tscn" id="5_xueeg"]
+[ext_resource type="Resource" uid="uid://ckhsuu4k1h8pm" path="res://Dialogue/Literal Dialogue/dungeon_2.dialogue" id="6_75ekg"]
 [ext_resource type="PackedScene" uid="uid://cbtcrvc8377r3" path="res://Dungeon/dungeon_room.tscn" id="8_rfjwi"]
 [ext_resource type="PackedScene" uid="uid://dka5wc1yusobs" path="res://Enemies/ghost.tscn" id="9_dbjap"]
 [ext_resource type="PackedScene" uid="uid://mvgpyyrkt607" path="res://Dungeon/spikes.tscn" id="10_q36a5"]
 [ext_resource type="PackedScene" uid="uid://6wkafegtbmeu" path="res://Enemies/spikeball.tscn" id="11_dtou2"]
 [ext_resource type="PackedScene" uid="uid://4tgk781ue0k4" path="res://World/tile_map_layer.tscn" id="12_csb1e"]
 [ext_resource type="TileSet" uid="uid://mt4o7s2t6ie6" path="res://World/desert_bg.tres" id="13_csm61"]
+[ext_resource type="PackedScene" uid="uid://d24ateel8ltrn" path="res://Dungeon/chest.tscn" id="14_hvmxn"]
 [ext_resource type="PackedScene" uid="uid://bursypx5unela" path="res://Player/player.tscn" id="16_d8joc"]
 [ext_resource type="PackedScene" uid="uid://bixth4v8wdly8" path="res://NPCs/princess.tscn" id="17_8f62i"]
 
@@ -30,6 +33,9 @@ anchor_mode = 0
 position_smoothing_enabled = true
 position_smoothing_speed = 8.0
 script = ExtResource("4_v87w3")
+
+[node name="DialogueRoomManager" parent="." instance=ExtResource("5_xueeg")]
+dialogueResource = ExtResource("6_75ekg")
 
 [node name="CombatManager" parent="." instance=ExtResource("5_x6csh")]
 
@@ -75,7 +81,7 @@ tile_set = ExtResource("13_csm61")
 position = Vector2(192, 120)
 
 [node name="Health_Component" parent="Player" index="0" node_paths=PackedStringArray("healthUI")]
-MAX_HEALTH = 4
+MAX_HEALTH = 20
 healthUI = NodePath("../../CanvasLayer/PlayerHealthUI")
 
 [node name="SwordHitbox" parent="Player/HitboxPivot" index="0"]
@@ -94,11 +100,17 @@ collision_mask = 128
 [node name="AnimationTree" parent="Princess" index="9"]
 parameters/Attack/blend_position = Vector2(0, 0)
 
+[node name="Chest" parent="." instance=ExtResource("14_hvmxn")]
+position = Vector2(160, 72)
+
 [connection signal="player_down" from="Player/Health_Component" to="CombatManager" method="_on_health_component_player_down"]
 [connection signal="princess_down" from="Princess/Health_Component" to="CombatManager" method="_on_health_component_princess_down"]
+[connection signal="zone_triggered" from="Chest/ChestDialogueZone" to="." method="_on_chest_dialogue_zone_zone_triggered"]
 
 [editable path="Player"]
 [editable path="Player/Hurtbox"]
 [editable path="Player/HitboxPivot/SwordHitbox"]
 [editable path="Princess"]
 [editable path="Princess/Hurtbox"]
+[editable path="Chest"]
+[editable path="Chest/ChestDialogueZone"]

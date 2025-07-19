@@ -1,0 +1,65 @@
+[gd_scene load_steps=7 format=3 uid="uid://58rt0fsobtsq"]
+
+[ext_resource type="Script" uid="uid://b3khbyt6dctnq" path="res://Enemies/sword_shockwave_controller.gd" id="1_ppuws"]
+[ext_resource type="PackedScene" uid="uid://lfrhnehwb41h" path="res://Combat/hitbox.tscn" id="2_616ei"]
+
+[sub_resource type="Animation" id="Animation_616ei"]
+resource_name = "Animate"
+length = 0.25
+step = 0.0625
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("ShockwaveHitbox/CollisionShape2D:disabled")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0.0625),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+
+[sub_resource type="Animation" id="Animation_vcl7f"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("ShockwaveHitbox/CollisionShape2D:disabled")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_cfn4c"]
+_data = {
+&"Animate": SubResource("Animation_616ei"),
+&"RESET": SubResource("Animation_vcl7f")
+}
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_vcl7f"]
+radius = 64.0
+
+[node name="SwordShockwaveController" type="Node2D"]
+script = ExtResource("1_ppuws")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("AnimationLibrary_cfn4c")
+}
+
+[node name="ShockwaveHitbox" parent="." instance=ExtResource("2_616ei")]
+collision_layer = 64
+collision_mask = 8
+
+[node name="CollisionShape2D" parent="ShockwaveHitbox" index="0"]
+shape = SubResource("CircleShape2D_vcl7f")
+disabled = true
+
+[connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_animation_player_animation_finished"]
+
+[editable path="ShockwaveHitbox"]

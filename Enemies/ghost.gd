@@ -6,6 +6,7 @@ extends CharacterBody2D
 @onready var softCollision = $SoftCollision
 @onready var enemyHitbox: Hitbox = $Hitbox
 @onready var wanderController = $WanderController
+@onready var swordSlowController = $SwordSlowController
 
 enum {
 	INACTIVE,
@@ -14,7 +15,8 @@ enum {
 	CHASE,
 	COOLDOWN
 }
-var MAX_SPEED := 50
+var MAX_SPEED := 50.0
+var WANDER_SPEED := 50.0
 var knockback := Vector2.ZERO
 var state = INACTIVE
 
@@ -35,7 +37,7 @@ func _physics_process(delta: float) -> void:
 			if wanderController.get_time_left() == 0 or global_position.distance_to(wanderController.target_position) < 4:
 				update_wander_timer()
 			var direction = global_position.direction_to(wanderController.target_position)
-			velocity = direction * MAX_SPEED
+			velocity = direction * WANDER_SPEED
 			sprite.flip_h = velocity.x > 0
 			
 		CHASE:
@@ -68,6 +70,9 @@ func update_wander_timer():
 	state_list.shuffle()
 	state = state_list.pop_front()
 	wanderController.start_wander_timer(randf_range(1.0, 3.0))
+
+func slow_enemy():
+	swordSlowController.slow_enemy()
 
 func _on_hurtbox_trigger_knockback(knockback_vector: Vector2) -> void:
 	knockback = knockback_vector * 125

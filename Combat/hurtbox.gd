@@ -42,10 +42,13 @@ func _on_timer_timeout():
 func _on_area_entered(area: Area2D) -> void:
 	if is_invincible:
 		return
-		
+	
 	if health:
-		health.damage(area.damage)
-		
+		health.damage(area.damage, area.name)
+	
+	if Events.sword_slow and area.name == "SwordHitbox" and get_parent().is_in_group("Enemy"):
+		get_parent().slow_enemy()
+	
 	start_invincibility()
 	var hurtSound = HurtSound.instantiate()
 	get_tree().current_scene.add_child(hurtSound)

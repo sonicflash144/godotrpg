@@ -58,12 +58,21 @@ func charge_animation_finished():
 
 func shoot_arrow():
 	attackCharged = false
-	var arrow_instance = arrow.instantiate()
-	var shoot_direction = movement_component.animation_tree.get("parameters/Attack/blend_position")
-	arrow_instance.global_position = global_position
-	arrow_instance.rotation = shoot_direction.angle()
-	arrow_instance.direction = shoot_direction
-	get_parent().add_child(arrow_instance)
+	var base_direction = movement_component.animation_tree.get("parameters/Attack/blend_position")
+	const HORIZONTAL_OFFSET := -3
+	var angles = [0.0] if not Events.multishot else [-10.0, 0.0, 10.0]
+	
+	var position_offset = Vector2.ZERO
+	if base_direction.y == 0 and base_direction.x != 0:
+		position_offset.y += HORIZONTAL_OFFSET
+	
+	for angle in angles:
+		var arrow_instance = arrow.instantiate()
+		var arrow_direction = base_direction.rotated(deg_to_rad(angle))
+		arrow_instance.global_position = global_position + position_offset
+		arrow_instance.rotation = arrow_direction.angle()
+		arrow_instance.direction = arrow_direction
+		get_parent().add_child(arrow_instance)
 
 func move_to_position_astar(target_position: Vector2):
 	if Events.is_player_controlled:

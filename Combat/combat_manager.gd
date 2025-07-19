@@ -1,13 +1,17 @@
 extends Node
 
+@onready var swapCooldownTimer = $SwapCooldownTimer
+@onready var swapSound = $AudioStreamPlayer
+
 @onready var player: CharacterBody2D = $"../Player"
+@onready var playerCollider = $"../Player/CollisionShape2D"
 @onready var playerHurtbox: Hurtbox = $"../Player/Hurtbox"
 @onready var playerHealthUI: Health_UI = $"../CanvasLayer/PlayerHealthUI"
 @onready var playerBlinkAnimation = $"../Player/BlinkAnimationPlayer"
 @onready var playerHealthComponent: Health_Component = $"../Player/Health_Component"
-@onready var swapCooldownTimer = $SwapCooldownTimer
 
 @onready var princess: CharacterBody2D = $"../Princess"
+@onready var princessCollider = $"../Princess/CollisionShape2D"
 @onready var princessHurtbox: Hurtbox = $"../Princess/Hurtbox"
 @onready var princessHealthUI: Health_UI = $"../CanvasLayer/PrincessHealthUI"
 @onready var princessBlinkAnimation = $"../Princess/BlinkAnimationPlayer"
@@ -23,12 +27,15 @@ func _ready() -> void:
 
 func swap_controlled_player():
 	Events.is_player_controlled = not Events.is_player_controlled
+	swapSound.play()
 	player.get_node("Follow_Component").clear_path_history()
 	princess.get_node("Follow_Component").clear_path_history()
 	update_controlled_player()
 
 func update_controlled_player(justEntered := false):
 	if Events.is_player_controlled:
+		playerCollider.set_deferred("disabled", false)
+		princessCollider.set_deferred("disabled", true)
 		playerHurtbox.enable_collider()
 		princessHurtbox.disable_collider()
 		playerHealthUI.enable_texture()
@@ -41,6 +48,8 @@ func update_controlled_player(justEntered := false):
 		player.z_index = 0
 		princess.z_index = -1
 	else:
+		playerCollider.set_deferred("disabled", true)
+		princessCollider.set_deferred("disabled", false)
 		playerHurtbox.disable_collider()
 		princessHurtbox.enable_collider()
 		playerHealthUI.disable_texture(SWAP_COOLDOWN_DURATION)
@@ -69,6 +78,8 @@ func _on_room_un_combat_locked():
 	elif Events.princessDown:
 		princessHealthComponent.heal(1)
 		Events.princessDown = false
+	playerCollider.set_deferred("disabled", false)
+	princessCollider.set_deferred("disabled", false)
 	playerHurtbox.enable_collider()
 	princessHurtbox.enable_collider()
 	playerHealthUI.enable_texture()
@@ -78,13 +89,17 @@ func _on_room_un_combat_locked():
 	player.z_index = 0
 	princess.z_index = 0
 
-func _on_health_component_player_down() -> void:
-	if Events.is_player_controlled:
+func _on_health_component_player_down(down: bool) -> void:
+	if down:
 		swap_controlled_player()
+	else:
+		update_controlled_player()
 
-func _on_health_component_princess_down() -> void:
-	if not Events.is_player_controlled:
+func _on_health_component_princess_down(down: bool) -> void:
+	if down:
 		swap_controlled_player()
+	else:
+		update_controlled_player()
 
 func _on_swap_cooldown_timer_timeout() -> void:
 	can_swap_control = true

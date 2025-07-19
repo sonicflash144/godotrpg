@@ -1,0 +1,9 @@
+[gd_scene load_steps=3 format=3 uid="uid://beh5ihh14s44"]
+
+[ext_resource type="AudioStream" uid="uid://pu3awokav5wh" path="res://Music and Sounds/heal.mp3" id="1_j5gai"]
+[ext_resource type="Script" uid="uid://dmyrrmqxy7bkp" path="res://Music and Sounds/sound_self_destroy.gd" id="2_0y83o"]
+
+[node name="HealSound" type="AudioStreamPlayer"]
+stream = ExtResource("1_j5gai")
+autoplay = true
+script = ExtResource("2_0y83o")

@@ -5,47 +5,72 @@
 [ext_resource type="PackedScene" uid="uid://damjysxl382ea" path="res://Dialogue/dialogue_zone.tscn" id="3_6hxbr"]
 [ext_resource type="AudioStream" uid="uid://dufmbmu0r21ub" path="res://Music and Sounds/door open.mp3" id="5_63nin"]
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_av2vf"]
-atlas = ExtResource("2_1hnmd")
-region = Rect2(0, 0, 32, 32)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_o2cd7"]
-atlas = ExtResource("2_1hnmd")
-region = Rect2(0, 32, 32, 32)
-
-[sub_resource type="SpriteFrames" id="SpriteFrames_6gydx"]
-animations = [{
-"frames": [{
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_av2vf")
-}],
-"loop": false,
-"name": &"Locked",
-"speed": 5.0
-}, {
-"frames": [{
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_o2cd7")
-}],
-"loop": false,
-"name": &"Open",
-"speed": 5.0
-}]
-
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_o2cd7"]
 size = Vector2(32, 24)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_6gydx"]
 size = Vector2(32, 20)
 
+[sub_resource type="Animation" id="Animation_vx5n3"]
+resource_name = "Open"
+step = 0.25
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [1]
+}
+tracks/1/type = "audio"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Door")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"clips": [{
+"end_offset": 0.0,
+"start_offset": 0.0,
+"stream": ExtResource("5_63nin")
+}],
+"times": PackedFloat32Array(0)
+}
+tracks/1/use_blend = true
+
+[sub_resource type="Animation" id="Animation_63nin"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_1hnmd"]
+_data = {
+&"Open": SubResource("Animation_vx5n3"),
+&"RESET": SubResource("Animation_63nin")
+}
+
 [node name="Door" type="StaticBody2D" node_paths=PackedStringArray("doorButtons")]
 collision_mask = 0
 script = ExtResource("1_63nin")
 doorButtons = [null, null]
 
-[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
-sprite_frames = SubResource("SpriteFrames_6gydx")
-animation = &"Locked"
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("2_1hnmd")
+vframes = 2
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(0, 4)
@@ -61,7 +86,11 @@ collision_mask = 2
 position = Vector2(0, 2)
 shape = SubResource("RectangleShape2D_6gydx")
 
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("AnimationLibrary_1hnmd")
+}
+
 [node name="Door" type="AudioStreamPlayer" parent="."]
-stream = ExtResource("5_63nin")
 
 [connection signal="body_entered" from="DoorTransition" to="." method="_on_door_transition_body_entered"]

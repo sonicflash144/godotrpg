@@ -1,4 +1,4 @@
-[gd_scene load_steps=24 format=3 uid="uid://6wkafegtbmeu"]
+[gd_scene load_steps=25 format=3 uid="uid://6wkafegtbmeu"]
 
 [ext_resource type="Texture2D" uid="uid://14ynmo50gfvw" path="res://Enemies/spikeball.png" id="1_4ddum"]
 [ext_resource type="Script" uid="uid://cjj2qj3qnrasn" path="res://Enemies/spikeball.gd" id="1_fs5hn"]
@@ -10,6 +10,7 @@
 [ext_resource type="PackedScene" uid="uid://lfrhnehwb41h" path="res://Combat/hitbox.tscn" id="6_brwps"]
 [ext_resource type="PackedScene" uid="uid://3od7ps120wrn" path="res://Enemies/soft_collision.tscn" id="7_brwps"]
 [ext_resource type="PackedScene" uid="uid://hfj2qrgqwdms" path="res://Enemies/wander_controller.tscn" id="10_fs5hn"]
+[ext_resource type="PackedScene" uid="uid://gh2hmf87o2ox" path="res://Enemies/sword_slow_controller.tscn" id="11_p3kbi"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_81w6i"]
 resource_local_to_scene = true
@@ -196,6 +197,8 @@ wait_time = 2.0
 one_shot = true
 
 [node name="WanderController" parent="." instance=ExtResource("10_fs5hn")]
+
+[node name="SwordSlowController" parent="." instance=ExtResource("11_p3kbi")]
 
 [connection signal="trigger_knockback" from="Hurtbox" to="." method="_on_hurtbox_trigger_knockback"]
 [connection signal="timeout" from="CooldownTimer" to="." method="_on_cooldown_timer_timeout"]

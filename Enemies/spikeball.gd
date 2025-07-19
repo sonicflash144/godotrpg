@@ -7,6 +7,7 @@ extends CharacterBody2D
 @onready var enemyHitbox: Hitbox = $Hitbox
 @onready var cooldownTimer = $CooldownTimer
 @onready var wanderController = $WanderController
+@onready var swordSlowController = $SwordSlowController
 
 enum {
 	INACTIVE,
@@ -15,8 +16,8 @@ enum {
 	CHASE,
 	COOLDOWN
 }
-var MAX_SPEED := 120
-var WANDER_SPEED := 60
+var MAX_SPEED := 120.0
+var WANDER_SPEED := 60.0
 var knockback := Vector2.ZERO
 var state = INACTIVE
 
@@ -59,7 +60,7 @@ func _physics_process(delta: float) -> void:
 					return
 
 			velocity = charge_direction * MAX_SPEED
-		
+
 		COOLDOWN:
 			animationPlayer.play("Idle")
 			velocity = Vector2.ZERO
@@ -70,13 +71,22 @@ func _physics_process(delta: float) -> void:
 	if softCollision.is_colliding():
 		velocity += softCollision.get_push_vector() * delta * 250
 
-	# Transtions to COOLDOWN state upon collision
-	if is_charging and get_slide_collision_count() > 0:
-		is_charging = false
-		state = COOLDOWN
-		cooldownTimer.start()
-
 	move_and_slide()
+
+	if is_charging:
+		var hit_blocking_wall = false
+		for i in get_slide_collision_count():
+			var collision = get_slide_collision(i)
+			var normal = collision.get_normal()
+			if normal.dot(charge_direction) < -0.7:  # Threshold for detecting blocking (head-on) collisions; adjust as needed
+				hit_blocking_wall = true
+				break
+
+		if hit_blocking_wall:
+			is_charging = false
+			state = COOLDOWN
+			cooldownTimer.start()
+			velocity = Vector2.ZERO
 
 func set_idle_state():
 	state = IDLE
@@ -90,6 +100,9 @@ func update_wander_timer():
 	state_list.shuffle()
 	state = state_list.pop_front()
 	wanderController.start_wander_timer(randf_range(1.0, 3.0))
+
+func slow_enemy():
+	swordSlowController.slow_enemy()
 
 func _on_cooldown_timer_timeout() -> void:
 	state = IDLE

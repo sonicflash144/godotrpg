@@ -1,9 +1,8 @@
 extends StaticBody2D
 
 @onready var dungeon = $".."
-@onready var doorSound: AudioStreamPlayer = $Door
 @onready var dialogueZone: DialogueZone = $DialogueZone
-@onready var animatedSprite = $AnimatedSprite2D
+@onready var animationPlayer = $AnimationPlayer
 @onready var collisionShape = $CollisionShape2D
 
 @export var doorButtons: Array[Area2D]
@@ -29,11 +28,10 @@ func check_all_buttons():
 	open_door()
 
 func open_door():
-	doorSound.play()
 	door_opened = true
 	dungeon.open_door()
 	
-	animatedSprite.play("Open")
+	animationPlayer.play("Open")
 	collisionShape.set_deferred("disabled", true)
 	dialogueZone.queue_free()
 

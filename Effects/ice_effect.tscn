@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://ckl7oyygt6au0"]
+
+[ext_resource type="Texture2D" uid="uid://m4fijho3qsls" path="res://Effects/ice effect.png" id="1_768b4"]
+
+[node name="IceEffect" type="Sprite2D"]
+texture = ExtResource("1_768b4")
