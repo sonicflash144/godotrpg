@@ -1,8 +1,9 @@
-[gd_scene load_steps=23 format=3 uid="uid://dka5wc1yusobs"]
+[gd_scene load_steps=24 format=3 uid="uid://dka5wc1yusobs"]
 
 [ext_resource type="Texture2D" uid="uid://caq81rsx6r0jl" path="res://Enemies/ghost.png" id="1_0fgnr"]
 [ext_resource type="Script" uid="uid://c16yjox0tt6u4" path="res://Enemies/ghost.gd" id="1_loe2b"]
 [ext_resource type="PackedScene" uid="uid://6c21m1l8r268" path="res://Combat/hurtbox.tscn" id="2_7n145"]
+[ext_resource type="Resource" uid="uid://bxsxcrgfs7bh3" path="res://Stats/ghost_stats.tres" id="2_eeofm"]
 [ext_resource type="Shader" uid="uid://cd25tciedu4h5" path="res://Combat/ShaderComplementary.gdshader" id="2_vynsj"]
 [ext_resource type="PackedScene" uid="uid://cfur0wgencjh8" path="res://Enemies/player_detection_zone.tscn" id="5_hfxwo"]
 [ext_resource type="PackedScene" uid="uid://lfrhnehwb41h" path="res://Combat/hitbox.tscn" id="6_qxvdp"]
@@ -90,10 +91,10 @@ _data = {
 [node name="Ghost" type="CharacterBody2D" groups=["Enemy"]]
 collision_layer = 16
 script = ExtResource("1_loe2b")
+stats = ExtResource("2_eeofm")
 metadata/_edit_group_ = true
 
 [node name="Health_Component" parent="." instance=ExtResource("10_4od23")]
-MAX_HEALTH = 2
 DeathEffect = ExtResource("11_2qxec")
 
 [node name="AnimatedSprite" type="AnimatedSprite2D" parent="."]

@@ -1,7 +1,8 @@
-[gd_scene load_steps=25 format=3 uid="uid://6wkafegtbmeu"]
+[gd_scene load_steps=26 format=3 uid="uid://6wkafegtbmeu"]
 
 [ext_resource type="Texture2D" uid="uid://14ynmo50gfvw" path="res://Enemies/spikeball.png" id="1_4ddum"]
 [ext_resource type="Script" uid="uid://cjj2qj3qnrasn" path="res://Enemies/spikeball.gd" id="1_fs5hn"]
+[ext_resource type="Resource" uid="uid://depdtqclw3e4a" path="res://Stats/spikeball_stats.tres" id="2_1dk0y"]
 [ext_resource type="PackedScene" uid="uid://dg5ho328cdniv" path="res://Effects/enemy_death_effect.tscn" id="2_1h7qc"]
 [ext_resource type="PackedScene" uid="uid://hakdr4fdj1fo" path="res://Combat/health_component.tscn" id="2_81w6i"]
 [ext_resource type="Shader" uid="uid://cd25tciedu4h5" path="res://Combat/ShaderComplementary.gdshader" id="3_kpmjd"]
@@ -131,10 +132,10 @@ _data = {
 [node name="Spikeball" type="CharacterBody2D" groups=["Enemy"]]
 collision_layer = 16
 script = ExtResource("1_fs5hn")
+stats = ExtResource("2_1dk0y")
 metadata/_edit_group_ = true
 
 [node name="Health_Component" parent="." instance=ExtResource("2_81w6i")]
-MAX_HEALTH = 3
 DeathEffect = ExtResource("2_1h7qc")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]

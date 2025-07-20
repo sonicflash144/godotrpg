@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="Equipment" load_steps=2 format=3 uid="uid://ca65g4ugrd3k1"]
+
+[ext_resource type="Script" uid="uid://dm55vrrn5ygm2" path="res://Equipment/equipment.gd" id="1_3hw6u"]
+
+[resource]
+script = ExtResource("1_3hw6u")
+attack = 3
+defense = 0
+ability = "Ice"
+name = "Icy Sword"
+description = "Grants a 20% chance to slow enemy upon hit."
+type = 0
+metadata/_custom_type_script = "uid://dm55vrrn5ygm2"

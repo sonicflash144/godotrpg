@@ -28,8 +28,7 @@ func dialogue(value: String, balloon_override: String = ""):
 	DialogueManager.show_dialogue_balloon(dialogueResource, value, balloon_path)
 
 func _on_dialogue_ended(_resource: DialogueResource):
-	await get_tree().create_timer(0.1).timeout
-	Events.controlsEnabled = true
+	Events.enable_controls()
 
 func nudge_player(valid_position: Vector2):
 	var direction = (valid_position - player.global_position).normalized()

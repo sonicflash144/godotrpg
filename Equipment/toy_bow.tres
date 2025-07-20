@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="Equipment" load_steps=2 format=3 uid="uid://dkweot25wi61p"]
+
+[ext_resource type="Script" uid="uid://dm55vrrn5ygm2" path="res://Equipment/equipment.gd" id="1_ex8qw"]
+
+[resource]
+script = ExtResource("1_ex8qw")
+attack = 1
+defense = 0
+ability = ""
+name = "Toy Bow"
+description = "A flimsy toy bow. Impressively, still does real damage!"
+type = 1
+metadata/_custom_type_script = "uid://dm55vrrn5ygm2"

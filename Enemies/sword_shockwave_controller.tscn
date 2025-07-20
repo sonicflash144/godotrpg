@@ -1,12 +1,22 @@
-[gd_scene load_steps=7 format=3 uid="uid://58rt0fsobtsq"]
+[gd_scene load_steps=11 format=3 uid="uid://58rt0fsobtsq"]
 
 [ext_resource type="Script" uid="uid://b3khbyt6dctnq" path="res://Enemies/sword_shockwave_controller.gd" id="1_ppuws"]
 [ext_resource type="PackedScene" uid="uid://lfrhnehwb41h" path="res://Combat/hitbox.tscn" id="2_616ei"]
+[ext_resource type="Texture2D" uid="uid://dvu6eh6l6yxmq" path="res://Enemies/shockwave.png" id="2_vcl7f"]
+[ext_resource type="Script" uid="uid://bgdg8osb748gd" path="res://Stats/stats.gd" id="2_xwwml"]
+[ext_resource type="AudioStream" uid="uid://bps057wdjdt7j" path="res://Music and Sounds/shockwave.mp3" id="3_cfn4c"]
+
+[sub_resource type="Resource" id="Resource_xaho1"]
+script = ExtResource("2_xwwml")
+health = 0
+attack = 1
+defense = 0
+metadata/_custom_type_script = "uid://bgdg8osb748gd"
 
 [sub_resource type="Animation" id="Animation_616ei"]
 resource_name = "Animate"
-length = 0.25
-step = 0.0625
+length = 0.32
+step = 0.04
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -14,10 +24,22 @@ tracks/0/path = NodePath("ShockwaveHitbox/CollisionShape2D:disabled")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0.0625),
+"times": PackedFloat32Array(0.12),
 "transitions": PackedFloat32Array(1),
 "update": 1,
 "values": [false]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Sprite2D:frame")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.04, 0.08, 0.12, 0.16, 0.2, 0.24, 0.28),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [0, 1, 2, 3, 4, 5, 6, 8]
 }
 
 [sub_resource type="Animation" id="Animation_vcl7f"]
@@ -34,6 +56,18 @@ tracks/0/keys = {
 "update": 1,
 "values": [true]
 }
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Sprite2D:frame")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_cfn4c"]
 _data = {
@@ -42,10 +76,17 @@ _data = {
 }
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_vcl7f"]
-radius = 64.0
+radius = 48.0
 
 [node name="SwordShockwaveController" type="Node2D"]
 script = ExtResource("1_ppuws")
+stats = SubResource("Resource_xaho1")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+z_index = -2
+texture = ExtResource("2_vcl7f")
+hframes = 3
+vframes = 3
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {
@@ -59,6 +100,10 @@ collision_mask = 8
 [node name="CollisionShape2D" parent="ShockwaveHitbox" index="0"]
 shape = SubResource("CircleShape2D_vcl7f")
 disabled = true
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("3_cfn4c")
+autoplay = true
 
 [connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_animation_player_animation_finished"]
 

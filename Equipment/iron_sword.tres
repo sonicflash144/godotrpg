@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="Equipment" load_steps=2 format=3 uid="uid://c0y3655uxkhrg"]
+
+[ext_resource type="Script" uid="uid://dm55vrrn5ygm2" path="res://Equipment/equipment.gd" id="1_shpsb"]
+
+[resource]
+script = ExtResource("1_shpsb")
+attack = 2
+defense = 0
+ability = ""
+name = "Iron Sword"
+description = "Sharp and shiny-looking. Might even be as good as the one from Minecraft."
+type = 0
+metadata/_custom_type_script = "uid://dm55vrrn5ygm2"

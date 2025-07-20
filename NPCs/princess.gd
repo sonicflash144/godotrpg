@@ -6,6 +6,9 @@ extends CharacterBody2D
 
 @onready var player: CharacterBody2D = $"../Player"
 
+@export var stats: Stats
+@export var equipment: Array[Equipment]
+
 enum {
 	MOVE,
 	ATTACK,
@@ -18,6 +21,7 @@ var arrow = load("res://NPCs/arrow.tscn")
 
 func _ready() -> void:
 	follow_component.set_target(player)
+	update_stats()
 
 func _physics_process(_delta: float) -> void:
 	if state != ATTACK and state != NAV:
@@ -35,6 +39,13 @@ func _physics_process(_delta: float) -> void:
 			follow_component.follow()
 		NAV:
 			navigation_component.update_physics_process()
+
+func update_stats():
+	stats.attack = 0
+	stats.defense = 0
+	for item in equipment:
+		stats.attack += item.attack
+		stats.defense += item.defense
 
 func move_state():
 	var move_direction = movement_component.get_player_input_vector().normalized()
@@ -60,7 +71,7 @@ func shoot_arrow():
 	attackCharged = false
 	var base_direction = movement_component.animation_tree.get("parameters/Attack/blend_position")
 	const HORIZONTAL_OFFSET := -3
-	var angles = [0.0] if not Events.multishot else [-10.0, 0.0, 10.0]
+	var angles = [0.0] if not Events.equipment_abilities["Multishot"] else [-10.0, 0.0, 10.0]
 	
 	var position_offset = Vector2.ZERO
 	if base_direction.y == 0 and base_direction.x != 0:

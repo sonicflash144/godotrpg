@@ -2,5 +2,11 @@ extends Area2D
 
 class_name Hitbox
 
-@export var damage := 1
-var knockback_vector = Vector2.ZERO
+var damage := 1
+var knockback_vector := Vector2.ZERO
+
+func _ready() -> void:
+	update_damage()
+
+func update_damage():
+	damage = get_parent().stats.attack

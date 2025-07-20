@@ -1,0 +1,284 @@
+[gd_scene load_steps=11 format=3 uid="uid://diqg00hakm3sm"]
+
+[ext_resource type="Script" uid="uid://cgh2etvh3orop" path="res://UI/equipment_menu.gd" id="1_8nmaw"]
+[ext_resource type="Theme" uid="uid://dqba535y85yao" path="res://UI/balloon_theme.tres" id="2_1h06s"]
+[ext_resource type="Texture2D" uid="uid://b7an05vk0kueg" path="res://UI/sword icon.png" id="3_gl7ar"]
+[ext_resource type="FontFile" uid="uid://cjyvcno5io1na" path="res://UI/8-bit-hud.ttf" id="3_gsrcf"]
+[ext_resource type="Texture2D" uid="uid://g45nofuqmen6" path="res://UI/armor icon.png" id="4_gsrcf"]
+[ext_resource type="Texture2D" uid="uid://dakjpdhhv5g0f" path="res://UI/player icon.png" id="4_o0vs3"]
+[ext_resource type="Texture2D" uid="uid://cjb0ofx8i6fb1" path="res://UI/princess icon.png" id="5_6ofb5"]
+[ext_resource type="Texture2D" uid="uid://b3xct2rr1fv4d" path="res://UI/pointer.png" id="5_gl7ar"]
+[ext_resource type="Texture2D" uid="uid://yb34j8d1keb0" path="res://UI/ability icon.png" id="6_3061e"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_gsrcf"]
+bg_color = Color(0.0666667, 0.0666667, 0.0666667, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(1, 1, 1, 1)
+
+[node name="EquipmentMenu" type="CanvasLayer"]
+script = ExtResource("1_8nmaw")
+
+[node name="Menu" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("2_1h06s")
+
+[node name="PanelContainer" type="PanelContainer" parent="Menu"]
+layout_mode = 2
+offset_left = 32.0
+offset_top = 32.0
+offset_right = 288.0
+offset_bottom = 208.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_gsrcf")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Menu/PanelContainer"]
+layout_mode = 2
+theme_override_constants/separation = 0
+
+[node name="DescriptionPanelContainer" type="PanelContainer" parent="Menu/PanelContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="DescriptionLabel" type="Label" parent="Menu/PanelContainer/VBoxContainer/DescriptionPanelContainer"]
+unique_name_in_owner = true
+clip_contents = true
+custom_minimum_size = Vector2(0, 27)
+layout_mode = 2
+text = "The first screenshot shows a Godot scene hierarchy for an equipment."
+autowrap_mode = 3
+
+[node name="TopHBox" type="HBoxContainer" parent="Menu/PanelContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+size_flags_stretch_ratio = 2.0
+theme_override_constants/separation = 0
+
+[node name="CharPanelContainer" type="PanelContainer" parent="Menu/PanelContainer/VBoxContainer/TopHBox"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 2.0
+
+[node name="CharVBox" type="VBoxContainer" parent="Menu/PanelContainer/VBoxContainer/TopHBox/CharPanelContainer"]
+layout_mode = 2
+
+[node name="CharTitleLabel" type="Label" parent="Menu/PanelContainer/VBoxContainer/TopHBox/CharPanelContainer/CharVBox"]
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_fonts/font = ExtResource("3_gsrcf")
+theme_override_font_sizes/font_size = 5
+text = "CHAR"
+
+[node name="CharSelectVBox" type="VBoxContainer" parent="Menu/PanelContainer/VBoxContainer/TopHBox/CharPanelContainer/CharVBox"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="PlayerHBox" type="HBoxContainer" parent="Menu/PanelContainer/VBoxContainer/TopHBox/CharPanelContainer/CharVBox/CharSelectVBox"]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="PlayerIcon" type="TextureRect" parent="Menu/PanelContainer/VBoxContainer/TopHBox/CharPanelContainer/CharVBox/CharSelectVBox/PlayerHBox"]
+layout_mode = 2
+texture = ExtResource("4_o0vs3")
+stretch_mode = 3
+
+[node name="PlayerLabel" type="Label" parent="Menu/PanelContainer/VBoxContainer/TopHBox/CharPanelContainer/CharVBox/CharSelectVBox/PlayerHBox"]
+layout_mode = 2
+text = "Player"
+
+[node name="PrincessHBox" type="HBoxContainer" parent="Menu/PanelContainer/VBoxContainer/TopHBox/CharPanelContainer/CharVBox/CharSelectVBox"]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="PrincessIcon" type="TextureRect" parent="Menu/PanelContainer/VBoxContainer/TopHBox/CharPanelContainer/CharVBox/CharSelectVBox/PrincessHBox"]
+layout_mode = 2
+texture = ExtResource("5_6ofb5")
+stretch_mode = 3
+
+[node name="PrincessLabel" type="Label" parent="Menu/PanelContainer/VBoxContainer/TopHBox/CharPanelContainer/CharVBox/CharSelectVBox/PrincessHBox"]
+layout_mode = 2
+text = "Princess"
+
+[node name="EquippedPanelContainer" type="PanelContainer" parent="Menu/PanelContainer/VBoxContainer/TopHBox"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 3.0
+
+[node name="EquippedVBox" type="VBoxContainer" parent="Menu/PanelContainer/VBoxContainer/TopHBox/EquippedPanelContainer"]
+layout_mode = 2
+
+[node name="EquippedTitleLabel" type="Label" parent="Menu/PanelContainer/VBoxContainer/TopHBox/EquippedPanelContainer/EquippedVBox"]
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_fonts/font = ExtResource("3_gsrcf")
+theme_override_font_sizes/font_size = 5
+text = "EQUIPPED"
+
+[node name="WeaponHBox" type="HBoxContainer" parent="Menu/PanelContainer/VBoxContainer/TopHBox/EquippedPanelContainer/EquippedVBox"]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="WeaponIcon" type="TextureRect" parent="Menu/PanelContainer/VBoxContainer/TopHBox/EquippedPanelContainer/EquippedVBox/WeaponHBox"]
+unique_name_in_owner = true
+layout_mode = 2
+texture = ExtResource("3_gl7ar")
+stretch_mode = 3
+
+[node name="WeaponNameLabel" type="Label" parent="Menu/PanelContainer/VBoxContainer/TopHBox/EquippedPanelContainer/EquippedVBox/WeaponHBox"]
+unique_name_in_owner = true
+clip_contents = true
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Weapon Name"
+
+[node name="ArmorHBox" type="HBoxContainer" parent="Menu/PanelContainer/VBoxContainer/TopHBox/EquippedPanelContainer/EquippedVBox"]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="ArmorIcon" type="TextureRect" parent="Menu/PanelContainer/VBoxContainer/TopHBox/EquippedPanelContainer/EquippedVBox/ArmorHBox"]
+unique_name_in_owner = true
+layout_mode = 2
+texture = ExtResource("4_gsrcf")
+stretch_mode = 3
+
+[node name="ArmorNameLabel" type="Label" parent="Menu/PanelContainer/VBoxContainer/TopHBox/EquippedPanelContainer/EquippedVBox/ArmorHBox"]
+unique_name_in_owner = true
+clip_contents = true
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Armor Name"
+
+[node name="BottomHBox" type="HBoxContainer" parent="Menu/PanelContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+size_flags_stretch_ratio = 3.0
+theme_override_constants/separation = 0
+
+[node name="StatsPanelContainer" type="PanelContainer" parent="Menu/PanelContainer/VBoxContainer/BottomHBox"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 2.0
+
+[node name="StatsVBox" type="VBoxContainer" parent="Menu/PanelContainer/VBoxContainer/BottomHBox/StatsPanelContainer"]
+layout_mode = 2
+
+[node name="StatsTitleLabel" type="Label" parent="Menu/PanelContainer/VBoxContainer/BottomHBox/StatsPanelContainer/StatsVBox"]
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_fonts/font = ExtResource("3_gsrcf")
+theme_override_font_sizes/font_size = 5
+text = "STATS"
+
+[node name="AttackStatsHBox" type="HBoxContainer" parent="Menu/PanelContainer/VBoxContainer/BottomHBox/StatsPanelContainer/StatsVBox"]
+layout_mode = 2
+
+[node name="AttackIcon" type="TextureRect" parent="Menu/PanelContainer/VBoxContainer/BottomHBox/StatsPanelContainer/StatsVBox/AttackStatsHBox"]
+layout_mode = 2
+texture = ExtResource("3_gl7ar")
+stretch_mode = 3
+
+[node name="AttackLabel" type="Label" parent="Menu/PanelContainer/VBoxContainer/BottomHBox/StatsPanelContainer/StatsVBox/AttackStatsHBox"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 3.0
+text = "Attack:"
+
+[node name="AttackValueLabel" type="RichTextLabel" parent="Menu/PanelContainer/VBoxContainer/BottomHBox/StatsPanelContainer/StatsVBox/AttackStatsHBox"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 2.0
+bbcode_enabled = true
+text = "0"
+
+[node name="DefenseStatsHBox" type="HBoxContainer" parent="Menu/PanelContainer/VBoxContainer/BottomHBox/StatsPanelContainer/StatsVBox"]
+layout_mode = 2
+
+[node name="DefenseIcon" type="TextureRect" parent="Menu/PanelContainer/VBoxContainer/BottomHBox/StatsPanelContainer/StatsVBox/DefenseStatsHBox"]
+layout_mode = 2
+texture = ExtResource("4_gsrcf")
+stretch_mode = 3
+
+[node name="DefenseLabel" type="Label" parent="Menu/PanelContainer/VBoxContainer/BottomHBox/StatsPanelContainer/StatsVBox/DefenseStatsHBox"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 3.0
+text = "Defense:"
+
+[node name="DefenseValueLabel" type="RichTextLabel" parent="Menu/PanelContainer/VBoxContainer/BottomHBox/StatsPanelContainer/StatsVBox/DefenseStatsHBox"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 2.0
+bbcode_enabled = true
+text = "0"
+
+[node name="Ability1HBox" type="HBoxContainer" parent="Menu/PanelContainer/VBoxContainer/BottomHBox/StatsPanelContainer/StatsVBox"]
+layout_mode = 2
+
+[node name="AbilityIcon" type="TextureRect" parent="Menu/PanelContainer/VBoxContainer/BottomHBox/StatsPanelContainer/StatsVBox/Ability1HBox"]
+self_modulate = Color(1, 1, 1, 0)
+layout_mode = 2
+texture = ExtResource("6_3061e")
+stretch_mode = 2
+
+[node name="Ability1Label" type="Label" parent="Menu/PanelContainer/VBoxContainer/BottomHBox/StatsPanelContainer/StatsVBox/Ability1HBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.4, 0.4, 0.4, 1)
+text = "(No ability)"
+
+[node name="Ability2HBox" type="HBoxContainer" parent="Menu/PanelContainer/VBoxContainer/BottomHBox/StatsPanelContainer/StatsVBox"]
+layout_mode = 2
+
+[node name="AbilityIcon" type="TextureRect" parent="Menu/PanelContainer/VBoxContainer/BottomHBox/StatsPanelContainer/StatsVBox/Ability2HBox"]
+self_modulate = Color(1, 1, 1, 0)
+layout_mode = 2
+texture = ExtResource("6_3061e")
+stretch_mode = 2
+
+[node name="Ability2Label" type="Label" parent="Menu/PanelContainer/VBoxContainer/BottomHBox/StatsPanelContainer/StatsVBox/Ability2HBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.4, 0.4, 0.4, 1)
+text = "(No ability)"
+
+[node name="InventoryPanelContainer" type="PanelContainer" parent="Menu/PanelContainer/VBoxContainer/BottomHBox"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 3.0
+
+[node name="InventoryVBox" type="VBoxContainer" parent="Menu/PanelContainer/VBoxContainer/BottomHBox/InventoryPanelContainer"]
+layout_mode = 2
+
+[node name="InventoryTitleLabel" type="Label" parent="Menu/PanelContainer/VBoxContainer/BottomHBox/InventoryPanelContainer/InventoryVBox"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_fonts/font = ExtResource("3_gsrcf")
+theme_override_font_sizes/font_size = 5
+text = "WEAPONS"
+
+[node name="InventoryScroll" type="ScrollContainer" parent="Menu/PanelContainer/VBoxContainer/BottomHBox/InventoryPanelContainer/InventoryVBox"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 3
+horizontal_scroll_mode = 0
+
+[node name="ItemsVBox" type="VBoxContainer" parent="Menu/PanelContainer/VBoxContainer/BottomHBox/InventoryPanelContainer/InventoryVBox/InventoryScroll"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Pointer" type="TextureRect" parent="Menu/PanelContainer/VBoxContainer"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+texture = ExtResource("5_gl7ar")
+expand_mode = 1
+stretch_mode = 2

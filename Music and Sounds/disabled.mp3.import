@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://jljoufjq2g6b"
+path="res://.godot/imported/disabled.mp3-9b5584e9b5f9e205fa664d06004dec3f.mp3str"
+
+[deps]
+
+source_file="res://Music and Sounds/disabled.mp3"
+dest_files=["res://.godot/imported/disabled.mp3-9b5584e9b5f9e205fa664d06004dec3f.mp3str"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

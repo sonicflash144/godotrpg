@@ -9,6 +9,7 @@ class_name Movement_Component
 var current_speed: float
 var MAX_SPEED := 80.0
 var ATTACK_MOVE_SPEED := 24.0
+const SPRINTMASTER_SPEED_MULTIPLIER = 1.2
 
 var knockback := Vector2.ZERO
 var last_input_vector := Vector2.ZERO
@@ -16,12 +17,14 @@ var buffered_input := Vector2.ZERO
 
 func _ready() -> void:
 	current_speed = MAX_SPEED
+	if Events.equipment_abilities["Speed"]:
+		current_speed *= SPRINTMASTER_SPEED_MULTIPLIER
 
 func _physics_process(delta: float) -> void:
 	knockback = knockback.move_toward(Vector2.ZERO, 200 * delta)
 	character.velocity += knockback
 	character.move_and_slide()
-
+	
 func get_player_input_vector():
 	if not Events.controlsEnabled:
 		last_input_vector = Vector2.ZERO
@@ -50,10 +53,12 @@ func get_player_input_vector():
 	last_input_vector = input_vector
 	return final_vector
 
-func move(direction: Vector2, speed := MAX_SPEED, animationOverride := ""):
+func move(direction: Vector2, speed := MAX_SPEED, animationOverride := "", follower := false):
 	current_speed = speed
+	if Events.equipment_abilities["Speed"] and not follower:
+		current_speed *= SPRINTMASTER_SPEED_MULTIPLIER
 	update_animation_direction(direction)
-	character.velocity = direction * speed
+	character.velocity = direction * current_speed
 	if animationOverride:
 		animation_state.travel(animationOverride)
 	elif direction != Vector2.ZERO:

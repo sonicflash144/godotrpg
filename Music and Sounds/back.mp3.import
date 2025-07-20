@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://pffiidda5yp2"
+path="res://.godot/imported/back.mp3-d6d720c276377b7358de926a3ede12c2.mp3str"
+
+[deps]
+
+source_file="res://Music and Sounds/back.mp3"
+dest_files=["res://.godot/imported/back.mp3-d6d720c276377b7358de926a3ede12c2.mp3str"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

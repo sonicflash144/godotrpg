@@ -13,6 +13,7 @@ var DoorSound = load("res://Music and Sounds/door_sound.tscn")
 var guardOriginalPosition: Vector2
 
 func _ready() -> void:
+	Events.num_party_members = 1
 	Events.player_has_sword = false
 	Events.dialogue_movement.connect(_on_dialogue_movement)
 	

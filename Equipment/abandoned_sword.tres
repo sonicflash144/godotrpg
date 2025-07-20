@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="Equipment" load_steps=2 format=3 uid="uid://bgxvqylra5jm3"]
+
+[ext_resource type="Script" uid="uid://dm55vrrn5ygm2" path="res://Equipment/equipment.gd" id="1_trk2u"]
+
+[resource]
+script = ExtResource("1_trk2u")
+attack = 1
+defense = 0
+ability = ""
+name = "Abandoned Sword"
+description = "Sword left behind by a guard who probably wasn't very good at using it anyway."
+type = 0
+metadata/_custom_type_script = "uid://dm55vrrn5ygm2"

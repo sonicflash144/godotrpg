@@ -1,0 +1,22 @@
+[gd_resource type="Theme" load_steps=3 format=3 uid="uid://dqba535y85yao"]
+
+[ext_resource type="FontFile" uid="uid://d2am80them5he" path="res://UI/PixeloidSans-mLxMm.ttf" id="1_x7hvw"]
+[ext_resource type="StyleBox" uid="uid://dp3llhkykreur" path="res://UI/styleBox.tres" id="2_kg6hh"]
+
+[resource]
+default_font = ExtResource("1_x7hvw")
+default_font_size = 9
+Button/colors/font_color = Color(1, 1, 1, 1)
+Button/colors/font_focus_color = Color(1, 1, 0, 1)
+Button/colors/font_hover_color = Color(1, 1, 1, 1)
+Button/colors/font_pressed_color = Color(1, 1, 1, 1)
+Button/fonts/font = ExtResource("1_x7hvw")
+Button/styles/focus = ExtResource("2_kg6hh")
+Button/styles/hover = ExtResource("2_kg6hh")
+Button/styles/normal = ExtResource("2_kg6hh")
+Button/styles/pressed = ExtResource("2_kg6hh")
+MarginContainer/constants/margin_bottom = 4
+MarginContainer/constants/margin_left = 8
+MarginContainer/constants/margin_right = 8
+MarginContainer/constants/margin_top = 4
+PanelContainer/styles/panel = ExtResource("2_kg6hh")

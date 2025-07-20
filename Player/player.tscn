@@ -1,16 +1,20 @@
-[gd_scene load_steps=69 format=3 uid="uid://bursypx5unela"]
+[gd_scene load_steps=73 format=3 uid="uid://bursypx5unela"]
 
 [ext_resource type="Script" uid="uid://ci5s3yt3heq27" path="res://Player/player.gd" id="1_4ntmi"]
 [ext_resource type="Shader" uid="uid://d3peyev02dgjd" path="res://Combat/ShaderTransparent.gdshader" id="2_00tjw"]
 [ext_resource type="Texture2D" uid="uid://drf1q1if3kac2" path="res://Player/Player Walk Cycle.png" id="2_btcbx"]
+[ext_resource type="Resource" uid="uid://deuyoh52j41wi" path="res://Stats/player_stats.tres" id="2_gu6f8"]
 [ext_resource type="Texture2D" uid="uid://cbabahk3roppc" path="res://Player/Player Sword Up Down.png" id="3_gwnis"]
+[ext_resource type="Script" uid="uid://dm55vrrn5ygm2" path="res://Equipment/equipment.gd" id="3_pisgm"]
 [ext_resource type="Texture2D" uid="uid://csbxmblwd8h6e" path="res://Player/Player Sword Side.png" id="4_k53q1"]
+[ext_resource type="Resource" uid="uid://7p1vq4jigj5f" path="res://Equipment/shock_sword.tres" id="4_pisgm"]
 [ext_resource type="PackedScene" uid="uid://lfrhnehwb41h" path="res://Combat/hitbox.tscn" id="5_k53q1"]
 [ext_resource type="AudioStream" uid="uid://ddck6g4gtn1ig" path="res://Music and Sounds/Sword.mp3" id="5_od3ui"]
 [ext_resource type="Texture2D" uid="uid://bgv8qmfqoy2r1" path="res://Player/Player Sword Diagonal.png" id="7_apopc"]
 [ext_resource type="PackedScene" uid="uid://6c21m1l8r268" path="res://Combat/hurtbox.tscn" id="7_vtle1"]
 [ext_resource type="PackedScene" uid="uid://hakdr4fdj1fo" path="res://Combat/health_component.tscn" id="9_00tjw"]
 [ext_resource type="PackedScene" uid="uid://wexrq1aj01bm" path="res://Music and Sounds/player_hurt_sound.tscn" id="9_x3vf3"]
+[ext_resource type="Script" uid="uid://cb6pd1v4iqhw0" path="res://Player/hitbox_pivot.gd" id="11_dkpta"]
 [ext_resource type="PackedScene" uid="uid://c5oie56bljaao" path="res://Components/movement_component.tscn" id="12_p5o4e"]
 [ext_resource type="PackedScene" uid="uid://bf33ttr2v7mwh" path="res://Components/follow_component.tscn" id="13_gu6f8"]
 
@@ -1679,10 +1683,11 @@ _data = {
 [node name="Player" type="CharacterBody2D" groups=["Player"]]
 collision_layer = 2
 script = ExtResource("1_4ntmi")
+stats = ExtResource("2_gu6f8")
+equipment = Array[ExtResource("3_pisgm")]([ExtResource("4_pisgm")])
 metadata/_edit_group_ = true
 
 [node name="Health_Component" parent="." instance=ExtResource("9_00tjw")]
-MAX_HEALTH = 6
 
 [node name="Sprite2D_RunIdle" type="Sprite2D" parent="."]
 material = SubResource("ShaderMaterial_x3vf3")
@@ -1735,6 +1740,8 @@ shape = SubResource("RectangleShape2D_od3ui")
 visible = false
 position = Vector2(5, -4)
 rotation = 2.35619
+script = ExtResource("11_dkpta")
+stats = ExtResource("2_gu6f8")
 
 [node name="SwordHitbox" parent="HitboxPivot" instance=ExtResource("5_k53q1")]
 position = Vector2(16, 0)

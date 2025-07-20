@@ -1,7 +1,10 @@
-[gd_scene load_steps=69 format=3 uid="uid://bixth4v8wdly8"]
+[gd_scene load_steps=72 format=3 uid="uid://bixth4v8wdly8"]
 
 [ext_resource type="Script" uid="uid://diaqv1m08dd22" path="res://NPCs/princess.gd" id="1_443jn"]
 [ext_resource type="PackedScene" uid="uid://hakdr4fdj1fo" path="res://Combat/health_component.tscn" id="2_kl78w"]
+[ext_resource type="Resource" uid="uid://xiun3sk2drvh" path="res://Stats/princess_stats.tres" id="2_rul3p"]
+[ext_resource type="Script" uid="uid://dm55vrrn5ygm2" path="res://Equipment/equipment.gd" id="3_n6mvg"]
+[ext_resource type="Resource" uid="uid://dkweot25wi61p" path="res://Equipment/toy_bow.tres" id="4_n6mvg"]
 [ext_resource type="Shader" uid="uid://d3peyev02dgjd" path="res://Combat/ShaderTransparent.gdshader" id="4_tksp3"]
 [ext_resource type="Texture2D" uid="uid://cwst7q3dherec" path="res://NPCs/Princess Bow Up Down.png" id="5_443jn"]
 [ext_resource type="Texture2D" uid="uid://cg62kjls2verx" path="res://NPCs/princess walk cycle.png" id="5_cqbqj"]
@@ -1253,10 +1256,11 @@ _data = {
 [node name="Princess" type="CharacterBody2D" groups=["Princess"]]
 collision_layer = 2
 script = ExtResource("1_443jn")
+stats = ExtResource("2_rul3p")
+equipment = Array[ExtResource("3_n6mvg")]([ExtResource("4_n6mvg")])
 metadata/_edit_group_ = true
 
 [node name="Health_Component" parent="." instance=ExtResource("2_kl78w")]
-MAX_HEALTH = 6
 
 [node name="Sprite2D_RunIdle" type="Sprite2D" parent="."]
 material = SubResource("ShaderMaterial_ic0uy")

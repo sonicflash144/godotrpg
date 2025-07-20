@@ -38,4 +38,4 @@ func fade_out(from, to, duration: float):
 	
 	get_tree().set_current_scene(new_scene)
 	rootControl.queue_free()
-	Events.controlsEnabled = true
+	Events.enable_controls()

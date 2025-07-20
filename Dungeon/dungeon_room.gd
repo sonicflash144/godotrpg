@@ -63,7 +63,7 @@ func debug_killall():
 		
 	for enemy in enemies.duplicate():
 		var health_component = enemy.get_node_or_null("Health_Component")
-		health_component.damage(INF)
+		health_component.damage(INF, "debug_killall")
 		
 func _on_enemy_died(enemy: CharacterBody2D):
 	enemies.erase(enemy)

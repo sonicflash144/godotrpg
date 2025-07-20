@@ -8,6 +8,8 @@ extends CharacterBody2D
 @onready var wanderController = $WanderController
 @onready var swordSlowController = $SwordSlowController
 
+@export var stats: Stats
+
 enum {
 	INACTIVE,
 	IDLE,

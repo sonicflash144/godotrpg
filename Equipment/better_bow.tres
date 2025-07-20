@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="Equipment" load_steps=2 format=3 uid="uid://cmeciect273fl"]
+
+[ext_resource type="Script" uid="uid://dm55vrrn5ygm2" path="res://Equipment/equipment.gd" id="1_lgsy3"]
+
+[resource]
+script = ExtResource("1_lgsy3")
+attack = 2
+defense = 0
+ability = ""
+name = "Better Bow"
+description = "A better bow for boisterous battlers."
+type = 1
+metadata/_custom_type_script = "uid://dm55vrrn5ygm2"

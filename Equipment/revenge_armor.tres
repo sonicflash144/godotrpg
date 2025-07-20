@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="Equipment" load_steps=2 format=3 uid="uid://dnaumst244w6n"]
+
+[ext_resource type="Script" uid="uid://dm55vrrn5ygm2" path="res://Equipment/equipment.gd" id="1_rs68p"]
+
+[resource]
+script = ExtResource("1_rs68p")
+attack = 0
+defense = 2
+ability = "Revenge"
+name = "Revenge Armor"
+description = "When a party member is down, the other will do increased damage."
+type = 2
+metadata/_custom_type_script = "uid://dm55vrrn5ygm2"

@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="Equipment" load_steps=2 format=3 uid="uid://d1kcgdlete1a6"]
+
+[ext_resource type="Script" uid="uid://dm55vrrn5ygm2" path="res://Equipment/equipment.gd" id="1_6mxlo"]
+
+[resource]
+script = ExtResource("1_6mxlo")
+attack = 0
+defense = 0
+ability = ""
+name = "------------"
+description = ""
+type = 2
+metadata/_custom_type_script = "uid://dm55vrrn5ygm2"

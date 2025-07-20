@@ -20,10 +20,17 @@ extends Node
 const SWAP_COOLDOWN_DURATION := 4.0
 var combat_locked := false
 var can_swap_control := true
+var MenuScene = load("res://UI/equipment_menu.tscn")
+var BackSound = load("res://Music and Sounds/back_sound.tscn")
 
 func _ready() -> void:
 	Events.room_combat_locked.connect(_on_room_combat_locked)
 	Events.room_un_combat_locked.connect(_on_room_un_combat_locked)
+
+func open_menu():
+	Events.menuOpen = true
+	var menuScene = MenuScene.instantiate()
+	get_tree().current_scene.add_child(menuScene)
 
 func swap_controlled_player():
 	Events.is_player_controlled = not Events.is_player_controlled
@@ -110,3 +117,14 @@ func _unhandled_key_input(event: InputEvent) -> void:
 		swap_controlled_player()
 		can_swap_control = false
 		swapCooldownTimer.start(SWAP_COOLDOWN_DURATION)
+	elif not combat_locked and event.is_action_pressed("open_menu"):
+		if not Events.menuOpen:
+			open_menu()
+		else:
+			var menuScene = get_parent().get_node_or_null("EquipmentMenu")
+			if menuScene:
+				Events.menuOpen = false
+				var backSound = BackSound.instantiate()
+				get_tree().current_scene.add_child(backSound)
+				menuScene.queue_free()
+				Events.enable_controls()

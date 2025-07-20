@@ -1,8 +1,9 @@
-[gd_scene load_steps=7 format=3 uid="uid://besijk58oig40"]
+[gd_scene load_steps=8 format=3 uid="uid://besijk58oig40"]
 
 [ext_resource type="Script" uid="uid://cgctpj0latscu" path="res://NPCs/arrow.gd" id="1_laksj"]
 [ext_resource type="Texture2D" uid="uid://ucaprv1u2mtm" path="res://NPCs/arrow.png" id="1_t5veo"]
 [ext_resource type="PackedScene" uid="uid://lfrhnehwb41h" path="res://Combat/hitbox.tscn" id="2_2vbe0"]
+[ext_resource type="Resource" uid="uid://xiun3sk2drvh" path="res://Stats/princess_stats.tres" id="2_6pn3s"]
 [ext_resource type="AudioStream" uid="uid://cr2xto1is78bs" path="res://Music and Sounds/arrow.mp3" id="4_xlt4l"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_xlt4l"]
@@ -15,6 +16,7 @@ size = Vector2(16, 6)
 collision_layer = 0
 collision_mask = 9
 script = ExtResource("1_laksj")
+stats = ExtResource("2_6pn3s")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 visible = false

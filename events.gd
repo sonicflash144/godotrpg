@@ -15,7 +15,12 @@ signal room_un_combat_locked(room)
 @warning_ignore("unused_signal")
 signal dialogue_movement(key: String)
 
+func enable_controls():
+	await get_tree().create_timer(0.1).timeout
+	controlsEnabled = true
+
 # Dialogue
+var menuOpen := false
 var controlsEnabled := true
 var player_has_sword := true
 var player_transition := ""
@@ -32,10 +37,24 @@ var princessDown := false
 var playerDead := false
 
 # Equipment
-var piercing := false
-var multishot := false
-var sword_slow := false
-var sword_shockwave := true
+var equipment_abilities: Dictionary[String, bool] = {
+	"Piercing": false,
+	"Multishot": false,
+	"Ice": false,
+	"Shockwave": false,
+	"Revenge": false,
+	"Luck": false,
+	"Speed": false
+}
+
+func update_equipment_abilities(player_equipment: Array, princess_equipment := []):
+	for ability in equipment_abilities:
+		equipment_abilities[ability] = false
+	
+	var all_equipment = player_equipment + princess_equipment
+	for item in all_equipment:
+		if item.ability:
+			equipment_abilities[item.ability] = true
 
 # World
 var prisonDoorOpened := false

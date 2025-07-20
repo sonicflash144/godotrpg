@@ -47,7 +47,7 @@ func follow():
 	var distance_to_target = character.global_position.distance_to(target.global_position)
 
 	if direction_to_target.length() > 1.0 and (target_is_moving or distance_to_target > FOLLOW_DISTANCE):
-		movement_component.move(direction_to_target.normalized(), follow_speed)
+		movement_component.move(direction_to_target.normalized(), follow_speed, "", true)
 	else:
 		movement_component.move(Vector2.ZERO)
 

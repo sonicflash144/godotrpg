@@ -12,6 +12,7 @@ signal trigger_knockback(knockback_vector: Vector2)
 @export var blinkAnimationPlayer: AnimationPlayer
 @export var HurtSound: PackedScene
 
+const SWORD_SLOW_RATE := 0.2
 var is_invincible := false
 var collider_disabled := false
 
@@ -46,10 +47,14 @@ func _on_area_entered(area: Area2D) -> void:
 	if health:
 		health.damage(area.damage, area.name)
 	
-	if Events.sword_slow and area.name == "SwordHitbox" and get_parent().is_in_group("Enemy"):
+	if Events.equipment_abilities["Ice"] and area.name == "SwordHitbox" and get_parent().is_in_group("Enemy") and randf() < SWORD_SLOW_RATE:
 		get_parent().slow_enemy()
 	
 	start_invincibility()
 	var hurtSound = HurtSound.instantiate()
 	get_tree().current_scene.add_child(hurtSound)
-	trigger_knockback.emit(area.knockback_vector)
+	if area.name == "ShockwaveHitbox":
+		var direction = (global_position - area.global_position).normalized()
+		trigger_knockback.emit(direction)
+	else:
+		trigger_knockback.emit(area.knockback_vector)
