@@ -118,7 +118,7 @@ func _unhandled_key_input(event: InputEvent) -> void:
 		can_swap_control = false
 		swapCooldownTimer.start(SWAP_COOLDOWN_DURATION)
 	elif not combat_locked and event.is_action_pressed("open_menu"):
-		if not Events.menuOpen:
+		if not Events.menuOpen and Events.controlsEnabled:
 			open_menu()
 		else:
 			var menuScene = get_parent().get_node_or_null("EquipmentMenu")

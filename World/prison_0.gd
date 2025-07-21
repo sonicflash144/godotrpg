@@ -22,8 +22,7 @@ func _ready() -> void:
 	
 	if Events.player_transition == "up":
 		player.global_position = transitionArea.global_position
-		var animationTree = player.get_node_or_null("AnimationTree")
-		animationTree.set("parameters/Idle/blend_position", Vector2.UP)
+		player.movement_component.update_animation_direction(Vector2.UP)
 		
 	guardOriginalPosition = guard.global_position
 

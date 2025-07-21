@@ -46,6 +46,7 @@ func update_stats():
 	for item in equipment:
 		stats.attack += item.attack
 		stats.defense += item.defense
+	Events.update_equipment_abilities(player.equipment, equipment)
 
 func move_state():
 	var move_direction = movement_component.get_player_input_vector().normalized()
@@ -63,6 +64,10 @@ func attack_state():
 
 func set_nav_state():
 	state = NAV
+	
+func set_follow_state():
+	state = FOLLOW
+	navigation_component.update_physics_process()
 
 func charge_animation_finished():
 	attackCharged = true

@@ -53,6 +53,7 @@ else:
 Princess: Let's get going. [#portrait=neutral]
 Princess: The life of a brave warrior waits for no one! [#portrait=happy_teeth]
 do Events.dialogue_movement.emit("enter_ghost_room")
+set Events.num_party_members = 2
 do wait(0.5)
 set Events.princess_dialogue_value = "enter_ghost_room"
 => END
@@ -64,6 +65,7 @@ Princess: DUDE! You can stop hitting me now. We're on the same team. [#portrait=
 ~ ghost_room
 Princess: AHHH! OH MY GOODNESS ARE THOSE MONSTERS??? [#portrait=shocked]
 do Events.dialogue_movement.emit("exit_ghost_room")
+set Events.num_party_members = 1
 do wait(1.5)
 do combat_lock_signal()
 do wait(0.5)
@@ -109,6 +111,8 @@ do wait(0.5)
 ~ door_opened
 Princess: Woah, nice job! [#portrait=surprise_happy]
 Princess: We make a pretty good team, huh? [#portrait=happy_teeth]
+Princess: Come on, let's get going! [#portrait=happy_closed_mouth]
+do set_princess_follow_state() 
 => END
 
 ~ door_description

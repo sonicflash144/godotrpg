@@ -11,7 +11,9 @@ func _ready() -> void:
 	play("Animate")
 
 func heart_drop():
-	if playerHealthComponent.is_max_health() and princessHealthComponent.is_max_health():
+	if Events.num_party_members > 1 and playerHealthComponent.is_max_health() and princessHealthComponent.is_max_health():
+		return
+	elif Events.num_party_members == 1 and playerHealthComponent.is_max_health():
 		return
 		
 	var drop_rate = HEART_DROP_RATE

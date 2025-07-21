@@ -5,7 +5,7 @@ extends CanvasLayer
 var next_action: StringName = &"ui_accept"
 
 ## The action to use to skip typing the dialogue
-var skip_action: StringName = &"ui_cancel"
+var skip_action: StringName = &"ui_skip"
 
 ## The action to use for auto-advancing and skipping dialogue
 var autoadvance_action: StringName = &"ui_autoadvance"
@@ -145,7 +145,7 @@ func apply_dialogue_line() -> void:
 	if ResourceLoader.exists(talk_sound_path):
 		talkSound.stream = load(talk_sound_path)
 	else:
-		talkSound.stream = null
+		talkSound.stream = load("res://Music and Sounds/default_talksound.wav")
 
 	dialogue_label.show()
 	if not dialogue_line.text.is_empty():

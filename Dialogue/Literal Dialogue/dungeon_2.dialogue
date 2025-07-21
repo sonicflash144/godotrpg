@@ -1,3 +1,65 @@
+~ go_back_refusal
+Princess: Um, I'm not going right back through the door we just heroically opened. [#portrait=neutral]
+Princess: Don't you want to see what else is around? [#portrait=happy_closed_mouth]
+=> END
+
+~ shopkeeper
+Shopkeeper: Welcome to my humble shop, prisoners.
+Princess: Wow, a shop? I knew this place would be cool. [#portrait=surprise]
+Princess: What's for sale here? [#portrait=happy] => shopkeeper_offerings
+
+~ shopkeeper_steal
+Shopkeeper: HEY! You keep your hands off those chests.
+Shopkeeper: You think you're the first prisoner to waltz into my shop and try to steal my goods?
+Shopkeeper: If you want something, you'll have to pay for it, fair and square.
+Princess: Sorry! That wasn't our intention in the slightest. [#portrait=sad_closed_mouth]
+Princess: What items do you have for sale? [#portrait=surprise] => shopkeeper_offerings
+
+~ shopkeeper_offerings
+do remove_shopkeeper_dialogue_barrier()
+set Events.dungeon_2_dialogue_value = "shopkeeper_talk_loop"
+Shopkeeper: I'm glad you asked! I have two fantastic items. 
+Shopkeeper: First, a sword made of solid iron with a razor sharp edge.
+Shopkeeper: And second, a protective chestplate crafted the kingdom's finest blacksmith.
+Shopkeeper: You'll be pleased to hear that these items cost a very reasonable...
+Shopkeeper: ...ONE HUNDRED gold each.
+Shopkeeper: Oh, what's that? You're a lowly prisoner who has no money on them?
+Shopkeeper: Oh, no! What a tragedy, truly. You have my utmost sympathies—
+Princess: Oh, don't worry, sir, I can pay. Here you go! [#portrait=happy]
+Shopkeeper: Haha, you're funny...
+Shopkeeper: Wait, what? How can you possibly have...
+Shopkeeper: I mean, excellent! Thank you for your payment. The items are all yours!
+=> END
+
+~ shopkeeper_talk_loop
+Shopkeeper: The items are all yours. Best of luck out there. You'll need it, heh.
+=> END
+
 ~ chest_description
-You found NOTHING. Haha get tricked!
+You got the [color=yellow]Iron Sword[/color]. Use \[C\] to equip it in the equipment menu.
+=> END
+
+~ chest2_description
+You got the [color=yellow]Overpriced Armor[/color]. Use \[C\] to equip it in the equipment menu.
+=> END
+
+~ enter_puzzle_room
+Princess: Uh oh, this looks complicated. [#portrait=sad_closed_mouth]
+Princess: Um, you can figure it out, right? [#portrait=happy]
+do Events.dialogue_movement.emit("enter_puzzle_room")
+set Events.dungeon_2_dialogue_value = "enter_puzzle_room_loop"
+=> END
+
+~ enter_puzzle_room_loop
+Princess: Um, you can figure it out, right? [#portrait=happy]
+=> END
+
+~ side_door_description
+The door is locked. Seems like pushing those blocks onto the right spots might change that.
+Use \[Z\] while standing next to a box to push it.
+=> END
+
+~ puzzle_complete
+Princess: That was amazing! I knew you had both brains and brawn the moment I met you. [#portrait=surprise_happy]
+set Events.dungeon_2_dialogue_value = "puzzle_solved"
 => END

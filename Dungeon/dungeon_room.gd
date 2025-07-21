@@ -60,7 +60,7 @@ func un_combat_lock_room():
 func debug_killall():
 	if not OS.is_debug_build() or not combat_locked:
 		return
-		
+	
 	for enemy in enemies.duplicate():
 		var health_component = enemy.get_node_or_null("Health_Component")
 		health_component.damage(INF, "debug_killall")
@@ -75,12 +75,20 @@ func _on_player_detector_body_entered(body: Node2D) -> void:
 		Events.room_entered.emit(self)
 
 func _on_room_detector_body_entered(body: Node2D) -> void:
-	if body.is_in_group("Player") or body.is_in_group("Princess"):
-		players_in_room[body.get_instance_id()] = true
+	if not (body.is_in_group("Player") or body.is_in_group("Princess")):
+		return
+	if Events.num_party_members == 1 and body.is_in_group("Princess"):
+		return
+		
+	players_in_room[body.get_instance_id()] = true
+	if players_in_room.size() >= Events.num_party_members:
+		Events.room_locked.emit(self)
 
-		if players_in_room.size() >= Events.num_party_members:
-			Events.room_locked.emit(self)
 
 func _on_room_detector_body_exited(body: Node2D) -> void:
-	if body.is_in_group("Player") or body.is_in_group("Princess"):
-		players_in_room.erase(body.get_instance_id())
+	if not (body.is_in_group("Player") or body.is_in_group("Princess")):
+		return
+	if Events.num_party_members == 1 and body.is_in_group("Princess"):
+		return
+		
+	players_in_room.erase(body.get_instance_id())

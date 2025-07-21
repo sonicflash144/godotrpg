@@ -3,7 +3,7 @@ extends Node2D
 @onready var dialogueRoomManager = $DialogueRoomManager
 @onready var player: CharacterBody2D = $Player
 @onready var princess: CharacterBody2D = $Princess
-@onready var DungeonRoom1: DungeonRoom = $DungeonRoom1
+@onready var DungeonRoom0: DungeonRoom = $DungeonRoom0
 @onready var DungeonRoom2: DungeonRoom = $DungeonRoom2
 @onready var DungeonRoom3: DungeonRoom = $DungeonRoom3
 
@@ -23,17 +23,9 @@ func _ready() -> void:
 	Events.player_died.connect(_on_player_died)
 	
 	princess.set_nav_state()
-	
-	await load_first_room()
-	combat_lock_signal()
 
 func _physics_process(_delta: float) -> void:
 	last_valid_position = player.global_position
-
-func load_first_room():
-	while currentRoom == null:
-		await get_tree().process_frame
-	await get_tree().create_timer(0.5).timeout
 
 func combat_lock_signal():
 	currentRoom.combat_lock_room()
@@ -50,11 +42,12 @@ func dialogue_barrier(_key: String):
 func open_door():
 	dialogueRoomManager.dialogue("door_opened")
 	
+func set_princess_follow_state():
+	princess.set_follow_state()
+	
 func _on_room_entered(room):
 	currentRoom = room
-	if room == DungeonRoom1:
-		Events.num_party_members = 2
-	elif room == DungeonRoom3:
+	if room == DungeonRoom3:
 		var value = Events.princess_dialogue_value
 		if value == "door":
 			return
@@ -65,6 +58,8 @@ func _on_room_entered(room):
 
 func _on_room_locked(room):
 	var value = Events.princess_dialogue_value
+	if room == DungeonRoom0:
+		combat_lock_signal()
 	if room == DungeonRoom2 and value == "enter_ghost_room":
 		dialogueRoomManager.dialogue("ghost_room")
 	if room == DungeonRoom3 and value == "door":

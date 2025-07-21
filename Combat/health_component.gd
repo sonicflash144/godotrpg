@@ -39,6 +39,10 @@ func heal(heal_value := 1):
 		healthUI.update_health(health, MAX_HEALTH)
 	
 func damage(base_damage: int, area_name: String):
+	if area_name == "debug_killall":
+		death(area_name)
+		return
+	
 	var adjusted_damage = base_damage
 	if get_parent().is_in_group("Enemy") and Events.equipment_abilities["Revenge"] and (Events.playerDown or Events.princessDown):
 		adjusted_damage *= REVENGE_DAMANGE_MULTIPLIER

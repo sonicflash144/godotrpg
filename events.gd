@@ -27,6 +27,7 @@ var player_transition := ""
 
 var prison_dialogue_value := ""
 var princess_dialogue_value := ""
+var dungeon_2_dialogue_value := ""
 
 # Combat
 var num_party_members := 2

@@ -8,6 +8,7 @@ extends CharacterBody2D
 
 @export var stats: Stats
 @export var equipment: Array[Equipment]
+@export var storage: Array[Equipment]
 
 enum {
 	MOVE,
@@ -35,6 +36,7 @@ func _physics_process(_delta: float) -> void:
 			attack_state()
 		FOLLOW:
 			follow_component.follow()
+			
 func update_stats():
 	stats.attack = 0
 	stats.defense = 0
