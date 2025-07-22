@@ -4,12 +4,10 @@ class_name Box_Puzzle
 
 signal puzzle_complete
 
-@onready var player: CharacterBody2D = $"../Player"
-@onready var animation_tree: AnimationTree = $"../Player/AnimationTree"
-@onready var push_cast: RayCast2D = $"../Player/PushCast"
+@onready var player: CharacterBody2D = $"../../Player"
+@onready var animation_tree: AnimationTree = $"../../Player/AnimationTree"
+@onready var push_cast: RayCast2D = $"../../Player/PushCast"
 @onready var boxSlideSound: AudioStreamPlayer = $BoxSlide
-
-@export var puzzle_room: DungeonRoom
 
 var is_puzzle_complete: bool = false
 var grid_types: Dictionary = {}
@@ -53,7 +51,7 @@ func _unhandled_key_input(event: InputEvent) -> void:
 	if is_puzzle_complete:
 		return
 	
-	if event.is_action_pressed("debug_killall") and OS.is_debug_build() and get_parent().currentRoom == puzzle_room:
+	if event.is_action_pressed("debug_killall") and OS.is_debug_build() and get_parent().get_parent().currentRoom == get_parent():
 		is_puzzle_complete = true
 		puzzle_complete.emit()
 	elif event.is_action_pressed("ui_accept") and Events.controlsEnabled:

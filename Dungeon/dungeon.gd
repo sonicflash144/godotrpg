@@ -27,6 +27,10 @@ func _ready() -> void:
 func _physics_process(_delta: float) -> void:
 	last_valid_position = player.global_position
 
+func _unhandled_key_input(event: InputEvent) -> void:
+	if event.is_action_pressed("debug_killall"):
+		currentRoom.debug_killall()
+
 func combat_lock_signal():
 	currentRoom.combat_lock_room()
 
@@ -44,6 +48,7 @@ func open_door():
 	
 func set_princess_follow_state():
 	princess.set_follow_state()
+	Events.num_party_members = 2
 	
 func _on_room_entered(room):
 	currentRoom = room
@@ -69,10 +74,3 @@ func _on_player_died():
 	Events.princess_dialogue_value = ""
 	await get_tree().create_timer(1).timeout
 	get_tree().reload_current_scene()
-
-func _unhandled_key_input(event: InputEvent) -> void:
-	if event.is_action_pressed("debug_killall"):
-		currentRoom.debug_killall()
-		
-func _on_dialogue_zone_zone_triggered() -> void:
-	dialogueRoomManager.dialogue("door_description")

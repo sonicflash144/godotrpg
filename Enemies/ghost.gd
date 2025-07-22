@@ -73,6 +73,9 @@ func update_wander_timer():
 	state = state_list.pop_front()
 	wanderController.start_wander_timer(randf_range(1.0, 3.0))
 
+func handle_death():
+	queue_free()
+
 func slow_enemy():
 	swordSlowController.slow_enemy()
 

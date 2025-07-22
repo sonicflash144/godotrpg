@@ -76,6 +76,7 @@ position = Vector2(0, 3)
 shape = SubResource("RectangleShape2D_hvmxn")
 
 [node name="ChestDialogueZone" parent="." instance=ExtResource("2_xetvy")]
+visible = false
 
 [node name="CollisionShape2D" parent="ChestDialogueZone" index="0"]
 shape = SubResource("CircleShape2D_ov2sa")
@@ -86,5 +87,7 @@ libraries = {
 }
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+
+[connection signal="zone_triggered" from="ChestDialogueZone" to="." method="_on_chest_dialogue_zone_zone_triggered"]
 
 [editable path="ChestDialogueZone"]

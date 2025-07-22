@@ -12,11 +12,6 @@ func _ready() -> void:
 	flickerTimer.start(3.5)
 
 func _on_body_entered(body: Node2D) -> void:
-	if Events.is_player_controlled and body.is_in_group("Princess"):
-		return
-	if not Events.is_player_controlled and body.is_in_group("Player"):
-		return
-	
 	var playerMax: bool = playerHealthComponent.is_max_health()
 	var princessMax: bool = princessHealthComponent.is_max_health()
 	

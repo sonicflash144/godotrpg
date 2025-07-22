@@ -2,15 +2,12 @@ extends Node
 
 class_name Health_Component
 
-signal player_down(down: bool)
-signal princess_down(down: bool)
 signal enemy_died(enemy: CharacterBody2D)
-
-@export var DeathEffect: PackedScene
-@export var healthUI: Health_UI
 
 var MAX_HEALTH: int
 var health: int
+var healthUI: Health_UI
+var DeathEffect: PackedScene
 
 const SWORD_SHOCKWAVE_RATE := 0.25
 var SwordShockwaveScene = load("res://Enemies/sword_shockwave_controller.tscn")
@@ -19,6 +16,12 @@ const REVENGE_DAMANGE_MULTIPLIER := 2
 func _ready() -> void:
 	MAX_HEALTH = get_parent().stats.health
 	health = MAX_HEALTH
+	if get_parent().is_in_group("Player"):
+		healthUI = get_node_or_null("../../HealthCanvasLayer/PlayerHealthUI")
+	elif get_parent().is_in_group("Princess"):
+		healthUI = get_node_or_null("../../HealthCanvasLayer/PrincessHealthUI")
+	elif get_parent().is_in_group("Enemy"):
+		DeathEffect = load("res://Effects/enemy_death_effect.tscn")
 	
 func is_max_health():
 	return health >= MAX_HEALTH
@@ -27,10 +30,10 @@ func heal(heal_value := 1):
 	if health <= 0:
 		get_parent().visible = true
 		if get_parent().is_in_group("Player"):
-			player_down.emit(false)
+			Events.player_down.emit(false)
 			Events.playerDown = false
 		elif get_parent().is_in_group("Princess"):
-			princess_down.emit(false)
+			Events.princess_down.emit(false)
 			Events.princessDown = false
 	health += heal_value
 	health = clamp(health, 0, MAX_HEALTH)
@@ -58,7 +61,7 @@ func damage(base_damage: int, area_name: String):
 
 func death(area_name: String):
 	if DeathEffect:
-		get_parent().queue_free()
+		get_parent().handle_death()
 		var deathEffect = DeathEffect.instantiate()
 		get_tree().current_scene.add_child(deathEffect)
 		deathEffect.global_position = get_parent().global_position
@@ -70,14 +73,14 @@ func death(area_name: String):
 			Events.player_died.emit()
 			Events.playerDead = true
 			return
-		player_down.emit(true)
+		Events.player_down.emit(true)
 		Events.playerDown = true
 	elif get_parent().is_in_group("Princess"):
 		if Events.playerDown and not Events.playerDead:
 			Events.player_died.emit()
 			Events.playerDead = true
 			return
-		princess_down.emit(true)
+		Events.princess_down.emit(true)
 		Events.princessDown = true
 	elif get_parent().is_in_group("Enemy"):
 		enemy_died.emit(get_parent())

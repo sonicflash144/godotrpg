@@ -6,14 +6,14 @@ extends Node
 @onready var player: CharacterBody2D = $"../Player"
 @onready var playerCollider = $"../Player/CollisionShape2D"
 @onready var playerHurtbox: Hurtbox = $"../Player/Hurtbox"
-@onready var playerHealthUI: Health_UI = $"../CanvasLayer/PlayerHealthUI"
+@onready var playerHealthUI: Health_UI = $"../HealthCanvasLayer/PlayerHealthUI"
 @onready var playerBlinkAnimation = $"../Player/BlinkAnimationPlayer"
 @onready var playerHealthComponent: Health_Component = $"../Player/Health_Component"
 
 @onready var princess: CharacterBody2D = $"../Princess"
 @onready var princessCollider = $"../Princess/CollisionShape2D"
 @onready var princessHurtbox: Hurtbox = $"../Princess/Hurtbox"
-@onready var princessHealthUI: Health_UI = $"../CanvasLayer/PrincessHealthUI"
+@onready var princessHealthUI: Health_UI = $"../HealthCanvasLayer/PrincessHealthUI"
 @onready var princessBlinkAnimation = $"../Princess/BlinkAnimationPlayer"
 @onready var princessHealthComponent: Health_Component = $"../Princess/Health_Component"
 
@@ -26,6 +26,26 @@ var BackSound = load("res://Music and Sounds/back_sound.tscn")
 func _ready() -> void:
 	Events.room_combat_locked.connect(_on_room_combat_locked)
 	Events.room_un_combat_locked.connect(_on_room_un_combat_locked)
+	Events.player_down.connect(_on_player_down)
+	Events.princess_down.connect(_on_princess_down)
+
+func _unhandled_key_input(event: InputEvent) -> void:
+	if combat_locked and event.is_action_pressed("swap_player") and can_swap_control \
+	and not Events.playerDown and not Events.princessDown:
+		swap_controlled_player()
+		can_swap_control = false
+		swapCooldownTimer.start(SWAP_COOLDOWN_DURATION)
+	elif not combat_locked and event.is_action_pressed("open_menu"):
+		if not Events.menuOpen and Events.controlsEnabled:
+			open_menu()
+		else:
+			var menuScene = get_parent().get_node_or_null("EquipmentMenu")
+			if menuScene:
+				Events.menuOpen = false
+				var backSound = BackSound.instantiate()
+				get_tree().current_scene.add_child(backSound)
+				menuScene.queue_free()
+				Events.enable_controls()
 
 func open_menu():
 	Events.menuOpen = true
@@ -43,7 +63,8 @@ func update_controlled_player(justEntered := false):
 	if Events.is_player_controlled:
 		playerCollider.set_deferred("disabled", false)
 		princessCollider.set_deferred("disabled", true)
-		playerHurtbox.enable_collider()
+		if not justEntered:
+			playerHurtbox.enable_collider()
 		princessHurtbox.disable_collider()
 		playerHealthUI.enable_texture()
 		if justEntered:
@@ -96,13 +117,13 @@ func _on_room_un_combat_locked():
 	player.z_index = 0
 	princess.z_index = 0
 
-func _on_health_component_player_down(down: bool) -> void:
+func _on_player_down(down: bool) -> void:
 	if down:
 		swap_controlled_player()
 	else:
 		update_controlled_player()
 
-func _on_health_component_princess_down(down: bool) -> void:
+func _on_princess_down(down: bool) -> void:
 	if down:
 		swap_controlled_player()
 	else:
@@ -110,21 +131,3 @@ func _on_health_component_princess_down(down: bool) -> void:
 
 func _on_swap_cooldown_timer_timeout() -> void:
 	can_swap_control = true
-
-func _unhandled_key_input(event: InputEvent) -> void:
-	if combat_locked and event.is_action_pressed("swap_player") and can_swap_control \
-	and not Events.playerDown and not Events.princessDown:
-		swap_controlled_player()
-		can_swap_control = false
-		swapCooldownTimer.start(SWAP_COOLDOWN_DURATION)
-	elif not combat_locked and event.is_action_pressed("open_menu"):
-		if not Events.menuOpen and Events.controlsEnabled:
-			open_menu()
-		else:
-			var menuScene = get_parent().get_node_or_null("EquipmentMenu")
-			if menuScene:
-				Events.menuOpen = false
-				var backSound = BackSound.instantiate()
-				get_tree().current_scene.add_child(backSound)
-				menuScene.queue_free()
-				Events.enable_controls()

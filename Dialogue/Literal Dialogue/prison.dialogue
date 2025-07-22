@@ -1,4 +1,4 @@
-~ wall_description
+~ wall
 if not Events.prison_dialogue_value:
 	It's a wall. Unfortunately doesn't look very breakable.
 	set Events.prison_dialogue_value = "checked_wall"
@@ -6,18 +6,18 @@ else:
 	...Still a wall.
 => END
 
-~ blood_description
+~ blood
 It's an ancient-looking bloodstain. Doesn't seem like the guards around here are very merciful.
 => END
 
-~ vent_description
+~ vent
 It's a rusty-looking vent. Doesn't seem to be circulating any air anymore.
 - Peer inside
 	You intently observed several dust particles and an unidentifiable grey liquid.
 - Do not
 => END
 
-~ cell_door_description
+~ cell_door
 It's a prison door made of solid steel.
 - Bang on it => start
 - Do not
@@ -39,12 +39,12 @@ do Events.dialogue_movement.emit("guard_leave")
 do wait(2)
 => END
 
-~ paper_description
+~ paper
 "GUIDLINES FOR PRISON GUARDS"
 "Be loud. Be intimidating. NEVER leave weapons unattended."
 => END
 
-~ sandwich_description
+~ sandwich
 It's a sandwich, slightly squished from being hastily dropped on the floor. Eat it?
 - Eat it
 	do eat_sandwich()
@@ -52,7 +52,7 @@ It's a sandwich, slightly squished from being hastily dropped on the floor. Eat 
 - Do not
 => END
 
-~ generic_door_description
+~ generic_door
 You can hear the muffled sounds of a commotion going on outside. 
 Listen through the crack in the door?
 - Listen
@@ -61,7 +61,7 @@ Listen through the crack in the door?
 - Do not
 => END
 
-~ sword_description
+~ sword
 It's a sword left behind by one of the guards. Take it?
 - Take it => guard_return
 - Not yet

@@ -63,18 +63,6 @@ func _on_dialogue_movement(key: String):
 		genericGuard.move_to_position_astar(marker.global_position + Vector2(-16, 16))
 		genericGuard2.move_to_position_astar(marker.global_position + Vector2(-32, 0))
 		genericGuard3.move_to_position_astar(marker.global_position + Vector2(-16, -16))
-			
-func _on_door_dialogue_zone_zone_triggered() -> void:
-	dialogueRoomManager.dialogue("generic_door_description")
-
-func _on_sword_dialogue_zone_zone_triggered() -> void:
-	dialogueRoomManager.dialogue("sword_description")
-	
-func _on_paper_dialogue_zone_zone_triggered() -> void:
-	dialogueRoomManager.dialogue("paper_description")
-	
-func _on_sandwich_dialogue_zone_zone_triggered() -> void:
-	dialogueRoomManager.dialogue("sandwich_description")
 
 func _on_transition_body_entered(body: Node2D) -> void:
 	if body.is_in_group("Player"):

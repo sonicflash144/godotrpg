@@ -1,0 +1,94 @@
+[gd_scene load_steps=14 format=3 uid="uid://cgh16m5w2fcyx"]
+
+[ext_resource type="Script" uid="uid://cgtkkjl5sp07d" path="res://Enemies/fire_flower_bullet.gd" id="1_3ulj8"]
+[ext_resource type="Resource" uid="uid://62itv2tcw0v8" path="res://Stats/fire_flower_stats.tres" id="2_j3s11"]
+[ext_resource type="Texture2D" uid="uid://cnifq6x2w6rrx" path="res://Enemies/fire flower.png" id="3_2wwk5"]
+[ext_resource type="PackedScene" uid="uid://lfrhnehwb41h" path="res://Combat/hitbox.tscn" id="4_10mnc"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_xlt4l"]
+size = Vector2(4, 4)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ingk0"]
+atlas = ExtResource("3_2wwk5")
+region = Rect2(32, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qd86k"]
+atlas = ExtResource("3_2wwk5")
+region = Rect2(0, 16, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_yl1yi"]
+atlas = ExtResource("3_2wwk5")
+region = Rect2(16, 16, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_87oef"]
+atlas = ExtResource("3_2wwk5")
+region = Rect2(32, 16, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_g1qd8"]
+atlas = ExtResource("3_2wwk5")
+region = Rect2(0, 32, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_roxy2"]
+atlas = ExtResource("3_2wwk5")
+region = Rect2(16, 32, 16, 16)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_hj20p"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ingk0")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_qd86k")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_yl1yi")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_87oef")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_g1qd8")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_roxy2")
+}],
+"loop": true,
+"name": &"default",
+"speed": 8.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_2wwk5"]
+size = Vector2(4, 4)
+
+[node name="FireFlowerBullet" type="Area2D"]
+z_index = 1
+collision_layer = 0
+collision_mask = 261
+script = ExtResource("1_3ulj8")
+stats = ExtResource("2_j3s11")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+visible = false
+shape = SubResource("RectangleShape2D_xlt4l")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_hj20p")
+autoplay = "default"
+frame = 3
+frame_progress = 0.524374
+
+[node name="FireFlowerHitbox" parent="." instance=ExtResource("4_10mnc")]
+visible = false
+position = Vector2(6, 0)
+collision_layer = 128
+collision_mask = 260
+
+[node name="CollisionShape2D" parent="FireFlowerHitbox" index="0"]
+position = Vector2(-6, 0)
+shape = SubResource("RectangleShape2D_2wwk5")
+
+[connection signal="area_entered" from="." to="." method="_on_area_entered"]
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
+
+[editable path="FireFlowerHitbox"]

@@ -5,7 +5,7 @@ extends Node2D
 @onready var transitionArea = $TransitionArea
 @onready var guard = $Guard
 @onready var marker: Marker2D = $Marker2D
-@onready var door = $Door
+@onready var door = $CellDoor
 @onready var animationPlayer = $AnimationPlayer
 @onready var alarmSound: AudioStreamPlayer = $Alarm
 
@@ -41,18 +41,6 @@ func _on_dialogue_movement(key: String):
 		guard.move_to_position_astar(marker.global_position)
 	elif key == "guard_leave":
 		guard.move_to_position_astar(guardOriginalPosition)
-
-func _on_wall_dialogue_zone_zone_triggered() -> void:
-	dialogueRoomManager.dialogue("wall_description")
-
-func _on_blood_dialogue_zone_zone_triggered() -> void:
-	dialogueRoomManager.dialogue("blood_description")
-	
-func _on_vent_dialogue_zone_zone_triggered() -> void:
-	dialogueRoomManager.dialogue("vent_description")
-
-func _on_door_dialogue_zone_zone_triggered() -> void:
-	dialogueRoomManager.dialogue("cell_door_description")
 
 func _on_transition_body_entered(body: Node2D) -> void:
 	if body.is_in_group("Player"):

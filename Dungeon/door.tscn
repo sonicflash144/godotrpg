@@ -76,7 +76,9 @@ vframes = 2
 position = Vector2(0, 4)
 shape = SubResource("RectangleShape2D_o2cd7")
 
-[node name="DialogueZone" parent="." instance=ExtResource("3_6hxbr")]
+[node name="DoorDialogueZone" parent="." instance=ExtResource("3_6hxbr")]
+visible = false
+default_key = "door_description"
 
 [node name="DoorTransition" type="Area2D" parent="."]
 collision_layer = 0

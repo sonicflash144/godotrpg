@@ -1,7 +1,7 @@
 extends StaticBody2D
 
-@onready var dungeon = $".."
-@onready var dialogueZone: DialogueZone = $DialogueZone
+@onready var dungeon = $"../.."
+@onready var dialogueZone: DialogueZone = $DoorDialogueZone
 @onready var animationPlayer = $AnimationPlayer
 @onready var collisionShape = $CollisionShape2D
 

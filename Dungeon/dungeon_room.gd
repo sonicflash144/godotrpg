@@ -75,8 +75,6 @@ func _on_player_detector_body_entered(body: Node2D) -> void:
 		Events.room_entered.emit(self)
 
 func _on_room_detector_body_entered(body: Node2D) -> void:
-	if not (body.is_in_group("Player") or body.is_in_group("Princess")):
-		return
 	if Events.num_party_members == 1 and body.is_in_group("Princess"):
 		return
 		
@@ -86,8 +84,6 @@ func _on_room_detector_body_entered(body: Node2D) -> void:
 
 
 func _on_room_detector_body_exited(body: Node2D) -> void:
-	if not (body.is_in_group("Player") or body.is_in_group("Princess")):
-		return
 	if Events.num_party_members == 1 and body.is_in_group("Princess"):
 		return
 		

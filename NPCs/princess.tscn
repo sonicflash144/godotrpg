@@ -1,16 +1,15 @@
-[gd_scene load_steps=72 format=3 uid="uid://bixth4v8wdly8"]
+[gd_scene load_steps=71 format=3 uid="uid://bixth4v8wdly8"]
 
 [ext_resource type="Script" uid="uid://diaqv1m08dd22" path="res://NPCs/princess.gd" id="1_443jn"]
-[ext_resource type="PackedScene" uid="uid://hakdr4fdj1fo" path="res://Combat/health_component.tscn" id="2_kl78w"]
 [ext_resource type="Resource" uid="uid://xiun3sk2drvh" path="res://Stats/princess_stats.tres" id="2_rul3p"]
 [ext_resource type="Script" uid="uid://dm55vrrn5ygm2" path="res://Equipment/equipment.gd" id="3_n6mvg"]
 [ext_resource type="Resource" uid="uid://dkweot25wi61p" path="res://Equipment/toy_bow.tres" id="4_n6mvg"]
 [ext_resource type="Shader" uid="uid://d3peyev02dgjd" path="res://Combat/ShaderTransparent.gdshader" id="4_tksp3"]
 [ext_resource type="Texture2D" uid="uid://cwst7q3dherec" path="res://NPCs/Princess Bow Up Down.png" id="5_443jn"]
 [ext_resource type="Texture2D" uid="uid://cg62kjls2verx" path="res://NPCs/princess walk cycle.png" id="5_cqbqj"]
+[ext_resource type="PackedScene" uid="uid://hakdr4fdj1fo" path="res://Combat/health_component.tscn" id="5_n6mvg"]
 [ext_resource type="PackedScene" uid="uid://6c21m1l8r268" path="res://Combat/hurtbox.tscn" id="6_iopym"]
 [ext_resource type="Texture2D" uid="uid://c6xvgv4wg50mt" path="res://NPCs/Princess Bow Side.png" id="6_kl78w"]
-[ext_resource type="PackedScene" uid="uid://wexrq1aj01bm" path="res://Music and Sounds/player_hurt_sound.tscn" id="7_o1huv"]
 [ext_resource type="Texture2D" uid="uid://c0uyuent5pq1o" path="res://NPCs/Princess Bow Diagonal.png" id="7_wjjwx"]
 [ext_resource type="PackedScene" uid="uid://damjysxl382ea" path="res://Dialogue/dialogue_zone.tscn" id="8_rul3p"]
 [ext_resource type="AudioStream" uid="uid://cg68t8670b5qo" path="res://Music and Sounds/bow string.mp3" id="11_tksp3"]
@@ -1260,7 +1259,13 @@ stats = ExtResource("2_rul3p")
 equipment = Array[ExtResource("3_n6mvg")]([ExtResource("4_n6mvg")])
 metadata/_edit_group_ = true
 
-[node name="Health_Component" parent="." instance=ExtResource("2_kl78w")]
+[node name="Health_Component" parent="." instance=ExtResource("5_n6mvg")]
+
+[node name="Movement_Component" parent="." instance=ExtResource("12_o1huv")]
+
+[node name="Follow_Component" parent="." instance=ExtResource("13_rul3p")]
+
+[node name="Navigation_Component" parent="." instance=ExtResource("14_wduec")]
 
 [node name="Sprite2D_RunIdle" type="Sprite2D" parent="."]
 material = SubResource("ShaderMaterial_ic0uy")
@@ -1296,20 +1301,17 @@ position = Vector2(0, -1)
 rotation = 1.5708
 shape = SubResource("CapsuleShape2D_77ujo")
 
-[node name="Hurtbox" parent="." node_paths=PackedStringArray("health", "blinkAnimationPlayer") instance=ExtResource("6_iopym")]
+[node name="Hurtbox" parent="." instance=ExtResource("6_iopym")]
 visible = false
 collision_layer = 256
 collision_mask = 8
-health = NodePath("../Health_Component")
-invincibilityTime = 1.0
-blinkAnimationPlayer = NodePath("../BlinkAnimationPlayer")
-HurtSound = ExtResource("7_o1huv")
 
 [node name="CollisionShape2D" parent="Hurtbox" index="0"]
 position = Vector2(0, -3)
 shape = SubResource("RectangleShape2D_gbfbk")
 
 [node name="DialogueZone" parent="." instance=ExtResource("8_rul3p")]
+visible = false
 position = Vector2(0, -4)
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
@@ -1330,12 +1332,6 @@ parameters/Run/blend_position = Vector2(0, 1.09013)
 libraries = {
 &"": SubResource("AnimationLibrary_70uel")
 }
-
-[node name="Movement_Component" parent="." instance=ExtResource("12_o1huv")]
-
-[node name="Follow_Component" parent="." instance=ExtResource("13_rul3p")]
-
-[node name="Navigation_Component" parent="." instance=ExtResource("14_wduec")]
 
 [connection signal="trigger_knockback" from="Hurtbox" to="Movement_Component" method="_on_hurtbox_trigger_knockback"]
 

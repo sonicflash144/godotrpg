@@ -4,17 +4,25 @@ class_name Hurtbox
 
 signal trigger_knockback(knockback_vector: Vector2)
 
+@onready var health: Health_Component = $"../Health_Component"
+@onready var blinkAnimationPlayer = $"../BlinkAnimationPlayer"
 @onready var timer = $Timer
 @onready var collisionShape = $CollisionShape2D
 
-@export var health: Health_Component
-@export var invincibilityTime: float
-@export var blinkAnimationPlayer: AnimationPlayer
-@export var HurtSound: PackedScene
-
 const SWORD_SLOW_RATE := 0.2
+var invincibilityTime: float
+var HurtSound: PackedScene
+
 var is_invincible := false
 var collider_disabled := false
+
+func _ready() -> void:
+	if get_parent().is_in_group("Player") or get_parent().is_in_group("Princess"):
+		invincibilityTime = 1.0
+		HurtSound = load("res://Music and Sounds/player_hurt_sound.tscn")
+	elif get_parent().is_in_group("Enemy"):
+		invincibilityTime = 0.2
+		HurtSound = load("res://Music and Sounds/player_hit_sound.tscn")
 
 func disable_collider():
 	is_invincible = true

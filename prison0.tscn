@@ -35,7 +35,7 @@ length = 0.001
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("ColorRect:color")
+tracks/0/path = NodePath("AlarmColorRect:color")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
@@ -52,7 +52,7 @@ step = 0.5
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("ColorRect:color")
+tracks/0/path = NodePath("AlarmColorRect:color")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
@@ -83,6 +83,7 @@ tile_set = ExtResource("5_khfy0")
 
 [node name="WallDialogueZone" parent="TileMapLayer" instance=ExtResource("3_enkg1")]
 position = Vector2(96, 56)
+default_key = "wall"
 
 [node name="CollisionShape2D" parent="TileMapLayer/WallDialogueZone" index="0"]
 position = Vector2(40, 8)
@@ -91,27 +92,28 @@ shape = SubResource("RectangleShape2D_jc6we")
 [node name="Player" parent="." instance=ExtResource("4_ki7he")]
 position = Vector2(152, 80)
 
-[node name="Door" type="StaticBody2D" parent="."]
+[node name="CellDoor" type="StaticBody2D" parent="."]
 position = Vector2(144, 160)
 metadata/_edit_group_ = true
 
-[node name="Sprite2D" type="Sprite2D" parent="Door"]
+[node name="Sprite2D" type="Sprite2D" parent="CellDoor"]
 texture = ExtResource("6_ko0n3")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Door"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CellDoor"]
 visible = false
 shape = SubResource("RectangleShape2D_r3xfc")
 
-[node name="DoorDialogueZone" parent="Door" instance=ExtResource("3_enkg1")]
+[node name="CellDoorDialogueZone" parent="CellDoor" instance=ExtResource("3_enkg1")]
+default_key = "cell_door"
 
-[node name="CollisionShape2D" parent="Door/DoorDialogueZone" index="0"]
+[node name="CollisionShape2D" parent="CellDoor/CellDoorDialogueZone" index="0"]
 shape = SubResource("CircleShape2D_jc6we")
 
-[node name="Door" type="AudioStreamPlayer" parent="Door"]
+[node name="Door" type="AudioStreamPlayer" parent="CellDoor"]
 
 [node name="BloodDialogueZone" parent="." instance=ExtResource("3_enkg1")]
-visible = true
 position = Vector2(88, 120)
+default_key = "blood"
 
 [node name="CollisionShape2D" parent="BloodDialogueZone" index="0"]
 visible = false
@@ -122,9 +124,9 @@ z_index = -1
 texture = ExtResource("7_pd45d")
 
 [node name="VentDialogueZone" parent="." instance=ExtResource("3_enkg1")]
-visible = true
 z_index = -1
 position = Vector2(224, 56)
+default_key = "vent"
 metadata/_edit_group_ = true
 
 [node name="CollisionShape2D" parent="VentDialogueZone" index="0"]
@@ -148,27 +150,23 @@ texture = ExtResource("10_66yvb")
 [node name="Marker2D" type="Marker2D" parent="."]
 position = Vector2(144, 152)
 
-[node name="ColorRect" type="ColorRect" parent="."]
-offset_right = 320.0
-offset_bottom = 240.0
-color = Color(1, 0, 0, 0)
-
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {
 &"": SubResource("AnimationLibrary_pd45d")
 }
 
+[node name="AlarmColorRect" type="ColorRect" parent="."]
+offset_right = 320.0
+offset_bottom = 240.0
+color = Color(1, 0, 0, 0)
+
 [node name="Alarm" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("12_ko0n3")
 
-[connection signal="zone_triggered" from="TileMapLayer/WallDialogueZone" to="." method="_on_wall_dialogue_zone_zone_triggered"]
-[connection signal="zone_triggered" from="Door/DoorDialogueZone" to="." method="_on_door_dialogue_zone_zone_triggered"]
-[connection signal="zone_triggered" from="BloodDialogueZone" to="." method="_on_blood_dialogue_zone_zone_triggered"]
-[connection signal="zone_triggered" from="VentDialogueZone" to="." method="_on_vent_dialogue_zone_zone_triggered"]
 [connection signal="body_entered" from="TransitionArea" to="." method="_on_transition_body_entered"]
 
 [editable path="TileMapLayer/WallDialogueZone"]
-[editable path="Door/DoorDialogueZone"]
+[editable path="CellDoor/CellDoorDialogueZone"]
 [editable path="BloodDialogueZone"]
 [editable path="VentDialogueZone"]
 [editable path="Guard"]

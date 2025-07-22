@@ -1,5 +1,7 @@
 extends Node
 
+class_name DialogueRoomManager
+
 @onready var player: CharacterBody2D = $"../Player"
 
 @export var dialogueResource: DialogueResource

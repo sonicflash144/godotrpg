@@ -1,13 +1,16 @@
-[gd_scene load_steps=4 format=4 uid="uid://f1mnjf8gkkr8"]
+[gd_scene load_steps=5 format=3 uid="uid://f1mnjf8gkkr8"]
 
 [ext_resource type="TileSet" uid="uid://mt4o7s2t6ie6" path="res://World/desert_bg.tres" id="1_68yk6"]
 [ext_resource type="Script" uid="uid://bgim10tw0yi3h" path="res://Dungeon/puzzle_manager.gd" id="2_jt4yq"]
+[ext_resource type="PackedScene" uid="uid://crken25j88hf1" path="res://Dungeon/reset_button.tscn" id="3_dc8ub"]
 [ext_resource type="AudioStream" uid="uid://bsgdnun8jskvy" path="res://Music and Sounds/box slide.mp3" id="3_s6vuy"]
 
 [node name="BoxPuzzle" type="TileMapLayer"]
-tile_map_data = PackedByteArray("AAAKAAUAAQADAAAAAAAKAAYAAQAGAAAAAAAKAAcAAQAGAAAAAAALAAUAAQAGAAAAAAALAAYAAQAGAAAAAAALAAcAAQAGAAAAAAAMAAUAAQADAAAAAAAMAAYAAQAGAAAAAAAMAAcAAQAGAAAAAAANAAUAAQAGAAAAAAANAAYAAQAGAAAAAAANAAcAAQAGAAAAAAAIAAUAAQAGAAAAAAAJAAUAAQAGAAAAAAAHAAUAAQADAAEAAAA=")
 tile_set = ExtResource("1_68yk6")
 script = ExtResource("2_jt4yq")
+
+[node name="ResetButton" parent="." instance=ExtResource("3_dc8ub")]
+position = Vector2(128, 88)
 
 [node name="BoxSlide" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("3_s6vuy")

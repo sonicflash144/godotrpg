@@ -1,4 +1,4 @@
-[gd_scene load_steps=73 format=3 uid="uid://bursypx5unela"]
+[gd_scene load_steps=72 format=3 uid="uid://bursypx5unela"]
 
 [ext_resource type="Script" uid="uid://ci5s3yt3heq27" path="res://Player/player.gd" id="1_4ntmi"]
 [ext_resource type="Shader" uid="uid://d3peyev02dgjd" path="res://Combat/ShaderTransparent.gdshader" id="2_00tjw"]
@@ -10,10 +10,9 @@
 [ext_resource type="Resource" uid="uid://bgxvqylra5jm3" path="res://Equipment/abandoned_sword.tres" id="4_pisgm"]
 [ext_resource type="PackedScene" uid="uid://lfrhnehwb41h" path="res://Combat/hitbox.tscn" id="5_k53q1"]
 [ext_resource type="AudioStream" uid="uid://ddck6g4gtn1ig" path="res://Music and Sounds/Sword.mp3" id="5_od3ui"]
+[ext_resource type="PackedScene" uid="uid://hakdr4fdj1fo" path="res://Combat/health_component.tscn" id="5_pisgm"]
 [ext_resource type="Texture2D" uid="uid://bgv8qmfqoy2r1" path="res://Player/Player Sword Diagonal.png" id="7_apopc"]
 [ext_resource type="PackedScene" uid="uid://6c21m1l8r268" path="res://Combat/hurtbox.tscn" id="7_vtle1"]
-[ext_resource type="PackedScene" uid="uid://hakdr4fdj1fo" path="res://Combat/health_component.tscn" id="9_00tjw"]
-[ext_resource type="PackedScene" uid="uid://wexrq1aj01bm" path="res://Music and Sounds/player_hurt_sound.tscn" id="9_x3vf3"]
 [ext_resource type="Script" uid="uid://cb6pd1v4iqhw0" path="res://Player/hitbox_pivot.gd" id="11_dkpta"]
 [ext_resource type="PackedScene" uid="uid://c5oie56bljaao" path="res://Components/movement_component.tscn" id="12_p5o4e"]
 [ext_resource type="PackedScene" uid="uid://bf33ttr2v7mwh" path="res://Components/follow_component.tscn" id="13_gu6f8"]
@@ -1687,7 +1686,11 @@ stats = ExtResource("2_gu6f8")
 equipment = Array[ExtResource("3_pisgm")]([ExtResource("4_pisgm")])
 metadata/_edit_group_ = true
 
-[node name="Health_Component" parent="." instance=ExtResource("9_00tjw")]
+[node name="Health_Component" parent="." instance=ExtResource("5_pisgm")]
+
+[node name="Movement_Component" parent="." instance=ExtResource("12_p5o4e")]
+
+[node name="Follow_Component" parent="." instance=ExtResource("13_gu6f8")]
 
 [node name="Sprite2D_RunIdle" type="Sprite2D" parent="."]
 material = SubResource("ShaderMaterial_x3vf3")
@@ -1723,14 +1726,10 @@ position = Vector2(0, -1)
 rotation = 1.5708
 shape = SubResource("CapsuleShape2D_fj7yv")
 
-[node name="Hurtbox" parent="." node_paths=PackedStringArray("health", "blinkAnimationPlayer") instance=ExtResource("7_vtle1")]
+[node name="Hurtbox" parent="." instance=ExtResource("7_vtle1")]
 visible = false
 collision_layer = 4
 collision_mask = 128
-health = NodePath("../Health_Component")
-invincibilityTime = 1.0
-blinkAnimationPlayer = NodePath("../BlinkAnimationPlayer")
-HurtSound = ExtResource("9_x3vf3")
 
 [node name="CollisionShape2D" parent="Hurtbox" index="0"]
 position = Vector2(0, -2.5)
@@ -1741,7 +1740,6 @@ visible = false
 position = Vector2(5, -4)
 rotation = 2.35619
 script = ExtResource("11_dkpta")
-stats = ExtResource("2_gu6f8")
 
 [node name="SwordHitbox" parent="HitboxPivot" instance=ExtResource("5_k53q1")]
 position = Vector2(16, 0)
@@ -1777,10 +1775,6 @@ parameters/Run/blend_position = Vector2(0, 1)
 libraries = {
 &"": SubResource("AnimationLibrary_pisgm")
 }
-
-[node name="Movement_Component" parent="." instance=ExtResource("12_p5o4e")]
-
-[node name="Follow_Component" parent="." instance=ExtResource("13_gu6f8")]
 
 [connection signal="trigger_knockback" from="Hurtbox" to="Movement_Component" method="_on_hurtbox_trigger_knockback"]
 

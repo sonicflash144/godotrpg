@@ -6,6 +6,7 @@ var damage := 1
 var knockback_vector := Vector2.ZERO
 
 func _ready() -> void:
+	await get_parent().ready
 	update_damage()
 
 func update_damage():

@@ -1,0 +1,11 @@
+[gd_scene load_steps=3 format=3 uid="uid://c23uva3n3te25"]
+
+[ext_resource type="PackedScene" uid="uid://c1onywepqrykl" path="res://UI/player_health_ui.tscn" id="1_ptbnn"]
+[ext_resource type="PackedScene" uid="uid://f75n6uvmavva" path="res://UI/princess_health_ui.tscn" id="2_bj4yn"]
+
+[node name="HealthCanvasLayer" type="CanvasLayer"]
+
+[node name="PlayerHealthUI" parent="." instance=ExtResource("1_ptbnn")]
+z_index = 1
+
+[node name="PrincessHealthUI" parent="." instance=ExtResource("2_bj4yn")]

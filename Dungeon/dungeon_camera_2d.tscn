@@ -1,0 +1,9 @@
+[gd_scene load_steps=2 format=3 uid="uid://ca2y4nv11el0s"]
+
+[ext_resource type="Script" uid="uid://5shhc343p2a4" path="res://Dungeon/dungeon_camera_2d.gd" id="1_ew5sm"]
+
+[node name="DungeonCamera2D" type="Camera2D"]
+anchor_mode = 0
+position_smoothing_enabled = true
+position_smoothing_speed = 8.0
+script = ExtResource("1_ew5sm")

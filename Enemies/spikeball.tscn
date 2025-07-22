@@ -1,11 +1,10 @@
-[gd_scene load_steps=26 format=3 uid="uid://6wkafegtbmeu"]
+[gd_scene load_steps=25 format=3 uid="uid://6wkafegtbmeu"]
 
 [ext_resource type="Texture2D" uid="uid://14ynmo50gfvw" path="res://Enemies/spikeball.png" id="1_4ddum"]
 [ext_resource type="Script" uid="uid://cjj2qj3qnrasn" path="res://Enemies/spikeball.gd" id="1_fs5hn"]
 [ext_resource type="Resource" uid="uid://depdtqclw3e4a" path="res://Stats/spikeball_stats.tres" id="2_1dk0y"]
-[ext_resource type="PackedScene" uid="uid://dg5ho328cdniv" path="res://Effects/enemy_death_effect.tscn" id="2_1h7qc"]
-[ext_resource type="PackedScene" uid="uid://hakdr4fdj1fo" path="res://Combat/health_component.tscn" id="2_81w6i"]
 [ext_resource type="Shader" uid="uid://cd25tciedu4h5" path="res://Combat/ShaderComplementary.gdshader" id="3_kpmjd"]
+[ext_resource type="PackedScene" uid="uid://hakdr4fdj1fo" path="res://Combat/health_component.tscn" id="3_p3kbi"]
 [ext_resource type="PackedScene" uid="uid://6c21m1l8r268" path="res://Combat/hurtbox.tscn" id="4_1h7qc"]
 [ext_resource type="PackedScene" uid="uid://cfur0wgencjh8" path="res://Enemies/player_detection_zone.tscn" id="5_mmtor"]
 [ext_resource type="PackedScene" uid="uid://lfrhnehwb41h" path="res://Combat/hitbox.tscn" id="6_brwps"]
@@ -19,6 +18,19 @@ shader = ExtResource("3_kpmjd")
 shader_parameter/active = false
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_gvbuj"]
+radius = 5.0
+height = 12.0
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_s5qkv"]
+size = Vector2(14, 12)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_mmtor"]
+radius = 128.0
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_kpmjd"]
+size = Vector2(10, 9)
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_kpmjd"]
 radius = 5.0
 height = 12.0
 
@@ -78,19 +90,6 @@ _data = {
 &"RESET": SubResource("Animation_mmtor")
 }
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_s5qkv"]
-size = Vector2(14, 12)
-
-[sub_resource type="CircleShape2D" id="CircleShape2D_mmtor"]
-radius = 128.0
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_kpmjd"]
-size = Vector2(10, 9)
-
-[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_kpmjd"]
-radius = 5.0
-height = 12.0
-
 [sub_resource type="Animation" id="Animation_p3kbi"]
 length = 0.001
 tracks/0/type = "value"
@@ -135,8 +134,11 @@ script = ExtResource("1_fs5hn")
 stats = ExtResource("2_1dk0y")
 metadata/_edit_group_ = true
 
-[node name="Health_Component" parent="." instance=ExtResource("2_81w6i")]
-DeathEffect = ExtResource("2_1h7qc")
+[node name="Health_Component" parent="." instance=ExtResource("3_p3kbi")]
+
+[node name="WanderController" parent="." instance=ExtResource("10_fs5hn")]
+
+[node name="SwordSlowController" parent="." instance=ExtResource("11_p3kbi")]
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 material = SubResource("ShaderMaterial_81w6i")
@@ -149,18 +151,10 @@ visible = false
 rotation = 1.5708
 shape = SubResource("CapsuleShape2D_gvbuj")
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
-libraries = {
-&"": SubResource("AnimationLibrary_kpmjd")
-}
-
-[node name="Hurtbox" parent="." node_paths=PackedStringArray("health", "blinkAnimationPlayer") instance=ExtResource("4_1h7qc")]
+[node name="Hurtbox" parent="." instance=ExtResource("4_1h7qc")]
 visible = false
 collision_layer = 8
 collision_mask = 64
-health = NodePath("../Health_Component")
-invincibilityTime = 0.2
-blinkAnimationPlayer = NodePath("../BlinkAnimationPlayer")
 
 [node name="CollisionShape2D" parent="Hurtbox" index="0"]
 position = Vector2(0, -1)
@@ -188,6 +182,11 @@ visible = false
 rotation = 1.5708
 shape = SubResource("CapsuleShape2D_kpmjd")
 
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("AnimationLibrary_kpmjd")
+}
+
 [node name="BlinkAnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {
 &"": SubResource("AnimationLibrary_1dk0y")
@@ -196,10 +195,6 @@ libraries = {
 [node name="CooldownTimer" type="Timer" parent="."]
 wait_time = 2.0
 one_shot = true
-
-[node name="WanderController" parent="." instance=ExtResource("10_fs5hn")]
-
-[node name="SwordSlowController" parent="." instance=ExtResource("11_p3kbi")]
 
 [connection signal="trigger_knockback" from="Hurtbox" to="." method="_on_hurtbox_trigger_knockback"]
 [connection signal="timeout" from="CooldownTimer" to="." method="_on_cooldown_timer_timeout"]

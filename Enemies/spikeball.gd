@@ -106,6 +106,9 @@ func update_wander_timer():
 func slow_enemy():
 	swordSlowController.slow_enemy()
 
+func handle_death():
+	queue_free()
+
 func _on_cooldown_timer_timeout() -> void:
 	state = IDLE
 	update_wander_timer()

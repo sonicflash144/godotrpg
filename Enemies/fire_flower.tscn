@@ -1,34 +1,51 @@
-[gd_scene load_steps=23 format=3 uid="uid://dka5wc1yusobs"]
+[gd_scene load_steps=22 format=3 uid="uid://56i8hksasg6k"]
 
-[ext_resource type="Texture2D" uid="uid://caq81rsx6r0jl" path="res://Enemies/ghost.png" id="1_0fgnr"]
-[ext_resource type="Script" uid="uid://c16yjox0tt6u4" path="res://Enemies/ghost.gd" id="1_loe2b"]
-[ext_resource type="PackedScene" uid="uid://6c21m1l8r268" path="res://Combat/hurtbox.tscn" id="2_7n145"]
-[ext_resource type="Resource" uid="uid://bxsxcrgfs7bh3" path="res://Stats/ghost_stats.tres" id="2_eeofm"]
-[ext_resource type="Shader" uid="uid://cd25tciedu4h5" path="res://Combat/ShaderComplementary.gdshader" id="2_vynsj"]
-[ext_resource type="PackedScene" uid="uid://hakdr4fdj1fo" path="res://Combat/health_component.tscn" id="3_2qxec"]
-[ext_resource type="PackedScene" uid="uid://cfur0wgencjh8" path="res://Enemies/player_detection_zone.tscn" id="5_hfxwo"]
-[ext_resource type="PackedScene" uid="uid://lfrhnehwb41h" path="res://Combat/hitbox.tscn" id="6_qxvdp"]
-[ext_resource type="PackedScene" uid="uid://3od7ps120wrn" path="res://Enemies/soft_collision.tscn" id="7_lh42r"]
-[ext_resource type="PackedScene" uid="uid://hfj2qrgqwdms" path="res://Enemies/wander_controller.tscn" id="10_2qxec"]
-[ext_resource type="PackedScene" uid="uid://gh2hmf87o2ox" path="res://Enemies/sword_slow_controller.tscn" id="11_eeofm"]
+[ext_resource type="Script" uid="uid://djagsirtf8gf7" path="res://Enemies/fire_flower.gd" id="1_3ai4o"]
+[ext_resource type="Resource" uid="uid://62itv2tcw0v8" path="res://Stats/fire_flower_stats.tres" id="2_q8rgf"]
+[ext_resource type="PackedScene" uid="uid://hakdr4fdj1fo" path="res://Combat/health_component.tscn" id="3_3ai4o"]
+[ext_resource type="Shader" uid="uid://cd25tciedu4h5" path="res://Combat/ShaderComplementary.gdshader" id="5_kh7dj"]
+[ext_resource type="Texture2D" uid="uid://cnifq6x2w6rrx" path="res://Enemies/fire flower.png" id="6_cmhcm"]
+[ext_resource type="PackedScene" uid="uid://6c21m1l8r268" path="res://Combat/hurtbox.tscn" id="7_6klst"]
+[ext_resource type="PackedScene" uid="uid://cfur0wgencjh8" path="res://Enemies/player_detection_zone.tscn" id="8_dunnx"]
+[ext_resource type="PackedScene" uid="uid://lfrhnehwb41h" path="res://Combat/hitbox.tscn" id="9_g12ri"]
+[ext_resource type="PackedScene" uid="uid://gh2hmf87o2ox" path="res://Enemies/sword_slow_controller.tscn" id="12_fbdxg"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_4od23"]
 resource_local_to_scene = true
-shader = ExtResource("2_vynsj")
+shader = ExtResource("5_kh7dj")
 shader_parameter/active = false
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_0fgnr"]
-atlas = ExtResource("1_0fgnr")
+[sub_resource type="AtlasTexture" id="AtlasTexture_ybdl0"]
+atlas = ExtResource("6_cmhcm")
 region = Rect2(0, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_x85w3"]
+atlas = ExtResource("6_cmhcm")
+region = Rect2(16, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_8irpb"]
+atlas = ExtResource("6_cmhcm")
+region = Rect2(16, 0, 16, 16)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_7n145"]
 animations = [{
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_0fgnr")
+"texture": SubResource("AtlasTexture_ybdl0")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_x85w3")
+}],
+"loop": false,
+"name": &"Attack",
+"speed": 10.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_8irpb")
 }],
 "loop": true,
-"name": &"Fly",
+"name": &"Idle",
 "speed": 5.0
 }]
 
@@ -37,17 +54,13 @@ radius = 4.0
 height = 12.0
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_loe2b"]
-size = Vector2(12.5, 13.5)
+size = Vector2(14, 14)
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_qxvdp"]
 radius = 81.0247
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_lh42r"]
-size = Vector2(8, 9)
-
-[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_tt0oc"]
-radius = 4.0
-height = 12.0
+size = Vector2(8, 10.5)
 
 [sub_resource type="Animation" id="Animation_eeofm"]
 length = 0.001
@@ -87,41 +100,40 @@ _data = {
 &"Start": SubResource("Animation_2qxec")
 }
 
-[node name="Ghost" type="CharacterBody2D" groups=["Enemy"]]
+[node name="FireFlower" type="CharacterBody2D" groups=["Enemy"]]
 collision_layer = 16
-script = ExtResource("1_loe2b")
-stats = ExtResource("2_eeofm")
+script = ExtResource("1_3ai4o")
+stats = ExtResource("2_q8rgf")
 metadata/_edit_group_ = true
 
-[node name="Health_Component" parent="." instance=ExtResource("3_2qxec")]
+[node name="Health_Component" parent="." instance=ExtResource("3_3ai4o")]
 
-[node name="WanderController" parent="." instance=ExtResource("10_2qxec")]
-
-[node name="SwordSlowController" parent="." instance=ExtResource("11_eeofm")]
+[node name="SwordSlowController" parent="." instance=ExtResource("12_fbdxg")]
 
 [node name="AnimatedSprite" type="AnimatedSprite2D" parent="."]
 material = SubResource("ShaderMaterial_4od23")
 position = Vector2(0, -2)
 sprite_frames = SubResource("SpriteFrames_7n145")
-animation = &"Fly"
+animation = &"Attack"
+frame = 1
+frame_progress = 1.0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 visible = false
-position = Vector2(0, 1)
+position = Vector2(0, 2)
 rotation = 1.5708
 shape = SubResource("CapsuleShape2D_0fgnr")
 
-[node name="Hurtbox" parent="." instance=ExtResource("2_7n145")]
+[node name="Hurtbox" parent="." instance=ExtResource("7_6klst")]
 visible = false
 position = Vector2(0, -2)
 collision_layer = 8
 collision_mask = 64
 
 [node name="CollisionShape2D" parent="Hurtbox" index="0"]
-position = Vector2(-0.25, 0.25)
 shape = SubResource("RectangleShape2D_loe2b")
 
-[node name="PlayerDetectionZone" parent="." instance=ExtResource("5_hfxwo")]
+[node name="PlayerDetectionZone" parent="." instance=ExtResource("8_dunnx")]
 visible = false
 
 [node name="CollisionShape2D" parent="PlayerDetectionZone" index="0"]
@@ -129,32 +141,23 @@ position = Vector2(-1, -2)
 shape = SubResource("CircleShape2D_qxvdp")
 debug_color = Color(0, 0.6, 0.701961, 0.121569)
 
-[node name="Hitbox" parent="." instance=ExtResource("6_qxvdp")]
+[node name="Hitbox" parent="." instance=ExtResource("9_g12ri")]
 visible = false
-position = Vector2(0, -3)
 collision_layer = 128
 collision_mask = 260
 
 [node name="CollisionShape2D" parent="Hitbox" index="0"]
-position = Vector2(0, 1.5)
+position = Vector2(0, 0.25)
 shape = SubResource("RectangleShape2D_lh42r")
-
-[node name="SoftCollision" parent="." instance=ExtResource("7_lh42r")]
-visible = false
-
-[node name="CollisionShape2D" parent="SoftCollision" index="0"]
-position = Vector2(0, 1)
-rotation = 1.5708
-shape = SubResource("CapsuleShape2D_tt0oc")
 
 [node name="BlinkAnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {
 &"": SubResource("AnimationLibrary_ce8b3")
 }
 
-[connection signal="trigger_knockback" from="Hurtbox" to="." method="_on_hurtbox_trigger_knockback"]
+[node name="BulletCooldown" type="Timer" parent="."]
+one_shot = true
 
 [editable path="Hurtbox"]
 [editable path="PlayerDetectionZone"]
 [editable path="Hitbox"]
-[editable path="SoftCollision"]
