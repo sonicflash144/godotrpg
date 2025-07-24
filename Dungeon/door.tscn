@@ -1,7 +1,7 @@
 [gd_scene load_steps=10 format=3 uid="uid://ukvccod4ru5w"]
 
 [ext_resource type="Script" uid="uid://dp7jmsfxqlifu" path="res://Dungeon/door.gd" id="1_63nin"]
-[ext_resource type="Texture2D" uid="uid://b74gg6sgus58n" path="res://Dungeon/door.png" id="2_1hnmd"]
+[ext_resource type="Texture2D" uid="uid://b74gg6sgus58n" path="res://Dungeon/Sprites/door.png" id="2_1hnmd"]
 [ext_resource type="PackedScene" uid="uid://damjysxl382ea" path="res://Dialogue/dialogue_zone.tscn" id="3_6hxbr"]
 [ext_resource type="AudioStream" uid="uid://dufmbmu0r21ub" path="res://Music and Sounds/door open.mp3" id="5_63nin"]
 

@@ -7,9 +7,9 @@ class_name Health_UI
 @onready var cooldownBar = $TextureProgressBar
 @onready var timer = $Timer
 
-var texture_normal = preload("res://UI/health bar.png")
-var texture_low = preload("res://UI/health bar low.png")
-var texture_grey = preload("res://UI/health bar disabled.png")
+var texture_normal = preload("res://UI/Sprites/health bar.png")
+var texture_low = preload("res://UI/Sprites/health bar low.png")
+var texture_grey = preload("res://UI/Sprites/health bar disabled.png")
 
 var max_fill_width = 0
 var maxCooldown: float

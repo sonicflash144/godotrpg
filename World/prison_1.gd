@@ -13,8 +13,6 @@ extends Node2D
 @onready var marker: Marker2D = $guard2_enter
 @onready var genericDoor = $GenericDoor
 
-@export var markers: Array[Marker2D]
-
 var EquipSound = load("res://Music and Sounds/equip_sound.tscn")
 var DoorSound = load("res://Music and Sounds/door_sound.tscn")
 
@@ -63,7 +61,7 @@ func _on_dialogue_movement(key: String):
 		genericGuard.move_to_position_astar(marker.global_position + Vector2(-16, 16))
 		genericGuard2.move_to_position_astar(marker.global_position + Vector2(-32, 0))
 		genericGuard3.move_to_position_astar(marker.global_position + Vector2(-16, -16))
-
+		
 func _on_transition_body_entered(body: Node2D) -> void:
 	if body.is_in_group("Player"):
 		TransitionHandler.fade_out(get_tree().current_scene, "res://prison0.tscn", 0.8)

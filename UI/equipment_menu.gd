@@ -48,11 +48,11 @@ var character_hboxes: Array[HBoxContainer] = []
 
 const SLOT_TYPES: Array[Equipment.Type] = [Equipment.Type.SWORD, Equipment.Type.BOW, Equipment.Type.ARMOR]  # But weapons are character-specific
 const ICON_MAP: Dictionary = {
-	Equipment.Type.SWORD: { "normal": preload("res://UI/sword icon.png"), "disabled": preload("res://UI/sword disabled icon.png") },
-	Equipment.Type.BOW: { "normal": preload("res://UI/bow icon.png"), "disabled": preload("res://UI/bow disabled icon.png") },
-	Equipment.Type.ARMOR: { "normal": preload("res://UI/armor icon.png"), "disabled": null }
+	Equipment.Type.SWORD: { "normal": preload("res://UI/Sprites/sword icon.png"), "disabled": preload("res://UI/Sprites/sword disabled icon.png") },
+	Equipment.Type.BOW: { "normal": preload("res://UI/Sprites/bow icon.png"), "disabled": preload("res://UI/Sprites/bow disabled icon.png") },
+	Equipment.Type.ARMOR: { "normal": preload("res://UI/Sprites/armor icon.png"), "disabled": null }
 }
-const ABILITY_ICON: Texture = preload("res://UI/ability icon.png")
+const ABILITY_ICON: Texture = preload("res://UI/Sprites/ability icon.png")
 
 var slot_hboxes: Array[HBoxContainer]
 var slot_icons: Array[TextureRect]

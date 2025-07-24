@@ -4,7 +4,7 @@
 [ext_resource type="Resource" uid="uid://62itv2tcw0v8" path="res://Stats/fire_flower_stats.tres" id="2_q8rgf"]
 [ext_resource type="PackedScene" uid="uid://hakdr4fdj1fo" path="res://Combat/health_component.tscn" id="3_3ai4o"]
 [ext_resource type="Shader" uid="uid://cd25tciedu4h5" path="res://Combat/ShaderComplementary.gdshader" id="5_kh7dj"]
-[ext_resource type="Texture2D" uid="uid://cnifq6x2w6rrx" path="res://Enemies/fire flower.png" id="6_cmhcm"]
+[ext_resource type="Texture2D" uid="uid://cnifq6x2w6rrx" path="res://Enemies/Sprites/fire flower.png" id="6_cmhcm"]
 [ext_resource type="PackedScene" uid="uid://6c21m1l8r268" path="res://Combat/hurtbox.tscn" id="7_6klst"]
 [ext_resource type="PackedScene" uid="uid://cfur0wgencjh8" path="res://Enemies/player_detection_zone.tscn" id="8_dunnx"]
 [ext_resource type="PackedScene" uid="uid://lfrhnehwb41h" path="res://Combat/hitbox.tscn" id="9_g12ri"]

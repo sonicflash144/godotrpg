@@ -1,6 +1,6 @@
 [gd_scene load_steps=25 format=3 uid="uid://6wkafegtbmeu"]
 
-[ext_resource type="Texture2D" uid="uid://14ynmo50gfvw" path="res://Enemies/spikeball.png" id="1_4ddum"]
+[ext_resource type="Texture2D" uid="uid://14ynmo50gfvw" path="res://Enemies/Sprites/spikeball.png" id="1_4ddum"]
 [ext_resource type="Script" uid="uid://cjj2qj3qnrasn" path="res://Enemies/spikeball.gd" id="1_fs5hn"]
 [ext_resource type="Resource" uid="uid://depdtqclw3e4a" path="res://Stats/spikeball_stats.tres" id="2_1dk0y"]
 [ext_resource type="Shader" uid="uid://cd25tciedu4h5" path="res://Combat/ShaderComplementary.gdshader" id="3_kpmjd"]

@@ -3,7 +3,7 @@
 [ext_resource type="Script" uid="uid://cgk5gth4mttpi" path="res://Dialogue/dialogue_zone.gd" id="1_qgb2p"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_036b0"]
-radius = 40.0
+radius = 32.0
 
 [node name="DialogueZone" type="Area2D"]
 z_index = -2

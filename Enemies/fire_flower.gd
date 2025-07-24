@@ -57,9 +57,9 @@ func slow_enemy():
 	swordSlowController.slow_enemy()
 	
 func handle_death():
-	for b in spawned_bullets:
-		if is_instance_valid(b):
-			b.queue_free()
+	for bullet_instance in spawned_bullets:
+		if is_instance_valid(bullet_instance):
+			bullet_instance.queue_free()
 	queue_free()
 
 func shoot_bullet(player: CharacterBody2D):

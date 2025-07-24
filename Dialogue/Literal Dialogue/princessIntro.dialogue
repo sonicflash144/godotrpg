@@ -63,6 +63,7 @@ Princess: DUDE! You can stop hitting me now. We're on the same team. [#portrait=
 => END
 
 ~ ghost_room
+do remove_dialogue_barrier()
 Princess: AHHH! OH MY GOODNESS ARE THOSE MONSTERS??? [#portrait=shocked]
 do Events.dialogue_movement.emit("exit_ghost_room")
 set Events.num_party_members = 1

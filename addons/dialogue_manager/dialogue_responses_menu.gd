@@ -46,7 +46,7 @@ var responses: Array = []:
 					# Create the arrow sprite (TextureRect)
 					var arrow_texture = TextureRect.new()
 					arrow_texture.name = "Arrow"
-					arrow_texture.texture = preload("res://UI/pointer.png")
+					arrow_texture.texture = preload("res://UI/Sprites/pointer.png")
 					arrow_texture.size_flags_vertical = Control.SIZE_SHRINK_CENTER
 					arrow_texture.modulate.a = 0.0
 					container.add_child(arrow_texture)

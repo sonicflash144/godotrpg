@@ -1,6 +1,6 @@
 [gd_scene load_steps=8 format=3 uid="uid://cq0lkubnbnja4"]
 
-[ext_resource type="Texture2D" uid="uid://xw4t47ird320" path="res://Dungeon/door button.png" id="1_dcfi6"]
+[ext_resource type="Texture2D" uid="uid://xw4t47ird320" path="res://Dungeon/Sprites/door button.png" id="1_dcfi6"]
 [ext_resource type="Script" uid="uid://do5pyc75sq1r3" path="res://Dungeon/door_button.gd" id="1_s2qsd"]
 [ext_resource type="AudioStream" uid="uid://br7p7c4foggqm" path="res://Music and Sounds/button press.mp3" id="3_whgtg"]
 

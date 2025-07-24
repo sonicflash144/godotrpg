@@ -1,6 +1,6 @@
 [gd_scene load_steps=23 format=3 uid="uid://dka5wc1yusobs"]
 
-[ext_resource type="Texture2D" uid="uid://caq81rsx6r0jl" path="res://Enemies/ghost.png" id="1_0fgnr"]
+[ext_resource type="Texture2D" uid="uid://caq81rsx6r0jl" path="res://Enemies/Sprites/ghost.png" id="1_0fgnr"]
 [ext_resource type="Script" uid="uid://c16yjox0tt6u4" path="res://Enemies/ghost.gd" id="1_loe2b"]
 [ext_resource type="PackedScene" uid="uid://6c21m1l8r268" path="res://Combat/hurtbox.tscn" id="2_7n145"]
 [ext_resource type="Resource" uid="uid://bxsxcrgfs7bh3" path="res://Stats/ghost_stats.tres" id="2_eeofm"]

@@ -1,6 +1,7 @@
 extends Node2D
 
-@onready var dialogueRoomManager = $DialogueRoomManager
+@onready var dialogueRoomManager: DialogueRoomManager = $DialogueRoomManager
+@onready var pathfindingManager: PathfindingManager = $PathfindingManager
 @onready var player: CharacterBody2D = $Player
 @onready var princess: CharacterBody2D = $Princess
 @onready var DungeonRoom2: DungeonRoom = $DungeonRoom2
@@ -9,6 +10,8 @@ extends Node2D
 @onready var shopkeeperDialogueBarrier: DialogueBarrier = $"DungeonRoom1/ShopkeeperDialogueBarrier"
 @onready var sideDoor = $"DungeonRoom3/SideDoor"
 @onready var princessFollowCheck = $"DungeonRoom3/PrincessFollowCheck"
+
+@export var markers: Array[Marker2D]
 
 var last_valid_position: Vector2
 var currentRoom: DungeonRoom
@@ -25,6 +28,7 @@ func _ready() -> void:
 	Events.room_entered.connect(_on_room_entered)
 	Events.room_locked.connect(_on_room_locked)
 	Events.player_died.connect(_on_player_died)
+	Events.dialogue_movement.connect(_on_dialogue_movement)
 	
 	if Events.player_transition == "up":
 		player.global_position = goBackdialogueBarrier.global_position + Vector2(0, -16)
@@ -67,8 +71,18 @@ func _on_player_died():
 	await get_tree().create_timer(1).timeout
 	get_tree().reload_current_scene()
 
+func _on_dialogue_movement(key: String):
+	for marker in markers:
+		if marker.name == key:
+			princess.move_to_position_astar(marker.global_position)
+			return
+
 func _on_box_puzzle_puzzle_complete() -> void:
 	sideDoor.queue_free()
 	var doorSound = DoorSound.instantiate()
 	get_tree().current_scene.add_child(doorSound)
 	dialogueRoomManager.dialogue("puzzle_complete")
+	
+func _on_princess_dialogue_zone_zone_triggered() -> void:
+	if Events.dungeon_2_dialogue_value == "enter_puzzle_room_loop":
+		dialogueRoomManager.dialogue("enter_puzzle_room_loop")
