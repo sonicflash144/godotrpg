@@ -1,9 +1,11 @@
-[gd_scene load_steps=20 format=3 uid="uid://b5db6sg1vnyo0"]
+[gd_scene load_steps=21 format=3 uid="uid://b5db6sg1vnyo0"]
 
 [ext_resource type="Texture2D" uid="uid://dgqc8t7ad0npf" path="res://Dungeon/Sprites/laser.png" id="1_2dmuf"]
 [ext_resource type="Script" uid="uid://qg6iy612fk7u" path="res://Dungeon/laser.gd" id="1_owjno"]
 [ext_resource type="Resource" uid="uid://bpihs65coupnf" path="res://Stats/laser_stats.tres" id="2_mross"]
 [ext_resource type="PackedScene" uid="uid://lfrhnehwb41h" path="res://Combat/hitbox.tscn" id="3_84yrn"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_mross"]
 
 [sub_resource type="Animation" id="Animation_a8f1s"]
 resource_name = "End"
@@ -154,7 +156,7 @@ tracks/0/keys = {
 tracks/1/type = "value"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("../Hitbox/CollisionShape2D:disabled")
+tracks/1/path = NodePath("../LaserHitbox/CollisionShape2D:disabled")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
@@ -181,7 +183,7 @@ tracks/0/keys = {
 tracks/1/type = "value"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("../Hitbox/CollisionShape2D:disabled")
+tracks/1/path = NodePath("../LaserHitbox/CollisionShape2D:disabled")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
@@ -224,7 +226,7 @@ tracks/1/keys = {
 tracks/2/type = "value"
 tracks/2/imported = false
 tracks/2/enabled = true
-tracks/2/path = NodePath("../Hitbox/CollisionShape2D:disabled")
+tracks/2/path = NodePath("../LaserHitbox/CollisionShape2D:disabled")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/keys = {
@@ -243,18 +245,20 @@ _data = {
 }
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_a8f1s"]
-size = Vector2(9, 10.5)
+size = Vector2(9, 16.25)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_mross"]
+resource_local_to_scene = true
 size = Vector2(8, 40)
 
-[node name="Laser" type="StaticBody2D"]
+[node name="Laser" type="StaticBody2D" groups=["Laser"]]
 script = ExtResource("1_owjno")
 stats = ExtResource("2_mross")
 
 [node name="Head" type="Node2D" parent="."]
 
 [node name="Sprite2D" type="Sprite2D" parent="Head"]
+material = SubResource("ShaderMaterial_mross")
 texture = ExtResource("1_2dmuf")
 hframes = 4
 vframes = 4
@@ -297,18 +301,24 @@ libraries = {
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 visible = false
-position = Vector2(0, -3)
+position = Vector2(0, -0.125)
 shape = SubResource("RectangleShape2D_a8f1s")
 
-[node name="Hitbox" parent="." instance=ExtResource("3_84yrn")]
-visible = false
+[node name="LaserHitbox" parent="." instance=ExtResource("3_84yrn")]
 collision_layer = 128
 collision_mask = 260
 
-[node name="CollisionShape2D" parent="Hitbox" index="0"]
+[node name="CollisionShape2D" parent="LaserHitbox" index="0"]
 position = Vector2(0, 20)
 shape = SubResource("RectangleShape2D_mross")
 disabled = true
+debug_color = Color(1, 0.6, 0.701961, 0.419608)
+
+[node name="RayCast2D" type="RayCast2D" parent="."]
+target_position = Vector2(0, 320)
+
+[node name="OffsetTimer" type="Timer" parent="."]
+one_shot = true
 
 [node name="ActiveTimer" type="Timer" parent="."]
 one_shot = true
@@ -316,7 +326,8 @@ one_shot = true
 [node name="CooldownTimer" type="Timer" parent="."]
 one_shot = true
 
+[connection signal="timeout" from="OffsetTimer" to="." method="_on_offset_timer_timeout"]
 [connection signal="timeout" from="ActiveTimer" to="." method="_on_active_timer_timeout"]
 [connection signal="timeout" from="CooldownTimer" to="." method="_on_cooldown_timer_timeout"]
 
-[editable path="Hitbox"]
+[editable path="LaserHitbox"]

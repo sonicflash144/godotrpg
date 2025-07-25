@@ -4,12 +4,18 @@ extends Node2D
 @onready var pathfindingManager: PathfindingManager = $PathfindingManager
 @onready var player: CharacterBody2D = $Player
 @onready var princess: CharacterBody2D = $Princess
+@onready var DungeonRoom0: DungeonRoom = $DungeonRoom0
 @onready var DungeonRoom2: DungeonRoom = $DungeonRoom2
 @onready var DungeonRoom3: DungeonRoom = $DungeonRoom3
+@onready var DungeonRoom4: DungeonRoom = $DungeonRoom4
+@onready var DungeonRoom5: DungeonRoom = $DungeonRoom5
+@onready var DungeonRoom6: DungeonRoom = $DungeonRoom6
+@onready var DungeonRoom7: DungeonRoom = $DungeonRoom7
 @onready var goBackdialogueBarrier: DialogueBarrier = $"DungeonRoom0/GoBackDialogueBarrier"
 @onready var shopkeeperDialogueBarrier: DialogueBarrier = $"DungeonRoom1/ShopkeeperDialogueBarrier"
 @onready var sideDoor = $"DungeonRoom3/SideDoor"
 @onready var princessFollowCheck = $"DungeonRoom3/PrincessFollowCheck"
+@onready var afterLasersDialogueBarrierCollisionShape = $DungeonRoom6/DialogueBarrier/CollisionShape2D
 
 @export var markers: Array[Marker2D]
 
@@ -26,9 +32,13 @@ func _ready() -> void:
 	Events.is_player_controlled = true
 	
 	Events.room_entered.connect(_on_room_entered)
+	Events.room_exited.connect(_on_room_exited)
 	Events.room_locked.connect(_on_room_locked)
 	Events.player_died.connect(_on_player_died)
 	Events.dialogue_movement.connect(_on_dialogue_movement)
+	
+	if Events.get_flag("puzzle_complete"):
+		sideDoor.queue_free()
 	
 	if Events.player_transition == "up":
 		player.global_position = goBackdialogueBarrier.global_position + Vector2(0, -16)
@@ -40,9 +50,6 @@ func _physics_process(_delta: float) -> void:
 func _unhandled_key_input(event: InputEvent) -> void:
 	if event.is_action_pressed("debug_killall"):
 		currentRoom.debug_killall()
-
-func combat_lock_signal():
-	currentRoom.combat_lock_room()
 
 func dialogue_barrier(key: String):
 	if key == "princess_follow_check":
@@ -58,14 +65,30 @@ func remove_shopkeeper_dialogue_barrier():
 
 func _on_room_entered(room):
 	currentRoom = room
+	if room == DungeonRoom4 or room == DungeonRoom5:
+		room.activate_lasers()
+	else:
+		room.end_overworld_hazard()
+		
+func _on_room_exited(room):
+	currentRoom = room
+	if room == DungeonRoom4 or room == DungeonRoom5:
+		room.deactivate_lasers()
 		
 func _on_room_locked(room):
 	if room == DungeonRoom2:
-		combat_lock_signal()
-		Events.dungeon_2_dialogue_value = "room_2_arena"
-	elif room == DungeonRoom3 and Events.dungeon_2_dialogue_value == "room_2_arena":
+		room.combat_lock_room()
+	elif room == DungeonRoom3 and not Events.get_flag("puzzle_complete"):
 		princess.set_nav_state()
-		dialogueRoomManager.dialogue("enter_puzzle_room")
+		if not Events.get_flag("puzzle_started"):
+			dialogueRoomManager.dialogue("enter_puzzle_room")
+		else:
+			_on_dialogue_movement("enter_puzzle_room")
+	elif room == DungeonRoom6 and not Events.get_flag("met_THE_prisoner"):
+		dialogueRoomManager.dialogue("THE_prisoner_intro")
+		afterLasersDialogueBarrierCollisionShape.set_deferred("disabled", false)
+	elif room == DungeonRoom7:
+		room.combat_lock_room()
 	
 func _on_player_died():
 	await get_tree().create_timer(1).timeout
@@ -82,7 +105,3 @@ func _on_box_puzzle_puzzle_complete() -> void:
 	var doorSound = DoorSound.instantiate()
 	get_tree().current_scene.add_child(doorSound)
 	dialogueRoomManager.dialogue("puzzle_complete")
-	
-func _on_princess_dialogue_zone_zone_triggered() -> void:
-	if Events.dungeon_2_dialogue_value == "enter_puzzle_room_loop":
-		dialogueRoomManager.dialogue("enter_puzzle_room_loop")

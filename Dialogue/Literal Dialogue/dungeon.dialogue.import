@@ -1,0 +1,16 @@
+[remap]
+
+importer="dialogue_manager"
+importer_version=15
+type="Resource"
+uid="uid://fqwltrnnpsc5"
+path="res://.godot/imported/dungeon.dialogue-9ced2951e68e7bd3c26d81935ef7fedc.tres"
+
+[deps]
+
+source_file="res://Dialogue/Literal Dialogue/dungeon.dialogue"
+dest_files=["res://.godot/imported/dungeon.dialogue-9ced2951e68e7bd3c26d81935ef7fedc.tres"]
+
+[params]
+
+defaults=true

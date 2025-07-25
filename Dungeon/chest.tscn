@@ -67,6 +67,7 @@ _data = {
 script = ExtResource("1_ov2sa")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
+z_index = -2
 texture = ExtResource("1_nvf1a")
 vframes = 2
 

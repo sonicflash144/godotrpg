@@ -1,5 +1,15 @@
 extends Node
 
+var GAME_STATE: GameState = preload("res://game_state.tres")
+
+func set_flag(flag_name: String, value):
+	if GAME_STATE:
+		GAME_STATE.flags[flag_name] = value
+
+func get_flag(flag_name: String):
+	if GAME_STATE:
+		return GAME_STATE.flags.get(flag_name)
+
 # Combat
 var num_party_members := 2
 var is_player_controlled := true
@@ -19,6 +29,8 @@ var playerDead := false
 @warning_ignore("unused_signal")
 signal room_entered(room)
 @warning_ignore("unused_signal")
+signal room_exited(room)
+@warning_ignore("unused_signal")
 signal room_locked(room)
 @warning_ignore("unused_signal")
 signal room_combat_locked(room)
@@ -29,9 +41,7 @@ signal room_un_combat_locked(room)
 @warning_ignore("unused_signal")
 signal dialogue_movement(key: String)
 
-var prison_dialogue_value := ""
 var princess_dialogue_value := ""
-var dungeon_2_dialogue_value := ""
 
 var menuOpen := false
 var controlsEnabled := true
@@ -61,6 +71,5 @@ func update_equipment_abilities(player_equipment: Array, princess_equipment := [
 			equipment_abilities[item.ability] = true
 
 # World State
-var prisonDoorOpened := false
 var player_has_sword := true
 var player_transition := ""

@@ -7,7 +7,10 @@ signal puzzle_complete
 @onready var player: CharacterBody2D = $"../../Player"
 @onready var animation_tree: AnimationTree = $"../../Player/AnimationTree"
 @onready var push_cast: RayCast2D = $"../../Player/PushCast"
+@onready var resetButton = $ResetButton
 @onready var boxSlideSound: AudioStreamPlayer = $BoxSlide
+
+@export var no_reset := false
 
 var is_puzzle_complete: bool = false
 var grid_types: Dictionary = {}
@@ -20,6 +23,9 @@ var tile_size: float = 16.0
 var tile_offset: Vector2 = Vector2.ZERO
 
 func _ready() -> void:
+	if no_reset:
+		resetButton.queue_free()
+		
 	var used_cells = get_used_cells()
 
 	for cell in used_cells:
@@ -89,6 +95,9 @@ func _on_box_moved(box: StaticBody2D, dest_grid: Vector2i):
 	check_win()
 
 func check_win() -> void:
+	if goals.is_empty():
+		return
+		
 	var filled = true
 	for goal in goals:
 		if not boxes_dict.has(goal):

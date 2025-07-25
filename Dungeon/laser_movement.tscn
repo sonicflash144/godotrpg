@@ -1,0 +1,7 @@
+[gd_scene load_steps=2 format=3 uid="uid://bqp80cx6cbgli"]
+
+[ext_resource type="Script" uid="uid://ulwwomndy3u4" path="res://Dungeon/laser_movement.gd" id="1_5x5ps"]
+
+[node name="LaserMovement" type="Node2D" node_paths=PackedStringArray("marker") groups=["Laser"]]
+script = ExtResource("1_5x5ps")
+marker = NodePath("")

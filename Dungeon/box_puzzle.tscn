@@ -6,11 +6,12 @@
 [ext_resource type="AudioStream" uid="uid://bsgdnun8jskvy" path="res://Music and Sounds/box slide.mp3" id="3_s6vuy"]
 
 [node name="BoxPuzzle" type="TileMapLayer"]
+z_index = -2
 tile_set = ExtResource("1_68yk6")
 script = ExtResource("2_jt4yq")
 
 [node name="ResetButton" parent="." instance=ExtResource("3_dc8ub")]
-position = Vector2(128, 88)
+position = Vector2(16, 232)
 
 [node name="BoxSlide" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("3_s6vuy")

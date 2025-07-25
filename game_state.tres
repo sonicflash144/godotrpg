@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="GameState" load_steps=2 format=3 uid="uid://ceemoogtbqtjo"]
+
+[ext_resource type="Script" uid="uid://btjg3prpqh37q" path="res://game_state.gd" id="1_ry6od"]
+
+[resource]
+script = ExtResource("1_ry6od")
+flags = {
+"ate_sandwich": false,
+"checked_wall": false,
+"met_THE_prisoner": false,
+"met_shopkeeper": false,
+"prison_door_opened": false,
+"puzzle_complete": false
+}
+metadata/_custom_type_script = "uid://btjg3prpqh37q"

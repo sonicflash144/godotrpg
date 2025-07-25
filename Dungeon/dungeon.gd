@@ -80,7 +80,7 @@ func _on_room_entered(room):
 func _on_room_locked(room):
 	var value = Events.princess_dialogue_value
 	if room == DungeonRoom0:
-		combat_lock_signal()
+		room.combat_lock_room()
 	if room == DungeonRoom2 and value == "enter_ghost_room":
 		dialogueRoomManager.dialogue("ghost_room")
 	if room == DungeonRoom3 and value == "door":

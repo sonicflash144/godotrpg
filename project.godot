@@ -75,6 +75,7 @@ Spikes=""
 Princess=""
 Box=""
 NavTileMap=""
+Laser=""
 
 [input]
 
@@ -129,7 +130,7 @@ debug_run={
 
 [internationalization]
 
-locale/translations_pot_files=PackedStringArray("res://Dialogue/Literal Dialogue/princessIntro.dialogue", "res://Dialogue/Literal Dialogue/prison.dialogue", "res://Dialogue/Literal Dialogue/dungeon_2.dialogue")
+locale/translations_pot_files=PackedStringArray("res://Dialogue/Literal Dialogue/prison.dialogue", "res://Dialogue/Literal Dialogue/dungeon_2.dialogue", "res://Dialogue/Literal Dialogue/dungeon.dialogue")
 
 [layer_names]
 

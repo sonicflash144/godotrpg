@@ -1,0 +1,16 @@
+[gd_scene load_steps=3 format=3 uid="uid://bpm6agniem71"]
+
+[ext_resource type="Script" uid="uid://dj443dsuenksm" path="res://Dialogue/dialogue_trigger.gd" id="1_ohcaj"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_dtou2"]
+
+[node name="DialogueTrigger" type="Area2D"]
+visible = false
+collision_layer = 0
+collision_mask = 2
+script = ExtResource("1_ohcaj")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_dtou2")
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]

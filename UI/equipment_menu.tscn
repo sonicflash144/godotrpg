@@ -136,7 +136,7 @@ stretch_mode = 3
 
 [node name="PrincessLabel" type="Label" parent="Menu/PanelContainer/VBoxContainer/TopHBox/CharPanelContainer/CharVBox/MarginContainer/CharSelectVBox/PrincessHBox"]
 layout_mode = 2
-text = "Princess"
+text = "Girl"
 
 [node name="EquippedPanelContainer" type="PanelContainer" parent="Menu/PanelContainer/VBoxContainer/TopHBox"]
 layout_mode = 2

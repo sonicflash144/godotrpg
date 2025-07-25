@@ -49,7 +49,8 @@ func damage(base_damage: int, area_name: String):
 	var adjusted_damage = base_damage
 	if get_parent().is_in_group("Enemy") and Events.equipment_abilities["Revenge"] and (Events.playerDown or Events.princessDown):
 		adjusted_damage *= REVENGE_DAMANGE_MULTIPLIER
-	adjusted_damage = clamp(adjusted_damage - get_parent().stats.defense, 0, INF)
+	if area_name != "LaserHitbox":
+		adjusted_damage = clamp(adjusted_damage - get_parent().stats.defense, 0, INF)
 	health -= adjusted_damage
 	health = clamp(health, 0, MAX_HEALTH)
 	

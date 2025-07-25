@@ -1,7 +1,7 @@
 ~ wall
-if not Events.prison_dialogue_value:
+if not Events.get_flag("checked_wall"):
 	It's a wall. Unfortunately doesn't look very breakable.
-	set Events.prison_dialogue_value = "checked_wall"
+	set Events.set_flag("checked_wall", true)
 else:
 	...Still a wall.
 => END
@@ -76,7 +76,7 @@ do open_generic_door()
 do wait(1.5)
 do player_face_guard()
 Guard: HEY! I told you to stay— [#portrait=neutral]
-if Events.prison_dialogue_value == "sandwich":
+if Events.get_flag("ate_sandwich"):
 	Guard: ...Did you seriously eat my sandwich? My mom made that for me, you know. [#portrait=neutral]
 Guard: Wait, is that my sword? Woah, woah, calm down. [#portrait=neutral]
 Guard: You're not gonna hurt me or anything, right? [#portrait=neutral]

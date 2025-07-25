@@ -19,14 +19,18 @@ var DoorSound = load("res://Music and Sounds/door_sound.tscn")
 func _ready() -> void:
 	Events.num_party_members = 1
 	Events.player_has_sword = false
+	Events.set_flag("prison_door_opened", true)
 	Events.dialogue_movement.connect(_on_dialogue_movement)
+	
+	if Events.get_flag("ate_sandwich"):
+		sandwich.queue_free()
 	
 	if Events.player_transition == "down":
 		player.global_position = transitionArea.global_position
 	
 func eat_sandwich():
 	sandwich.queue_free()
-	Events.prison_dialogue_value = "sandwich"
+	Events.set_flag("ate_sandwich", true)
 	
 func take_sword():
 	sword.queue_free()

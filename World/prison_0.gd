@@ -17,7 +17,7 @@ func _ready() -> void:
 	Events.player_has_sword = false
 	Events.dialogue_movement.connect(_on_dialogue_movement)
 	
-	if Events.prisonDoorOpened:
+	if Events.get_flag("prison_door_opened"):
 		door.queue_free()
 	
 	if Events.player_transition == "up":
@@ -30,7 +30,7 @@ func open_prison_door():
 	door.queue_free()
 	var doorSound = DoorSound.instantiate()
 	get_tree().current_scene.add_child(doorSound)
-	Events.prisonDoorOpened = true
+	Events.set_flag("prison_door_opened", true)
 	
 func alarm_animation():
 	alarmSound.play()

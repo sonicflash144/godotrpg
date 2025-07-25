@@ -34,6 +34,24 @@ func enable_collider():
 	_on_timer_timeout()
 	start_invincibility()
 
+func overworld_damage_logic(area: Area2D):
+	var princessHealth = get_node_or_null("../../Princess/Health_Component")
+
+	var laser_damage = area.damage
+	var player_would_die = health.health <= laser_damage
+	var princess_would_die = princessHealth.health <= laser_damage
+
+	# If both will die, then damage both to kill them.
+	if player_would_die and princess_would_die:
+		health.damage(laser_damage, area.name)
+		princessHealth.damage(laser_damage, area.name)
+	# Otherwise, only deal damage to a character if they will survive.
+	else:
+		if not player_would_die:
+			health.damage(laser_damage, area.name)
+		if not princess_would_die:
+			princessHealth.damage(laser_damage, area.name)
+
 func start_invincibility():
 	is_invincible = true
 	collisionShape.set_deferred("disabled", true)
@@ -52,17 +70,25 @@ func _on_area_entered(area: Area2D) -> void:
 	if is_invincible:
 		return
 	
-	if health:
-		health.damage(area.damage, area.name)
+	if area.name == "LaserHitbox":
+		overworld_damage_logic(area)
+	else:
+		if health:
+			health.damage(area.damage, area.name)
+		
+		if Events.equipment_abilities["Ice"] and area.name == "SwordHitbox" and get_parent().is_in_group("Enemy") and randf() < SWORD_SLOW_RATE:
+			get_parent().slow_enemy()
 	
-	if Events.equipment_abilities["Ice"] and area.name == "SwordHitbox" and get_parent().is_in_group("Enemy") and randf() < SWORD_SLOW_RATE:
-		get_parent().slow_enemy()
-	
+	# Common effects for any hit that is registered.
 	start_invincibility()
 	var hurtSound = HurtSound.instantiate()
 	get_tree().current_scene.add_child(hurtSound)
 	if area.name == "ShockwaveHitbox":
 		var direction = (global_position - area.global_position).normalized()
 		trigger_knockback.emit(direction)
+	elif area.name == "LaserHitbox":
+		var movement_component = get_node_or_null("../Movement_Component")
+		var direction = movement_component.animation_tree.get("parameters/Run/blend_position")
+		trigger_knockback.emit(-direction)
 	else:
 		trigger_knockback.emit(area.knockback_vector)

@@ -4,7 +4,7 @@ Princess: Don't you want to see what else is around? [#portrait=happy_closed_mou
 => END
 
 ~ shopkeeper
-if Events.dungeon_2_dialogue_value != "":
+if Events.get_flag("met_shopkeeper")
 	=> shopkeeper_talk_loop
 Shopkeeper: Welcome to my humble shop, prisoners.
 Princess: Wow, a shop? I knew this place would be cool. [#portrait=surprise]
@@ -19,7 +19,7 @@ Princess: What items do you have for sale? [#portrait=surprise] => shopkeeper_of
 
 ~ shopkeeper_offerings
 do remove_shopkeeper_dialogue_barrier()
-set Events.dungeon_2_dialogue_value = "shopkeeper_talk_loop"
+set Events.set_flag("met_shopkeeper", true)
 Shopkeeper: I'm glad you asked! I have two fantastic items. 
 Shopkeeper: First, a sword made of solid iron, with a razor sharp edge.
 Shopkeeper: And second, a protective chestplate crafted by the kingdom's best blacksmith.
@@ -48,12 +48,8 @@ You got the [color=yellow]Overpriced Armor[/color]. Use \[C\] to equip it in the
 ~ enter_puzzle_room
 Princess: Uh oh, this looks complicated. [#portrait=sad_closed_mouth]
 Princess: Um, you can figure it out, right? [#portrait=happy]
-do Events.dialogue_movement.emit("enter_puzzle_room")
-set Events.dungeon_2_dialogue_value = "enter_puzzle_room_loop"
-=> END
-
-~ enter_puzzle_room_loop
-Princess: Um, you can figure it out, right? [#portrait=happy]
+set Events.dialogue_movement.emit("enter_puzzle_room")
+set Events.set_flag("puzzle_started", true)
 => END
 
 ~ side_door
@@ -63,5 +59,48 @@ Use \[Z\] while standing next to a box to push it.
 
 ~ puzzle_complete
 Princess: That was amazing! I wish I could be as smart as you. [#portrait=surprise_happy]
-set Events.dungeon_2_dialogue_value = "puzzle_solved"
+set Events.set_flag("puzzle_complete", true)
+=> END
+
+~ chest_better_bow
+You got the [color=yellow]Better Bow[/color].
+=> END
+
+~ laser_room_1
+Princess: ARE THOSE LASERS??? [#portrait=shocked]
+Princess: I did not sign up for this! Be careful, okay? [#portrait=determined]
+=> END
+
+~ laser_room_2
+Princess: Oh boy, more lasers. [#portrait=sad]
+Princess: And those red ones don't seem to turn off on their own... [#portrait=neutral]
+=> END
+
+~ chest_revenge_armor
+You got the [color=yellow]Revenge Armor[/color].
+=> END
+
+~ THE_prisoner_intro
+THE Prisoner: WHAT the— [#portrait=shocked]
+THE Prisoner: I mean, hello there. Who are you guys? [#portrait=happy]
+Princess: I'm a brave adventurer, of course, just like my companion here. [#portrait=happy_teeth]
+Princess: Who are you? [#portrait=happy_closed_mouth]
+THE Prisoner: Just an ordinary prisoner who got thrown in the dungeon. [#portrait=neutral_closed_mouth]
+THE Prisoner: You guys go on ahead. I have some friends I need to talk to. [#portrait=neutral]
+Princess: Friends? Can we meet them? [#portrait=surprise]
+THE Prisoner: Sorry, what I meant to say was, imaginary friends. [#portrait=happy_closed_mouth]
+THE Prisoner: So you don't need to worry about them. Because they don't, uh, exist. [#portrait=neutral]
+- That's sad
+- That's suspicious
+Princess: Hey, don't be rude. [#portrait=neutral]
+Princess: You take your time, sir. We'll, uh, see you around. [#portrait=happy_closed_mouth]
+set Events.set_flag("met_THE_prisoner", true)
+=> END
+
+~ THE_prisoner_loop
+THE Prisoner: You guys go on ahead. [#portrait=neutral_closed_mouth]
+=> END
+
+~ after_lasers_barrier
+Princess: Can we... NOT go back to the room with the scary lasers? [#portrait=sad]
 => END
