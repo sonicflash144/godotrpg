@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://co1873ohay2xo"]
 
-[ext_resource type="AudioStream" uid="uid://dufmbmu0r21ub" path="res://Music and Sounds/door open.mp3" id="1_6dw0k"]
+[ext_resource type="AudioStream" uid="uid://b8dsbh70shypy" path="res://Music and Sounds/door open.mp3" id="1_6dw0k"]
 [ext_resource type="Script" uid="uid://dmyrrmqxy7bkp" path="res://Music and Sounds/sound_self_destroy.gd" id="2_ylafo"]
 
 [node name="DoorSound" type="AudioStreamPlayer"]

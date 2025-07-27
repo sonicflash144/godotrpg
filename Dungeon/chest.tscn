@@ -1,9 +1,9 @@
 [gd_scene load_steps=10 format=3 uid="uid://d24ateel8ltrn"]
 
-[ext_resource type="Texture2D" uid="uid://buuu0ayyd8ed1" path="res://Dungeon/Sprites/chest.png" id="1_nvf1a"]
+[ext_resource type="Texture2D" uid="uid://bwvrfqjnst15o" path="res://Dungeon/Sprites/chest.png" id="1_nvf1a"]
 [ext_resource type="Script" uid="uid://sa73drqwy3gm" path="res://Dungeon/chest.gd" id="1_ov2sa"]
 [ext_resource type="PackedScene" uid="uid://damjysxl382ea" path="res://Dialogue/dialogue_zone.tscn" id="2_xetvy"]
-[ext_resource type="AudioStream" uid="uid://cdwiwcedf3soe" path="res://Music and Sounds/chest.mp3" id="3_xetvy"]
+[ext_resource type="AudioStream" uid="uid://cr14q5t1kad8a" path="res://Music and Sounds/chest.mp3" id="3_xetvy"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_hvmxn"]
 size = Vector2(16, 9)

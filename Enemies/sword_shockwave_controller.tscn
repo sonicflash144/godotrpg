@@ -2,9 +2,9 @@
 
 [ext_resource type="Script" uid="uid://b3khbyt6dctnq" path="res://Enemies/sword_shockwave_controller.gd" id="1_ppuws"]
 [ext_resource type="PackedScene" uid="uid://lfrhnehwb41h" path="res://Combat/hitbox.tscn" id="2_616ei"]
-[ext_resource type="Texture2D" uid="uid://dvu6eh6l6yxmq" path="res://Enemies/Sprites/shockwave.png" id="2_vcl7f"]
+[ext_resource type="Texture2D" uid="uid://btfsns24xqmwg" path="res://Enemies/Sprites/shockwave.png" id="2_vcl7f"]
 [ext_resource type="Script" uid="uid://bgdg8osb748gd" path="res://Stats/stats.gd" id="2_xwwml"]
-[ext_resource type="AudioStream" uid="uid://bps057wdjdt7j" path="res://Music and Sounds/shockwave.mp3" id="3_cfn4c"]
+[ext_resource type="AudioStream" uid="uid://bb8xk6e3bj4m" path="res://Music and Sounds/shockwave.mp3" id="3_cfn4c"]
 
 [sub_resource type="Resource" id="Resource_xaho1"]
 script = ExtResource("2_xwwml")

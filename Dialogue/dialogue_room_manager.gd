@@ -11,7 +11,7 @@ const balloon_bottom = "res://Dialogue/balloon.tscn"
 
 func _ready() -> void:
 	DialogueManager.dialogue_ended.connect(_on_dialogue_ended)
-
+	
 func get_balloon_path():
 	if player.global_position.y > get_viewport().get_camera_2d().get_screen_center_position().y:
 		return balloon_top

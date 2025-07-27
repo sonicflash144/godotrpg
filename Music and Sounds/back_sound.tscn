@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://c22mi4tjy6whs"]
 
-[ext_resource type="AudioStream" uid="uid://pffiidda5yp2" path="res://Music and Sounds/back.mp3" id="1_46j6k"]
+[ext_resource type="AudioStream" uid="uid://df7h620uupjhn" path="res://Music and Sounds/back.mp3" id="1_46j6k"]
 [ext_resource type="Script" uid="uid://dmyrrmqxy7bkp" path="res://Music and Sounds/sound_self_destroy.gd" id="2_eyv6v"]
 
 [node name="BackSound" type="AudioStreamPlayer"]

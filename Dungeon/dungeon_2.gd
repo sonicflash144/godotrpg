@@ -4,6 +4,9 @@ extends Node2D
 @onready var pathfindingManager: PathfindingManager = $PathfindingManager
 @onready var player: CharacterBody2D = $Player
 @onready var princess: CharacterBody2D = $Princess
+@onready var princessCollider = $"Princess/CollisionShape2D"
+@onready var princessHurtbox: Hurtbox = $"Princess/Hurtbox"
+@onready var princessBlinkAnimation = $"Princess/BlinkAnimationPlayer"
 @onready var DungeonRoom0: DungeonRoom = $DungeonRoom0
 @onready var DungeonRoom2: DungeonRoom = $DungeonRoom2
 @onready var DungeonRoom3: DungeonRoom = $DungeonRoom3
@@ -21,6 +24,8 @@ extends Node2D
 
 var last_valid_position: Vector2
 var currentRoom: DungeonRoom
+var puzzle_complete := false
+var overworld_hazard_active := false
 var ironSword: Equipment = load("res://Equipment/iron_sword.tres")
 var overpricedArmor: Equipment = load("res://Equipment/overpriced_armor.tres")
 var DoorSound = load("res://Music and Sounds/door_sound.tscn")
@@ -37,12 +42,12 @@ func _ready() -> void:
 	Events.player_died.connect(_on_player_died)
 	Events.dialogue_movement.connect(_on_dialogue_movement)
 	
-	if Events.get_flag("puzzle_complete"):
-		sideDoor.queue_free()
-	
 	if Events.player_transition == "up":
 		player.global_position = goBackdialogueBarrier.global_position + Vector2(0, -16)
 		player.movement_component.update_animation_direction(Vector2.UP)
+		
+	if Events.get_flag("met_shopkeeper"):
+		remove_shopkeeper_dialogue_barrier()
 
 func _physics_process(_delta: float) -> void:
 	last_valid_position = player.global_position
@@ -63,12 +68,32 @@ func dialogue_barrier(key: String):
 func remove_shopkeeper_dialogue_barrier():
 	shopkeeperDialogueBarrier.queue_free()
 
+func puzzle_completed():
+	puzzle_complete = true
+
+func start_overworld_hazard():
+	overworld_hazard_active = true
+	princessCollider.set_deferred("disabled", true)
+	princessHurtbox.disable_collider()
+	princessBlinkAnimation.play("Disabled")
+	princess.z_index = -1
+
+func end_overworld_hazard():
+	overworld_hazard_active = false
+	if Events.combat_locked:
+		return
+	princessCollider.set_deferred("disabled", false)
+	princessHurtbox.enable_collider()
+	princessBlinkAnimation.play("RESET")
+	princess.z_index = 0
+
 func _on_room_entered(room):
 	currentRoom = room
 	if room == DungeonRoom4 or room == DungeonRoom5:
+		start_overworld_hazard()
 		room.activate_lasers()
-	else:
-		room.end_overworld_hazard()
+	elif overworld_hazard_active:
+		end_overworld_hazard()
 		
 func _on_room_exited(room):
 	currentRoom = room
@@ -78,7 +103,7 @@ func _on_room_exited(room):
 func _on_room_locked(room):
 	if room == DungeonRoom2:
 		room.combat_lock_room()
-	elif room == DungeonRoom3 and not Events.get_flag("puzzle_complete"):
+	elif room == DungeonRoom3 and not puzzle_complete:
 		princess.set_nav_state()
 		if not Events.get_flag("puzzle_started"):
 			dialogueRoomManager.dialogue("enter_puzzle_room")

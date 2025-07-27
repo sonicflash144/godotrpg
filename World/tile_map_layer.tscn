@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=4 uid="uid://4tgk781ue0k4"]
 
-[ext_resource type="TileSet" uid="uid://mt4o7s2t6ie6" path="res://World/desert_bg.tres" id="1_ee6gy"]
+[ext_resource type="TileSet" uid="uid://coxer3oxju24" path="res://World/desert_bg.tres" id="1_ee6gy"]
 
 [node name="TileMapLayer" type="TileMapLayer" groups=["NavTileMap"]]
 z_index = -3

@@ -2,13 +2,7 @@ extends Node2D
 
 class_name DungeonRoom
 
-@onready var princess: CharacterBody2D = $"../Princess"
-@onready var princessCollider = $"../Princess/CollisionShape2D"
-@onready var princessHurtbox: Hurtbox = $"../Princess/Hurtbox"
-@onready var princessBlinkAnimation = $"../Princess/BlinkAnimationPlayer"
-
 var players_in_room := {}
-var combat_locked := false
 var roomCompleted := false
 var CombatLockSound = load("res://Music and Sounds/combat_lock_sound.tscn")
 var enemies: Array[CharacterBody2D]
@@ -48,7 +42,6 @@ func deactivate_spikes():
 		collision_shape.set_deferred("disabled", true)
 
 func activate_lasers():
-	start_overworld_hazard()
 	for laser in lasers:
 		laser.start()
 		
@@ -56,24 +49,10 @@ func deactivate_lasers():
 	for laser in lasers:
 		laser.end()
 
-func start_overworld_hazard():
-	princessCollider.set_deferred("disabled", true)
-	princessHurtbox.disable_collider()
-	princessBlinkAnimation.play("Disabled")
-	princess.z_index = -1
-
-func end_overworld_hazard():
-	if combat_locked:
-		return
-	princessCollider.set_deferred("disabled", false)
-	princessHurtbox.enable_collider()
-	princessBlinkAnimation.play("RESET")
-	princess.z_index = 0
-
 func combat_lock_room():
-	if combat_locked or roomCompleted:
+	if Events.combat_locked or roomCompleted:
 		return
-	combat_locked = true
+	Events.combat_locked = true
 	Events.emit_signal("room_combat_locked")
 	var combatLockSound = CombatLockSound.instantiate()
 	get_tree().current_scene.add_child(combatLockSound)
@@ -83,7 +62,7 @@ func combat_lock_room():
 		enemy.set_idle_state()
 
 func un_combat_lock_room():
-	combat_locked = false
+	Events.combat_locked = false
 	Events.emit_signal("room_un_combat_locked")
 	var combatLockSound = CombatLockSound.instantiate()
 	get_tree().current_scene.add_child(combatLockSound)
@@ -91,7 +70,7 @@ func un_combat_lock_room():
 	roomCompleted = true
 
 func debug_killall():
-	if not OS.is_debug_build() or not combat_locked:
+	if not OS.is_debug_build() or not Events.combat_locked:
 		return
 	
 	for enemy in enemies.duplicate():

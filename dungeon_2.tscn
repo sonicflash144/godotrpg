@@ -1,11 +1,11 @@
-[gd_scene load_steps=37 format=4 uid="uid://bl2s883me6tip"]
+[gd_scene load_steps=37 format=4 uid="uid://bjpm8ir0aviaw"]
 
 [ext_resource type="Script" uid="uid://drlqthyfnl327" path="res://Dungeon/dungeon_2.gd" id="1_75ekg"]
 [ext_resource type="PackedScene" uid="uid://c23uva3n3te25" path="res://UI/health_canvas_layer.tscn" id="2_557va"]
 [ext_resource type="PackedScene" uid="uid://ca2y4nv11el0s" path="res://Dungeon/dungeon_camera_2d.tscn" id="3_s718q"]
+[ext_resource type="Resource" uid="uid://ckhsuu4k1h8pm" path="res://Dialogue/Literal Dialogue/dungeon_2.dialogue" id="5_csb1e"]
 [ext_resource type="PackedScene" uid="uid://l10kiwsexaab" path="res://Combat/combat_manager.tscn" id="5_x6csh"]
 [ext_resource type="PackedScene" uid="uid://cqv7hf2dkuljw" path="res://Dialogue/dialogue_room_manager.tscn" id="5_xueeg"]
-[ext_resource type="Resource" uid="uid://ckhsuu4k1h8pm" path="res://Dialogue/Literal Dialogue/dungeon_2.dialogue" id="6_75ekg"]
 [ext_resource type="PackedScene" uid="uid://cgnrs4ebb1dfe" path="res://World/pathfinding_manager.tscn" id="7_s718q"]
 [ext_resource type="PackedScene" uid="uid://cbtcrvc8377r3" path="res://Dungeon/dungeon_room.tscn" id="8_rfjwi"]
 [ext_resource type="PackedScene" uid="uid://brme23g7yalcu" path="res://Dialogue/dialogue_barrier.tscn" id="9_557va"]
@@ -25,7 +25,7 @@
 [ext_resource type="PackedScene" uid="uid://damjysxl382ea" path="res://Dialogue/dialogue_zone.tscn" id="20_ww7ku"]
 [ext_resource type="Resource" uid="uid://dnaumst244w6n" path="res://Equipment/revenge_armor.tres" id="22_dbjap"]
 [ext_resource type="Resource" uid="uid://cmeciect273fl" path="res://Equipment/better_bow.tres" id="22_q36a5"]
-[ext_resource type="Texture2D" uid="uid://bvunv13djh2lm" path="res://NPCs/Sprites/shopkeeper.png" id="23_d1n6l"]
+[ext_resource type="Texture2D" uid="uid://d3a6kijh03g1l" path="res://NPCs/Sprites/shopkeeper.png" id="23_d1n6l"]
 [ext_resource type="PackedScene" uid="uid://bpm6agniem71" path="res://Dialogue/dialogue_trigger.tscn" id="24_csb1e"]
 [ext_resource type="PackedScene" uid="uid://6wkafegtbmeu" path="res://Enemies/spikeball.tscn" id="25_dtou2"]
 [ext_resource type="PackedScene" uid="uid://dq1t7uoajlujw" path="res://NPCs/the_prisoner.tscn" id="25_rfjwi"]
@@ -62,7 +62,7 @@ markers = [NodePath("DungeonRoom3/enter_puzzle_room")]
 position = Vector2(-320, -480)
 
 [node name="DialogueRoomManager" parent="." instance=ExtResource("5_xueeg")]
-dialogueResource = ExtResource("6_75ekg")
+dialogueResource = ExtResource("5_csb1e")
 
 [node name="CombatManager" parent="." instance=ExtResource("5_x6csh")]
 

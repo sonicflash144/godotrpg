@@ -21,6 +21,11 @@ var state = MOVE
 func _ready() -> void:
 	follow_component.set_target(princess)
 	update_stats()
+	
+	LimboConsole.register_command(console_give, "give", "Add an item to storage")
+	LimboConsole.add_argument_autocomplete_source("give", 0,
+		func(): return ["better_bow", "icy_sword", "iron_sword", "lucky_armor", "multi_bow", "overpriced_armor", "piercing_bow", "revenge_armor", "shock_sword", "speedy_armor"]
+	)
 
 func _physics_process(_delta: float) -> void:
 	if state != ATTACK:
@@ -36,6 +41,11 @@ func _physics_process(_delta: float) -> void:
 			attack_state()
 		FOLLOW:
 			follow_component.follow()
+
+func console_give(item_name: String):
+	var item_path = "res://Equipment/%s.tres" % item_name
+	var item = load(item_path)
+	storage.append(item)
 			
 func update_stats():
 	stats.attack = 0

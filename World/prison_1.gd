@@ -19,7 +19,7 @@ var DoorSound = load("res://Music and Sounds/door_sound.tscn")
 func _ready() -> void:
 	Events.num_party_members = 1
 	Events.player_has_sword = false
-	Events.set_flag("prison_door_opened", true)
+	Events.set_flag("prison_door_opened")
 	Events.dialogue_movement.connect(_on_dialogue_movement)
 	
 	if Events.get_flag("ate_sandwich"):
@@ -30,7 +30,7 @@ func _ready() -> void:
 	
 func eat_sandwich():
 	sandwich.queue_free()
-	Events.set_flag("ate_sandwich", true)
+	Events.set_flag("ate_sandwich")
 	
 func take_sword():
 	sword.queue_free()
@@ -68,8 +68,8 @@ func _on_dialogue_movement(key: String):
 		
 func _on_transition_body_entered(body: Node2D) -> void:
 	if body.is_in_group("Player"):
-		TransitionHandler.fade_out(get_tree().current_scene, "res://prison0.tscn", 0.8)
+		TransitionHandler.fade_out("res://prison0.tscn")
 		Events.player_transition = "up"
 
 func transition_to_dungeon():
-	TransitionHandler.fade_out(get_tree().current_scene, "res://dungeon.tscn", 0.8)
+	TransitionHandler.fade_out("res://dungeon.tscn")

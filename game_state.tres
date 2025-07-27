@@ -1,15 +1,23 @@
-[gd_resource type="Resource" script_class="GameState" load_steps=2 format=3 uid="uid://ceemoogtbqtjo"]
+[gd_resource type="Resource" script_class="GameState" load_steps=2 format=3 uid="uid://ylwv7iak7f0i"]
 
 [ext_resource type="Script" uid="uid://btjg3prpqh37q" path="res://game_state.gd" id="1_ry6od"]
 
 [resource]
 script = ExtResource("1_ry6od")
 flags = {
-"ate_sandwich": false,
-"checked_wall": false,
+"dungeon_2": {
+"laser_room_1": false,
+"laser_room_2": false,
 "met_THE_prisoner": false,
 "met_shopkeeper": false,
-"prison_door_opened": false,
-"puzzle_complete": false
+"puzzle_started": false
+},
+"prison0": {
+"checked_wall": false,
+"prison_door_opened": false
+},
+"prison1": {
+"ate_sandwich": false
+}
 }
 metadata/_custom_type_script = "uid://btjg3prpqh37q"

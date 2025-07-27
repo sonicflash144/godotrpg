@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://2pw36jsvpkc0"]
 
-[ext_resource type="AudioStream" uid="uid://c71egjhd5fp06" path="res://Music and Sounds/Hit.wav" id="1_fj5ol"]
+[ext_resource type="AudioStream" uid="uid://c25yeqnd0j6nm" path="res://Music and Sounds/Hit.wav" id="1_fj5ol"]
 [ext_resource type="Script" uid="uid://dmyrrmqxy7bkp" path="res://Music and Sounds/sound_self_destroy.gd" id="2_da1b1"]
 
 [node name="PlayerHitSound" type="AudioStreamPlayer"]

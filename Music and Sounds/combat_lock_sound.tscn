@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://c62aoma18kbto"]
 
-[ext_resource type="AudioStream" uid="uid://cm8ie8qjbo47u" path="res://Music and Sounds/combat_lock.mp3" id="1_w2j8m"]
+[ext_resource type="AudioStream" uid="uid://cf8dust65mjcb" path="res://Music and Sounds/combat_lock.mp3" id="1_w2j8m"]
 [ext_resource type="Script" uid="uid://dmyrrmqxy7bkp" path="res://Music and Sounds/sound_self_destroy.gd" id="2_w2j8m"]
 
 [node name="CombatLockSound" type="AudioStreamPlayer"]

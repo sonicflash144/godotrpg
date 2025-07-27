@@ -59,7 +59,7 @@ Use \[Z\] while standing next to a box to push it.
 
 ~ puzzle_complete
 Princess: That was amazing! I wish I could be as smart as you. [#portrait=surprise_happy]
-set Events.set_flag("puzzle_complete", true)
+set puzzle_completed()
 => END
 
 ~ chest_better_bow

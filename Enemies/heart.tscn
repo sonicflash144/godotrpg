@@ -1,7 +1,7 @@
 [gd_scene load_steps=9 format=3 uid="uid://dnebog0xn5tvl"]
 
 [ext_resource type="Script" uid="uid://dbb5c1tpsi84j" path="res://Enemies/heart.gd" id="1_em58l"]
-[ext_resource type="Texture2D" uid="uid://db1hgtge1plww" path="res://Enemies/Sprites/heart.png" id="1_prub7"]
+[ext_resource type="Texture2D" uid="uid://cwglq15wm48sp" path="res://Enemies/Sprites/heart.png" id="1_prub7"]
 [ext_resource type="Shader" uid="uid://d3peyev02dgjd" path="res://Combat/ShaderTransparent.gdshader" id="2_xog2k"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_wcdrv"]

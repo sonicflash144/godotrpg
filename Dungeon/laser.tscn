@@ -1,6 +1,6 @@
 [gd_scene load_steps=21 format=3 uid="uid://b5db6sg1vnyo0"]
 
-[ext_resource type="Texture2D" uid="uid://dgqc8t7ad0npf" path="res://Dungeon/Sprites/laser.png" id="1_2dmuf"]
+[ext_resource type="Texture2D" uid="uid://cyyp1ogcuj700" path="res://Dungeon/Sprites/laser.png" id="1_2dmuf"]
 [ext_resource type="Script" uid="uid://qg6iy612fk7u" path="res://Dungeon/laser.gd" id="1_owjno"]
 [ext_resource type="Resource" uid="uid://bpihs65coupnf" path="res://Stats/laser_stats.tres" id="2_mross"]
 [ext_resource type="PackedScene" uid="uid://lfrhnehwb41h" path="res://Combat/hitbox.tscn" id="3_84yrn"]

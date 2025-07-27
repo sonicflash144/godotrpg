@@ -5,13 +5,13 @@
 [ext_resource type="Script" uid="uid://dm55vrrn5ygm2" path="res://Equipment/equipment.gd" id="3_n6mvg"]
 [ext_resource type="Resource" uid="uid://dkweot25wi61p" path="res://Equipment/toy_bow.tres" id="4_n6mvg"]
 [ext_resource type="Shader" uid="uid://d3peyev02dgjd" path="res://Combat/ShaderTransparent.gdshader" id="4_tksp3"]
-[ext_resource type="Texture2D" uid="uid://cwst7q3dherec" path="res://NPCs/Sprites/Princess Bow Up Down.png" id="5_443jn"]
-[ext_resource type="Texture2D" uid="uid://cg62kjls2verx" path="res://NPCs/Sprites/princess walk cycle.png" id="5_cqbqj"]
+[ext_resource type="Texture2D" uid="uid://qeghtsqvalgb" path="res://NPCs/Sprites/Princess Bow Up Down.png" id="5_443jn"]
+[ext_resource type="Texture2D" uid="uid://b04cbq610nh0y" path="res://NPCs/Sprites/princess walk cycle.png" id="5_cqbqj"]
 [ext_resource type="PackedScene" uid="uid://hakdr4fdj1fo" path="res://Combat/health_component.tscn" id="5_n6mvg"]
 [ext_resource type="PackedScene" uid="uid://6c21m1l8r268" path="res://Combat/hurtbox.tscn" id="6_iopym"]
-[ext_resource type="Texture2D" uid="uid://c6xvgv4wg50mt" path="res://NPCs/Sprites/Princess Bow Side.png" id="6_kl78w"]
-[ext_resource type="Texture2D" uid="uid://c0uyuent5pq1o" path="res://NPCs/Sprites/Princess Bow Diagonal.png" id="7_wjjwx"]
-[ext_resource type="AudioStream" uid="uid://cg68t8670b5qo" path="res://Music and Sounds/bow string.mp3" id="11_tksp3"]
+[ext_resource type="Texture2D" uid="uid://vuo7dwdrtaph" path="res://NPCs/Sprites/Princess Bow Side.png" id="6_kl78w"]
+[ext_resource type="Texture2D" uid="uid://5rwa7fmi1p5c" path="res://NPCs/Sprites/Princess Bow Diagonal.png" id="7_wjjwx"]
+[ext_resource type="AudioStream" uid="uid://dvy0kms8vmnvi" path="res://Music and Sounds/bow string.mp3" id="11_tksp3"]
 [ext_resource type="PackedScene" uid="uid://c5oie56bljaao" path="res://Components/movement_component.tscn" id="12_o1huv"]
 [ext_resource type="PackedScene" uid="uid://bf33ttr2v7mwh" path="res://Components/follow_component.tscn" id="13_rul3p"]
 [ext_resource type="PackedScene" uid="uid://bhc7gpvpcip7x" path="res://Components/navigation_component.tscn" id="14_wduec"]
@@ -1327,6 +1327,7 @@ parameters/Run/blend_position = Vector2(0, 1.09013)
 libraries = {
 &"": SubResource("AnimationLibrary_70uel")
 }
+autoplay = "RESET"
 
 [connection signal="trigger_knockback" from="Hurtbox" to="Movement_Component" method="_on_hurtbox_trigger_knockback"]
 

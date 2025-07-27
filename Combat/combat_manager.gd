@@ -18,7 +18,6 @@ extends Node
 @onready var princessHealthComponent: Health_Component = $"../Princess/Health_Component"
 
 const SWAP_COOLDOWN_DURATION := 4.0
-var combat_locked := false
 var can_swap_control := true
 var MenuScene = load("res://UI/equipment_menu.tscn")
 var BackSound = load("res://Music and Sounds/back_sound.tscn")
@@ -30,12 +29,12 @@ func _ready() -> void:
 	Events.princess_down.connect(_on_princess_down)
 
 func _unhandled_key_input(event: InputEvent) -> void:
-	if combat_locked and event.is_action_pressed("swap_player") and can_swap_control \
+	if Events.combat_locked and event.is_action_pressed("swap_player") and can_swap_control \
 	and not Events.playerDown and not Events.princessDown:
 		swap_controlled_player()
 		can_swap_control = false
 		swapCooldownTimer.start(SWAP_COOLDOWN_DURATION)
-	elif not combat_locked and event.is_action_pressed("open_menu"):
+	elif not Events.combat_locked and event.is_action_pressed("open_menu"):
 		if not Events.menuOpen and Events.controlsEnabled:
 			open_menu()
 		else:
@@ -88,12 +87,10 @@ func update_controlled_player(justEntered := false):
 		princess.z_index = 0
 
 func _on_room_combat_locked():
-	combat_locked = true
 	if not Events.playerDown and not Events.princessDown:
 		update_controlled_player(true)
 
 func _on_room_un_combat_locked():
-	combat_locked = false
 	if Events.num_party_members < 2:
 		return
 	if not Events.is_player_controlled:
@@ -118,12 +115,18 @@ func _on_room_un_combat_locked():
 	princess.z_index = 0
 
 func _on_player_down(down: bool) -> void:
+	if not Events.combat_locked:
+		return
+		
 	if down:
 		swap_controlled_player()
 	else:
 		update_controlled_player()
 
 func _on_princess_down(down: bool) -> void:
+	if not Events.combat_locked:
+		return
+		
 	if down:
 		swap_controlled_player()
 	else:

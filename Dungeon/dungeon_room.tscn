@@ -1,7 +1,7 @@
 [gd_scene load_steps=5 format=3 uid="uid://cbtcrvc8377r3"]
 
 [ext_resource type="Script" uid="uid://cgsltphcc1nge" path="res://Dungeon/dungeon_room.gd" id="1_pgo2k"]
-[ext_resource type="Texture2D" uid="uid://cocr6bjps4vbi" path="res://Dungeon/dungeonroomfloor.png" id="2_pgo2k"]
+[ext_resource type="Texture2D" uid="uid://c1xq3ymxnho3p" path="res://Dungeon/dungeonroomfloor.png" id="2_pgo2k"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_cmk5g"]
 size = Vector2(308, 228)

@@ -1,8 +1,8 @@
 [gd_scene load_steps=8 format=3 uid="uid://crken25j88hf1"]
 
 [ext_resource type="Script" uid="uid://v6nj1da5thww" path="res://Dungeon/reset_button.gd" id="1_rg1gc"]
-[ext_resource type="Texture2D" uid="uid://d2jroe1pipdgm" path="res://Dungeon/Sprites/reset button.png" id="2_mi1le"]
-[ext_resource type="AudioStream" uid="uid://cjkfpf64hmdkl" path="res://Music and Sounds/reset.mp3" id="4_mi1le"]
+[ext_resource type="Texture2D" uid="uid://b6mgy5eoxbxgu" path="res://Dungeon/Sprites/reset button.png" id="2_mi1le"]
+[ext_resource type="AudioStream" uid="uid://clo8qbwoy4pjj" path="res://Music and Sounds/reset.mp3" id="4_mi1le"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_557va"]
 atlas = ExtResource("2_mi1le")

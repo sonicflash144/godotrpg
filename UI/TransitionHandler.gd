@@ -8,8 +8,21 @@ var SCREEN: Dictionary = {
 
 func _ready() -> void:
 	SCREEN.center = Vector2(SCREEN.width / 2, SCREEN.height / 2)
-	
-func fade_out(from, to, duration: float):
+	LimboConsole.register_command(console_reload, "reload", "Reload current scene")
+	LimboConsole.register_command(console_fade_out, "scene", "Load a new scene")
+	LimboConsole.add_argument_autocomplete_source("scene", 0,
+		func(): return ["prison0", "prison1", "dungeon", "dungeon_2"]
+	)
+
+func console_reload():
+	console_fade_out(Events.get_current_scene_key())
+
+func console_fade_out(scene_name: String):
+	var scene_path = "res://%s.tscn" % scene_name
+	fade_out(scene_path)
+	LimboConsole.close_console()
+
+func fade_out(to, duration := 0.8):
 	Events.controlsEnabled = false
 	var rootControl = CanvasLayer.new()
 	var colorRect = ColorRect.new()
@@ -24,7 +37,7 @@ func fade_out(from, to, duration: float):
 	tween.set_trans(Tween.TRANS_LINEAR)
 	tween.tween_property(colorRect, "color", Color.BLACK, duration / 2)
 	await tween.finished
-	from.queue_free()
+	get_tree().current_scene.queue_free()
 	
 	var new_scene = load(to).instantiate()
 	get_tree().get_root().add_child(new_scene)

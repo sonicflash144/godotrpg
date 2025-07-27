@@ -2,17 +2,31 @@ extends Node
 
 var GAME_STATE: GameState = preload("res://game_state.tres")
 
-func set_flag(flag_name: String, value):
-	if GAME_STATE:
-		GAME_STATE.flags[flag_name] = value
+func get_current_scene_key():
+	var current_scene = get_tree().current_scene
+	return current_scene.scene_file_path.get_file().get_basename()
+
+func set_flag(flag_name: String, value = true):
+	var scene_key = get_current_scene_key()
+	GAME_STATE.flags[scene_key][flag_name] = value
 
 func get_flag(flag_name: String):
-	if GAME_STATE:
-		return GAME_STATE.flags.get(flag_name)
+	var scene_key = get_current_scene_key()
+	return GAME_STATE.flags[scene_key].get(flag_name)
+
+func _ready() -> void:	
+	LimboConsole.register_command(set_flag, "set_flag", "Set value for GAME_STATE flag")
+	LimboConsole.add_argument_autocomplete_source("set_flag", 0,
+			func(): return GAME_STATE.flags[get_current_scene_key()].keys()
+	)
+	LimboConsole.add_argument_autocomplete_source("set_flag", 1,
+			func(): return [true, false]
+	)
 
 # Combat
 var num_party_members := 2
 var is_player_controlled := true
+var combat_locked := false
 
 @warning_ignore("unused_signal")
 signal player_down(down: bool)

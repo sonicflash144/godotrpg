@@ -7,12 +7,12 @@
 [ext_resource type="PackedScene" uid="uid://bf33ttr2v7mwh" path="res://Components/follow_component.tscn" id="7_a0kqk"]
 [ext_resource type="PackedScene" uid="uid://bhc7gpvpcip7x" path="res://Components/navigation_component.tscn" id="8_1fxhg"]
 [ext_resource type="Shader" uid="uid://d3peyev02dgjd" path="res://Combat/ShaderTransparent.gdshader" id="9_yjy06"]
-[ext_resource type="Texture2D" uid="uid://ci556r1usuvml" path="res://NPCs/Sprites/THE prisoner walk cycle.png" id="10_4bgch"]
-[ext_resource type="Texture2D" uid="uid://cwst7q3dherec" path="res://NPCs/Sprites/Princess Bow Up Down.png" id="11_1ry4j"]
-[ext_resource type="Texture2D" uid="uid://c6xvgv4wg50mt" path="res://NPCs/Sprites/Princess Bow Side.png" id="12_vgcik"]
-[ext_resource type="Texture2D" uid="uid://c0uyuent5pq1o" path="res://NPCs/Sprites/Princess Bow Diagonal.png" id="13_6l78q"]
+[ext_resource type="Texture2D" uid="uid://b2nm8ixq5gsdm" path="res://NPCs/Sprites/THE prisoner walk cycle.png" id="10_4bgch"]
+[ext_resource type="Texture2D" uid="uid://qeghtsqvalgb" path="res://NPCs/Sprites/Princess Bow Up Down.png" id="11_1ry4j"]
+[ext_resource type="Texture2D" uid="uid://vuo7dwdrtaph" path="res://NPCs/Sprites/Princess Bow Side.png" id="12_vgcik"]
+[ext_resource type="Texture2D" uid="uid://5rwa7fmi1p5c" path="res://NPCs/Sprites/Princess Bow Diagonal.png" id="13_6l78q"]
 [ext_resource type="PackedScene" uid="uid://6c21m1l8r268" path="res://Combat/hurtbox.tscn" id="14_e6vf6"]
-[ext_resource type="AudioStream" uid="uid://cg68t8670b5qo" path="res://Music and Sounds/bow string.mp3" id="15_xdb43"]
+[ext_resource type="AudioStream" uid="uid://dvy0kms8vmnvi" path="res://Music and Sounds/bow string.mp3" id="15_xdb43"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_ic0uy"]
 shader = ExtResource("9_yjy06")

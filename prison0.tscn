@@ -8,13 +8,13 @@
 [ext_resource type="PackedScene" uid="uid://cgnrs4ebb1dfe" path="res://World/pathfinding_manager.tscn" id="4_khfy0"]
 [ext_resource type="PackedScene" uid="uid://bursypx5unela" path="res://Player/player.tscn" id="4_ki7he"]
 [ext_resource type="TileSet" uid="uid://behfrbcgmgwa5" path="res://World/prison.tres" id="5_khfy0"]
-[ext_resource type="Texture2D" uid="uid://bekkrhym6tjsm" path="res://World/Sprites/prisondoor.png" id="6_ko0n3"]
-[ext_resource type="Texture2D" uid="uid://dfimqtqtdp8du" path="res://World/Sprites/prisonblood.png" id="7_pd45d"]
+[ext_resource type="Texture2D" uid="uid://1u8q44yroupg" path="res://World/Sprites/prisondoor.png" id="6_ko0n3"]
+[ext_resource type="Texture2D" uid="uid://de1w3ids05f78" path="res://World/Sprites/prisonblood.png" id="7_pd45d"]
 [ext_resource type="PackedScene" uid="uid://cblilm1d3bree" path="res://World/transition_area.tscn" id="8_26nui"]
 [ext_resource type="PackedScene" uid="uid://cm005kc7svare" path="res://NPCs/guard.tscn" id="9_ki7he"]
-[ext_resource type="Texture2D" uid="uid://d4580s087nsr" path="res://NPCs/Sprites/Prison Guard Walk Cycle.png" id="10_66yvb"]
-[ext_resource type="AudioStream" uid="uid://tgwifca6o6fa" path="res://Music and Sounds/alarm.mp3" id="12_ko0n3"]
-[ext_resource type="Texture2D" uid="uid://cr24bdg8ceqfc" path="res://World/Sprites/vent.png" id="13_pd45d"]
+[ext_resource type="Texture2D" uid="uid://bop0llsdr1ytr" path="res://NPCs/Sprites/Prison Guard Walk Cycle.png" id="10_66yvb"]
+[ext_resource type="AudioStream" uid="uid://2ch8yetvopdj" path="res://Music and Sounds/alarm.mp3" id="12_ko0n3"]
+[ext_resource type="Texture2D" uid="uid://bamchi17jyl8c" path="res://World/Sprites/vent.png" id="13_pd45d"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_jc6we"]
 size = Vector2(144, 28)

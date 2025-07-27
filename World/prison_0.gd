@@ -30,7 +30,7 @@ func open_prison_door():
 	door.queue_free()
 	var doorSound = DoorSound.instantiate()
 	get_tree().current_scene.add_child(doorSound)
-	Events.set_flag("prison_door_opened", true)
+	Events.set_flag("prison_door_opened")
 	
 func alarm_animation():
 	alarmSound.play()
@@ -44,5 +44,5 @@ func _on_dialogue_movement(key: String):
 
 func _on_transition_body_entered(body: Node2D) -> void:
 	if body.is_in_group("Player"):
-		TransitionHandler.fade_out(get_tree().current_scene, "res://prison1.tscn", 0.8)
+		TransitionHandler.fade_out("res://prison1.tscn")
 		Events.player_transition = "down"

@@ -1,7 +1,7 @@
 [gd_scene load_steps=29 format=3 uid="uid://cm005kc7svare"]
 
 [ext_resource type="Script" uid="uid://dq6y3jatyi68q" path="res://NPCs/guard.gd" id="1_i0kq6"]
-[ext_resource type="Texture2D" uid="uid://dhrgq6dshbyus" path="res://NPCs/Sprites/Generic Guard Walk Cycle.png" id="2_i0kq6"]
+[ext_resource type="Texture2D" uid="uid://bmihq4g7d7bsc" path="res://NPCs/Sprites/Generic Guard Walk Cycle.png" id="2_i0kq6"]
 [ext_resource type="PackedScene" uid="uid://c5oie56bljaao" path="res://Components/movement_component.tscn" id="3_q7uf1"]
 [ext_resource type="PackedScene" uid="uid://bhc7gpvpcip7x" path="res://Components/navigation_component.tscn" id="4_cmofm"]
 

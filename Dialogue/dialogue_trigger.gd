@@ -5,10 +5,7 @@ extends Area2D
 var dialogueRoomManager: DialogueRoomManager
 var dialoguePlaying := false
 
-func _ready() -> void:
-	if Events.get_flag(key):
-		queue_free()
-	
+func _ready() -> void:	
 	DialogueManager.dialogue_ended.connect(_on_dialogue_ended)
 	dialogueRoomManager = find_dialogue_room_manager()
 
@@ -25,7 +22,9 @@ func _on_dialogue_ended(_resource: DialogueResource):
 	dialoguePlaying = false
 
 func _on_body_entered(body: Node2D) -> void:
-	if body.is_in_group("Player") and not dialoguePlaying:
-		Events.set_flag(key, true)
+	if Events.get_flag(key):
+		queue_free()
+	elif body.is_in_group("Player") and not dialoguePlaying:
 		dialogueRoomManager.dialogue(key)
+		Events.set_flag(key)
 		queue_free()
