@@ -21,7 +21,8 @@ var arrow = load("res://NPCs/arrow.tscn")
 
 func _ready() -> void:
 	follow_component.set_target(player)
-	update_stats()
+	if Events.deferred_load_data.is_empty():
+		update_stats()
 
 func _physics_process(_delta: float) -> void:
 	if state != ATTACK and state != NAV:

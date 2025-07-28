@@ -1,3 +1,7 @@
+~ save_point
+The power of the crystals flows through you. Your game progress was saved.
+=> END
+
 ~ go_back_refusal
 Princess: Um, I'm not going right back through the door we just heroically opened. [#portrait=neutral]
 Princess: Don't you want to see what else is around? [#portrait=happy_closed_mouth]
@@ -19,7 +23,7 @@ Princess: What items do you have for sale? [#portrait=surprise] => shopkeeper_of
 
 ~ shopkeeper_offerings
 do remove_shopkeeper_dialogue_barrier()
-set Events.set_flag("met_shopkeeper", true)
+do Events.set_flag("met_shopkeeper", true)
 Shopkeeper: I'm glad you asked! I have two fantastic items. 
 Shopkeeper: First, a sword made of solid iron, with a razor sharp edge.
 Shopkeeper: And second, a protective chestplate crafted by the kingdom's best blacksmith.
@@ -46,10 +50,10 @@ You got the [color=yellow]Overpriced Armor[/color]. Use \[C\] to equip it in the
 => END
 
 ~ enter_puzzle_room
+do Events.set_flag("puzzle_started", true)
 Princess: Uh oh, this looks complicated. [#portrait=sad_closed_mouth]
 Princess: Um, you can figure it out, right? [#portrait=happy]
-set Events.dialogue_movement.emit("enter_puzzle_room")
-set Events.set_flag("puzzle_started", true)
+do Events.dialogue_movement.emit("enter_puzzle_room")
 => END
 
 ~ side_door
@@ -58,8 +62,8 @@ Use \[Z\] while standing next to a box to push it.
 => END
 
 ~ puzzle_complete
+do Events.set_flag("puzzle_completed")
 Princess: That was amazing! I wish I could be as smart as you. [#portrait=surprise_happy]
-set puzzle_completed()
 => END
 
 ~ chest_better_bow
@@ -81,6 +85,7 @@ You got the [color=yellow]Revenge Armor[/color].
 => END
 
 ~ THE_prisoner_intro
+do Events.set_flag("met_THE_prisoner", true)
 THE Prisoner: WHAT the— [#portrait=shocked]
 THE Prisoner: I mean, hello there. Who are you guys? [#portrait=happy]
 Princess: I'm a brave adventurer, of course, just like my companion here. [#portrait=happy_teeth]
@@ -94,7 +99,6 @@ THE Prisoner: So you don't need to worry about them. Because they don't, uh, exi
 - That's suspicious
 Princess: Hey, don't be rude. [#portrait=neutral]
 Princess: You take your time, sir. We'll, uh, see you around. [#portrait=happy_closed_mouth]
-set Events.set_flag("met_THE_prisoner", true)
 => END
 
 ~ THE_prisoner_loop

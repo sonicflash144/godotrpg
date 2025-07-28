@@ -5,6 +5,9 @@
 [resource]
 script = ExtResource("1_ry6od")
 flags = {
+"dungeon": {
+"talked_to_princess": false
+},
 "dungeon_2": {
 "laser_room_1": false,
 "laser_room_2": false,

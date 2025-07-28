@@ -1,0 +1,9 @@
+[gd_scene load_steps=3 format=3 uid="uid://cs1fmsg6a18on"]
+
+[ext_resource type="AudioStream" uid="uid://c28lqyf3ssl5v" path="res://Music and Sounds/save.wav" id="1_6d28n"]
+[ext_resource type="Script" uid="uid://dmyrrmqxy7bkp" path="res://Music and Sounds/sound_self_destroy.gd" id="2_3w8md"]
+
+[node name="CombatLockSound" type="AudioStreamPlayer"]
+stream = ExtResource("1_6d28n")
+autoplay = true
+script = ExtResource("2_3w8md")

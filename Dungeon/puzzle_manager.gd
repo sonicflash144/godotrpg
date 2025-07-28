@@ -27,18 +27,20 @@ func _ready() -> void:
 		resetButton.queue_free()
 		
 	var used_cells = get_used_cells()
-
+	
 	for cell in used_cells:
 		var tile_data = get_cell_tile_data(cell)
 		if tile_data:
 			var type = tile_data.get_custom_data("type")
 
-			if type in ["floor", "box", "goal"]:
+			if type in ["floor", "goal"]:
 				grid_types[cell] = type
 				if type == "goal":
 					goals.append(cell)
 
-	boxes_list = get_tree().get_nodes_in_group("Box")
+	for sibling in get_parent().get_children():
+		if sibling.is_in_group("Box") and sibling != self:
+			boxes_list.append(sibling)
 	if boxes_list.size() > 0:
 		tile_offset = boxes_list[0].position - Vector2(pos_to_grid(boxes_list[0].position) * tile_size)
 	for box in boxes_list:
@@ -53,12 +55,22 @@ func pos_to_grid(pos: Vector2) -> Vector2i:
 func grid_to_pos(grid: Vector2i) -> Vector2:
 	return Vector2(grid.x * tile_size, grid.y * tile_size) + tile_offset
 
+func set_completed_state():
+	is_puzzle_complete = true
+	boxes_dict.clear()
+	for i in range(min(boxes_list.size(), goals.size())):
+		var box = boxes_list[i]
+		var goal_grid = goals[i]
+		var new_pos = grid_to_pos(goal_grid)
+		box.position = new_pos
+		boxes_dict[goal_grid] = box
+
 func _unhandled_key_input(event: InputEvent) -> void:
 	if is_puzzle_complete:
 		return
 	
-	if event.is_action_pressed("debug_killall") and OS.is_debug_build() and get_parent().get_parent().currentRoom == get_parent():
-		is_puzzle_complete = true
+	if event.is_action_pressed("debug_killall") and OS.is_debug_build() and Events.currentRoom == get_parent():
+		set_completed_state()
 		puzzle_complete.emit()
 	elif event.is_action_pressed("ui_accept") and Events.controlsEnabled:
 		var facing = animation_tree.get("parameters/Idle/blend_position")

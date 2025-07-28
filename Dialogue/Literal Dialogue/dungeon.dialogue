@@ -1,4 +1,5 @@
 ~ start
+do Events.set_flag("met_princess")
 Princess: Oh hey there! [#portrait=happy_closed_mouth]
 Princess: WOWWW, are you a real warrior? [#portrait=surprise]
 - Yes
@@ -15,10 +16,10 @@ Princess: May I join you on your adventures? [#portrait=happy]
 	Princess: Aww, come on. Pretty please? [#portrait=sad_closed_mouth]
 Princess: I promise you won't regret it. I'm already kind of a fighter myself. [#portrait=smirk]
 Princess: Here, try hitting me. [#portrait=happy]
-set Events.princess_dialogue_value = "talked_loop"
 => END
 
 ~ ignore
+do Events.set_flag("met_princess")
 Princess: HEY! Aren't you going to say hello? [#portrait=angry]
 - Sorry
 	Princess: Sorry doesn't cut it! [#portrait=angry_closed_mouth]
@@ -28,7 +29,6 @@ Princess: I could be a huge asset to your adventures and you tried to walk right
 Princess: I know you think you need that big sword a lot more than a girl like me. [#portrait=neutral]
 Princess: But look, I'm already kind of a fighter myself. [#portrait=smirk]
 Princess: Here, try hitting me. [#portrait=happy]
-set Events.princess_dialogue_value = "talked_loop"
 => END
 
 ~ talked_loop
@@ -36,8 +36,10 @@ Princess: Here, try hitting me. [#portrait=happy]
 => END
 
 ~ hit
+do Events.set_flag("hit_princess")
 Princess: OWWW OW OWWW OW OW! [#portrait=angry_eyes_closed]
-if not Events.princess_dialogue_value:
+if not Events.get_flag("met_princess"):
+	do Events.set_flag("met_princess")
 	Princess: WHAT THE HECK, DUDE? [#portrait=angry]
 	Princess: We haven't even talked yet, and you've already decided I'm a nuisance or something? [#portrait=angry]
 	Princess: What's your problem? [#portrait=angry]
@@ -52,10 +54,10 @@ else:
 	Princess: Ow... don't worry, I'm okay. [#portrait=wince]
 Princess: Let's get going. [#portrait=neutral]
 Princess: The life of a brave warrior waits for no one! [#portrait=happy_teeth]
+do remove_dialogue_barrier()
 do Events.dialogue_movement.emit("enter_ghost_room")
 set Events.num_party_members = 2
 do wait(0.5)
-set Events.princess_dialogue_value = "enter_ghost_room"
 => END
 
 ~ hit_loop
@@ -63,17 +65,17 @@ Princess: DUDE! You can stop hitting me now. We're on the same team. [#portrait=
 => END
 
 ~ ghost_room
-do remove_dialogue_barrier()
+do Events.set_flag("combat_room_2")
 Princess: AHHH! OH MY GOODNESS ARE THOSE MONSTERS??? [#portrait=shocked]
 do Events.dialogue_movement.emit("exit_ghost_room")
 set Events.num_party_members = 1
 do wait(1.5)
 do combat_lock_signal()
 do wait(0.5)
-set Events.princess_dialogue_value = "exit_ghost_room"
 => END
 
 ~ fled
+do Events.set_flag("princess_apology")
 Princess: I'm sorry for running away earlier. [#portrait=sad_closed_mouth]
 Princess: I just got so scared... [#portrait=sad_eyes_closed]
 Princess: I've never actually seen a monster up close before. [#portrait=sad]
@@ -99,7 +101,7 @@ Princess: What? There's a door up ahead you need my help with? [#portrait=surpri
 Princess: I'll be right there! [#portrait=happy_closed_mouth]
 do Events.dialogue_movement.emit("enter_door_room")
 do wait(0.5)
-set Events.princess_dialogue_value = "door"
+do Events.set_flag("princess_door_ready")
 => END
 
 ~ door

@@ -77,7 +77,7 @@ func _physics_process(_delta: float) -> void:
 	if not is_instance_valid(dialogue_line) or will_hide_balloon:
 		return
 
-	if Input.is_action_pressed(autoadvance_action):
+	if Input.is_action_pressed(autoadvance_action) or Events.debug_autocomplete:
 		if dialogue_label.is_typing:
 			dialogue_label.skip_typing()
 			return

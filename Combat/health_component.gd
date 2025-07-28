@@ -8,6 +8,7 @@ var MAX_HEALTH: int
 var health: int
 var healthUI: Health_UI
 var DeathEffect: PackedScene
+var invincible := false
 
 const SWORD_SHOCKWAVE_RATE := 0.25
 var SwordShockwaveScene = load("res://Enemies/sword_shockwave_controller.tscn")
@@ -27,23 +28,29 @@ func is_max_health():
 	return health >= MAX_HEALTH
 	
 func heal(heal_value := 1):
+	var revived := false
+	
 	if health <= 0:
 		get_parent().visible = true
 		if get_parent().is_in_group("Player"):
+			revived = true
 			Events.player_down.emit(false)
 			Events.playerDown = false
 		elif get_parent().is_in_group("Princess"):
+			revived = true
 			Events.princess_down.emit(false)
 			Events.princessDown = false
 	health += heal_value
 	health = clamp(health, 0, MAX_HEALTH)
 	
 	if healthUI:
-		healthUI.update_health(health, MAX_HEALTH)
+		healthUI.update_health(health, MAX_HEALTH, revived)
 	
 func damage(base_damage: int, area_name: String):
 	if area_name == "debug_killall":
 		death(area_name)
+		return
+	elif invincible:
 		return
 	
 	var adjusted_damage = base_damage

@@ -1,6 +1,7 @@
 extends CharacterBody2D
 
 @onready var swordHitbox: Hitbox = $HitboxPivot/SwordHitbox
+@onready var health_component: Health_Component = $Health_Component
 @onready var movement_component: Movement_Component = $Movement_Component
 @onready var follow_component: Follow_Component = $Follow_Component
 
@@ -8,7 +9,6 @@ extends CharacterBody2D
 
 @export var stats: Stats
 @export var equipment: Array[Equipment]
-@export var storage: Array[Equipment]
 
 enum {
 	MOVE,
@@ -17,15 +17,14 @@ enum {
 	NAV
 }
 var state = MOVE
+var storage: Array[Equipment]
 
 func _ready() -> void:
 	follow_component.set_target(princess)
-	update_stats()
-	
-	LimboConsole.register_command(console_give, "give", "Add an item to storage")
-	LimboConsole.add_argument_autocomplete_source("give", 0,
-		func(): return ["better_bow", "icy_sword", "iron_sword", "lucky_armor", "multi_bow", "overpriced_armor", "piercing_bow", "revenge_armor", "shock_sword", "speedy_armor"]
-	)
+	if not Events.deferred_load_data.is_empty():
+		load_equipment()
+	else:
+		update_stats()
 
 func _physics_process(_delta: float) -> void:
 	if state != ATTACK:
@@ -42,11 +41,28 @@ func _physics_process(_delta: float) -> void:
 		FOLLOW:
 			follow_component.follow()
 
-func console_give(item_name: String):
-	var item_path = "res://Equipment/%s.tres" % item_name
-	var item = load(item_path)
-	storage.append(item)
-			
+func load_equipment():
+	equipment.clear()
+	for item_name in Events.deferred_load_data["player_equipment"]:
+		var item_path = "res://Equipment/%s.tres" % item_name
+		var item = load(item_path)
+		equipment.append(item)
+	update_stats()
+		
+	if princess and Events.num_party_members > 1:
+		princess.equipment.clear()
+		for item_name in Events.deferred_load_data["princess_equipment"]:
+			var item_path = "res://Equipment/%s.tres" % item_name
+			var item = load(item_path)
+			princess.equipment.append(item)
+		princess.update_stats()
+		
+	storage.clear()
+	for item_name in Events.deferred_load_data["storage"]:
+		var item_path = "res://Equipment/%s.tres" % item_name
+		var item = load(item_path)
+		storage.append(item)
+	
 func update_stats():
 	stats.attack = 0
 	stats.defense = 0
@@ -72,12 +88,3 @@ func attack_state():
 
 func attack_animation_finished():
 	state = MOVE if Events.is_player_controlled else FOLLOW
-	
-func _unhandled_key_input(event: InputEvent) -> void:
-	if not OS.is_debug_build():
-		return
-		
-	if event.is_action_pressed("debug_run"):
-		movement_component.MAX_SPEED = 320
-	elif event.is_action_released("debug_run"):
-		movement_component.MAX_SPEED = 80

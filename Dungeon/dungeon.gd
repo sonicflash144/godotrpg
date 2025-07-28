@@ -8,19 +8,18 @@ extends Node2D
 @onready var playerHitbox: Hitbox = $"Player/HitboxPivot/SwordHitbox"
 @onready var dialogueBarrier: DialogueBarrier = $DungeonRoom1/DialogueBarrier
 
-@onready var DungeonRoom0: DungeonRoom = $DungeonRoom0
-@onready var DungeonRoom2: DungeonRoom = $DungeonRoom2
-@onready var DungeonRoom3: DungeonRoom = $DungeonRoom3
+@onready var CombatRoom2: DungeonRoom = $CombatRoom2
+@onready var DoorRoom: DungeonRoom = $DoorRoom
 
 @export var markers: Array[Marker2D]
 
 var last_valid_position: Vector2
-var currentRoom: DungeonRoom
 
 func _ready() -> void:
 	Events.playerDown = false
 	Events.princessDown = true
 	Events.playerDead = false
+	Events.combat_locked = false
 	
 	Events.player_has_sword = true
 	Events.num_party_members = 1
@@ -36,25 +35,19 @@ func _ready() -> void:
 func _physics_process(_delta: float) -> void:
 	last_valid_position = player.global_position
 
-func _unhandled_key_input(event: InputEvent) -> void:
-	if event.is_action_pressed("debug_killall"):
-		currentRoom.debug_killall()
-
 func set_collision_masks(value: bool):
 	princessHurtbox.set_collision_mask_value(7, value)
 	playerHitbox.set_collision_mask_value(9, value)
 
 func combat_lock_signal():
-	currentRoom.combat_lock_room()
+	Events.currentRoom.combat_lock_room()
 
 func dialogue_barrier(_key: String):
-	var value = Events.princess_dialogue_value
-	if not value:
-		dialogueRoomManager.nudge_player(last_valid_position)
-		dialogueRoomManager.dialogue("ignore")
-	elif value == "talked_loop":
-		dialogueRoomManager.nudge_player(last_valid_position)
+	dialogueRoomManager.nudge_player(last_valid_position)
+	if Events.get_flag("met_princess"):
 		dialogueRoomManager.dialogue("talked_loop")
+	else:
+		dialogueRoomManager.dialogue("ignore")
 
 func remove_dialogue_barrier():
 	dialogueBarrier.queue_free()
@@ -67,27 +60,17 @@ func set_princess_follow_state():
 	Events.num_party_members = 2
 	
 func _on_room_entered(room):
-	currentRoom = room
-	if room == DungeonRoom3:
-		var value = Events.princess_dialogue_value
-		if value == "door":
-			return
-		elif value == "fled_loop":
-			Events.princess_dialogue_value = "door_help"
-		elif value == "exit_ghost_room":
-			Events.princess_dialogue_value = "fled_visited_door"
+	if room == DoorRoom:
+		Events.set_flag("visited_door")
 
 func _on_room_locked(room):
-	var value = Events.princess_dialogue_value
-	if room == DungeonRoom0:
-		room.combat_lock_room()
-	if room == DungeonRoom2 and value == "enter_ghost_room":
+	if room == CombatRoom2 and not Events.get_flag("combat_room_2"):
 		dialogueRoomManager.dialogue("ghost_room")
-	if room == DungeonRoom3 and value == "door":
+	elif room == DoorRoom and Events.get_flag("princess_door_ready"):
 		dialogueRoomManager.dialogue("door")
 	
 func _on_player_died():
-	Events.princess_dialogue_value = ""
+	Events.set_flag("combat_room_2", false)
 	await get_tree().create_timer(1).timeout
 	get_tree().reload_current_scene()
 
@@ -98,27 +81,25 @@ func _on_dialogue_movement(key: String):
 			return
 
 func _on_princess_hurtbox_area_entered(_area: Area2D) -> void:
-	if not Events.princess_dialogue_value or Events.princess_dialogue_value == "talked_loop":
+	if not Events.get_flag("hit_princess"):
 		dialogueRoomManager.dialogue("hit")
 	else:
 		dialogueRoomManager.dialogue("hit_loop")
 		set_collision_masks(false)
 		
 func _on_princess_dialogue_zone_zone_triggered() -> void:
-	var value = Events.princess_dialogue_value
-	match value:
-		"":
-			dialogueRoomManager.dialogue("start")
-		"talked_loop":
-			dialogueRoomManager.dialogue("talked_loop")
-		"exit_ghost_room":
-			dialogueRoomManager.dialogue("fled")
-			Events.princess_dialogue_value = "fled_loop"
-		"fled_loop":
-			dialogueRoomManager.dialogue("fled_loop")
-		"fled_visited_door":
-			set_collision_masks(false)
-			dialogueRoomManager.dialogue("fled_visited_door")
-		"door_help":
-			set_collision_masks(false)
+	if Events.get_flag("visited_door"):
+		set_collision_masks(false)
+		if Events.get_flag("princess_apology"):
 			dialogueRoomManager.dialogue("door_help")
+		else:
+			dialogueRoomManager.dialogue("fled_visited_door")
+	elif Events.get_flag("combat_room_2"):
+		if Events.get_flag("princess_apology"):
+			dialogueRoomManager.dialogue("fled_loop")
+		else:
+			dialogueRoomManager.dialogue("fled")
+	elif Events.get_flag("met_princess"):
+		dialogueRoomManager.dialogue("talked_loop")
+	else:
+		dialogueRoomManager.dialogue("start")

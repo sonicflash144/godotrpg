@@ -1,0 +1,32 @@
+[gd_scene load_steps=5 format=3 uid="uid://cs7m8hnwn64hh"]
+
+[ext_resource type="Texture2D" uid="uid://crx8txm0p5ox7" path="res://World/Sprites/crystal.png" id="1_at4fr"]
+[ext_resource type="PackedScene" uid="uid://damjysxl382ea" path="res://Dialogue/dialogue_zone.tscn" id="2_2tlfo"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_yjdfc"]
+size = Vector2(11, 8)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_yjdfc"]
+radius = 20.0
+
+[node name="SavePoint" type="StaticBody2D"]
+metadata/_edit_group_ = true
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("1_at4fr")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(-0.5, 3)
+shape = SubResource("RectangleShape2D_yjdfc")
+
+[node name="Marker2D" type="Marker2D" parent="."]
+position = Vector2(24, 0)
+
+[node name="SavePointDialogueZone" parent="." instance=ExtResource("2_2tlfo")]
+visible = false
+default_key = "save_point"
+
+[node name="CollisionShape2D" parent="SavePointDialogueZone" index="0"]
+shape = SubResource("CircleShape2D_yjdfc")
+
+[editable path="SavePointDialogueZone"]

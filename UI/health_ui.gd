@@ -23,12 +23,14 @@ func _physics_process(_delta: float) -> void:
 	if onCooldown:
 		cooldownBar.value = (timer.time_left / maxCooldown) * 100
 	
-func update_health(health, MAX_HEALTH):
+func update_health(health, MAX_HEALTH, revived := false):
 	var ratio = float(health) / MAX_HEALTH
 	fill.size.x = ratio * max_fill_width
 	
 	if ratio <= 0:
 		background.texture = texture_low
+	elif revived:
+		background.texture = texture_grey
 	else:
 		background.texture = texture_normal
 
@@ -36,7 +38,7 @@ func enable_texture():
 	background.texture = texture_normal
 	timer.stop()
 	
-func disable_texture(cooldown := -1.0):
+func disable_texture(cooldown := -1.0,):
 	if background.texture == texture_low:
 		return
 	

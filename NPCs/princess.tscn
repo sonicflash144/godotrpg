@@ -3,7 +3,7 @@
 [ext_resource type="Script" uid="uid://diaqv1m08dd22" path="res://NPCs/princess.gd" id="1_443jn"]
 [ext_resource type="Resource" uid="uid://xiun3sk2drvh" path="res://Stats/princess_stats.tres" id="2_rul3p"]
 [ext_resource type="Script" uid="uid://dm55vrrn5ygm2" path="res://Equipment/equipment.gd" id="3_n6mvg"]
-[ext_resource type="Resource" uid="uid://dkweot25wi61p" path="res://Equipment/toy_bow.tres" id="4_n6mvg"]
+[ext_resource type="Resource" uid="uid://dkweot25wi61p" path="res://Equipment/Toy Bow.tres" id="4_n6mvg"]
 [ext_resource type="Shader" uid="uid://d3peyev02dgjd" path="res://Combat/ShaderTransparent.gdshader" id="4_tksp3"]
 [ext_resource type="Texture2D" uid="uid://qeghtsqvalgb" path="res://NPCs/Sprites/Princess Bow Up Down.png" id="5_443jn"]
 [ext_resource type="Texture2D" uid="uid://b04cbq610nh0y" path="res://NPCs/Sprites/princess walk cycle.png" id="5_cqbqj"]

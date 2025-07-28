@@ -5,7 +5,7 @@
 [ext_resource type="PackedScene" uid="uid://crken25j88hf1" path="res://Dungeon/reset_button.tscn" id="3_dc8ub"]
 [ext_resource type="AudioStream" uid="uid://ttcwmbxha2kk" path="res://Music and Sounds/box slide.mp3" id="3_s6vuy"]
 
-[node name="BoxPuzzle" type="TileMapLayer"]
+[node name="BoxPuzzle" type="TileMapLayer" groups=["BoxPuzzle"]]
 z_index = -2
 tile_set = ExtResource("1_68yk6")
 script = ExtResource("2_jt4yq")

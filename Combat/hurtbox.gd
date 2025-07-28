@@ -67,7 +67,7 @@ func _on_timer_timeout():
 	collisionShape.set_deferred("disabled", false)
 
 func _on_area_entered(area: Area2D) -> void:
-	if is_invincible:
+	if is_invincible or Events.playerDead:
 		return
 	
 	if area.name == "LaserHitbox":

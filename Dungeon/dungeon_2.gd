@@ -4,40 +4,36 @@ extends Node2D
 @onready var pathfindingManager: PathfindingManager = $PathfindingManager
 @onready var player: CharacterBody2D = $Player
 @onready var princess: CharacterBody2D = $Princess
-@onready var princessCollider = $"Princess/CollisionShape2D"
-@onready var princessHurtbox: Hurtbox = $"Princess/Hurtbox"
-@onready var princessBlinkAnimation = $"Princess/BlinkAnimationPlayer"
-@onready var DungeonRoom0: DungeonRoom = $DungeonRoom0
-@onready var DungeonRoom2: DungeonRoom = $DungeonRoom2
-@onready var DungeonRoom3: DungeonRoom = $DungeonRoom3
-@onready var DungeonRoom4: DungeonRoom = $DungeonRoom4
-@onready var DungeonRoom5: DungeonRoom = $DungeonRoom5
-@onready var DungeonRoom6: DungeonRoom = $DungeonRoom6
-@onready var DungeonRoom7: DungeonRoom = $DungeonRoom7
-@onready var goBackdialogueBarrier: DialogueBarrier = $"DungeonRoom0/GoBackDialogueBarrier"
-@onready var shopkeeperDialogueBarrier: DialogueBarrier = $"DungeonRoom1/ShopkeeperDialogueBarrier"
-@onready var sideDoor = $"DungeonRoom3/SideDoor"
-@onready var princessFollowCheck = $"DungeonRoom3/PrincessFollowCheck"
-@onready var afterLasersDialogueBarrierCollisionShape = $DungeonRoom6/DialogueBarrier/CollisionShape2D
+@onready var playerHealthComponent: Health_Component = $Player/Health_Component
+@onready var princessHealthComponent: Health_Component = $Princess/Health_Component
+@onready var PuzzleRoom: DungeonRoom = $PuzzleRoom
+@onready var ThePrisonerRoom: DungeonRoom = $ThePrisonerRoom
+@onready var goBackdialogueBarrier: DialogueBarrier = $"StartRoom/GoBackDialogueBarrier"
+@onready var shopkeeperDialogueBarrier: DialogueBarrier = $"ShopkeeperRoom/ShopkeeperDialogueBarrier"
+@onready var sideDoor = $"PuzzleRoom/SideDoor"
+@onready var princessFollowCheck = $"PuzzleRoom/PrincessFollowCheck"
+@onready var afterLasersDialogueBarrierCollisionShape = $ThePrisonerRoom/DialogueBarrier/CollisionShape2D
+@onready var savePoint = $ThePrisonerRoom/SavePoint/Marker2D
 
 @export var markers: Array[Marker2D]
 
 var last_valid_position: Vector2
-var currentRoom: DungeonRoom
-var puzzle_complete := false
-var overworld_hazard_active := false
-var ironSword: Equipment = load("res://Equipment/iron_sword.tres")
-var overpricedArmor: Equipment = load("res://Equipment/overpriced_armor.tres")
+var ironSword: Equipment = load("res://Equipment/Iron Sword.tres")
+var overpricedArmor: Equipment = load("res://Equipment/Overpriced Armor.tres")
 var DoorSound = load("res://Music and Sounds/door_sound.tscn")
 
 func _ready() -> void:
+	if not Events.deferred_load_data.is_empty():
+		var save_position = Vector2(Events.deferred_load_data["player_x_pos"], Events.deferred_load_data["player_y_pos"])
+		player.position = save_position
+		princess.position = save_position
+		
 	Events.playerDown = false
 	Events.princessDown = false
 	Events.playerDead = false
+	Events.combat_locked = false
 	Events.is_player_controlled = true
 	
-	Events.room_entered.connect(_on_room_entered)
-	Events.room_exited.connect(_on_room_exited)
 	Events.room_locked.connect(_on_room_locked)
 	Events.player_died.connect(_on_player_died)
 	Events.dialogue_movement.connect(_on_dialogue_movement)
@@ -46,16 +42,16 @@ func _ready() -> void:
 		player.global_position = goBackdialogueBarrier.global_position + Vector2(0, -16)
 		player.movement_component.update_animation_direction(Vector2.UP)
 		
-	if Events.get_flag("met_shopkeeper"):
+	if Events.get_flag("met_shopkeeper", "dungeon_2"):
 		remove_shopkeeper_dialogue_barrier()
+	if Events.get_flag("puzzle_completed"):
+		sideDoor.queue_free()
+	if Events.get_flag("met_THE_prisoner", "dungeon_2"):
+		afterLasersDialogueBarrierCollisionShape.set_deferred("disabled", false)
 
 func _physics_process(_delta: float) -> void:
 	last_valid_position = player.global_position
-
-func _unhandled_key_input(event: InputEvent) -> void:
-	if event.is_action_pressed("debug_killall"):
-		currentRoom.debug_killall()
-
+	
 func dialogue_barrier(key: String):
 	if key == "princess_follow_check":
 		if not sideDoor:
@@ -68,56 +64,26 @@ func dialogue_barrier(key: String):
 func remove_shopkeeper_dialogue_barrier():
 	shopkeeperDialogueBarrier.queue_free()
 
-func puzzle_completed():
-	puzzle_complete = true
-
-func start_overworld_hazard():
-	overworld_hazard_active = true
-	princessCollider.set_deferred("disabled", true)
-	princessHurtbox.disable_collider()
-	princessBlinkAnimation.play("Disabled")
-	princess.z_index = -1
-
-func end_overworld_hazard():
-	overworld_hazard_active = false
-	if Events.combat_locked:
-		return
-	princessCollider.set_deferred("disabled", false)
-	princessHurtbox.enable_collider()
-	princessBlinkAnimation.play("RESET")
-	princess.z_index = 0
-
-func _on_room_entered(room):
-	currentRoom = room
-	if room == DungeonRoom4 or room == DungeonRoom5:
-		start_overworld_hazard()
-		room.activate_lasers()
-	elif overworld_hazard_active:
-		end_overworld_hazard()
-		
-func _on_room_exited(room):
-	currentRoom = room
-	if room == DungeonRoom4 or room == DungeonRoom5:
-		room.deactivate_lasers()
-		
 func _on_room_locked(room):
-	if room == DungeonRoom2:
-		room.combat_lock_room()
-	elif room == DungeonRoom3 and not puzzle_complete:
+	if room == PuzzleRoom and not Events.get_flag("puzzle_completed"):
+		if Events.debug_autocomplete:
+			var puzzle = room.get_node_or_null("BoxPuzzle")
+			puzzle.is_puzzle_complete = true
+			_on_box_puzzle_puzzle_complete()
+			return
+			
 		princess.set_nav_state()
 		if not Events.get_flag("puzzle_started"):
 			dialogueRoomManager.dialogue("enter_puzzle_room")
 		else:
 			_on_dialogue_movement("enter_puzzle_room")
-	elif room == DungeonRoom6 and not Events.get_flag("met_THE_prisoner"):
+	elif room == ThePrisonerRoom and not Events.get_flag("met_THE_prisoner"):
 		dialogueRoomManager.dialogue("THE_prisoner_intro")
 		afterLasersDialogueBarrierCollisionShape.set_deferred("disabled", false)
-	elif room == DungeonRoom7:
-		room.combat_lock_room()
 	
 func _on_player_died():
 	await get_tree().create_timer(1).timeout
-	get_tree().reload_current_scene()
+	TransitionHandler.console_reload()
 
 func _on_dialogue_movement(key: String):
 	for marker in markers:
@@ -130,3 +96,20 @@ func _on_box_puzzle_puzzle_complete() -> void:
 	var doorSound = DoorSound.instantiate()
 	get_tree().current_scene.add_child(doorSound)
 	dialogueRoomManager.dialogue("puzzle_complete")
+
+func _on_save_point_dialogue_zone_zone_triggered() -> void:
+	playerHealthComponent.heal(playerHealthComponent.MAX_HEALTH)
+	princessHealthComponent.heal(princessHealthComponent.MAX_HEALTH)
+	
+	var playerEquipment: Array[String]
+	var princessEquipment: Array[String]
+	var storage: Array[String]
+	
+	for item in player.equipment:
+		playerEquipment.append(item.name)
+	for item in princess.equipment:
+		princessEquipment.append(item.name)
+	for item in player.storage:
+		storage.append(item.name)
+		
+	Events.save_game(savePoint.global_position, playerEquipment, princessEquipment, storage)

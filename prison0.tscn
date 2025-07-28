@@ -1,6 +1,7 @@
-[gd_scene load_steps=24 format=4 uid="uid://dfbu4k4ayhgf5"]
+[gd_scene load_steps=25 format=4 uid="uid://dfbu4k4ayhgf5"]
 
 [ext_resource type="Script" uid="uid://f0syhvxuvmx8" path="res://World/prison_0.gd" id="1_5yhik"]
+[ext_resource type="PackedScene" uid="uid://sx4vdntx8vld" path="res://Components/debug_manager.tscn" id="2_gwwd2"]
 [ext_resource type="PackedScene" uid="uid://cqv7hf2dkuljw" path="res://Dialogue/dialogue_room_manager.tscn" id="2_khfy0"]
 [ext_resource type="PackedScene" uid="uid://damjysxl382ea" path="res://Dialogue/dialogue_zone.tscn" id="3_enkg1"]
 [ext_resource type="Resource" uid="uid://kjacxpbvk5gh" path="res://Dialogue/Literal Dialogue/prison.dialogue" id="3_gwwd2"]
@@ -74,6 +75,8 @@ script = ExtResource("1_5yhik")
 
 [node name="Camera2D" type="Camera2D" parent="."]
 anchor_mode = 0
+
+[node name="DebugManager" parent="." instance=ExtResource("2_gwwd2")]
 
 [node name="DialogueRoomManager" parent="." instance=ExtResource("2_khfy0")]
 dialogueResource = ExtResource("3_gwwd2")
