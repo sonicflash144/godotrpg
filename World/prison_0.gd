@@ -17,14 +17,15 @@ func _ready() -> void:
 	Events.player_has_sword = false
 	Events.dialogue_movement.connect(_on_dialogue_movement)
 	
-	if Events.get_flag("prison_door_opened"):
-		door.queue_free()
-	
 	if Events.player_transition == "up":
 		player.global_position = transitionArea.global_position
 		player.movement_component.update_animation_direction(Vector2.UP)
 		
 	guardOriginalPosition = guard.global_position
+	
+	await get_tree().process_frame
+	if Events.get_flag("prison_door_opened"):
+		door.queue_free()
 
 func open_prison_door():
 	door.queue_free()
@@ -44,5 +45,5 @@ func _on_dialogue_movement(key: String):
 
 func _on_transition_body_entered(body: Node2D) -> void:
 	if body.is_in_group("Player"):
-		TransitionHandler.fade_out("res://prison1.tscn")
+		TransitionHandler.console_fade_out("prison1")
 		Events.player_transition = "down"

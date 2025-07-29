@@ -22,11 +22,12 @@ func _ready() -> void:
 	Events.set_flag("prison_door_opened")
 	Events.dialogue_movement.connect(_on_dialogue_movement)
 	
-	if Events.get_flag("ate_sandwich"):
-		sandwich.queue_free()
-	
 	if Events.player_transition == "down":
 		player.global_position = transitionArea.global_position
+		
+	await get_tree().process_frame
+	if Events.get_flag("ate_sandwich"):
+		sandwich.queue_free()
 	
 func eat_sandwich():
 	sandwich.queue_free()
@@ -68,8 +69,8 @@ func _on_dialogue_movement(key: String):
 		
 func _on_transition_body_entered(body: Node2D) -> void:
 	if body.is_in_group("Player"):
-		TransitionHandler.fade_out("res://prison0.tscn")
+		TransitionHandler.console_fade_out("prison0")
 		Events.player_transition = "up"
 
 func transition_to_dungeon():
-	TransitionHandler.fade_out("res://dungeon.tscn")
+	TransitionHandler.console_fade_out("dungeon")

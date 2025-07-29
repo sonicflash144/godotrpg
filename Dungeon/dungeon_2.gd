@@ -13,7 +13,7 @@ extends Node2D
 @onready var sideDoor = $"PuzzleRoom/SideDoor"
 @onready var princessFollowCheck = $"PuzzleRoom/PrincessFollowCheck"
 @onready var afterLasersDialogueBarrierCollisionShape = $ThePrisonerRoom/DialogueBarrier/CollisionShape2D
-@onready var savePoint = $ThePrisonerRoom/SavePoint/Marker2D
+@onready var savePoint = $StartRoom/SavePoint/Marker2D
 
 @export var markers: Array[Marker2D]
 
@@ -23,32 +23,33 @@ var overpricedArmor: Equipment = load("res://Equipment/Overpriced Armor.tres")
 var DoorSound = load("res://Music and Sounds/door_sound.tscn")
 
 func _ready() -> void:
-	if not Events.deferred_load_data.is_empty():
+	if not Events.deferred_load_data.is_empty() and Events.deferred_load_data.scene == "dungeon_2":
 		var save_position = Vector2(Events.deferred_load_data["player_x_pos"], Events.deferred_load_data["player_y_pos"])
 		player.position = save_position
 		princess.position = save_position
-		
+	elif Events.player_transition == "up":
+		player.global_position = goBackdialogueBarrier.global_position + Vector2(0, -16)
+		player.movement_component.update_animation_direction(Vector2.UP)
+	
 	Events.playerDown = false
 	Events.princessDown = false
 	Events.playerDead = false
 	Events.combat_locked = false
+	Events.num_party_members = 2
 	Events.is_player_controlled = true
 	
 	Events.room_locked.connect(_on_room_locked)
 	Events.player_died.connect(_on_player_died)
 	Events.dialogue_movement.connect(_on_dialogue_movement)
 	
-	if Events.player_transition == "up":
-		player.global_position = goBackdialogueBarrier.global_position + Vector2(0, -16)
-		player.movement_component.update_animation_direction(Vector2.UP)
-		
-	if Events.get_flag("met_shopkeeper", "dungeon_2"):
+	await get_tree().process_frame
+	if Events.get_flag("met_shopkeeper"):
 		remove_shopkeeper_dialogue_barrier()
 	if Events.get_flag("puzzle_completed"):
 		sideDoor.queue_free()
-	if Events.get_flag("met_THE_prisoner", "dungeon_2"):
+	if Events.get_flag("met_THE_prisoner"):
 		afterLasersDialogueBarrierCollisionShape.set_deferred("disabled", false)
-
+	
 func _physics_process(_delta: float) -> void:
 	last_valid_position = player.global_position
 	
@@ -83,7 +84,7 @@ func _on_room_locked(room):
 	
 func _on_player_died():
 	await get_tree().create_timer(1).timeout
-	TransitionHandler.console_reload()
+	Events.load_game()
 
 func _on_dialogue_movement(key: String):
 	for marker in markers:

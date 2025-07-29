@@ -13,10 +13,11 @@ radius = 20.0
 metadata/_edit_group_ = true
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(0, -6)
 texture = ExtResource("1_at4fr")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(-0.5, 3)
+position = Vector2(-0.5, -3)
 shape = SubResource("RectangleShape2D_yjdfc")
 
 [node name="Marker2D" type="Marker2D" parent="."]

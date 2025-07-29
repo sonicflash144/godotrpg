@@ -52,17 +52,17 @@ _data = {
 script = ExtResource("1_ov2sa")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-z_index = -2
+position = Vector2(0, -4)
 texture = ExtResource("1_nvf1a")
 vframes = 2
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-visible = false
-position = Vector2(0, 3)
+position = Vector2(0, -1)
 shape = SubResource("RectangleShape2D_hvmxn")
 
 [node name="ChestDialogueZone" parent="." instance=ExtResource("2_xetvy")]
 visible = false
+position = Vector2(0, -1)
 
 [node name="CollisionShape2D" parent="ChestDialogueZone" index="0"]
 shape = SubResource("CircleShape2D_ov2sa")

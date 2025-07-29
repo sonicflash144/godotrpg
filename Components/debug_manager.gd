@@ -3,6 +3,7 @@ extends Node
 @onready var player: CharacterBody2D = $"../Player"
 @onready var playerMovementComponent: Movement_Component = $"../Player/Movement_Component"
 @onready var playerHealthComponent: Health_Component = $"../Player/Health_Component"
+@onready var princess: CharacterBody2D = get_node_or_null("../Princess")
 @onready var princessHealthComponent: Health_Component = get_node_or_null("../Princess/Health_Component")
 
 func _ready() -> void:
@@ -10,6 +11,7 @@ func _ready() -> void:
 	Events.console_autocomplete.connect(_on_console_autocomplete)
 	Events.console_invincibility.connect(_on_console_invincibility)
 	Events.console_give.connect(_on_console_give)
+	Events.console_noclip.connect(_on_console_noclip)
 
 func _unhandled_key_input(event: InputEvent) -> void:
 	if not OS.is_debug_build():
@@ -48,3 +50,15 @@ func _on_console_give(item_name: String):
 	var item_path = "res://Equipment/%s.tres" % item_name
 	var item = load(item_path)
 	player.storage.append(item)
+	
+func _on_console_noclip():
+	if player.get_collision_mask_value(1):
+		LimboConsole.info("Noclip ON")
+		player.set_collision_mask_value(1, false)
+		if princess:
+			princess.set_collision_mask_value(1, false)
+	else:
+		LimboConsole.info("Noclip OFF")
+		player.set_collision_mask_value(1, true)
+		if princess:
+			princess.set_collision_mask_value(1, true)

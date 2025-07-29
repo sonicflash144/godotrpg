@@ -24,7 +24,7 @@ var spikes: Array[StaticBody2D]
 var lasers: Array[StaticBody2D]
 
 func _ready() -> void:
-	await get_tree().create_timer(1).timeout
+	await get_tree().process_frame
 	for child in get_children():
 		if child.is_in_group("Enemy"):
 			enemies.append(child)
@@ -36,7 +36,7 @@ func _ready() -> void:
 			anim_sprite.set_frame(0)
 		elif child.is_in_group("BoxPuzzle") and not child.no_reset:
 			roomType = PUZZLE
-			if Events.get_flag(flag):
+			if flag and Events.get_flag(flag):
 				var puzzle = get_node_or_null("BoxPuzzle")
 				puzzle.set_completed_state()
 		elif child.is_in_group("Laser"):
@@ -47,7 +47,7 @@ func _ready() -> void:
 				
 	if not enemies.is_empty():
 		roomType = COMBAT
-		if Events.get_flag(flag):
+		if flag and Events.get_flag(flag):
 			roomCompleted = true
 			for enemy in enemies:
 				enemy.queue_free()
@@ -114,7 +114,8 @@ func combat_lock_room():
 
 func un_combat_lock_room():
 	Events.combat_locked = false
-	Events.set_flag(flag)
+	if flag:
+		Events.set_flag(flag)
 	Events.emit_signal("room_un_combat_locked")
 	var combatLockSound = CombatLockSound.instantiate()
 	get_tree().current_scene.add_child(combatLockSound)

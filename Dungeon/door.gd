@@ -58,5 +58,5 @@ func on_door_button_body_exited(_body: Node2D, button: Area2D):
 
 func _on_door_transition_body_entered(body: Node2D) -> void:
 	if body.is_in_group("Player"):
-		TransitionHandler.fade_out("res://dungeon_2.tscn")
+		TransitionHandler.console_fade_out("dungeon_2")
 		Events.player_transition = "up"

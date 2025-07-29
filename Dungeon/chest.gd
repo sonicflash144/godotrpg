@@ -16,6 +16,7 @@ func _ready() -> void:
 	key = "chest_" + file_name.to_lower().replace(" ", "_")
 	dialogueZone.default_key = key
 	
+	await get_tree().process_frame
 	if Events.get_flag(key):
 		animationPlayer.play("Open")
 		dialogueZone.queue_free()

@@ -36,7 +36,7 @@
 size = Vector2(56, 14)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_d1n6l"]
-size = Vector2(96, 39)
+size = Vector2(96, 40)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_rfjwi"]
 size = Vector2(96, 42)
@@ -82,6 +82,12 @@ tile_map_data = PackedByteArray("AAAAAAAAAQACAAoAAAAAAAEAAQACAAoAAAAAAAIAAQACAAo
 position = Vector2(160, 232)
 key = "go_back_refusal"
 
+[node name="SavePoint" parent="StartRoom" instance=ExtResource("31_yjdfc")]
+position = Vector2(256, 64)
+
+[node name="Marker2D" parent="StartRoom/SavePoint" index="2"]
+position = Vector2(-32, 8)
+
 [node name="ShopkeeperRoom" parent="." instance=ExtResource("8_rfjwi")]
 position = Vector2(0, -480)
 
@@ -92,27 +98,27 @@ tile_map_data = PackedByteArray("AAAAAAAAAQACAAoAAAAAAAEAAQACAAoAAAAAAAIAAQACAAo
 position = Vector2(168, 96)
 
 [node name="Sprite2D" type="Sprite2D" parent="ShopkeeperRoom/Shopkeeper"]
+position = Vector2(0, -7)
 texture = ExtResource("23_d1n6l")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="ShopkeeperRoom/Shopkeeper"]
-visible = false
-position = Vector2(0, 9)
+position = Vector2(0, 2)
 shape = SubResource("RectangleShape2D_s718q")
 
 [node name="ShopkeeperDialogueZone" parent="ShopkeeperRoom/Shopkeeper" instance=ExtResource("20_ww7ku")]
 visible = false
+position = Vector2(0, -7)
 default_key = "shopkeeper"
 
 [node name="CollisionShape2D" parent="ShopkeeperRoom/Shopkeeper/ShopkeeperDialogueZone" index="0"]
-position = Vector2(0, 4.5)
+position = Vector2(0, 4)
 shape = SubResource("RectangleShape2D_d1n6l")
 
 [node name="ShopkeeperDialogueBarrier" parent="ShopkeeperRoom" instance=ExtResource("9_557va")]
-position = Vector2(168, 40)
+position = Vector2(168, 48)
 key = "shopkeeper_steal"
 
 [node name="CollisionShape2D" parent="ShopkeeperRoom/ShopkeeperDialogueBarrier" index="0"]
-position = Vector2(0, 11)
 shape = SubResource("RectangleShape2D_rfjwi")
 
 [node name="Chest" parent="ShopkeeperRoom" instance=ExtResource("14_hvmxn")]
@@ -326,9 +332,6 @@ key = "after_lasers_barrier"
 [node name="CollisionShape2D" parent="ThePrisonerRoom/DialogueBarrier" index="0"]
 disabled = true
 
-[node name="SavePoint" parent="ThePrisonerRoom" instance=ExtResource("31_yjdfc")]
-position = Vector2(64, 56)
-
 [node name="CombatRoom2" parent="." instance=ExtResource("8_rfjwi")]
 position = Vector2(640, -480)
 
@@ -384,9 +387,11 @@ position = Vector2(816, -120)
 visible = false
 default_key = "THE_prisoner_loop"
 
+[connection signal="zone_triggered" from="StartRoom/SavePoint/SavePointDialogueZone" to="." method="_on_save_point_dialogue_zone_zone_triggered"]
 [connection signal="puzzle_complete" from="PuzzleRoom/BoxPuzzle" to="." method="_on_box_puzzle_puzzle_complete"]
-[connection signal="zone_triggered" from="ThePrisonerRoom/SavePoint/SavePointDialogueZone" to="." method="_on_save_point_dialogue_zone_zone_triggered"]
 
+[editable path="StartRoom/SavePoint"]
+[editable path="StartRoom/SavePoint/SavePointDialogueZone"]
 [editable path="ShopkeeperRoom/Shopkeeper/ShopkeeperDialogueZone"]
 [editable path="ShopkeeperRoom/ShopkeeperDialogueBarrier"]
 [editable path="PuzzleRoom/BoxPuzzle"]
@@ -395,5 +400,3 @@ default_key = "THE_prisoner_loop"
 [editable path="LaserRoom1/DialogueTrigger"]
 [editable path="LaserRoom2/DialogueTrigger"]
 [editable path="ThePrisonerRoom/DialogueBarrier"]
-[editable path="ThePrisonerRoom/SavePoint"]
-[editable path="ThePrisonerRoom/SavePoint/SavePointDialogueZone"]

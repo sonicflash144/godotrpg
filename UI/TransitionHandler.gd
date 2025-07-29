@@ -15,14 +15,17 @@ func _ready() -> void:
 	)
 
 func console_reload():
-	console_fade_out(Events.get_current_scene_key())
+	Events.load_game()
+	LimboConsole.close_console()
 
 func console_fade_in(scene_name: String):
 	var scene_path = "res://%s.tscn" % scene_name
+	Events.currentScene = scene_name
 	fade_in(scene_path)
 
 func console_fade_out(scene_name: String):
 	var scene_path = "res://%s.tscn" % scene_name
+	Events.currentScene = scene_name
 	fade_out(scene_path)
 	LimboConsole.close_console()
 
@@ -55,6 +58,7 @@ func fade_out(to, duration := 0.8):
 	
 	get_tree().set_current_scene(new_scene)
 	rootControl.queue_free()
+	Events.menuOpen = false
 	Events.enable_controls()
 
 func fade_in(to, duration := 0.8):
@@ -81,4 +85,5 @@ func fade_in(to, duration := 0.8):
 	
 	get_tree().set_current_scene(new_scene)
 	rootControl.queue_free()
+	Events.menuOpen = false
 	Events.enable_controls()

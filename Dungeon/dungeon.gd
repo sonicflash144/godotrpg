@@ -4,6 +4,7 @@ extends Node2D
 @onready var pathfindingManager: PathfindingManager = $PathfindingManager
 @onready var player: CharacterBody2D = $Player
 @onready var princess: CharacterBody2D = $Princess
+@onready var princessHealthComponent: Health_Component = $Princess/Health_Component
 @onready var princessHurtbox: Hurtbox = $"Princess/Hurtbox"
 @onready var playerHitbox: Hitbox = $"Player/HitboxPivot/SwordHitbox"
 @onready var dialogueBarrier: DialogueBarrier = $DungeonRoom1/DialogueBarrier
@@ -70,9 +71,12 @@ func _on_room_locked(room):
 		dialogueRoomManager.dialogue("door")
 	
 func _on_player_died():
+	Events.set_flag("met_princess", false)
+	Events.set_flag("hit_princess", false)
 	Events.set_flag("combat_room_2", false)
+	princessHealthComponent.heal(2)
 	await get_tree().create_timer(1).timeout
-	get_tree().reload_current_scene()
+	TransitionHandler.console_fade_out("dungeon")
 
 func _on_dialogue_movement(key: String):
 	for marker in markers:

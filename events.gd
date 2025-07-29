@@ -25,6 +25,7 @@ signal console_heal()
 signal console_autocomplete()
 signal console_invincibility()
 signal console_give()
+signal console_noclip()
 
 const SAVE_PATH = "user://save_data.json"
 var GAME_STATE: GameState = preload("res://game_state.tres")
@@ -33,6 +34,8 @@ var SaveSound = preload("res://Music and Sounds/save_sound.tscn")
 
 var saved_scene: String
 var saved_position: Vector2
+
+var currentScene: String = "prison0"
 
 var menuOpen := false
 var controlsEnabled := true
@@ -68,7 +71,7 @@ func _ready() -> void:
 	
 	LimboConsole.register_command(set_flag, "set_flag", "Set value for GAME_STATE flag")
 	LimboConsole.add_argument_autocomplete_source("set_flag", 0,
-			func(): return GAME_STATE.flags.get(get_current_scene_key(), {}).keys()
+			func(): return GAME_STATE.flags.get(Events.currentScene, {}).keys()
 	)
 	LimboConsole.add_argument_autocomplete_source("set_flag", 1,
 			func(): return [true, false]
@@ -78,6 +81,7 @@ func _ready() -> void:
 	LimboConsole.register_command(autocomplete, "auto", "Toggle autocompletion of rooms")
 	LimboConsole.register_command(invincibility, "invincibility", "Toggle invincibility")
 	LimboConsole.register_command(give, "give", "Add an item to storage")
+	LimboConsole.register_command(noclip, "noclip", "Toggle noclip")
 	LimboConsole.add_argument_autocomplete_source("give", 0,
 		func(): return ["Better Bow", "Icy Sword", "Iron Sword", "Lucky Armor", "Multi Bow", "Overpriced Armor", "Piercing Bow", "Revenge Armor", "Shock Sword", "Speedy Armor"]
 	)
@@ -87,7 +91,7 @@ func save_game(player_position: Vector2, player_equipment: Array[String], prince
 	get_tree().current_scene.add_child(saveSound)
 	
 	var save_data = {
-		"scene": get_current_scene_key(),
+		"scene": Events.currentScene,
 		"player_x_pos": player_position.x,
 		"player_y_pos": player_position.y,
 		"flags": GAME_STATE.flags.duplicate(true),
@@ -122,20 +126,11 @@ func load_game():
 	else:
 		push_error("Error loading game: %s" % FileAccess.get_open_error())
 
-func get_current_scene_key():
-	var current_scene = get_tree().current_scene
-	if current_scene:
-		return current_scene.scene_file_path.get_file().get_basename()
-	return deferred_load_data["scene"]
-
 func set_flag(flag_name: String, value = true):
-	var scene_key = get_current_scene_key()
-	GAME_STATE.flags[scene_key][flag_name] = value
+	GAME_STATE.flags[Events.currentScene][flag_name] = value
 
-func get_flag(flag_name: String, scene_key := ""):
-	if not scene_key:
-		scene_key = get_current_scene_key()
-	return GAME_STATE.flags[scene_key].get(flag_name)
+func get_flag(flag_name: String):
+	return GAME_STATE.flags[Events.currentScene].get(flag_name)
 
 func heal():
 	console_heal.emit()
@@ -148,6 +143,9 @@ func invincibility():
 	
 func give():
 	console_give.emit()
+
+func noclip():
+	console_noclip.emit()
 
 func enable_controls():
 	await get_tree().create_timer(0.1).timeout

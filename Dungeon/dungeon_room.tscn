@@ -10,6 +10,7 @@ size = Vector2(308, 228)
 size = Vector2(288, 208)
 
 [node name="DungeonRoom" type="Node2D"]
+y_sort_enabled = true
 script = ExtResource("1_pgo2k")
 metadata/_edit_group_ = true
 

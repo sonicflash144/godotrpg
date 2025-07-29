@@ -11,7 +11,7 @@ config_version=5
 [application]
 
 config/name="godotrpg"
-run/main_scene="uid://bjpm8ir0aviaw"
+run/main_scene="uid://dfbu4k4ayhgf5"
 config/features=PackedStringArray("4.4")
 
 [autoload]
