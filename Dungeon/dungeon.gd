@@ -21,7 +21,6 @@ func _ready() -> void:
 	Events.princessDown = true
 	Events.playerDead = false
 	Events.combat_locked = false
-	
 	Events.player_has_sword = true
 	Events.num_party_members = 1
 	

@@ -6,6 +6,7 @@ extends Node2D
 @onready var princess: CharacterBody2D = $Princess
 @onready var playerHealthComponent: Health_Component = $Player/Health_Component
 @onready var princessHealthComponent: Health_Component = $Princess/Health_Component
+@onready var CampfireRoom: DungeonRoom = $CampfireRoom
 @onready var PuzzleRoom: DungeonRoom = $PuzzleRoom
 @onready var ThePrisonerRoom: DungeonRoom = $ThePrisonerRoom
 @onready var goBackdialogueBarrier: DialogueBarrier = $"StartRoom/GoBackDialogueBarrier"
@@ -13,7 +14,7 @@ extends Node2D
 @onready var sideDoor = $"PuzzleRoom/SideDoor"
 @onready var princessFollowCheck = $"PuzzleRoom/PrincessFollowCheck"
 @onready var afterLasersDialogueBarrierCollisionShape = $ThePrisonerRoom/DialogueBarrier/CollisionShape2D
-@onready var savePoint = $StartRoom/SavePoint/Marker2D
+@onready var savePoint = $CampfireRoom/SavePoint/Marker2D
 
 @export var markers: Array[Marker2D]
 
@@ -35,6 +36,7 @@ func _ready() -> void:
 	Events.princessDown = false
 	Events.playerDead = false
 	Events.combat_locked = false
+	Events.player_has_sword = true
 	Events.num_party_members = 2
 	Events.is_player_controlled = true
 	
@@ -62,11 +64,19 @@ func dialogue_barrier(key: String):
 		dialogueRoomManager.nudge_player(last_valid_position)
 		dialogueRoomManager.dialogue(key)
 
+func campfire_finished():
+	player.set_move_state()
+	princess.set_follow_state()
+
 func remove_shopkeeper_dialogue_barrier():
 	shopkeeperDialogueBarrier.queue_free()
 
 func _on_room_locked(room):
-	if room == PuzzleRoom and not Events.get_flag("puzzle_completed"):
+	if room == CampfireRoom and not Events.get_flag("campfire_completed"):
+		player.set_nav_state()
+		princess.set_nav_state()
+		dialogueRoomManager.dialogue("campfire")
+	elif room == PuzzleRoom and not Events.get_flag("puzzle_completed"):
 		if Events.debug_autocomplete:
 			var puzzle = room.get_node_or_null("BoxPuzzle")
 			puzzle.is_puzzle_complete = true
@@ -89,7 +99,14 @@ func _on_player_died():
 func _on_dialogue_movement(key: String):
 	for marker in markers:
 		if marker.name == key:
-			princess.move_to_position_astar(marker.global_position)
+			if key == "player_campfire":
+				player.move_to_position_astar(marker.global_position, Vector2.RIGHT)
+			elif key == "princess_campfire":
+				princess.move_to_position_astar(marker.global_position, Vector2.LEFT)
+			elif key == "princess_campfire_finished":
+				princess.move_to_position_astar(marker.global_position, Vector2.UP)
+			else:
+				princess.move_to_position_astar(marker.global_position)
 			return
 
 func _on_box_puzzle_puzzle_complete() -> void:

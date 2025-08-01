@@ -7,6 +7,28 @@ Princess: Um, I'm not going right back through the door we just heroically opene
 Princess: Don't you want to see what else is around? [#portrait=happy_closed_mouth]
 => END
 
+~ campfire
+do Events.set_flag("campfire_completed")
+Princess: Ooh, a campfire! Let's rest for a bit. [#portrait=happy]
+do Events.dialogue_movement.emit("princess_campfire")
+do wait(1)
+do Events.dialogue_movement.emit("player_campfire")
+do wait(2)
+Princess: Hah, wish we had some marshmallows to toast right about now... [#portrait=wink]
+Princess: Hey, I... I feel like you deserve a better explanation for my behavior earlier. [#portrait=downcast]
+Princess: The truth is, I always wanted to be a warrior. But... my dad refused. [#portrait=sad_closed_mouth]
+Princess: The closest I got was this toy bow for my birthday. [#portrait=neutral]
+Princess: Still, I loved it! I practiced for hours in my room, living out those stupid fantasies in my head. [#portrait=happy_closed_mouth]
+Princess: Convincing myself I could be just like those heroes who survived the [color=YELLOW]DUNGEON.[/color] [#portrait=happy_teeth]
+Princess: But I'm not going to pretend anymore. No more running away! I'll fight with you, side by side. [#portrait=determined]
+Princess: Thanks for listening. I'm ready to go if you are. [#portrait=happy_closed_mouth]
+You can now use \[SHIFT\] to swap characters in battle. 
+Hold and release \[X\] to shoot the Girl's bow.
+do Events.dialogue_movement.emit("princess_campfire_finished")
+do wait(2)
+do campfire_finished()
+=> END
+
 ~ shopkeeper
 if Events.get_flag("met_shopkeeper")
 	=> shopkeeper_talk_loop

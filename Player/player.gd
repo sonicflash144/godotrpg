@@ -4,6 +4,7 @@ extends CharacterBody2D
 @onready var health_component: Health_Component = $Health_Component
 @onready var movement_component: Movement_Component = $Movement_Component
 @onready var follow_component: Follow_Component = $Follow_Component
+@onready var navigation_component: Navigation_Component = $Navigation_Component
 
 @onready var princess: CharacterBody2D = get_node_or_null("../Princess")
 
@@ -27,7 +28,7 @@ func _ready() -> void:
 		update_stats()
 
 func _physics_process(_delta: float) -> void:
-	if state != ATTACK:
+	if state != ATTACK and state != NAV:
 		if Events.is_player_controlled:
 			state = MOVE
 		else: 
@@ -40,15 +41,18 @@ func _physics_process(_delta: float) -> void:
 			attack_state()
 		FOLLOW:
 			follow_component.follow()
+		NAV:
+			navigation_component.update_physics_process()
 
 func load_equipment():
+	await get_tree().process_frame
 	equipment.clear()
 	for item_name in Events.deferred_load_data["player_equipment"]:
 		var item_path = "res://Equipment/%s.tres" % item_name
 		var item = load(item_path)
 		equipment.append(item)
 	update_stats()
-		
+	
 	if princess and Events.num_party_members > 1:
 		princess.equipment.clear()
 		for item_name in Events.deferred_load_data["princess_equipment"]:
@@ -86,5 +90,18 @@ func attack_state():
 	var sword_direction = movement_component.animation_tree.get("parameters/Attack/blend_position")
 	swordHitbox.knockback_vector = sword_direction
 
+func set_nav_state():
+	state = NAV
+	
+func set_move_state():
+	state = MOVE
+	follow_component.clear_path_history()
+	navigation_component.update_physics_process()
+
 func attack_animation_finished():
 	state = MOVE if Events.is_player_controlled else FOLLOW
+
+func move_to_position_astar(target_position: Vector2, end_dir := Vector2.ZERO):
+	if Events.is_player_controlled:
+		state = NAV
+		navigation_component.move_to_position_astar(target_position, end_dir)

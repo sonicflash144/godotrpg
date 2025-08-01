@@ -1,0 +1,56 @@
+[gd_scene load_steps=8 format=3 uid="uid://0n5wpygj0rmb"]
+
+[ext_resource type="Texture2D" uid="uid://bmeim0qmlq5ow" path="res://Dungeon/Sprites/campfire.png" id="1_o6lej"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_pcc8x"]
+atlas = ExtResource("1_o6lej")
+region = Rect2(0, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_8seap"]
+atlas = ExtResource("1_o6lej")
+region = Rect2(16, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_rp8ws"]
+atlas = ExtResource("1_o6lej")
+region = Rect2(0, 16, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_eqtiw"]
+atlas = ExtResource("1_o6lej")
+region = Rect2(16, 16, 16, 16)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_lswiq"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_pcc8x")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_8seap")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_rp8ws")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_eqtiw")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_o6lej"]
+size = Vector2(10, 10)
+
+[node name="Campfire" type="StaticBody2D"]
+collision_mask = 0
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_lswiq")
+autoplay = "default"
+frame = 3
+frame_progress = 0.923532
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+visible = false
+position = Vector2(0, 3)
+shape = SubResource("RectangleShape2D_o6lej")

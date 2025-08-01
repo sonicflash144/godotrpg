@@ -7,6 +7,7 @@ class_name Navigation_Component
 @onready var movement_component: Movement_Component = $"../Movement_Component"
 
 var astar_path: Array[Vector2i] = []
+var ending_direction := Vector2.ZERO
 
 func _ready() -> void:
 	update_physics_process()
@@ -25,8 +26,11 @@ func _physics_process(_delta: float) -> void:
 		movement_component.move(direction.normalized())
 	else:
 		movement_component.move(Vector2.ZERO)
+		if ending_direction != Vector2.ZERO:
+			movement_component.update_animation_direction(ending_direction)
 
-func move_to_position_astar(target_pos: Vector2) -> void:
+func move_to_position_astar(target_pos: Vector2, end_dir := Vector2.ZERO) -> void:
+	ending_direction = end_dir
 	var cell_size := pathfindingManager.astar.cell_size
 	var start_cell = Vector2i(
 		floor(character.global_position.x / cell_size.x),

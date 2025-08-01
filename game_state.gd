@@ -19,6 +19,7 @@ class_name GameState
 		"princess_door_ready": false
 	},
 	"dungeon_2": {
+		"campfire_completed": false,
 		"met_shopkeeper": false,
 		"chest_iron_sword": false,
 		"chest_overpriced_armor": false,

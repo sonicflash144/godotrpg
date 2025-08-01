@@ -1,4 +1,4 @@
-[gd_scene load_steps=72 format=3 uid="uid://bursypx5unela"]
+[gd_scene load_steps=73 format=3 uid="uid://bursypx5unela"]
 
 [ext_resource type="Script" uid="uid://ci5s3yt3heq27" path="res://Player/player.gd" id="1_4ntmi"]
 [ext_resource type="Shader" uid="uid://d3peyev02dgjd" path="res://Combat/ShaderTransparent.gdshader" id="2_00tjw"]
@@ -13,6 +13,7 @@
 [ext_resource type="PackedScene" uid="uid://hakdr4fdj1fo" path="res://Combat/health_component.tscn" id="5_pisgm"]
 [ext_resource type="Texture2D" uid="uid://ceyuy1e3xvgx8" path="res://Player/Sprites/Player Sword Diagonal.png" id="7_apopc"]
 [ext_resource type="PackedScene" uid="uid://6c21m1l8r268" path="res://Combat/hurtbox.tscn" id="7_vtle1"]
+[ext_resource type="PackedScene" uid="uid://bhc7gpvpcip7x" path="res://Components/navigation_component.tscn" id="8_pisgm"]
 [ext_resource type="Script" uid="uid://cb6pd1v4iqhw0" path="res://Player/hitbox_pivot.gd" id="11_dkpta"]
 [ext_resource type="PackedScene" uid="uid://c5oie56bljaao" path="res://Components/movement_component.tscn" id="12_p5o4e"]
 [ext_resource type="PackedScene" uid="uid://bf33ttr2v7mwh" path="res://Components/follow_component.tscn" id="13_gu6f8"]
@@ -1691,6 +1692,8 @@ metadata/_edit_group_ = true
 [node name="Movement_Component" parent="." instance=ExtResource("12_p5o4e")]
 
 [node name="Follow_Component" parent="." instance=ExtResource("13_gu6f8")]
+
+[node name="Navigation_Component" parent="." instance=ExtResource("8_pisgm")]
 
 [node name="Sprite2D_RunIdle" type="Sprite2D" parent="."]
 material = SubResource("ShaderMaterial_x3vf3")
