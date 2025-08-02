@@ -1,7 +1,3 @@
-~ save_point
-The power of the crystals flows through you. Your game progress was saved.
-=> END
-
 ~ go_back_refusal
 Princess: Um, I'm not going right back through the door we just heroically opened. [#portrait=neutral]
 Princess: Don't you want to see what else is around? [#portrait=happy_closed_mouth]
@@ -20,17 +16,28 @@ Princess: The truth is, I always wanted to be a warrior. But... my dad refused. 
 Princess: The closest I got was this toy bow for my birthday. [#portrait=neutral]
 Princess: Still, I loved it! I practiced for hours in my room, living out those stupid fantasies in my head. [#portrait=happy_closed_mouth]
 Princess: Convincing myself I could be just like those heroes who survived the [color=YELLOW]DUNGEON.[/color] [#portrait=happy_teeth]
-Princess: But I'm not going to pretend anymore. No more running away! I'll fight with you, side by side. [#portrait=determined]
+Princess: But I'm not going to pretend anymore. I'll fight with you, side by side. [#portrait=determined]
 Princess: Thanks for listening. I'm ready to go if you are. [#portrait=happy_closed_mouth]
 You can now use \[SHIFT\] to swap characters in battle. 
 Hold and release \[X\] to shoot the Girl's bow.
 do Events.dialogue_movement.emit("princess_campfire_finished")
-do wait(2)
+do wait(1.5)
 do campfire_finished()
 => END
 
+~ save_point
+The power of the crystal flows through you. Your game progress was saved.
+=> END
+
+~ side_door_wrong_side
+The door is locked from the other side.
+Perhaps it can be opened later...
+=> END
+
 ~ shopkeeper
-if Events.get_flag("met_shopkeeper")
+if Events.get_flag("met_blacksmith"):
+	=> shopkeeper_blacksmith_gift
+elif Events.get_flag("met_shopkeeper")
 	=> shopkeeper_talk_loop
 Shopkeeper: Welcome to my humble shop, prisoners.
 Princess: Wow, a shop? I knew this place would be cool. [#portrait=surprise]
@@ -63,6 +70,26 @@ Shopkeeper: I mean, er, excellent! Thank you for your payment. The items are all
 Shopkeeper: The items are all yours. Best of luck out there. You'll need it, heh.
 => END
 
+~ shopkeeper_blacksmith_gift
+if Events.get_flag("received_blacksmith_gift")
+	=> shopkeeper_blacksmith_loop
+do Events.set_flag("received_blacksmith_gift")
+Shopkeeper: Oh, you guys aren't dead yet! What a welcome surprise.
+if Events.get_flag("met_shopkeeper")
+	Shopkeeper: I'm afraid the shop is still out of stock. No one's, uh, actually bought anything for a very long time.
+Princess: Actually, we just talked to your blacksmith friend. [#portrait=happy_closed_mouth]
+Princess: He said to tell you that Granny Smith thinks we deserve a gift. [#portrait=happy]
+Shopkeeper: Oh, Granny Smith! It's been a while since I've heard from him.
+Shopkeeper: Very well, I suppose I can tap into my secret stock, just this once.
+=>< shopkeeper_blacksmith_loop
+You got the [color=yellow]Multi Bow[/color]. Use \[C\] to equip it in the equipment menu.
+do Events.give("Multi Bow")
+=> END
+
+~ shopkeeper_blacksmith_loop
+Shopkeeper: Take this bow. And tell Granny Smith I said hi!
+=> END
+
 ~ chest_iron_sword
 You got the [color=yellow]Iron Sword[/color]. Use \[C\] to equip it in the equipment menu.
 => END
@@ -71,11 +98,14 @@ You got the [color=yellow]Iron Sword[/color]. Use \[C\] to equip it in the equip
 You got the [color=yellow]Overpriced Armor[/color]. Use \[C\] to equip it in the equipment menu.
 => END
 
-~ enter_puzzle_room
-do Events.set_flag("puzzle_started", true)
+~ puzzle_dialogue_barrier
+Princess: Come on, give it another try. [#portrait=neutral]
+=> END
+
+~ enter_puzzle_1
 Princess: Uh oh, this looks complicated. [#portrait=sad_closed_mouth]
 Princess: Um, you can figure it out, right? [#portrait=happy]
-do Events.dialogue_movement.emit("enter_puzzle_room")
+do Events.dialogue_movement.emit("enter_puzzle_1")
 => END
 
 ~ side_door
@@ -83,13 +113,9 @@ The door is locked. Seems like pushing those blocks onto the right spots might c
 Use \[Z\] while standing next to a box to push it.
 => END
 
-~ puzzle_complete
-do Events.set_flag("puzzle_completed")
+~ puzzle_1
+do Events.set_flag("puzzle_1")
 Princess: That was amazing! I wish I could be as smart as you. [#portrait=surprise_happy]
-=> END
-
-~ chest_better_bow
-You got the [color=yellow]Better Bow[/color].
 => END
 
 ~ laser_room_1
@@ -102,11 +128,11 @@ Princess: Oh boy, more lasers. [#portrait=sad]
 Princess: And those red ones don't seem to turn off on their own... [#portrait=neutral]
 => END
 
-~ chest_revenge_armor
-You got the [color=yellow]Revenge Armor[/color].
+~ chest_better_bow
+You got the [color=yellow]Better Bow[/color].
 => END
 
-~ THE_prisoner_intro
+~ THE_prisoner
 do Events.set_flag("met_THE_prisoner", true)
 THE Prisoner: WHAT the— [#portrait=shocked]
 THE Prisoner: I mean, hello there. Who are you guys? [#portrait=happy]
@@ -124,9 +150,82 @@ Princess: You take your time, sir. We'll, uh, see you around. [#portrait=happy_c
 => END
 
 ~ THE_prisoner_loop
+if Events.get_flag("met_blacksmith")
+	=> THE_prisoner_after_blacksmith_loop
 THE Prisoner: You guys go on ahead. [#portrait=neutral_closed_mouth]
 => END
 
-~ after_lasers_barrier
-Princess: Can we... NOT go back to the room with the scary lasers? [#portrait=sad]
+~ THE_prisoner_after_blacksmith
+do Events.set_flag("THE_prisoner_after_blacksmith")
+THE Prisoner: Oh, hey again! [#portrait=happy]
+THE Prisoner: What are you guys up to? Just asking for my imaginary friends. [#portrait=happy_closed_mouth]
+- Visit shopkeeper
+	THE Prisoner: Hah, that old guy? That's interesting. [#portrait=smirk]
+	THE Prisoner: Last I checked, there's no way ordinary prisoners like yourselves would be able to afford anything there. [#portrait=neutral]
+	Princess: Hah, totally! We're just there to chat. [#portrait=embarassed]
+- None of your business
+	THE Prisoner: Wow, someone woke up on the wrong side of the bed. [#portrait=angry_closed_mouth]
+	THE Prisoner: Nothing wrong with a few friendly questions here and there, right? [#portrait=neutral_closed_mouth]
+	Princess: Of course not! We're just, uh, in a hurry. [#portrait=happy_closed_mouth]
+=> THE_prisoner_after_blacksmith_loop
+
+~ THE_prisoner_after_blacksmith_loop
+THE Prisoner: Well, you guys have fun. Maybe I'll see you around again. [#portrait=neutral_closed_mouth]
+=> END
+
+~ enter_puzzle_2
+set puzzle_2_started = true
+Princess: Looks like another puzzle. You got this, right? [#portrait=happy_closed_mouth]
+do Events.dialogue_movement.emit("enter_puzzle_2")
+=> END
+
+~ puzzle_2
+do Events.set_flag("puzzle_2")
+Princess: Nice work! [#portrait=happy]
+=> END
+
+~ sad_guy
+if Events.get_flag("met_sad_guy")
+	=> sad_guy_loop
+do Events.set_flag("met_sad_guy")
+Sad Guy: There's no point anymore. In the last arena, my friend was killed. 
+Sad Guy: I didn't know him for long, but I told him we would get through this together. 
+Sad Guy: The worst part is, he didn't even do anything wrong. 
+Sad Guy: He was falsely accused of not paying his taxes, and the trial prosecutor had the money to bribe the judges.
+Sad Guy: Then again, when have the odds ever been fair for our kind?
+Princess: Don't give up! You should join us. We're going to make it out. [#portrait=sad]
+Sad Guy: Hah! So I have to watch more people die? I've had enough for a lifetime.
+=> END
+
+~ sad_guy_loop
+Sad Guy: Good luck out there. Not that it'll do anything for you.
+=> END
+
+~ blacksmith
+if Events.get_flag("received_blacksmith_gift")
+	=> blacksmith_after_gift
+elif Events.get_flag("met_blacksmith")
+	=> blacksmith_loop
+do Events.set_flag("met_blacksmith")
+Blacksmith: Oh my, is that my armor you have with you? 
+Blacksmith: Don't tell me— the shopkeeper charged you a fortune for it, didn't he? He was always quite the salesman.
+Blacksmith: Looks like it's got a few cracks in it from old age. I can help fix it up for you, if you'd like.
+- Yes
+- No
+Princess: How'd you end up down here? [#portrait=surprise]
+Blacksmith: I refused to design a... certain door at the end of the [color=yellow]DUNGEON[/color]. 
+Blacksmith: I should have known the [color=yellow]KING[/color] would just find another blacksmith. Now look where I've ended up.
+Princess: What was so special about the door? [#portrait=neutral]
+Blacksmith: Trust me, you'd rather not know.
+Blacksmith: Wouldn't you rather have a fragment of hope alive inside you for the time you have left?
+=> blacksmith_loop
+
+~ blacksmith_loop
+Blacksmith: Anyway, if you ever visit the shopkeeper again, tell him Granny Smith thinks you deserve a gift.
+Blacksmith: The shop is straight west of here. Can't miss it.
+=> END
+
+~ blacksmith_after_gift
+Princess: Thanks for your gift! Also, the shopkeeper says hi. [#portrait=happy]
+Blacksmith: He does, hmm? Perhaps I'll finally go visit him again...
 => END

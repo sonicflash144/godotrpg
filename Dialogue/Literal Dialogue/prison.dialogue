@@ -1,7 +1,7 @@
 ~ wall
 if not Events.get_flag("checked_wall"):
 	It's a wall. Unfortunately doesn't look very breakable.
-	set Events.set_flag("checked_wall", true)
+	do Events.set_flag("checked_wall", true)
 else:
 	...Still a wall.
 => END
@@ -47,6 +47,7 @@ do wait(2)
 ~ sandwich
 It's a sandwich, slightly squished from being hastily dropped on the floor. Eat it?
 - Eat it
+	do Events.set_flag("ate_sandwich")
 	do eat_sandwich()
 	You ate the sandwich. The bread is stale, but it's the best thing you've eaten in a while.
 - Do not

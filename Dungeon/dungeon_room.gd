@@ -7,10 +7,16 @@ enum {
 	PUZZLE,
 	LASER
 }
+@onready var dialogueRoomManager: DialogueRoomManager = $"../DialogueRoomManager"
 @onready var princess: CharacterBody2D = $"../Princess"
 @onready var princessCollider = $"../Princess/CollisionShape2D"
 @onready var princessHurtbox: Hurtbox = $"../Princess/Hurtbox"
 @onready var princessBlinkAnimation = $"../Princess/BlinkAnimationPlayer"
+
+@onready var THE_Prisoner: CharacterBody2D = get_node_or_null("../ThePrisoner")
+@onready var THE_PrisonerCollider = get_node_or_null("../ThePrisoner/CollisionShape2D")
+@onready var THE_PrisonerHurtbox: Hurtbox = get_node_or_null("../ThePrisoner/Hurtbox")
+@onready var THE_PrisonerBlinkAnimation = get_node_or_null("../ThePrisoner/BlinkAnimationPlayer")
 
 @export var flag: String
 @export var combatLockOverride := false
@@ -19,6 +25,7 @@ var roomType
 var players_in_room := {}
 var roomCompleted := false
 var CombatLockSound = load("res://Music and Sounds/combat_lock_sound.tscn")
+var puzzle: Box_Puzzle
 var enemies: Array[CharacterBody2D]
 var spikes: Array[StaticBody2D]
 var lasers: Array[StaticBody2D]
@@ -36,8 +43,8 @@ func _ready() -> void:
 			anim_sprite.set_frame(0)
 		elif child.is_in_group("BoxPuzzle") and not child.no_reset:
 			roomType = PUZZLE
+			puzzle = get_node_or_null("BoxPuzzle")
 			if flag and Events.get_flag(flag):
-				var puzzle = get_node_or_null("BoxPuzzle")
 				puzzle.set_completed_state()
 		elif child.is_in_group("Laser"):
 			if child is Laser:
@@ -53,7 +60,19 @@ func _ready() -> void:
 				enemy.queue_free()
 	elif not lasers.is_empty():
 		roomType = LASER
+	elif roomType == PUZZLE and flag and Events.get_flag(flag):
+		roomCompleted = true
+		puzzle.set_completed_state()
+
+func puzzle_lock_room():
+	if roomCompleted:
+		return
 	
+	if Events.debug_autocomplete:
+		puzzle.autocomplete()
+	else:
+		puzzle.start_puzzle()
+
 func activate_spikes():
 	for spike in spikes:
 		var anim_sprite = spike.get_node_or_null("AnimatedSprite2D")
@@ -76,6 +95,12 @@ func start_overworld_hazard():
 	princessHurtbox.disable_collider()
 	princessBlinkAnimation.play("Disabled")
 	princess.z_index = -1
+	
+	if Events.num_party_members >= 3:
+		THE_PrisonerCollider.set_deferred("disabled", true)
+		THE_PrisonerHurtbox.disable_collider()
+		THE_PrisonerBlinkAnimation.play("Disabled")
+		THE_Prisoner.z_index = -1
 
 func end_overworld_hazard():
 	Events.overworld_hazard_active = false
@@ -85,6 +110,12 @@ func end_overworld_hazard():
 	princessHurtbox.enable_collider()
 	princessBlinkAnimation.play("RESET")
 	princess.z_index = 0
+	
+	if Events.num_party_members >= 3:
+		THE_PrisonerCollider.set_deferred("disabled", false)
+		THE_PrisonerHurtbox.enable_collider()
+		THE_PrisonerBlinkAnimation.play("RESET")
+		THE_Prisoner.z_index = 0
 
 func activate_lasers():
 	start_overworld_hazard()
@@ -98,12 +129,22 @@ func deactivate_lasers():
 func combat_lock_room():
 	if Events.combat_locked or roomCompleted:
 		return
-	
+		
 	Events.combat_locked = true
 	if Events.debug_autocomplete:
 		debug_killall()
 		return
+	
+	if Events.num_party_members >= 3:
+		THE_PrisonerCollider.set_deferred("disabled", true)
+		THE_PrisonerHurtbox.disable_collider()
+		THE_PrisonerBlinkAnimation.play("Disabled")
+		THE_Prisoner.z_index = -1
 		
+		THE_Prisoner.set_nav_state()
+		var marker = get_node_or_null("THE_prisoner_combat_room")
+		THE_Prisoner.move_to_position_astar(marker.global_position, Vector2.RIGHT)
+	
 	Events.emit_signal("room_combat_locked")
 	var combatLockSound = CombatLockSound.instantiate()
 	get_tree().current_scene.add_child(combatLockSound)
@@ -116,6 +157,15 @@ func un_combat_lock_room():
 	Events.combat_locked = false
 	if flag:
 		Events.set_flag(flag)
+		
+	if Events.num_party_members >= 3:
+		THE_PrisonerCollider.set_deferred("disabled", false)
+		THE_PrisonerHurtbox.enable_collider()
+		THE_PrisonerBlinkAnimation.play("RESET")
+		THE_Prisoner.z_index = 0
+		THE_Prisoner.set_follow_state()
+		dialogueRoomManager.dialogue("THE_prisoner_useless")
+		
 	Events.emit_signal("room_un_combat_locked")
 	var combatLockSound = CombatLockSound.instantiate()
 	get_tree().current_scene.add_child(combatLockSound)
@@ -161,10 +211,12 @@ func _on_room_detector_body_entered(body: Node2D) -> void:
 	players_in_room[body.get_instance_id()] = true
 	if players_in_room.size() < Events.num_party_members:
 		return
-		
+	
 	Events.room_locked.emit(self)
 	if roomType == COMBAT and not combatLockOverride:
 		combat_lock_room()
+	elif roomType == PUZZLE:
+		puzzle_lock_room()
 		
 func _on_room_detector_body_exited(body: Node2D) -> void:
 	if Events.num_party_members == 1 and body.is_in_group("Princess"):

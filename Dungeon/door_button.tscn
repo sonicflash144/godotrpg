@@ -34,7 +34,7 @@ animations = [{
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_av2vf"]
 size = Vector2(10, 5)
 
-[node name="Door Button" type="Area2D"]
+[node name="Door Button" type="Area2D" groups=["Button"]]
 z_index = -1
 collision_layer = 0
 collision_mask = 2

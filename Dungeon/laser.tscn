@@ -245,11 +245,11 @@ _data = {
 }
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_a8f1s"]
-size = Vector2(9, 16.25)
+size = Vector2(9, 10.25)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_mross"]
 resource_local_to_scene = true
-size = Vector2(8, 40)
+size = Vector2(8, 38)
 
 [node name="Laser" type="StaticBody2D" groups=["Laser"]]
 script = ExtResource("1_owjno")
@@ -301,7 +301,7 @@ libraries = {
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 visible = false
-position = Vector2(0, -0.125)
+position = Vector2(0, -3.125)
 shape = SubResource("RectangleShape2D_a8f1s")
 
 [node name="LaserHitbox" parent="." instance=ExtResource("3_84yrn")]
@@ -309,12 +309,13 @@ collision_layer = 128
 collision_mask = 260
 
 [node name="CollisionShape2D" parent="LaserHitbox" index="0"]
-position = Vector2(0, 20)
+position = Vector2(0, 21)
 shape = SubResource("RectangleShape2D_mross")
 disabled = true
 debug_color = Color(1, 0.6, 0.701961, 0.419608)
 
 [node name="RayCast2D" type="RayCast2D" parent="."]
+visible = false
 target_position = Vector2(0, 320)
 
 [node name="OffsetTimer" type="Timer" parent="."]

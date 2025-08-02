@@ -1,0 +1,170 @@
+~ go_back_refusal
+Princess: Don't you think we should keep moving forward? [#portrait=neutral]
+=> END
+
+~ juggling_pin
+It's a juggling pin. Take it?
+- Take it
+	set num_pins_collected += 1
+- Do not => END!
+=> END
+
+~ juggling_pin_1
+=>< juggling_pin
+do take_pin_1()
+You picked up the juggling pin. You have collected {{num_pins_collected}}.
+=> END
+
+~ juggling_pin_2
+=>< juggling_pin
+do take_pin_2()
+You picked up the juggling pin. You have collected {{num_pins_collected}}.
+=> END
+
+~ juggling_pin_3
+=>< juggling_pin
+do take_pin_3()
+You picked up the juggling pin. You have collected {{num_pins_collected}}.
+=> END
+
+~ campfire
+do Events.set_flag("campfire_completed")
+Princess: Nice, another campfire! Let's rest for a bit. [#portrait=happy]
+do Events.dialogue_movement.emit("princess_campfire")
+do wait(1)
+do Events.dialogue_movement.emit("player_campfire")
+do wait(2)
+Princess: You know... I've never had a real friend before. [#portrait=sad_closed_mouth]
+Princess: The people I've gotten to meet... didn't really like me. They were just there because my dad told them to be. [#portrait=downcast]
+Princess: They never wanted to talk about cool stuff, like legendary swords or scary monsters. [#portrait=neutral]
+Princess: This is the most fun I've ever had in my whole life. [#portrait=happy]
+Princess: So thanks for... you know. Putting up with me all this time. [#portrait=happy_closed_mouth]
+- Of course
+	Princess: That means a lot. I'll keep trying my hardest, okay? [#portrait=happy_teeth]
+- You're still a nuisance
+	Princess: Hah! You're not the nicest yourself. [#portrait=smirk]
+do Events.dialogue_movement.emit("princess_campfire_finished")
+do wait(1.5)
+do campfire_finished()
+=> END
+
+~ save_point
+The power of the crystal flows through you. Your game progress was saved.
+=> END
+
+~ jester
+if Events.get_flag("met_jester")
+	=> jester_loop
+do Events.set_flag("met_jester")
+Jester: Ha ha ha... I just wanted to make people laugh. 
+Jester: But the [color=YELLOW]KING[/color] thought some of my jokes about what happened to the [color=YELLOW]QUEEN[/color] hit too close to home! 
+Jester: Ha ha ha... he was just scared that for once in his life, the joke would be on him...
+Princess: Don't talk about my— about the [color=YELLOW]QUEEN[/color] like that. [#portrait=angry]
+Princess: It was a tragic accident, and you're making it seem like a joke. [#portrait=angry_closed_mouth]
+Jester: Ha ha ha... It seems the joke is on you too, my dear.
+Jester: Anyway, if you aren't too busy, will you do me a favor?
+Princess: What is it? [#portrait=neutral]
+=> jester_loop
+
+~ jester_loop
+if num_pins_collected >= 3:
+	=> jester_reward
+Jester: I've lost my three prized juggling pins around here somewhere. 
+if num_pins_collected == 1
+	Jester: I see you've already found one! If you could find the rest and bring them back to me, I'd be most grateful.
+elif num_pins_collected == 2
+	Jester: I see you've already found two! If you could find the last and bring them back to me, I'd be most grateful.
+else
+	Jester: If you could find them and bring them back to me, I'd be most grateful.
+=> END
+
+~ jester_reward
+if Events.get_flag("received_jester_gift")
+	=> jester_reward_loop
+do Events.set_flag("received_jester_gift")
+Jester: My pins! You've found them!
+Jester: As thanks for your efforts, here is a small reward from me. 
+Jester: As the saying goes, revenge is a dish best served with shiny armor!
+You got the [color=yellow]Revenge Armor[/color]. Use \[C\] to equip it in the equipment menu.
+do Events.give("Revenge Armor")
+=> END
+
+~ jester_reward_loop
+Jester: Ha ha ha... enjoy your new armor!
+=> END
+
+~ THE_prisoner
+do Events.set_flag("met_THE_prisoner")
+THE Prisoner: So we meet again after all! I'm glad you've made it this far. [#portrait=happy]
+Princess: Yeah, we are, too. [#portrait=neutral_closed_mouth]
+THE Prisoner: I have a feeling we're nearing the exit of this wretched [color=yellow]DUNGEON[/color]. [#portrait=neutral]
+THE Prisoner: You wouldn't mind if I tagged along with you for these last few rooms, would you? [#portrait=happy_closed_mouth]
+Princess: Uh... of course not. [#portrait=suspicious]
+THE Prisoner: You're too kind. Lead the way! [#portrait=happy]
+=> END
+
+~ THE_prisoner_useless
+Princess: Thanks SO much for your help with that battle... [#portrait=suspicious]
+THE Prisoner: Don't mention it. [#portrait=happy_closed_mouth]
+do wait(1)
+=> END
+
+~ enter_puzzle_1
+THE Prisoner: Oh, a puzzle. I've already figured out the solution, but I'll let you have a turn. [#portrait=smirk]
+Princess: Hah, don't you worry. My companion here is the puzzle master. [#portrait=happy]
+do Events.dialogue_movement.emit("enter_puzzle_1")
+=> END
+
+~ side_door
+The door is locked. Seems like pushing those blocks onto the right spots might change that.
+Use \[Z\] while standing next to a box to push it.
+=> END
+
+~ puzzle_1
+do Events.set_flag("puzzle_1")
+Princess: Nice work! [#portrait=happy]
+THE Prisoner: Took you long enough. [#portrait=neutral]
+=> END
+
+~ chest_shock_sword
+You got the [color=yellow]Shock Sword[/color]. Use \[C\] to equip it in the equipment menu.
+=> END
+
+~ before_THE_prisoner_fight
+do Events.set_flag("before_THE_prisoner_fight")
+do Events.dialogue_movement.emit("THE_prisoner_enter_door_room")
+THE Prisoner: Congratulations, guys. This is it. The door to the outside world. [#portrait=happy_closed_mouth]
+Princess: That's weird. There's no buttons or anything. How do we open it? [#portrait=neutral]
+THE Prisoner: Oh, please, you really don't know? [#portrait=smirk]
+Princess: Excuse you! At least I was helpful during battle, instead of hiding in the corner like a scaredy-cat. [#portrait=angry]
+Princess: Maybe there's a key or something we missed in one of the other rooms. I'm going to go check. [#portrait=neutral]
+do Events.dialogue_movement.emit("princess_exit_door_room")
+do wait(2)
+THE Prisoner: Hey. Surely you've figured out who she really is by now. She's the [color=yellow]PRINCESS[/color]. [#portrait=neutral]
+THE Prisoner: I have a proposition that I think you'll enjoy. When she returns, why don't we team up to kill her? [#portrait=happy_evil]
+THE Prisoner: I'm sure you're aware how high the bounty is on her head out on the black market. [#portrait=happy]
+THE Prisoner: We can split the money and still be filthy rich. [#portrait=smirk]
+- Agree
+	THE Prisoner: Good answer. I knew I could count on you. [#portrait=happy]
+- Ask why
+	THE Prisoner: Why? You're asking why? Guess you haven't figured out who I am, either, huh... [#portrait=surprised]
+	THE Prisoner: Some call me [color=yellow]THE[/color] prisoner. [#portrait=smirk]
+	THE Prisoner: The very one who almost killed the [color=yellow]PRINCESS[/color] a while back, and who is now here to finish the job. [#portrait=neutral]
+	THE Prisoner: Do you really think you can trust her? Please. [#portrait=angry_closed_mouth]
+	THE Prisoner: The moment we're out of here, she'll call for her guards to throw us right back in prison. Maybe even execute us for good. [#portrait=neutral_closed_mouth]
+do Events.dialogue_movement.emit("princess_return_door_room")
+do wait(1)
+Princess: Sorry guys, I couldn't find anything useful. [#portrait=sad_closed_mouth]
+Princess: Did you guys come up with any good ideas while I was gone? [#portrait=happy_closed_mouth]
+THE Prisoner: Oh, we sure did. [#portrait=happy_closed_mouth]
+Princess: Really? That's great! What's the idea? [#portrait=surprise]
+THE Prisoner: It's very simple, actually. It's killing you. [#portrait=happy]
+Princess: W— WHAT? Why would you do that? [#portrait=shocked_upset]
+THE Prisoner: This door doesn't open without royal blood. That's why the [color=yellow]DUNGEON[/color] is the kingdom's most effective death trap. [#portrait=angry]
+THE Prisoner: I don't know why you wandered down here, [color=yellow]PRINCESS[/color], but it's the last mistake you'll ever make. [#portrait=angry_closed_mouth]
+Princess: But if that's true, you need me to open the door. So you can't kill me! [#portrait=surprise_upset]
+THE Prisoner: I don't need you alive to use your blood. Your rotten family is the reason I got stuck here. [#portrait=angry]
+THE Prisoner: Now, my ally, do what you must. [#portrait=happy_evil]
+- Attack
+- Do not
+=> END

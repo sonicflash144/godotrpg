@@ -1248,7 +1248,7 @@ _data = {
 }
 
 [node name="ThePrisoner" type="CharacterBody2D"]
-collision_layer = 0
+collision_layer = 2
 script = ExtResource("1_05q6i")
 stats = ExtResource("2_8ju00")
 metadata/_edit_group_ = true

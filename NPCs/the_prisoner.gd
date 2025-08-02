@@ -47,7 +47,7 @@ func set_follow_state():
 	state = FOLLOW
 	navigation_component.update_physics_process()
 
-func move_to_position_astar(target_position: Vector2):
+func move_to_position_astar(target_position: Vector2, end_dir := Vector2.ZERO):
 	if Events.is_player_controlled:
 		state = NAV
-		navigation_component.move_to_position_astar(target_position)
+		navigation_component.move_to_position_astar(target_position, end_dir)

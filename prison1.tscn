@@ -1,4 +1,4 @@
-[gd_scene load_steps=22 format=4 uid="uid://deiqhbrvo1oo6"]
+[gd_scene load_steps=24 format=4 uid="uid://deiqhbrvo1oo6"]
 
 [ext_resource type="Script" uid="uid://kug8gsqfbi73" path="res://World/prison_1.gd" id="1_fs6ax"]
 [ext_resource type="PackedScene" uid="uid://cqv7hf2dkuljw" path="res://Dialogue/dialogue_room_manager.tscn" id="2_5exfy"]
@@ -17,6 +17,8 @@
 [ext_resource type="PackedScene" uid="uid://cm005kc7svare" path="res://NPCs/guard.tscn" id="9_jvh6w"]
 [ext_resource type="Texture2D" uid="uid://b7wvleumvr7gk" path="res://NPCs/Sprites/Prison Guard 2 Walk Cycle.png" id="11_dubdr"]
 [ext_resource type="Texture2D" uid="uid://cxq8svyecwbax" path="res://World/prisonpaper.png" id="12_ft4sl"]
+[ext_resource type="AudioStream" uid="uid://b8dsbh70shypy" path="res://Music and Sounds/door open.mp3" id="15_h4iji"]
+[ext_resource type="AudioStream" uid="uid://dkhdgudx2yc35" path="res://Music and Sounds/equip.mp3" id="19_sfp51"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_jq7x1"]
 radius = 28.0179
@@ -124,6 +126,12 @@ position = Vector2(136, 288)
 
 [node name="GenericGuard3" parent="." instance=ExtResource("9_jvh6w")]
 position = Vector2(152, 288)
+
+[node name="EquipSound" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("19_sfp51")
+
+[node name="DoorSound" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("15_h4iji")
 
 [connection signal="body_entered" from="TransitionArea" to="." method="_on_transition_body_entered"]
 

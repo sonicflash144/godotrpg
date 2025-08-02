@@ -3,7 +3,7 @@
 [ext_resource type="Texture2D" uid="uid://ccifo6potgohg" path="res://Dungeon/Sprites/side door.png" id="1_xsluk"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ww7ku"]
-size = Vector2(6.5, 32)
+size = Vector2(3, 32)
 
 [node name="SideDoor" type="StaticBody2D"]
 
@@ -12,5 +12,5 @@ texture = ExtResource("1_xsluk")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 visible = false
-position = Vector2(1.75, 0)
+position = Vector2(0.5, 0)
 shape = SubResource("RectangleShape2D_ww7ku")

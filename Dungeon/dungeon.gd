@@ -3,12 +3,14 @@ extends Node2D
 @onready var dialogueRoomManager: DialogueRoomManager = $DialogueRoomManager
 @onready var pathfindingManager: PathfindingManager = $PathfindingManager
 @onready var player: CharacterBody2D = $Player
+@onready var playerHealthComponent: Health_Component = $Player/Health_Component
 @onready var princess: CharacterBody2D = $Princess
 @onready var princessHealthComponent: Health_Component = $Princess/Health_Component
 @onready var princessHurtbox: Hurtbox = $"Princess/Hurtbox"
 @onready var playerHitbox: Hitbox = $"Player/HitboxPivot/SwordHitbox"
 @onready var dialogueBarrier: DialogueBarrier = $DungeonRoom1/DialogueBarrier
 
+@onready var savePoint = $StartRoom/SavePoint/Marker2D
 @onready var CombatRoom2: DungeonRoom = $CombatRoom2
 @onready var DoorRoom: DungeonRoom = $DoorRoom
 
@@ -31,6 +33,10 @@ func _ready() -> void:
 	
 	set_collision_masks(true)
 	princess.set_nav_state()
+	
+	if not Events.deferred_load_data.is_empty() and Events.deferred_load_data.scene == "dungeon":
+		var save_position = Vector2(Events.deferred_load_data["player_x_pos"], Events.deferred_load_data["player_y_pos"])
+		player.position = save_position
 
 func _physics_process(_delta: float) -> void:
 	last_valid_position = player.global_position
@@ -106,3 +112,20 @@ func _on_princess_dialogue_zone_zone_triggered() -> void:
 		dialogueRoomManager.dialogue("talked_loop")
 	else:
 		dialogueRoomManager.dialogue("start")
+
+func _on_save_point_dialogue_zone_zone_triggered() -> void:
+	playerHealthComponent.heal(playerHealthComponent.MAX_HEALTH)
+	princessHealthComponent.heal(princessHealthComponent.MAX_HEALTH)
+	
+	var playerEquipment: Array[String]
+	var princessEquipment: Array[String]
+	var storage: Array[String]
+	
+	for item in player.equipment:
+		playerEquipment.append(item.name)
+	for item in princess.equipment:
+		princessEquipment.append(item.name)
+	for item in player.storage:
+		storage.append(item.name)
+		
+	Events.save_game(savePoint.global_position, playerEquipment, princessEquipment, storage)

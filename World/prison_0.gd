@@ -6,10 +6,10 @@ extends Node2D
 @onready var guard = $Guard
 @onready var marker: Marker2D = $Marker2D
 @onready var door = $CellDoor
+@onready var doorSound: AudioStreamPlayer = $DoorSound
 @onready var animationPlayer = $AnimationPlayer
 @onready var alarmSound: AudioStreamPlayer = $Alarm
 
-var DoorSound = load("res://Music and Sounds/door_sound.tscn")
 var guardOriginalPosition: Vector2
 
 func _ready() -> void:
@@ -29,8 +29,7 @@ func _ready() -> void:
 
 func open_prison_door():
 	door.queue_free()
-	var doorSound = DoorSound.instantiate()
-	get_tree().current_scene.add_child(doorSound)
+	doorSound.play()
 	Events.set_flag("prison_door_opened")
 	
 func alarm_animation():

@@ -1,3 +1,7 @@
+~ save_point
+The power of the crystal flows through you. Your game progress was saved.
+=> END
+
 ~ start
 do Events.set_flag("met_princess")
 Princess: Oh hey there! [#portrait=happy_closed_mouth]
@@ -28,8 +32,7 @@ Princess: HEY! Aren't you going to say hello? [#portrait=angry]
 Princess: I could be a huge asset to your adventures and you tried to walk right past me. [#portrait=angry_closed_mouth]
 Princess: I know you think you need that big sword a lot more than a girl like me. [#portrait=neutral]
 Princess: But look, I'm already kind of a fighter myself. [#portrait=smirk]
-Princess: Here, try hitting me. [#portrait=happy]
-=> END
+=> talked_loop
 
 ~ talked_loop
 Princess: Here, try hitting me. [#portrait=happy]
@@ -84,8 +87,7 @@ Princess: It was silly of me to play pretend like this. I'm no hero. [#portrait=
 	Princess: Aww, you shouldn't. [#portrait=embarassed_happy]
 - Do not
 	Princess: I understand. [#portrait=downcast]
-Princess: I'll prove myself soon, just you wait! [#portrait=determined]	
-=> END
+=> fled_loop
 
 ~ fled_loop
 Princess: I'll prove myself soon, just you wait! [#portrait=determined]

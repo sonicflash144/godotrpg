@@ -6,14 +6,40 @@
 script = ExtResource("1_ry6od")
 flags = {
 "dungeon": {
-"talked_to_princess": false
+"combat_room_2": false,
+"hit_princess": false,
+"met_princess": false,
+"princess_apology": false,
+"princess_door_ready": false,
+"visited_door": false
 },
 "dungeon_2": {
+"THE_prisoner_after_blacksmith": false,
+"campfire_completed": false,
+"chest_better_bow": false,
+"chest_iron_sword": false,
+"chest_overpriced_armor": false,
+"chest_revenge_armor": false,
+"combat_room_1": false,
 "laser_room_1": false,
 "laser_room_2": false,
 "met_THE_prisoner": false,
+"met_blacksmith": false,
+"met_sad_guy": false,
 "met_shopkeeper": false,
-"puzzle_started": false
+"puzzle_1": false,
+"puzzle_2": false,
+"received_blacksmith_gift": false
+},
+"dungeon_3": {
+"campfire_completed": false,
+"met_THE_prisoner": false,
+"met_jester": false,
+"pin_1": false,
+"pin_2": false,
+"pin_3": false,
+"puzzle_1": false,
+"received_jester_gift": false
 },
 "prison0": {
 "checked_wall": false,
@@ -21,6 +47,8 @@ flags = {
 },
 "prison1": {
 "ate_sandwich": false
-}
+},
+"throne_room": {},
+"throne_room_hall": {}
 }
 metadata/_custom_type_script = "uid://btjg3prpqh37q"

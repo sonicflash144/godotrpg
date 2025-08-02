@@ -130,7 +130,7 @@ func set_flag(flag_name: String, value = true):
 	GAME_STATE.flags[Events.currentScene][flag_name] = value
 
 func get_flag(flag_name: String):
-	return GAME_STATE.flags[Events.currentScene].get(flag_name)
+	return GAME_STATE.flags[Events.currentScene].get(flag_name, false)
 
 func heal():
 	console_heal.emit()
@@ -141,8 +141,8 @@ func autocomplete():
 func invincibility():
 	console_invincibility.emit()
 	
-func give():
-	console_give.emit()
+func give(item_name: String):
+	console_give.emit(item_name)
 
 func noclip():
 	console_noclip.emit()

@@ -1,0 +1,30 @@
+[gd_scene load_steps=5 format=3 uid="uid://du2a1g2xiogdt"]
+
+[ext_resource type="Texture2D" uid="uid://dlh4tfqnp1edk" path="res://Dungeon/Sprites/juggling pin.png" id="1_ndlkn"]
+[ext_resource type="PackedScene" uid="uid://damjysxl382ea" path="res://Dialogue/dialogue_zone.tscn" id="2_3h0rs"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ndlkn"]
+size = Vector2(8, 8)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_os22l"]
+radius = 18.0
+
+[node name="JugglingPin" type="StaticBody2D"]
+collision_mask = 0
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(0, -4)
+texture = ExtResource("1_ndlkn")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_ndlkn")
+
+[node name="JugglingPinDialogueZone" parent="." instance=ExtResource("2_3h0rs")]
+visible = false
+z_index = 0
+
+[node name="CollisionShape2D" parent="JugglingPinDialogueZone" index="0"]
+position = Vector2(0, -4)
+shape = SubResource("CircleShape2D_os22l")
+
+[editable path="JugglingPinDialogueZone"]

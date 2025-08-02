@@ -63,16 +63,16 @@ _data = {
 &"RESET": SubResource("Animation_63nin")
 }
 
-[node name="Door" type="StaticBody2D" node_paths=PackedStringArray("doorButtons")]
+[node name="Door" type="StaticBody2D"]
 collision_mask = 0
 script = ExtResource("1_63nin")
-doorButtons = [null, null]
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 texture = ExtResource("2_1hnmd")
 vframes = 2
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+visible = false
 position = Vector2(0, 4)
 shape = SubResource("RectangleShape2D_o2cd7")
 

@@ -5,16 +5,20 @@ extends StaticBody2D
 @onready var animationPlayer = $AnimationPlayer
 @onready var collisionShape = $CollisionShape2D
 
-@export var doorButtons: Array[Area2D]
+@export var transitionDestination: String
 
+var doorButtons: Array[Area2D]
 var bodies_on_button := {}
 var door_opened := false
 
 func _ready() -> void:
-	for button in doorButtons:
-		button.body_entered.connect(on_door_button_body_entered.bind(button))
-		button.body_exited.connect(on_door_button_body_exited.bind(button))
-		bodies_on_button[button] = 0
+	await get_tree().process_frame
+	for child in get_children():
+		if child.is_in_group("Button"):
+			doorButtons.append(child)
+			child.body_entered.connect(on_door_button_body_entered.bind(child))
+			child.body_exited.connect(on_door_button_body_exited.bind(child))
+			bodies_on_button[child] = 0
 
 func check_all_buttons():
 	if door_opened:
@@ -58,5 +62,5 @@ func on_door_button_body_exited(_body: Node2D, button: Area2D):
 
 func _on_door_transition_body_entered(body: Node2D) -> void:
 	if body.is_in_group("Player"):
-		TransitionHandler.console_fade_out("dungeon_2")
+		TransitionHandler.console_fade_out(transitionDestination)
 		Events.player_transition = "up"

@@ -5,6 +5,7 @@ class_name DialogueZone
 signal zone_triggered()
 
 @export var default_key := ""
+@export var auto_remove := false
 
 var dialogueRoomManager: DialogueRoomManager
 var dialoguePlaying := false
@@ -39,4 +40,6 @@ func _unhandled_key_input(event: InputEvent) -> void:
 		dialoguePlaying = true
 		if default_key:
 			dialogueRoomManager.dialogue(default_key)
+		if auto_remove:
+			queue_free()
 		zone_triggered.emit()

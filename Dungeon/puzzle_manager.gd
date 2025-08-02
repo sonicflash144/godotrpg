@@ -2,13 +2,18 @@ extends TileMapLayer
 
 class_name Box_Puzzle
 
-signal puzzle_complete
-
+@onready var dialogueRoomManager: DialogueRoomManager = $"../../DialogueRoomManager"
 @onready var player: CharacterBody2D = $"../../Player"
-@onready var animation_tree: AnimationTree = $"../../Player/AnimationTree"
-@onready var push_cast: RayCast2D = $"../../Player/PushCast"
+@onready var princess: CharacterBody2D = $"../../Princess"
+@onready var playerAnimationTree: AnimationTree = $"../../Player/AnimationTree"
+@onready var playerPushCast: RayCast2D = $"../../Player/PushCast"
 @onready var resetButton = $ResetButton
 @onready var boxSlideSound: AudioStreamPlayer = $BoxSlide
+@onready var doorSound: AudioStreamPlayer = $DoorSound
+
+@onready var sideDoor = get_node_or_null("../SideDoor")
+@onready var puzzleDialogueBarrier: DialogueBarrier = get_node_or_null("../PuzzleDialogueBarrier")
+@onready var puzzleDialogueBarrierCollisionShape = get_node_or_null("../PuzzleDialogueBarrier/CollisionShape2D")
 
 @export var no_reset := false
 
@@ -55,8 +60,17 @@ func pos_to_grid(pos: Vector2) -> Vector2i:
 func grid_to_pos(grid: Vector2i) -> Vector2:
 	return Vector2(grid.x * tile_size, grid.y * tile_size) + tile_offset
 
+func autocomplete():
+	set_completed_state()
+	doorSound.play()
+	dialogueRoomManager.dialogue(get_parent().flag)
+
 func set_completed_state():
 	is_puzzle_complete = true
+	get_parent().roomCompleted = true
+	sideDoor.queue_free()
+	puzzleDialogueBarrier.queue_free()
+	
 	boxes_dict.clear()
 	for i in range(min(boxes_list.size(), goals.size())):
 		var box = boxes_list[i]
@@ -66,14 +80,13 @@ func set_completed_state():
 		boxes_dict[goal_grid] = box
 
 func _unhandled_key_input(event: InputEvent) -> void:
-	if is_puzzle_complete:
+	if is_puzzle_complete or Events.currentRoom != get_parent():
 		return
 	
-	if event.is_action_pressed("debug_killall") and OS.is_debug_build() and Events.currentRoom == get_parent():
-		set_completed_state()
-		puzzle_complete.emit()
+	if event.is_action_pressed("debug_killall") and OS.is_debug_build() and Events.controlsEnabled and not no_reset:
+		autocomplete()
 	elif event.is_action_pressed("ui_accept") and Events.controlsEnabled:
-		var facing = animation_tree.get("parameters/Idle/blend_position")
+		var facing = playerAnimationTree.get("parameters/Idle/blend_position")
 		if facing == Vector2.ZERO:
 			return
 
@@ -83,15 +96,14 @@ func _unhandled_key_input(event: InputEvent) -> void:
 		else:
 			push_dir = Vector2(0, sign(facing.y))
 		
-		push_cast.target_position = push_dir * tile_size * 0.5
-		push_cast.force_raycast_update()
+		playerPushCast.target_position = push_dir * tile_size * 0.5
+		playerPushCast.force_raycast_update()
 		
-		if push_cast.is_colliding():
-			var box = push_cast.get_collider()
+		if playerPushCast.is_colliding():
+			var box = playerPushCast.get_collider()
 			if box and box.is_in_group("Box"):
 				var box_grid = pos_to_grid(box.position)
 				var dest_grid = box_grid + Vector2i(push_dir)
-				
 				if grid_types.has(dest_grid) and not boxes_dict.has(dest_grid):
 					Events.controlsEnabled = false
 					boxSlideSound.play()
@@ -117,7 +129,16 @@ func check_win() -> void:
 			break
 	if filled:
 		is_puzzle_complete = true
-		puzzle_complete.emit()
+		get_parent().roomCompleted = true
+		sideDoor.queue_free()
+		puzzleDialogueBarrier.queue_free()
+		doorSound.play()
+		dialogueRoomManager.dialogue(get_parent().flag)
+
+func start_puzzle():
+	princess.set_nav_state()
+	puzzleDialogueBarrierCollisionShape.set_deferred("disabled", false)
+	dialogueRoomManager.dialogue("enter_%s" % get_parent().flag)
 
 func reset_puzzle() -> void:
 	if is_puzzle_complete:

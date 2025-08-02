@@ -12,9 +12,8 @@ extends Node2D
 @onready var genericGuard3 = $GenericGuard3
 @onready var marker: Marker2D = $guard2_enter
 @onready var genericDoor = $GenericDoor
-
-var EquipSound = load("res://Music and Sounds/equip_sound.tscn")
-var DoorSound = load("res://Music and Sounds/door_sound.tscn")
+@onready var equipSound: AudioStreamPlayer = $EquipSound
+@onready var doorSound: AudioStreamPlayer = $DoorSound
 
 func _ready() -> void:
 	Events.num_party_members = 1
@@ -28,20 +27,17 @@ func _ready() -> void:
 	await get_tree().process_frame
 	if Events.get_flag("ate_sandwich"):
 		sandwich.queue_free()
-	
+
 func eat_sandwich():
 	sandwich.queue_free()
-	Events.set_flag("ate_sandwich")
-	
+
 func take_sword():
 	sword.queue_free()
-	var equipSound = EquipSound.instantiate()
-	get_tree().current_scene.add_child(equipSound)
+	equipSound.play()
 	
 func open_generic_door():
 	genericDoor.queue_free()
-	var doorSound = DoorSound.instantiate()
-	get_tree().current_scene.add_child(doorSound)
+	doorSound.play()
 
 func player_face_guard():
 	var playerAnimationTree = player.get_node_or_null("AnimationTree")

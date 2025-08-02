@@ -11,7 +11,7 @@ func _ready() -> void:
 	LimboConsole.register_command(console_reload, "reload", "Reload current save")
 	LimboConsole.register_command(console_fade_out, "scene", "Load a new scene")
 	LimboConsole.add_argument_autocomplete_source("scene", 0,
-		func(): return ["prison0", "prison1", "dungeon", "dungeon_2"]
+		func(): return ["prison0", "prison1", "dungeon", "dungeon_2", "dungeon_3", "throne_room_hall", "throne_room"]
 	)
 
 func console_reload():

@@ -24,12 +24,30 @@ class_name GameState
 		"chest_iron_sword": false,
 		"chest_overpriced_armor": false,
 		"combat_room_1": false,
-		"puzzle_started": false,
-		"puzzle_completed": false,
+		"puzzle_1": false,
 		"laser_room_1": false,
 		"laser_room_2": false,
-		"chest_revenge_armor": false,
+		"chest_better_bow": false,
 		"met_THE_prisoner": false,
-		"chest_better_bow": false
-	}
+		"met_sad_guy": false,
+		"combat_room_2": false,
+		"puzzle_2": false,
+		"met_blacksmith": false,
+		"THE_prisoner_after_blacksmith": false,
+		"received_blacksmith_gift": false,
+		"combat_room_3": false
+	},
+	"dungeon_3": {
+		"campfire_completed": false,
+		"met_jester": false,
+		"pin_1": false,
+		"pin_2": false,
+		"pin_3": false,
+		"met_THE_prisoner": false,
+		"received_jester_gift": false,
+		"puzzle_1": false,
+		"before_THE_prisoner_fight": false
+	},
+	"throne_room_hall": {},
+	"throne_room": {}
 }
