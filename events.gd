@@ -39,6 +39,7 @@ var currentScene: String = "prison0"
 
 var menuOpen := false
 var controlsEnabled := true
+var inCutscene := false
 
 var player_has_sword := true
 var player_transition := ""
@@ -57,10 +58,8 @@ var playerDead := false
 var debug_autocomplete := false
 
 var equipment_abilities: Dictionary[String, bool] = {
-	"Piercing": false,
 	"Multishot": false,
 	"Ice": false,
-	"Shockwave": false,
 	"Revenge": false,
 	"Luck": false,
 	"Speed": false
@@ -83,7 +82,7 @@ func _ready() -> void:
 	LimboConsole.register_command(give, "give", "Add an item to storage")
 	LimboConsole.register_command(noclip, "noclip", "Toggle noclip")
 	LimboConsole.add_argument_autocomplete_source("give", 0,
-		func(): return ["Better Bow", "Icy Sword", "Iron Sword", "Lucky Armor", "Multi Bow", "Overpriced Armor", "Piercing Bow", "Revenge Armor", "Shock Sword", "Speedy Armor"]
+		func(): return ["Better Bow", "Icy Sword", "Iron Sword", "Lucky Armor", "Multi Bow", "Overpriced Armor", "Revenge Armor", "Speedy Armor"]
 	)
 
 func save_game(player_position: Vector2, player_equipment: Array[String], princess_equipment: Array[String], storage: Array[String]):

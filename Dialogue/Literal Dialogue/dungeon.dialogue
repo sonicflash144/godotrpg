@@ -73,7 +73,7 @@ Princess: AHHH! OH MY GOODNESS ARE THOSE MONSTERS??? [#portrait=shocked]
 do Events.dialogue_movement.emit("exit_ghost_room")
 set Events.num_party_members = 1
 do wait(1.5)
-do combat_lock_signal()
+do Events.currentRoom.combat_lock_room()
 do wait(0.5)
 => END
 

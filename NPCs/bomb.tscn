@@ -1,0 +1,85 @@
+[gd_scene load_steps=12 format=3 uid="uid://nme74e6quxle"]
+
+[ext_resource type="Script" uid="uid://g4mrcckcqg67" path="res://NPCs/bomb.gd" id="1_sd18s"]
+[ext_resource type="Texture2D" uid="uid://bwkg66wsf44kj" path="res://NPCs/Sprites/bomb.png" id="2_sd18s"]
+[ext_resource type="PackedScene" uid="uid://lfrhnehwb41h" path="res://Combat/hitbox.tscn" id="4_mtsek"]
+[ext_resource type="AudioStream" uid="uid://ds6dilvs3tkqy" path="res://Music and Sounds/bomb ticking.mp3" id="4_sd18s"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_sd18s"]
+atlas = ExtResource("2_sd18s")
+region = Rect2(0, 16, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_d4d6d"]
+atlas = ExtResource("2_sd18s")
+region = Rect2(16, 16, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ypegv"]
+atlas = ExtResource("2_sd18s")
+region = Rect2(0, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_vqr7a"]
+atlas = ExtResource("2_sd18s")
+region = Rect2(16, 0, 16, 16)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_d4d6d"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_sd18s")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_d4d6d")
+}],
+"loop": true,
+"name": &"Start",
+"speed": 8.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ypegv")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_vqr7a")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_xlt4l"]
+size = Vector2(6, 6)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_laksj"]
+size = Vector2(6, 6)
+
+[node name="Bomb" type="Area2D"]
+collision_layer = 0
+collision_mask = 9
+script = ExtResource("1_sd18s")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+position = Vector2(0, -3)
+sprite_frames = SubResource("SpriteFrames_d4d6d")
+autoplay = "default"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+visible = false
+position = Vector2(0, -2)
+shape = SubResource("RectangleShape2D_xlt4l")
+
+[node name="BombHitbox" parent="." instance=ExtResource("4_mtsek")]
+visible = false
+collision_layer = 64
+collision_mask = 8
+
+[node name="CollisionShape2D" parent="BombHitbox" index="0"]
+position = Vector2(0, -2)
+shape = SubResource("RectangleShape2D_laksj")
+
+[node name="TickingSound" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("4_sd18s")
+
+[connection signal="area_entered" from="." to="." method="_on_area_entered"]
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
+
+[editable path="BombHitbox"]

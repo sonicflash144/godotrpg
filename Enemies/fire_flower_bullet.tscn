@@ -5,9 +5,6 @@
 [ext_resource type="Texture2D" uid="uid://jryh263ou55g" path="res://Enemies/Sprites/fire flower.png" id="3_2wwk5"]
 [ext_resource type="PackedScene" uid="uid://lfrhnehwb41h" path="res://Combat/hitbox.tscn" id="4_10mnc"]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_xlt4l"]
-size = Vector2(4, 4)
-
 [sub_resource type="AtlasTexture" id="AtlasTexture_ingk0"]
 atlas = ExtResource("3_2wwk5")
 region = Rect2(32, 0, 16, 16)
@@ -58,6 +55,9 @@ animations = [{
 "speed": 8.0
 }]
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_xlt4l"]
+size = Vector2(4, 4)
+
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_2wwk5"]
 size = Vector2(4, 4)
 
@@ -68,15 +68,15 @@ collision_mask = 261
 script = ExtResource("1_3ulj8")
 stats = ExtResource("2_j3s11")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-visible = false
-shape = SubResource("RectangleShape2D_xlt4l")
-
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_hj20p")
 autoplay = "default"
 frame = 3
 frame_progress = 0.524374
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+visible = false
+shape = SubResource("RectangleShape2D_xlt4l")
 
 [node name="FireFlowerHitbox" parent="." instance=ExtResource("4_10mnc")]
 visible = false

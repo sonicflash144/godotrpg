@@ -1,0 +1,85 @@
+[gd_scene load_steps=13 format=3 uid="uid://c3sft4hgmntef"]
+
+[ext_resource type="Script" uid="uid://66olowm26wbb" path="res://Enemies/jellyfish_bullet.gd" id="1_1rqwn"]
+[ext_resource type="Resource" uid="uid://b2p2sdwl8nhyr" path="res://Stats/jellyfish_stats.tres" id="2_ku008"]
+[ext_resource type="Texture2D" uid="uid://dfq7imjxwlwlr" path="res://Enemies/Sprites/jellyfish_bullet.png" id="3_ku008"]
+[ext_resource type="PackedScene" uid="uid://lfrhnehwb41h" path="res://Combat/hitbox.tscn" id="4_6tvxh"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_tn0pn"]
+atlas = ExtResource("3_ku008")
+region = Rect2(0, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_vlufk"]
+atlas = ExtResource("3_ku008")
+region = Rect2(16, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_6tvxh"]
+atlas = ExtResource("3_ku008")
+region = Rect2(0, 16, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qpjsg"]
+atlas = ExtResource("3_ku008")
+region = Rect2(16, 16, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_dplsp"]
+atlas = ExtResource("3_ku008")
+region = Rect2(0, 32, 16, 16)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_wryde"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_tn0pn")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_vlufk")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_6tvxh")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_qpjsg")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_dplsp")
+}],
+"loop": true,
+"name": &"default",
+"speed": 6.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_xlt4l"]
+size = Vector2(5, 5)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_2wwk5"]
+size = Vector2(5, 5)
+
+[node name="JellyfishBullet" type="Area2D"]
+z_index = 1
+collision_layer = 0
+collision_mask = 261
+script = ExtResource("1_1rqwn")
+stats = ExtResource("2_ku008")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_wryde")
+autoplay = "default"
+frame_progress = 0.6521
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(-0.5, -0.5)
+shape = SubResource("RectangleShape2D_xlt4l")
+
+[node name="JellyfishHitbox" parent="." instance=ExtResource("4_6tvxh")]
+position = Vector2(6, 0)
+collision_layer = 128
+collision_mask = 260
+
+[node name="CollisionShape2D" parent="JellyfishHitbox" index="0"]
+visible = false
+position = Vector2(-6.5, -0.5)
+shape = SubResource("RectangleShape2D_2wwk5")
+
+[connection signal="area_entered" from="." to="." method="_on_area_entered"]
+
+[editable path="JellyfishHitbox"]

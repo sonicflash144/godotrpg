@@ -207,18 +207,32 @@ if Events.get_flag("received_blacksmith_gift")
 elif Events.get_flag("met_blacksmith")
 	=> blacksmith_loop
 do Events.set_flag("met_blacksmith")
-Blacksmith: Oh my, is that my armor you have with you? 
-Blacksmith: Don't tell me— the shopkeeper charged you a fortune for it, didn't he? He was always quite the salesman.
-Blacksmith: Looks like it's got a few cracks in it from old age. I can help fix it up for you, if you'd like.
-- Yes
-- No
-Princess: How'd you end up down here? [#portrait=surprise]
+Blacksmith: Hello there, prisoners.
+Princess: Hi! Who are you? [#portrait=happy_closed_mouth]
+Blacksmith: Just a no-nonsense blacksmith.
+if Events.get_flag("chest_overpriced_armor")
+	Blacksmith: Oh my, is that my armor you have with you? 
+	Blacksmith: Don't tell me— the shopkeeper charged you a fortune for it, didn't he? He was always quite the salesman.
+	Blacksmith: Looks like it's got a few cracks in it from old age. I can help fix it up for you, if you'd like.
+	=>< blacksmith_fix_armor
+Princess: Can we ask how you ended up down here? [#portrait=surprise]
 Blacksmith: I refused to design a... certain door at the end of the [color=yellow]DUNGEON[/color]. 
 Blacksmith: I should have known the [color=yellow]KING[/color] would just find another blacksmith. Now look where I've ended up.
 Princess: What was so special about the door? [#portrait=neutral]
 Blacksmith: Trust me, you'd rather not know.
 Blacksmith: Wouldn't you rather have a fragment of hope alive inside you for the time you have left?
 => blacksmith_loop
+
+~ blacksmith_fix_armor
+- Fix
+	Blacksmith: Alrighty, just one moment.
+	do Events.set_flag("blacksmith_armor_fixed")
+	do blacksmith_fix_armor()
+	do wait(3)
+	Blacksmith: There you go, should be as good as new!
+	Princess: Thanks so much! [#portrait=happy_teeth]
+- Do not
+=> END
 
 ~ blacksmith_loop
 Blacksmith: Anyway, if you ever visit the shopkeeper again, tell him Granny Smith thinks you deserve a gift.
@@ -228,4 +242,28 @@ Blacksmith: The shop is straight west of here. Can't miss it.
 ~ blacksmith_after_gift
 Princess: Thanks for your gift! Also, the shopkeeper says hi. [#portrait=happy]
 Blacksmith: He does, hmm? Perhaps I'll finally go visit him again...
+if Events.get_flag("chest_overpriced_armor") and not Events.get_flag("blacksmith_armor_fixed"):
+	Blacksmith: Did you change your mind about getting that armor of yours fixed up? 
+	=> blacksmith_fix_armor
+=> END
+
+~ chest_lucky_armor
+You got the [color=yellow]Lucky Armor[/color].
+=> END
+
+~ door_description
+The door is locked.
+Seems like you already have the help you need to open it.
+=> END
+
+~ door
+Princess: Oh look, another door! [#portrait=surprise]
+Princess: Seems like we can do the same thing as last time, right? [#portrait=happy_closed_mouth]
+do Events.dialogue_movement.emit("stand_door_button")
+do wait(0.5)
+=> END
+
+~ door_opened
+Princess: Easy as pie! [#portrait=happy_teeth]
+do set_princess_follow_state() 
 => END

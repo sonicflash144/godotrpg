@@ -15,8 +15,10 @@ extends Node2D
 @onready var princessFollowCheck1 = $PuzzleRoom1/PrincessFollowCheck1
 @onready var savePoint2 = $SadGuyRoom/SavePoint2/Marker2D
 @onready var ThePrisonerRoom: DungeonRoom = $ThePrisonerRoom
+@onready var blacksmith = $BlacksmithRoom/Blacksmith
 @onready var PuzzleRoom2: DungeonRoom = $PuzzleRoom2
 @onready var princessFollowCheck2 = $PuzzleRoom2/PrincessFollowCheck2
+@onready var DoorRoom: DungeonRoom = $DoorRoom
 
 @export var markers: Array[Marker2D]
 
@@ -90,7 +92,22 @@ func campfire_finished():
 
 func remove_shopkeeper_dialogue_barrier():
 	shopkeeperDialogueBarrier.queue_free()
-	
+
+func blacksmith_fix_armor():
+	var animatedSprite = blacksmith.get_node_or_null("AnimatedSprite2D")
+	var hammerSound = blacksmith.get_node_or_null("Hammer")
+	animatedSprite.play("Start")
+	hammerSound.play()
+	overpricedArmor.defense = 3
+	player.update_stats()
+	princess.update_stats()
+
+func open_door():
+	dialogueRoomManager.dialogue("door_opened")
+
+func set_princess_follow_state():
+	princess.set_follow_state()
+
 func _on_room_locked(room):
 	if room == CampfireRoom and not Events.get_flag("campfire_completed"):
 		player.set_nav_state()
@@ -101,6 +118,8 @@ func _on_room_locked(room):
 			dialogueRoomManager.dialogue("THE_prisoner")
 		elif Events.get_flag("met_blacksmith") and not Events.get_flag("THE_prisoner_after_blacksmith"):
 			dialogueRoomManager.dialogue("THE_prisoner_after_blacksmith")
+	elif room == DoorRoom:
+		dialogueRoomManager.dialogue("door")
 	
 func _on_player_died():
 	await get_tree().create_timer(1).timeout

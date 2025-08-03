@@ -1,0 +1,104 @@
+[gd_scene load_steps=15 format=3 uid="uid://02x2x2o0qe7o"]
+
+[ext_resource type="Script" uid="uid://g4mrcckcqg67" path="res://NPCs/bomb.gd" id="1_o8vc0"]
+[ext_resource type="Texture2D" uid="uid://ink18cb72gan" path="res://NPCs/Sprites/ninja star.png" id="2_o8vc0"]
+[ext_resource type="PackedScene" uid="uid://lfrhnehwb41h" path="res://Combat/hitbox.tscn" id="3_p4t8u"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_jhggq"]
+atlas = ExtResource("2_o8vc0")
+region = Rect2(0, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_p4t8u"]
+atlas = ExtResource("2_o8vc0")
+region = Rect2(16, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1unsx"]
+atlas = ExtResource("2_o8vc0")
+region = Rect2(32, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_cssgj"]
+atlas = ExtResource("2_o8vc0")
+region = Rect2(0, 16, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_gbfix"]
+atlas = ExtResource("2_o8vc0")
+region = Rect2(16, 16, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ftt2w"]
+atlas = ExtResource("2_o8vc0")
+region = Rect2(32, 16, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_vegag"]
+atlas = ExtResource("2_o8vc0")
+region = Rect2(0, 32, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7jbpi"]
+atlas = ExtResource("2_o8vc0")
+region = Rect2(16, 32, 16, 16)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_ge60u"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_jhggq")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_p4t8u")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1unsx")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_cssgj")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_gbfix")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ftt2w")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_vegag")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_7jbpi")
+}],
+"loop": true,
+"name": &"default",
+"speed": 6.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_xlt4l"]
+size = Vector2(7, 7)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_laksj"]
+size = Vector2(7, 7)
+
+[node name="NinjaStar" type="Area2D"]
+collision_layer = 0
+collision_mask = 9
+script = ExtResource("1_o8vc0")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_ge60u")
+autoplay = "default"
+frame = 3
+frame_progress = 0.527508
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+visible = false
+position = Vector2(-0.5, -0.5)
+shape = SubResource("RectangleShape2D_xlt4l")
+
+[node name="NinjaStarHitbox" parent="." instance=ExtResource("3_p4t8u")]
+visible = false
+collision_layer = 64
+collision_mask = 8
+
+[node name="CollisionShape2D" parent="NinjaStarHitbox" index="0"]
+shape = SubResource("RectangleShape2D_laksj")
+
+[connection signal="area_entered" from="." to="." method="_on_area_entered"]
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
+
+[editable path="NinjaStarHitbox"]

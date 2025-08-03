@@ -45,9 +45,6 @@ func set_collision_masks(value: bool):
 	princessHurtbox.set_collision_mask_value(7, value)
 	playerHitbox.set_collision_mask_value(9, value)
 
-func combat_lock_signal():
-	Events.currentRoom.combat_lock_room()
-
 func dialogue_barrier(_key: String):
 	dialogueRoomManager.nudge_player(last_valid_position)
 	if Events.get_flag("met_princess"):

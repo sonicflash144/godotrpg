@@ -10,8 +10,7 @@ var healthUI: Health_UI
 var DeathEffect: PackedScene
 var invincible := false
 
-const SWORD_SHOCKWAVE_RATE := 0.25
-var SwordShockwaveScene = load("res://Enemies/sword_shockwave_controller.tscn")
+var SwordShockwaveScene = load("res://Enemies/shockwave_controller.tscn")
 const REVENGE_DAMANGE_MULTIPLIER := 2
 
 func _ready() -> void:
@@ -68,8 +67,12 @@ func damage(base_damage: int, area_name: String):
 		death(area_name)
 
 func death(area_name: String):
+	if get_parent().is_in_group("Princess") and area_name == "SwordHitbox":
+		Events.princessDown = true
+		return
+		
 	if DeathEffect:
-		get_parent().handle_death()
+		get_parent().handle_death(area_name)
 		var deathEffect = DeathEffect.instantiate()
 		get_tree().current_scene.add_child(deathEffect)
 		deathEffect.global_position = get_parent().global_position
@@ -92,7 +95,7 @@ func death(area_name: String):
 		Events.princessDown = true
 	elif get_parent().is_in_group("Enemy"):
 		enemy_died.emit(get_parent())
-		if Events.equipment_abilities["Shockwave"] and area_name == "SwordHitbox" and randf() < SWORD_SHOCKWAVE_RATE:
-			var swordShockwave = SwordShockwaveScene.instantiate()
-			get_tree().current_scene.call_deferred("add_child", swordShockwave)
-			swordShockwave.global_position = get_parent().global_position
+		#if Events.equipment_abilities["Shockwave"] and area_name == "SwordHitbox" and randf() < SWORD_SHOCKWAVE_RATE:
+			#var swordShockwave = SwordShockwaveScene.instantiate()
+			#get_tree().current_scene.call_deferred("add_child", swordShockwave)
+			#swordShockwave.global_position = get_parent().global_position

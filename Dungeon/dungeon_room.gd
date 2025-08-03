@@ -25,6 +25,7 @@ var roomType
 var players_in_room := {}
 var roomCompleted := false
 var CombatLockSound = load("res://Music and Sounds/combat_lock_sound.tscn")
+var GhostScene = load("res://Enemies/ghost.tscn")
 var puzzle: Box_Puzzle
 var enemies: Array[CharacterBody2D]
 var spikes: Array[StaticBody2D]
@@ -72,6 +73,24 @@ func puzzle_lock_room():
 		puzzle.autocomplete()
 	else:
 		puzzle.start_puzzle()
+
+func spawn_ghosts(pos: Vector2):
+	var newGhosts: Array[CharacterBody2D]
+	for i in range(3):
+		var ghost_instance = GhostScene.instantiate()
+		ghost_instance.global_position = pos
+		var offset = Vector2(randf_range(-16.0, 16.0), randf_range(-16.0, 16.0))
+		ghost_instance.global_position += offset
+		
+		newGhosts.append(ghost_instance)
+		enemies.append(ghost_instance)
+		var health_component = ghost_instance.get_node_or_null("Health_Component")
+		health_component.enemy_died.connect(_on_enemy_died)
+		ghost_instance.set_idle_state()
+		
+	await get_tree().create_timer(0.2).timeout
+	for ghost in newGhosts:
+		get_tree().current_scene.call_deferred("add_child", ghost)
 
 func activate_spikes():
 	for spike in spikes:

@@ -1,13 +1,13 @@
 [gd_scene load_steps=11 format=3 uid="uid://58rt0fsobtsq"]
 
-[ext_resource type="Script" uid="uid://b3khbyt6dctnq" path="res://Enemies/sword_shockwave_controller.gd" id="1_ppuws"]
-[ext_resource type="PackedScene" uid="uid://lfrhnehwb41h" path="res://Combat/hitbox.tscn" id="2_616ei"]
-[ext_resource type="Texture2D" uid="uid://btfsns24xqmwg" path="res://Enemies/Sprites/shockwave.png" id="2_vcl7f"]
-[ext_resource type="Script" uid="uid://bgdg8osb748gd" path="res://Stats/stats.gd" id="2_xwwml"]
-[ext_resource type="AudioStream" uid="uid://bb8xk6e3bj4m" path="res://Music and Sounds/shockwave.mp3" id="3_cfn4c"]
+[ext_resource type="Script" uid="uid://b3khbyt6dctnq" path="res://Enemies/shockwave_controller.gd" id="1_oydrp"]
+[ext_resource type="Script" uid="uid://bgdg8osb748gd" path="res://Stats/stats.gd" id="2_ai5p2"]
+[ext_resource type="Texture2D" uid="uid://btfsns24xqmwg" path="res://Enemies/Sprites/shockwave.png" id="3_uyt01"]
+[ext_resource type="PackedScene" uid="uid://lfrhnehwb41h" path="res://Combat/hitbox.tscn" id="4_uadig"]
+[ext_resource type="AudioStream" uid="uid://bb8xk6e3bj4m" path="res://Music and Sounds/shockwave.mp3" id="5_ojf2r"]
 
 [sub_resource type="Resource" id="Resource_xaho1"]
-script = ExtResource("2_xwwml")
+script = ExtResource("2_ai5p2")
 health = 0
 attack = 1
 defense = 0
@@ -78,13 +78,13 @@ _data = {
 [sub_resource type="CircleShape2D" id="CircleShape2D_vcl7f"]
 radius = 48.0
 
-[node name="SwordShockwaveController" type="Node2D"]
-script = ExtResource("1_ppuws")
+[node name="ShockwaveController" type="Node2D"]
+script = ExtResource("1_oydrp")
 stats = SubResource("Resource_xaho1")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 z_index = -2
-texture = ExtResource("2_vcl7f")
+texture = ExtResource("3_uyt01")
 hframes = 3
 vframes = 3
 
@@ -93,16 +93,16 @@ libraries = {
 &"": SubResource("AnimationLibrary_cfn4c")
 }
 
-[node name="ShockwaveHitbox" parent="." instance=ExtResource("2_616ei")]
-collision_layer = 64
-collision_mask = 8
+[node name="ShockwaveHitbox" parent="." instance=ExtResource("4_uadig")]
+collision_layer = 128
+collision_mask = 260
 
 [node name="CollisionShape2D" parent="ShockwaveHitbox" index="0"]
 shape = SubResource("CircleShape2D_vcl7f")
 disabled = true
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
-stream = ExtResource("3_cfn4c")
+stream = ExtResource("5_ojf2r")
 autoplay = true
 
 [connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_animation_player_animation_finished"]

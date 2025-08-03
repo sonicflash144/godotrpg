@@ -1,0 +1,160 @@
+[gd_scene load_steps=23 format=3 uid="uid://cpjqlhgfud2xd"]
+
+[ext_resource type="Script" uid="uid://cqnjdykbh4s26" path="res://Enemies/big_ghost.gd" id="1_jtq66"]
+[ext_resource type="Resource" uid="uid://bx3russdik8yv" path="res://Stats/big_ghost_stats.tres" id="2_fqdhb"]
+[ext_resource type="PackedScene" uid="uid://hakdr4fdj1fo" path="res://Combat/health_component.tscn" id="3_1ryfi"]
+[ext_resource type="PackedScene" uid="uid://hfj2qrgqwdms" path="res://Enemies/wander_controller.tscn" id="4_bxefm"]
+[ext_resource type="PackedScene" uid="uid://gh2hmf87o2ox" path="res://Enemies/sword_slow_controller.tscn" id="5_7vho3"]
+[ext_resource type="Shader" uid="uid://cd25tciedu4h5" path="res://Combat/ShaderComplementary.gdshader" id="6_ihobp"]
+[ext_resource type="Texture2D" uid="uid://qx6sp8ac6wa3" path="res://Enemies/Sprites/big ghost.png" id="6_jtq66"]
+[ext_resource type="PackedScene" uid="uid://6c21m1l8r268" path="res://Combat/hurtbox.tscn" id="8_7ru4x"]
+[ext_resource type="PackedScene" uid="uid://cfur0wgencjh8" path="res://Enemies/player_detection_zone.tscn" id="9_veqb5"]
+[ext_resource type="PackedScene" uid="uid://lfrhnehwb41h" path="res://Combat/hitbox.tscn" id="10_cu8u4"]
+[ext_resource type="PackedScene" uid="uid://3od7ps120wrn" path="res://Enemies/soft_collision.tscn" id="11_x61on"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_4od23"]
+resource_local_to_scene = true
+shader = ExtResource("6_ihobp")
+shader_parameter/active = false
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_fqdhb"]
+atlas = ExtResource("6_jtq66")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_7n145"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_fqdhb")
+}],
+"loop": true,
+"name": &"Fly",
+"speed": 5.0
+}]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_0fgnr"]
+radius = 8.0
+height = 24.0
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_loe2b"]
+size = Vector2(26, 28)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_qxvdp"]
+radius = 97.0206
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_lh42r"]
+size = Vector2(16, 20)
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_tt0oc"]
+radius = 8.0
+height = 24.0
+
+[sub_resource type="Animation" id="Animation_eeofm"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("AnimatedSprite:material:shader_parameter/active")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+
+[sub_resource type="Animation" id="Animation_2qxec"]
+resource_name = "Start"
+length = 0.2
+step = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("AnimatedSprite:material:shader_parameter/active")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_ce8b3"]
+_data = {
+&"RESET": SubResource("Animation_eeofm"),
+&"Start": SubResource("Animation_2qxec")
+}
+
+[node name="BigGhost" type="CharacterBody2D" groups=["Enemy"]]
+collision_layer = 16
+script = ExtResource("1_jtq66")
+stats = ExtResource("2_fqdhb")
+metadata/_edit_group_ = true
+
+[node name="Health_Component" parent="." instance=ExtResource("3_1ryfi")]
+
+[node name="WanderController" parent="." instance=ExtResource("4_bxefm")]
+
+[node name="SwordSlowController" parent="." instance=ExtResource("5_7vho3")]
+
+[node name="AnimatedSprite" type="AnimatedSprite2D" parent="."]
+material = SubResource("ShaderMaterial_4od23")
+position = Vector2(0, -7)
+sprite_frames = SubResource("SpriteFrames_7n145")
+animation = &"Fly"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+visible = false
+position = Vector2(0, -1)
+rotation = 1.5708
+shape = SubResource("CapsuleShape2D_0fgnr")
+
+[node name="Hurtbox" parent="." instance=ExtResource("8_7ru4x")]
+visible = false
+position = Vector2(0, -2)
+collision_layer = 8
+collision_mask = 64
+
+[node name="CollisionShape2D" parent="Hurtbox" index="0"]
+position = Vector2(1, -5)
+shape = SubResource("RectangleShape2D_loe2b")
+
+[node name="PlayerDetectionZone" parent="." instance=ExtResource("9_veqb5")]
+visible = false
+
+[node name="CollisionShape2D" parent="PlayerDetectionZone" index="0"]
+position = Vector2(-1, -2)
+shape = SubResource("CircleShape2D_qxvdp")
+debug_color = Color(0, 0.6, 0.701961, 0.121569)
+
+[node name="Hitbox" parent="." instance=ExtResource("10_cu8u4")]
+visible = false
+position = Vector2(0, -3)
+collision_layer = 128
+collision_mask = 260
+
+[node name="CollisionShape2D" parent="Hitbox" index="0"]
+position = Vector2(-2, -2)
+shape = SubResource("RectangleShape2D_lh42r")
+
+[node name="SoftCollision" parent="." instance=ExtResource("11_x61on")]
+visible = false
+
+[node name="CollisionShape2D" parent="SoftCollision" index="0"]
+position = Vector2(0, -1)
+rotation = 1.5708
+shape = SubResource("CapsuleShape2D_tt0oc")
+
+[node name="BlinkAnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("AnimationLibrary_ce8b3")
+}
+
+[connection signal="trigger_knockback" from="Hurtbox" to="." method="_on_hurtbox_trigger_knockback"]
+
+[editable path="Hurtbox"]
+[editable path="PlayerDetectionZone"]
+[editable path="Hitbox"]
+[editable path="SoftCollision"]

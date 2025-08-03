@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://ctcfky0s7afen"
+path="res://.godot/imported/king_defend.mp3-ef501ae9257cafedb8185799bedbcded.mp3str"
+
+[deps]
+
+source_file="res://Music and Sounds/king_defend.mp3"
+dest_files=["res://.godot/imported/king_defend.mp3-ef501ae9257cafedb8185799bedbcded.mp3str"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

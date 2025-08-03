@@ -13,6 +13,9 @@ func _ready() -> void:
 	update_physics_process()
 
 func _physics_process(_delta: float) -> void:
+	if Events.inCutscene:
+		return
+	
 	if astar_path.size() > 0:
 		# 1) get next cell and turn it into a world position
 		var cell = astar_path[0]

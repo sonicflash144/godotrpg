@@ -1,4 +1,4 @@
-[gd_scene load_steps=33 format=4 uid="uid://crej2ja7ku7gd"]
+[gd_scene load_steps=36 format=4 uid="uid://crej2ja7ku7gd"]
 
 [ext_resource type="Script" uid="uid://durfcss8llkph" path="res://Dungeon/dungeon_3.gd" id="1_tfgca"]
 [ext_resource type="PackedScene" uid="uid://c23uva3n3te25" path="res://UI/health_canvas_layer.tscn" id="2_4rglg"]
@@ -22,9 +22,12 @@
 [ext_resource type="PackedScene" uid="uid://56i8hksasg6k" path="res://Enemies/fire_flower.tscn" id="21_etn0k"]
 [ext_resource type="PackedScene" uid="uid://mvgpyyrkt607" path="res://Dungeon/spikes.tscn" id="22_pxxmv"]
 [ext_resource type="PackedScene" uid="uid://bimh0cianrr45" path="res://Dungeon/side_door.tscn" id="23_etn0k"]
+[ext_resource type="Resource" uid="uid://ca65g4ugrd3k1" path="res://Equipment/Icy Sword.tres" id="24_p7k77"]
 [ext_resource type="PackedScene" uid="uid://ukvccod4ru5w" path="res://Dungeon/door.tscn" id="24_pxxmv"]
 [ext_resource type="PackedScene" uid="uid://d24ateel8ltrn" path="res://Dungeon/chest.tscn" id="24_vdg8j"]
-[ext_resource type="Resource" uid="uid://7p1vq4jigj5f" path="res://Equipment/Shock Sword.tres" id="25_jvqi4"]
+[ext_resource type="PackedScene" uid="uid://bqp80cx6cbgli" path="res://Dungeon/laser_movement.tscn" id="26_ex30h"]
+[ext_resource type="Resource" uid="uid://dnaumst244w6n" path="res://Equipment/Revenge Armor.tres" id="27_p7k77"]
+[ext_resource type="PackedScene" uid="uid://bw14uhwg0x8ca" path="res://Enemies/jellyfish.tscn" id="27_p7sks"]
 [ext_resource type="Texture2D" uid="uid://1dwfaumovt0p" path="res://NPCs/Sprites/jester.png" id="33_wahrm"]
 [ext_resource type="PackedScene" uid="uid://bixth4v8wdly8" path="res://NPCs/princess.tscn" id="34_7ol0f"]
 [ext_resource type="PackedScene" uid="uid://bursypx5unela" path="res://Player/player.tscn" id="35_myyf6"]
@@ -42,7 +45,7 @@ size = Vector2(32, 32)
 [node name="Dungeon3" type="Node2D" node_paths=PackedStringArray("markers")]
 y_sort_enabled = true
 script = ExtResource("1_tfgca")
-markers = [NodePath("CampfireRoom/princess_campfire"), NodePath("CampfireRoom/player_campfire"), NodePath("CampfireRoom/princess_campfire_finished"), NodePath("PuzzleRoom1/enter_puzzle_1"), NodePath("DoorRoom/THE_prisoner_enter_door_room"), NodePath("ChestRoom/princess_exit_door_room"), NodePath("DoorRoom/princess_return_door_room")]
+markers = [NodePath("CampfireRoom/princess_campfire"), NodePath("CampfireRoom/player_campfire"), NodePath("CampfireRoom/princess_campfire_finished"), NodePath("PuzzleRoom1/enter_puzzle_1"), NodePath("DoorRoom/THE_prisoner_enter_door_room"), NodePath("ChestRoom/princess_exit_door_room"), NodePath("DoorRoom/princess_return_door_room"), NodePath("DoorRoom/player_kill_princess")]
 
 [node name="HealthCanvasLayer" parent="." instance=ExtResource("2_4rglg")]
 
@@ -76,12 +79,46 @@ tile_map_data = PackedByteArray("AAAAAAAAAQACAAoAAAAAAAEAAQACAAoAAAAAAAIAAQACAAo
 position = Vector2(72, 24)
 
 [node name="Laser2" parent="LaserRoom1" instance=ExtResource("12_2xbxn")]
+position = Vector2(120, 24)
+offset_length = 1.0
+
+[node name="Laser4" parent="LaserRoom1" instance=ExtResource("12_2xbxn")]
+position = Vector2(200, 24)
+active_length = 1.0
+
+[node name="Laser5" parent="LaserRoom1" instance=ExtResource("12_2xbxn")]
 position = Vector2(216, 24)
+offset_length = 1.0
+cooldown_length = 2.0
+
+[node name="Laser6" parent="LaserRoom1" instance=ExtResource("12_2xbxn")]
+position = Vector2(232, 24)
+active_length = 1.0
+
+[node name="Laser7" parent="LaserRoom1" instance=ExtResource("12_2xbxn")]
+position = Vector2(248, 24)
+offset_length = 3.0
+cooldown_length = 2.0
+
+[node name="Laser8" parent="LaserRoom1" instance=ExtResource("12_2xbxn")]
+position = Vector2(264, 24)
+active_length = 1.0
 
 [node name="Laser3" parent="LaserRoom1" instance=ExtResource("12_2xbxn")]
 position = Vector2(296, 184)
 rotation = 1.5708
-permanent = true
+active_length = 1.0
+
+[node name="Laser9" parent="LaserRoom1" instance=ExtResource("12_2xbxn")]
+position = Vector2(296, 168)
+rotation = 1.5708
+offset_length = 1.0
+active_length = 1.0
+
+[node name="Laser10" parent="LaserRoom1" instance=ExtResource("12_2xbxn")]
+position = Vector2(296, 152)
+rotation = 1.5708
+active_length = 1.0
 
 [node name="JugglingPin1" parent="LaserRoom1" instance=ExtResource("13_0iwuc")]
 position = Vector2(96, 32)
@@ -176,31 +213,60 @@ tile_map_data = PackedByteArray("AAAAAAAAAQACAAoAAAAAAAEAAQACAAoAAAAAAAIAAQACAAo
 
 [node name="Laser" parent="LaserRoom2" instance=ExtResource("12_2xbxn")]
 position = Vector2(72, 24)
+permanent = true
 
 [node name="Laser2" parent="LaserRoom2" instance=ExtResource("12_2xbxn")]
 position = Vector2(216, 24)
-permanent = true
+active_length = 1.0
+
+[node name="Laser8" parent="LaserRoom2" instance=ExtResource("12_2xbxn")]
+position = Vector2(104, 24)
+active_length = 1.0
+
+[node name="Laser4" parent="LaserRoom2" instance=ExtResource("12_2xbxn")]
+position = Vector2(232, 24)
+cooldown_length = 2.0
+
+[node name="Laser5" parent="LaserRoom2" instance=ExtResource("12_2xbxn")]
+position = Vector2(248, 24)
+offset_length = 2.0
+cooldown_length = 2.0
 
 [node name="Laser3" parent="LaserRoom2" instance=ExtResource("12_2xbxn")]
-position = Vector2(296, 184)
+position = Vector2(296, 168)
 rotation = 1.5708
 permanent = true
 
+[node name="Laser6" parent="LaserRoom2" instance=ExtResource("12_2xbxn")]
+position = Vector2(296, 152)
+rotation = 1.5708
+offset_length = 1.0
+cooldown_length = 2.0
+
+[node name="Laser7" parent="LaserRoom2" instance=ExtResource("12_2xbxn")]
+position = Vector2(296, 88)
+rotation = 1.5708
+cooldown_length = 2.0
+
 [node name="BoxPuzzle" parent="LaserRoom2" instance=ExtResource("13_wf8wh")]
-tile_map_data = PackedByteArray("AAAPAAwAAQADAAAAAAAPAAsAAQADAAAAAAAPAAoAAQADAAAAAAAOAAoAAQADAAAAAAAOAAsAAQADAAAAAAAOAAwAAQADAAAAAAAOAAkAAQADAAAAAAAPAAkAAQADAAAAAAANAAQAAQADAAAAAAAMAAQAAQADAAAAAAANAAUAAQADAAAAAAAMAAUAAQADAAAAAAAOAAQAAQADAAAAAAAOAAUAAQADAAAAAAAPAAQAAQADAAAAAAAPAAUAAQADAAAAAAA=")
+tile_map_data = PackedByteArray("AAAPAAoAAQADAAAAAAAOAAoAAQADAAAAAAAOAAkAAQADAAAAAAAPAAkAAQADAAAAAAAOAAgAAQADAAAAAAAPAAgAAQADAAAAAAAEAAQAAQADAAAAAAAFAAQAAQADAAAAAAAGAAQAAQADAAAAAAAEAAUAAQADAAAAAAAFAAUAAQADAAAAAAAGAAUAAQADAAAAAAA=")
 no_reset = true
 
 [node name="Box" parent="LaserRoom2" instance=ExtResource("14_wvgr8")]
-position = Vector2(248, 152)
+position = Vector2(232, 136)
 
 [node name="Box2" parent="LaserRoom2" instance=ExtResource("14_wvgr8")]
-position = Vector2(248, 88)
+position = Vector2(104, 88)
 
 [node name="JugglingPin2" parent="LaserRoom2" instance=ExtResource("13_0iwuc")]
-position = Vector2(280, 40)
+position = Vector2(40, 40)
 
 [node name="JugglingPinDialogueZone" parent="LaserRoom2/JugglingPin2" index="2"]
 default_key = "juggling_pin_2"
+
+[node name="Chest" parent="LaserRoom2" instance=ExtResource("24_vdg8j")]
+position = Vector2(160, 200)
+item = ExtResource("24_p7k77")
 
 [node name="ThePrisonerRoom" parent="." instance=ExtResource("9_tjxw3")]
 position = Vector2(640, 480)
@@ -276,17 +342,55 @@ position = Vector2(1280, 480)
 [node name="TileMapLayer" parent="LaserRoom3" instance=ExtResource("10_j8bl7")]
 tile_map_data = PackedByteArray("AAAAAAAAAQACAAoAAAAAAAEAAQACAAoAAAAAAAIAAQACAAoAAAAAAAMAAQACAAoAAAAAAAQAAQACAAoAAAAAAAUAAQACAAoAAAAAAAYAAQADAAQAAAAAAAcAAQADAAQAAAAAAAgAAQACAAoAAAAAAAkAAQACAAoAAAAAAAoAAQACAAoAAAAAAAsAAQACAAoAAAAAAAwAAQACAAoAAAAAAA0AAQACAAoAAAAAAA4AAQACAAoAAAABAA4AAQACAAoAAAACAA4AAQACAAoAAAADAA4AAQACAAoAAAAEAA4AAQACAAoAAAAFAA4AAQACAAoAAAAGAA4AAQACAAoAAAAHAA4AAQACAAoAAAAIAA4AAQACAAoAAAAJAA4AAQACAAoAAAAKAA4AAQACAAoAAAALAA4AAQACAAoAAAAMAA4AAQACAAoAAAANAA4AAQACAAoAAAAOAA4AAQACAAoAAAAPAA4AAQACAAoAAAAQAA4AAQACAAoAAAARAA4AAQACAAoAAAASAA4AAQACAAoAAAATAA4AAQACAAoAAAATAAAAAQACAAoAAAATAAEAAQACAAoAAAATAAIAAQACAAoAAAATAAMAAQACAAoAAAATAAQAAQACAAoAAAATAAUAAQACAAoAAAATAAYAAQACAAoAAAATAAcAAQACAAoAAAATAAgAAQACAAoAAAATAAkAAQACAAoAAAATAAoAAQACAAoAAAATAAsAAQACAAoAAAATAAwAAQACAAoAAAATAA0AAQACAAoAAAABAAAAAQACAAoAAAACAAAAAQACAAoAAAADAAAAAQACAAoAAAAEAAAAAQACAAoAAAAFAAAAAQACAAoAAAAGAAAAAQACAAoAAAAHAAAAAQACAAoAAAAIAAAAAQACAAoAAAAJAAAAAQADAAQAAAAKAAAAAQADAAQAAAALAAAAAQACAAoAAAAMAAAAAQACAAoAAAANAAAAAQACAAoAAAAOAAAAAQACAAoAAAAPAAAAAQACAAoAAAAQAAAAAQACAAoAAAARAAAAAQACAAoAAAASAAAAAQACAAoAAAABAAEAAQADAAQAAAABAAIAAQADAAQAAAABAAMAAQADAAQAAAABAAQAAQADAAQAAAABAAUAAQADAAQAAAABAAYAAQADAAQAAAABAAcAAQADAAQAAAABAAgAAQADAAQAAAABAAkAAQADAAQAAAABAAoAAQADAAQAAAABAAsAAQADAAQAAAABAAwAAQADAAQAAAABAA0AAQADAAQAAAACAAEAAQADAAQAAAACAAIAAQADAAQAAAACAAMAAQADAAQAAAACAAQAAQADAAQAAAACAAUAAQADAAQAAAACAAYAAQADAAQAAAACAAcAAQADAAQAAAACAAgAAQADAAQAAAACAAkAAQADAAQAAAACAAoAAQADAAQAAAACAAsAAQADAAQAAAACAAwAAQADAAQAAAACAA0AAQADAAQAAAADAAEAAQADAAQAAAADAAIAAQADAAQAAAADAAMAAQADAAQAAAADAAQAAQADAAQAAAADAAUAAQADAAQAAAADAAYAAQADAAQAAAADAAcAAQADAAQAAAADAAgAAQADAAQAAAADAAkAAQADAAQAAAADAAoAAQADAAQAAAADAAsAAQADAAQAAAADAAwAAQADAAQAAAADAA0AAQADAAQAAAAEAAEAAQADAAQAAAAEAAIAAQADAAQAAAAEAAMAAQADAAQAAAAEAAQAAQADAAQAAAAEAAUAAQADAAQAAAAEAAYAAQADAAQAAAAEAAcAAQADAAQAAAAEAAgAAQADAAQAAAAEAAkAAQADAAQAAAAEAAoAAQADAAQAAAAEAAsAAQADAAQAAAAEAAwAAQADAAQAAAAEAA0AAQADAAQAAAAFAAEAAQADAAQAAAAFAAIAAQADAAQAAAAFAAMAAQADAAQAAAAFAAQAAQADAAQAAAAFAAUAAQADAAQAAAAFAAYAAQADAAQAAAAFAAcAAQADAAQAAAAFAAgAAQADAAQAAAAFAAkAAQADAAQAAAAFAAoAAQADAAQAAAAFAAsAAQADAAQAAAAFAAwAAQADAAQAAAAFAA0AAQADAAQAAAAGAAEAAQADAAQAAAAGAAIAAQADAAQAAAAGAAMAAQADAAQAAAAGAAQAAQADAAQAAAAGAAUAAQADAAQAAAAGAAYAAQADAAQAAAAGAAcAAQADAAQAAAAGAAgAAQADAAQAAAAGAAkAAQADAAQAAAAGAAoAAQADAAQAAAAGAAsAAQADAAQAAAAGAAwAAQADAAQAAAAGAA0AAQADAAQAAAAHAAEAAQADAAQAAAAHAAIAAQADAAQAAAAHAAMAAQADAAQAAAAHAAQAAQADAAQAAAAHAAUAAQADAAQAAAAHAAYAAQADAAQAAAAHAAcAAQADAAQAAAAHAAgAAQADAAQAAAAHAAkAAQADAAQAAAAHAAoAAQADAAQAAAAHAAsAAQADAAQAAAAHAAwAAQADAAQAAAAHAA0AAQADAAQAAAAIAAEAAQADAAQAAAAIAAIAAQADAAQAAAAIAAMAAQADAAQAAAAIAAQAAQADAAQAAAAIAAUAAQADAAQAAAAIAAYAAQADAAQAAAAIAAcAAQADAAQAAAAIAAgAAQADAAQAAAAIAAkAAQADAAQAAAAIAAoAAQADAAQAAAAIAAsAAQADAAQAAAAIAAwAAQADAAQAAAAIAA0AAQADAAQAAAAJAAEAAQADAAQAAAAJAAIAAQADAAQAAAAJAAMAAQADAAQAAAAJAAQAAQADAAQAAAAJAAUAAQADAAQAAAAJAAYAAQADAAQAAAAJAAcAAQADAAQAAAAJAAgAAQADAAQAAAAJAAkAAQADAAQAAAAJAAoAAQADAAQAAAAJAAsAAQADAAQAAAAJAAwAAQADAAQAAAAJAA0AAQADAAQAAAAKAAEAAQADAAQAAAAKAAIAAQADAAQAAAAKAAMAAQADAAQAAAAKAAQAAQADAAQAAAAKAAUAAQADAAQAAAAKAAYAAQADAAQAAAAKAAcAAQADAAQAAAAKAAgAAQADAAQAAAAKAAkAAQADAAQAAAAKAAoAAQADAAQAAAAKAAsAAQADAAQAAAAKAAwAAQADAAQAAAAKAA0AAQADAAQAAAALAAEAAQADAAQAAAALAAIAAQADAAQAAAALAAMAAQADAAQAAAALAAQAAQADAAQAAAALAAUAAQADAAQAAAALAAYAAQADAAQAAAALAAcAAQADAAQAAAALAAgAAQADAAQAAAALAAkAAQADAAQAAAALAAoAAQADAAQAAAALAAsAAQADAAQAAAALAAwAAQADAAQAAAALAA0AAQADAAQAAAAMAAEAAQADAAQAAAAMAAIAAQADAAQAAAAMAAMAAQADAAQAAAAMAAQAAQADAAQAAAAMAAUAAQADAAQAAAAMAAYAAQADAAQAAAAMAAcAAQADAAQAAAAMAAgAAQADAAQAAAAMAAkAAQADAAQAAAAMAAoAAQADAAQAAAAMAAsAAQADAAQAAAAMAAwAAQADAAQAAAAMAA0AAQADAAQAAAANAAEAAQADAAQAAAANAAIAAQADAAQAAAANAAMAAQADAAQAAAANAAQAAQADAAQAAAANAAUAAQADAAQAAAANAAYAAQADAAQAAAANAAcAAQADAAQAAAANAAgAAQADAAQAAAANAAkAAQADAAQAAAANAAoAAQADAAQAAAANAAsAAQADAAQAAAANAAwAAQADAAQAAAANAA0AAQADAAQAAAAOAAEAAQADAAQAAAAOAAIAAQADAAQAAAAOAAMAAQADAAQAAAAOAAQAAQADAAQAAAAOAAUAAQADAAQAAAAOAAYAAQADAAQAAAAOAAcAAQADAAQAAAAOAAgAAQADAAQAAAAOAAkAAQADAAQAAAAOAAoAAQADAAQAAAAOAAsAAQADAAQAAAAOAAwAAQADAAQAAAAOAA0AAQADAAQAAAAPAAEAAQADAAQAAAAPAAIAAQADAAQAAAAPAAMAAQADAAQAAAAPAAQAAQADAAQAAAAPAAUAAQADAAQAAAAPAAYAAQADAAQAAAAPAAcAAQADAAQAAAAPAAgAAQADAAQAAAAPAAkAAQADAAQAAAAPAAoAAQADAAQAAAAPAAsAAQADAAQAAAAPAAwAAQADAAQAAAAPAA0AAQADAAQAAAAQAAEAAQADAAQAAAAQAAIAAQADAAQAAAAQAAMAAQADAAQAAAAQAAQAAQADAAQAAAAQAAUAAQADAAQAAAAQAAYAAQADAAQAAAAQAAcAAQADAAQAAAAQAAgAAQADAAQAAAAQAAkAAQADAAQAAAAQAAoAAQADAAQAAAAQAAsAAQADAAQAAAAQAAwAAQADAAQAAAAQAA0AAQADAAQAAAARAAEAAQADAAQAAAARAAIAAQADAAQAAAARAAMAAQADAAQAAAARAAQAAQADAAQAAAARAAUAAQADAAQAAAARAAYAAQADAAQAAAARAAcAAQADAAQAAAARAAgAAQADAAQAAAARAAkAAQADAAQAAAARAAoAAQADAAQAAAARAAsAAQADAAQAAAARAAwAAQADAAQAAAARAA0AAQADAAQAAAASAAEAAQADAAQAAAASAAIAAQADAAQAAAASAAMAAQADAAQAAAASAAQAAQADAAQAAAASAAUAAQADAAQAAAASAAYAAQADAAQAAAASAAcAAQADAAQAAAASAAgAAQADAAQAAAASAAkAAQADAAQAAAASAAoAAQADAAQAAAASAAsAAQADAAQAAAASAAwAAQADAAQAAAASAA0AAQADAAQAAAA=")
 
+[node name="LaserMovement" parent="LaserRoom3" node_paths=PackedStringArray("marker") instance=ExtResource("26_ex30h")]
+position = Vector2(296, 184)
+marker = NodePath("../laser_marker")
+
+[node name="Laser" parent="LaserRoom3/LaserMovement" instance=ExtResource("12_2xbxn")]
+rotation = 1.5708
+cooldown_length = 2.0
+
+[node name="LaserMovement2" parent="LaserRoom3" node_paths=PackedStringArray("marker") instance=ExtResource("26_ex30h")]
+position = Vector2(296, 56)
+marker = NodePath("../laser_marker2")
+
+[node name="Laser" parent="LaserRoom3/LaserMovement2" instance=ExtResource("12_2xbxn")]
+rotation = 1.5708
+cooldown_length = 2.0
+
+[node name="laser_marker" type="Marker2D" parent="LaserRoom3"]
+position = Vector2(296, 152)
+
+[node name="laser_marker2" type="Marker2D" parent="LaserRoom3"]
+position = Vector2(296, 88)
+
+[node name="laser_marker3" type="Marker2D" parent="LaserRoom3"]
+position = Vector2(136, 24)
+
+[node name="laser_marker4" type="Marker2D" parent="LaserRoom3"]
+position = Vector2(56, 24)
+
+[node name="LaserMovement3" parent="LaserRoom3" node_paths=PackedStringArray("marker") instance=ExtResource("26_ex30h")]
+position = Vector2(56, 24)
+marker = NodePath("../laser_marker3")
+
+[node name="Laser" parent="LaserRoom3/LaserMovement3" instance=ExtResource("12_2xbxn")]
+cooldown_length = 2.0
+
+[node name="LaserMovement4" parent="LaserRoom3" node_paths=PackedStringArray("marker") instance=ExtResource("26_ex30h")]
+position = Vector2(136, 24)
+marker = NodePath("../laser_marker4")
+
+[node name="Laser" parent="LaserRoom3/LaserMovement4" instance=ExtResource("12_2xbxn")]
+cooldown_length = 2.0
+
 [node name="Laser" parent="LaserRoom3" instance=ExtResource("12_2xbxn")]
-position = Vector2(72, 24)
+position = Vector2(88, 24)
+active_length = 1.0
 
 [node name="Laser2" parent="LaserRoom3" instance=ExtResource("12_2xbxn")]
-position = Vector2(216, 24)
-permanent = true
-
-[node name="Laser3" parent="LaserRoom3" instance=ExtResource("12_2xbxn")]
-position = Vector2(296, 184)
-rotation = 1.5708
-permanent = true
+position = Vector2(104, 24)
+active_length = 1.0
 
 [node name="CombatRoom2" parent="." instance=ExtResource("9_tjxw3")]
 position = Vector2(1280, 240)
@@ -298,21 +402,6 @@ tile_map_data = PackedByteArray("AAAAAAAAAQACAAoAAAAAAAEAAQACAAoAAAAAAAIAAQACAAo
 [node name="THE_prisoner_combat_room" type="Marker2D" parent="CombatRoom2"]
 position = Vector2(24, 216)
 
-[node name="Ghost1" parent="CombatRoom2" instance=ExtResource("20_ja5ap")]
-position = Vector2(88, 152)
-
-[node name="Ghost2" parent="CombatRoom2" instance=ExtResource("20_ja5ap")]
-position = Vector2(168, 112)
-
-[node name="Ghost3" parent="CombatRoom2" instance=ExtResource("20_ja5ap")]
-position = Vector2(240, 152)
-
-[node name="FireFlower2" parent="CombatRoom2" instance=ExtResource("21_etn0k")]
-position = Vector2(224, 112)
-
-[node name="FireFlower" parent="CombatRoom2" instance=ExtResource("21_etn0k")]
-position = Vector2(96, 112)
-
 [node name="Spikes1" parent="CombatRoom2" instance=ExtResource("22_pxxmv")]
 position = Vector2(160, 240)
 rotation = -1.5708
@@ -320,6 +409,9 @@ rotation = -1.5708
 [node name="Spikes2" parent="CombatRoom2" instance=ExtResource("22_pxxmv")]
 position = Vector2(160, 0)
 rotation = 1.5708
+
+[node name="Jellyfish" parent="CombatRoom2" instance=ExtResource("27_p7sks")]
+position = Vector2(152, 120)
 
 [node name="ChestRoom" parent="." instance=ExtResource("9_tjxw3")]
 position = Vector2(1280, 0)
@@ -332,10 +424,10 @@ position = Vector2(168, 112)
 
 [node name="Chest" parent="ChestRoom" instance=ExtResource("24_vdg8j")]
 position = Vector2(48, 48)
-item = ExtResource("25_jvqi4")
+item = ExtResource("27_p7k77")
 
 [node name="princess_exit_door_room" type="Marker2D" parent="ChestRoom"]
-position = Vector2(288, 112)
+position = Vector2(280, 104)
 
 [node name="DoorRoom" parent="." instance=ExtResource("9_tjxw3")]
 position = Vector2(1600, 0)
@@ -351,16 +443,19 @@ transitionDestination = "throne_room"
 position = Vector2(0, 112)
 
 [node name="THE_prisoner_enter_door_room" type="Marker2D" parent="DoorRoom"]
-position = Vector2(160, 112)
+position = Vector2(168, 104)
 
 [node name="princess_return_door_room" type="Marker2D" parent="DoorRoom"]
-position = Vector2(32, 112)
+position = Vector2(40, 104)
+
+[node name="player_kill_princess" type="Marker2D" parent="DoorRoom"]
+position = Vector2(56, 104)
 
 [node name="Princess" parent="." instance=ExtResource("34_7ol0f")]
-position = Vector2(160, 248)
+position = Vector2(1440, 496)
 
 [node name="Player" parent="." instance=ExtResource("35_myyf6")]
-position = Vector2(160, 216)
+position = Vector2(1440, 464)
 
 [node name="ThePrisoner" parent="." instance=ExtResource("36_y0yba")]
 position = Vector2(880, 592)

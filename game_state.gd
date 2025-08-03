@@ -33,12 +33,15 @@ class_name GameState
 		"combat_room_2": false,
 		"puzzle_2": false,
 		"met_blacksmith": false,
+		"blacksmith_armor_fixed": false,
 		"THE_prisoner_after_blacksmith": false,
 		"received_blacksmith_gift": false,
+		"chest_lucky_armor": false,
 		"combat_room_3": false
 	},
 	"dungeon_3": {
 		"campfire_completed": false,
+		"chest_icy_sword": false,
 		"met_jester": false,
 		"pin_1": false,
 		"pin_2": false,
@@ -46,6 +49,7 @@ class_name GameState
 		"met_THE_prisoner": false,
 		"received_jester_gift": false,
 		"puzzle_1": false,
+		"chest_revenge_armor": false,
 		"before_THE_prisoner_fight": false
 	},
 	"throne_room_hall": {},

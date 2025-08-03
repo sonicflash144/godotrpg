@@ -14,7 +14,7 @@ func _physics_process(delta: float) -> void:
 	global_position += direction * speed * delta
 
 func _on_area_entered(area: Area2D) -> void:
-	if not Events.equipment_abilities["Piercing"] and area.name == "Hurtbox":
+	if area.name == "Hurtbox":
 		queue_free()
 
 func _on_body_entered(_body: Node2D) -> void:

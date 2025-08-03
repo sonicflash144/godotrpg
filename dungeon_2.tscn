@@ -1,4 +1,4 @@
-[gd_scene load_steps=44 format=4 uid="uid://bjpm8ir0aviaw"]
+[gd_scene load_steps=69 format=4 uid="uid://bjpm8ir0aviaw"]
 
 [ext_resource type="Script" uid="uid://drlqthyfnl327" path="res://Dungeon/dungeon_2.gd" id="1_75ekg"]
 [ext_resource type="PackedScene" uid="uid://c23uva3n3te25" path="res://UI/health_canvas_layer.tscn" id="2_557va"]
@@ -31,10 +31,13 @@
 [ext_resource type="PackedScene" uid="uid://dq1t7uoajlujw" path="res://NPCs/the_prisoner.tscn" id="25_rfjwi"]
 [ext_resource type="Texture2D" uid="uid://x80td1cr1crs" path="res://NPCs/Sprites/sad guy.png" id="30_d8joc"]
 [ext_resource type="PackedScene" uid="uid://bqp80cx6cbgli" path="res://Dungeon/laser_movement.tscn" id="31_8f62i"]
+[ext_resource type="Resource" uid="uid://d1btq653psel" path="res://Equipment/Lucky Armor.tres" id="31_gadgx"]
 [ext_resource type="PackedScene" uid="uid://cs7m8hnwn64hh" path="res://World/save_point.tscn" id="31_yjdfc"]
+[ext_resource type="AudioStream" uid="uid://dmy6r3mqsdu6m" path="res://Music and Sounds/hammer.mp3" id="32_gadgx"]
 [ext_resource type="PackedScene" uid="uid://0n5wpygj0rmb" path="res://Dungeon/campfire.tscn" id="32_iwg32"]
 [ext_resource type="Texture2D" uid="uid://chm6tunsg3fxj" path="res://NPCs/Sprites/blacksmith.png" id="32_wblx4"]
 [ext_resource type="PackedScene" uid="uid://ukvccod4ru5w" path="res://Dungeon/door.tscn" id="33_wblx4"]
+[ext_resource type="PackedScene" uid="uid://cq0lkubnbnja4" path="res://Dungeon/door_button.tscn" id="35_4qfi7"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_s718q"]
 size = Vector2(56, 14)
@@ -60,10 +63,166 @@ size = Vector2(24, 16)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_iwg32"]
 size = Vector2(16, 32)
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_q37av"]
+atlas = ExtResource("32_wblx4")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_wblx4"]
+atlas = ExtResource("32_wblx4")
+region = Rect2(32, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_gadgx"]
+atlas = ExtResource("32_wblx4")
+region = Rect2(0, 32, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4qfi7"]
+atlas = ExtResource("32_wblx4")
+region = Rect2(32, 32, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_3xp8d"]
+atlas = ExtResource("32_wblx4")
+region = Rect2(0, 64, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4b7sb"]
+atlas = ExtResource("32_wblx4")
+region = Rect2(32, 64, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_nim46"]
+atlas = ExtResource("32_wblx4")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4wevf"]
+atlas = ExtResource("32_wblx4")
+region = Rect2(32, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ruo2o"]
+atlas = ExtResource("32_wblx4")
+region = Rect2(0, 32, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_cxs60"]
+atlas = ExtResource("32_wblx4")
+region = Rect2(32, 32, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4bc0x"]
+atlas = ExtResource("32_wblx4")
+region = Rect2(0, 64, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4fyaq"]
+atlas = ExtResource("32_wblx4")
+region = Rect2(32, 64, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_r3bwl"]
+atlas = ExtResource("32_wblx4")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_igl2w"]
+atlas = ExtResource("32_wblx4")
+region = Rect2(32, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0xu00"]
+atlas = ExtResource("32_wblx4")
+region = Rect2(0, 32, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_r2gkg"]
+atlas = ExtResource("32_wblx4")
+region = Rect2(32, 32, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_c4rjr"]
+atlas = ExtResource("32_wblx4")
+region = Rect2(0, 64, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_r3bu2"]
+atlas = ExtResource("32_wblx4")
+region = Rect2(32, 64, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ggmmn"]
+atlas = ExtResource("32_wblx4")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_un0kf"]
+atlas = ExtResource("32_wblx4")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_nim46"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_q37av")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_wblx4")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_gadgx")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4qfi7")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_3xp8d")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4b7sb")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_nim46")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4wevf")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ruo2o")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_cxs60")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4bc0x")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4fyaq")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_r3bwl")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_igl2w")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_0xu00")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_r2gkg")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_c4rjr")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_r3bu2")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ggmmn")
+}],
+"loop": false,
+"name": &"Start",
+"speed": 8.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_un0kf")
+}],
+"loop": false,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_q37av"]
+size = Vector2(16, 8)
+
 [node name="Dungeon2" type="Node2D" node_paths=PackedStringArray("markers")]
 y_sort_enabled = true
 script = ExtResource("1_75ekg")
-markers = [NodePath("PuzzleRoom1/enter_puzzle_1"), NodePath("CampfireRoom/princess_campfire"), NodePath("CampfireRoom/player_campfire"), NodePath("CampfireRoom/princess_campfire_finished"), NodePath("PuzzleRoom2/enter_puzzle_2")]
+markers = [NodePath("PuzzleRoom1/enter_puzzle_1"), NodePath("CampfireRoom/princess_campfire"), NodePath("CampfireRoom/player_campfire"), NodePath("CampfireRoom/princess_campfire_finished"), NodePath("PuzzleRoom2/enter_puzzle_2"), NodePath("DoorRoom/stand_door_button")]
 
 [node name="HealthCanvasLayer" parent="." instance=ExtResource("2_557va")]
 
@@ -473,29 +632,43 @@ position = Vector2(56, 24)
 
 [node name="Laser" parent="LaserRoom3" instance=ExtResource("11_s718q")]
 position = Vector2(88, 24)
+active_length = 1.0
 
 [node name="Laser2" parent="LaserRoom3" instance=ExtResource("11_s718q")]
 position = Vector2(104, 24)
+offset_length = 1.0
+active_length = 1.0
 
 [node name="Laser5" parent="LaserRoom3" instance=ExtResource("11_s718q")]
-position = Vector2(232, 24)
+position = Vector2(216, 24)
+active_length = 1.0
+
+[node name="Laser6" parent="LaserRoom3" instance=ExtResource("11_s718q")]
+position = Vector2(248, 24)
+offset_length = 1.0
+active_length = 1.0
 
 [node name="Laser3" parent="LaserRoom3" instance=ExtResource("11_s718q")]
 position = Vector2(296, 168)
 rotation = 1.5708
+offset_length = 0.5
 
 [node name="Laser4" parent="LaserRoom3" instance=ExtResource("11_s718q")]
 position = Vector2(296, 184)
 rotation = 1.5708
+offset_length = 0.5
 
-[node name="Laser6" parent="LaserRoom3" instance=ExtResource("11_s718q")]
-position = Vector2(248, 24)
+[node name="Laser7" parent="LaserRoom3" instance=ExtResource("11_s718q")]
+position = Vector2(296, 152)
+rotation = 1.5708
 
 [node name="LaserMovement" parent="LaserRoom3" node_paths=PackedStringArray("marker") instance=ExtResource("31_8f62i")]
 position = Vector2(136, 24)
 marker = NodePath("../laser_marker")
 
 [node name="Laser" parent="LaserRoom3/LaserMovement" instance=ExtResource("11_s718q")]
+active_length = 3.0
+cooldown_length = 3.0
 
 [node name="LaserRoom4" parent="." instance=ExtResource("8_rfjwi")]
 position = Vector2(1280, -240)
@@ -504,27 +677,42 @@ position = Vector2(1280, -240)
 tile_map_data = PackedByteArray("AAAAAAAAAQACAAoAAAAAAAEAAQACAAoAAAAAAAIAAQACAAoAAAAAAAMAAQACAAoAAAAAAAQAAQACAAoAAAAAAAUAAQACAAoAAAAAAAYAAQACAAoAAAAAAAcAAQACAAoAAAAAAAgAAQACAAoAAAAAAAkAAQACAAoAAAAAAAoAAQACAAoAAAAAAAsAAQACAAoAAAAAAAwAAQACAAoAAAAAAA0AAQACAAoAAAAAAA4AAQACAAoAAAABAA4AAQACAAoAAAACAA4AAQACAAoAAAADAA4AAQACAAoAAAAEAA4AAQACAAoAAAAFAA4AAQACAAoAAAAGAA4AAQACAAoAAAAHAA4AAQACAAoAAAAIAA4AAQACAAoAAAAJAA4AAQADAAQAAAAKAA4AAQADAAQAAAALAA4AAQACAAoAAAAMAA4AAQACAAoAAAANAA4AAQACAAoAAAAOAA4AAQACAAoAAAAPAA4AAQACAAoAAAAQAA4AAQACAAoAAAARAA4AAQACAAoAAAASAA4AAQACAAoAAAATAA4AAQACAAoAAAATAAAAAQACAAoAAAATAAEAAQACAAoAAAATAAIAAQACAAoAAAATAAMAAQACAAoAAAATAAQAAQACAAoAAAATAAUAAQACAAoAAAATAAYAAQACAAoAAAATAAcAAQACAAoAAAATAAgAAQACAAoAAAATAAkAAQACAAoAAAATAAoAAQACAAoAAAATAAsAAQACAAoAAAATAAwAAQACAAoAAAATAA0AAQACAAoAAAABAAAAAQACAAoAAAACAAAAAQACAAoAAAADAAAAAQACAAoAAAAEAAAAAQACAAoAAAAFAAAAAQACAAoAAAAGAAAAAQACAAoAAAAHAAAAAQACAAoAAAAIAAAAAQACAAoAAAAJAAAAAQADAAQAAAAKAAAAAQADAAQAAAALAAAAAQACAAoAAAAMAAAAAQACAAoAAAANAAAAAQACAAoAAAAOAAAAAQACAAoAAAAPAAAAAQACAAoAAAAQAAAAAQACAAoAAAARAAAAAQACAAoAAAASAAAAAQACAAoAAAABAAEAAQADAAQAAAABAAIAAQADAAQAAAABAAMAAQADAAQAAAABAAQAAQADAAQAAAABAAUAAQADAAQAAAABAAYAAQADAAQAAAABAAcAAQADAAQAAAABAAgAAQADAAQAAAABAAkAAQADAAQAAAABAAoAAQADAAQAAAABAAsAAQADAAQAAAABAAwAAQADAAQAAAABAA0AAQADAAQAAAACAAEAAQADAAQAAAACAAIAAQADAAQAAAACAAMAAQADAAQAAAACAAQAAQADAAQAAAACAAUAAQADAAQAAAACAAYAAQADAAQAAAACAAcAAQADAAQAAAACAAgAAQADAAQAAAACAAkAAQADAAQAAAACAAoAAQADAAQAAAACAAsAAQADAAQAAAACAAwAAQADAAQAAAACAA0AAQADAAQAAAADAAEAAQADAAQAAAADAAIAAQADAAQAAAADAAMAAQADAAQAAAADAAQAAQADAAQAAAADAAUAAQADAAQAAAADAAYAAQADAAQAAAADAAcAAQADAAQAAAADAAgAAQADAAQAAAADAAkAAQADAAQAAAADAAoAAQADAAQAAAADAAsAAQADAAQAAAADAAwAAQADAAQAAAADAA0AAQADAAQAAAAEAAEAAQADAAQAAAAEAAIAAQADAAQAAAAEAAMAAQADAAQAAAAEAAQAAQADAAQAAAAEAAUAAQADAAQAAAAEAAYAAQADAAQAAAAEAAcAAQADAAQAAAAEAAgAAQADAAQAAAAEAAkAAQADAAQAAAAEAAoAAQADAAQAAAAEAAsAAQADAAQAAAAEAAwAAQADAAQAAAAEAA0AAQADAAQAAAAFAAEAAQADAAQAAAAFAAIAAQADAAQAAAAFAAMAAQADAAQAAAAFAAQAAQADAAQAAAAFAAUAAQADAAQAAAAFAAYAAQADAAQAAAAFAAcAAQADAAQAAAAFAAgAAQADAAQAAAAFAAkAAQADAAQAAAAFAAoAAQADAAQAAAAFAAsAAQADAAQAAAAFAAwAAQADAAQAAAAFAA0AAQADAAQAAAAGAAEAAQADAAQAAAAGAAIAAQADAAQAAAAGAAMAAQADAAQAAAAGAAQAAQADAAQAAAAGAAUAAQADAAQAAAAGAAYAAQADAAQAAAAGAAcAAQADAAQAAAAGAAgAAQADAAQAAAAGAAkAAQADAAQAAAAGAAoAAQADAAQAAAAGAAsAAQADAAQAAAAGAAwAAQADAAQAAAAGAA0AAQADAAQAAAAHAAEAAQADAAQAAAAHAAIAAQADAAQAAAAHAAMAAQADAAQAAAAHAAQAAQADAAQAAAAHAAUAAQADAAQAAAAHAAYAAQADAAQAAAAHAAcAAQADAAQAAAAHAAgAAQADAAQAAAAHAAkAAQADAAQAAAAHAAoAAQADAAQAAAAHAAsAAQADAAQAAAAHAAwAAQADAAQAAAAHAA0AAQADAAQAAAAIAAEAAQADAAQAAAAIAAIAAQADAAQAAAAIAAMAAQADAAQAAAAIAAQAAQADAAQAAAAIAAUAAQADAAQAAAAIAAYAAQADAAQAAAAIAAcAAQADAAQAAAAIAAgAAQADAAQAAAAIAAkAAQADAAQAAAAIAAoAAQADAAQAAAAIAAsAAQADAAQAAAAIAAwAAQADAAQAAAAIAA0AAQADAAQAAAAJAAEAAQADAAQAAAAJAAIAAQADAAQAAAAJAAMAAQADAAQAAAAJAAQAAQADAAQAAAAJAAUAAQADAAQAAAAJAAYAAQADAAQAAAAJAAcAAQADAAQAAAAJAAgAAQADAAQAAAAJAAkAAQADAAQAAAAJAAoAAQADAAQAAAAJAAsAAQADAAQAAAAJAAwAAQADAAQAAAAJAA0AAQADAAQAAAAKAAEAAQADAAQAAAAKAAIAAQADAAQAAAAKAAMAAQADAAQAAAAKAAQAAQADAAQAAAAKAAUAAQADAAQAAAAKAAYAAQADAAQAAAAKAAcAAQADAAQAAAAKAAgAAQADAAQAAAAKAAkAAQADAAQAAAAKAAoAAQADAAQAAAAKAAsAAQADAAQAAAAKAAwAAQADAAQAAAAKAA0AAQADAAQAAAALAAEAAQADAAQAAAALAAIAAQADAAQAAAALAAMAAQADAAQAAAALAAQAAQADAAQAAAALAAUAAQADAAQAAAALAAYAAQADAAQAAAALAAcAAQADAAQAAAALAAgAAQADAAQAAAALAAkAAQADAAQAAAALAAoAAQADAAQAAAALAAsAAQADAAQAAAALAAwAAQADAAQAAAALAA0AAQADAAQAAAAMAAEAAQADAAQAAAAMAAIAAQADAAQAAAAMAAMAAQADAAQAAAAMAAQAAQADAAQAAAAMAAUAAQADAAQAAAAMAAYAAQADAAQAAAAMAAcAAQADAAQAAAAMAAgAAQADAAQAAAAMAAkAAQADAAQAAAAMAAoAAQADAAQAAAAMAAsAAQADAAQAAAAMAAwAAQADAAQAAAAMAA0AAQADAAQAAAANAAEAAQADAAQAAAANAAIAAQADAAQAAAANAAMAAQADAAQAAAANAAQAAQADAAQAAAANAAUAAQADAAQAAAANAAYAAQADAAQAAAANAAcAAQADAAQAAAANAAgAAQADAAQAAAANAAkAAQADAAQAAAANAAoAAQADAAQAAAANAAsAAQADAAQAAAANAAwAAQADAAQAAAANAA0AAQADAAQAAAAOAAEAAQADAAQAAAAOAAIAAQADAAQAAAAOAAMAAQADAAQAAAAOAAQAAQADAAQAAAAOAAUAAQADAAQAAAAOAAYAAQADAAQAAAAOAAcAAQADAAQAAAAOAAgAAQADAAQAAAAOAAkAAQADAAQAAAAOAAoAAQADAAQAAAAOAAsAAQADAAQAAAAOAAwAAQADAAQAAAAOAA0AAQADAAQAAAAPAAEAAQADAAQAAAAPAAIAAQADAAQAAAAPAAMAAQADAAQAAAAPAAQAAQADAAQAAAAPAAUAAQADAAQAAAAPAAYAAQADAAQAAAAPAAcAAQADAAQAAAAPAAgAAQADAAQAAAAPAAkAAQADAAQAAAAPAAoAAQADAAQAAAAPAAsAAQADAAQAAAAPAAwAAQADAAQAAAAPAA0AAQADAAQAAAAQAAEAAQADAAQAAAAQAAIAAQADAAQAAAAQAAMAAQADAAQAAAAQAAQAAQADAAQAAAAQAAUAAQADAAQAAAAQAAYAAQADAAQAAAAQAAcAAQADAAQAAAAQAAgAAQADAAQAAAAQAAkAAQADAAQAAAAQAAoAAQADAAQAAAAQAAsAAQADAAQAAAAQAAwAAQADAAQAAAAQAA0AAQADAAQAAAARAAEAAQADAAQAAAARAAIAAQADAAQAAAARAAMAAQADAAQAAAARAAQAAQADAAQAAAARAAUAAQADAAQAAAARAAYAAQADAAQAAAARAAcAAQADAAQAAAARAAgAAQADAAQAAAARAAkAAQADAAQAAAARAAoAAQADAAQAAAARAAsAAQADAAQAAAARAAwAAQADAAQAAAARAA0AAQADAAQAAAASAAEAAQADAAQAAAASAAIAAQADAAQAAAASAAMAAQADAAQAAAASAAQAAQADAAQAAAASAAUAAQADAAQAAAASAAYAAQADAAQAAAASAAcAAQADAAQAAAASAAgAAQADAAQAAAASAAkAAQADAAQAAAASAAoAAQADAAQAAAASAAsAAQADAAQAAAASAAwAAQADAAQAAAASAA0AAQADAAQAAAA=")
 
 [node name="laser_marker" type="Marker2D" parent="LaserRoom4"]
-position = Vector2(56, 24)
+position = Vector2(296, 136)
+
+[node name="laser_marker2" type="Marker2D" parent="LaserRoom4"]
+position = Vector2(296, 104)
 
 [node name="Laser" parent="LaserRoom4" instance=ExtResource("11_s718q")]
-position = Vector2(88, 24)
+position = Vector2(56, 24)
+active_length = 1.0
 
 [node name="Laser2" parent="LaserRoom4" instance=ExtResource("11_s718q")]
-position = Vector2(104, 24)
+position = Vector2(88, 24)
+offset_length = 0.5
+active_length = 1.0
+cooldown_length = 0.5
 
-[node name="Laser3" parent="LaserRoom4" instance=ExtResource("11_s718q")]
-position = Vector2(296, 168)
-rotation = 1.5708
-
-[node name="Laser4" parent="LaserRoom4" instance=ExtResource("11_s718q")]
-position = Vector2(296, 184)
-rotation = 1.5708
+[node name="Laser5" parent="LaserRoom4" instance=ExtResource("11_s718q")]
+position = Vector2(120, 24)
+active_length = 1.0
 
 [node name="LaserMovement" parent="LaserRoom4" node_paths=PackedStringArray("marker") instance=ExtResource("31_8f62i")]
-position = Vector2(136, 24)
+position = Vector2(296, 184)
 marker = NodePath("../laser_marker")
 
 [node name="Laser" parent="LaserRoom4/LaserMovement" instance=ExtResource("11_s718q")]
+rotation = 1.5708
+
+[node name="LaserMovement2" parent="LaserRoom4" node_paths=PackedStringArray("marker") instance=ExtResource("31_8f62i")]
+position = Vector2(296, 56)
+marker = NodePath("../laser_marker2")
+
+[node name="Laser" parent="LaserRoom4/LaserMovement2" instance=ExtResource("11_s718q")]
+rotation = 1.5708
+
+[node name="Chest" parent="LaserRoom4" instance=ExtResource("14_hvmxn")]
+position = Vector2(32, 120)
+item = ExtResource("31_gadgx")
 
 [node name="BlacksmithRoom" parent="." instance=ExtResource("8_rfjwi")]
 position = Vector2(1600, -480)
@@ -532,19 +720,26 @@ position = Vector2(1600, -480)
 [node name="TileMapLayer" parent="BlacksmithRoom" instance=ExtResource("12_csb1e")]
 tile_map_data = PackedByteArray("AAAAAAAAAQACAAoAAAAAAAEAAQACAAoAAAAAAAIAAQACAAoAAAAAAAMAAQACAAoAAAAAAAQAAQACAAoAAAAAAAUAAQACAAoAAAAAAAYAAQADAAQAAAAAAAcAAQADAAQAAAAAAAgAAQACAAoAAAAAAAkAAQACAAoAAAAAAAoAAQACAAoAAAAAAAsAAQACAAoAAAAAAAwAAQACAAoAAAAAAA0AAQACAAoAAAAAAA4AAQACAAoAAAABAA4AAQACAAoAAAACAA4AAQACAAoAAAADAA4AAQACAAoAAAAEAA4AAQACAAoAAAAFAA4AAQACAAoAAAAGAA4AAQACAAoAAAAHAA4AAQACAAoAAAAIAA4AAQACAAoAAAAJAA4AAQACAAoAAAAKAA4AAQACAAoAAAALAA4AAQACAAoAAAAMAA4AAQACAAoAAAANAA4AAQACAAoAAAAOAA4AAQACAAoAAAAPAA4AAQACAAoAAAAQAA4AAQACAAoAAAARAA4AAQACAAoAAAASAA4AAQACAAoAAAATAA4AAQACAAoAAAATAAAAAQACAAoAAAATAAEAAQACAAoAAAATAAIAAQACAAoAAAATAAMAAQACAAoAAAATAAQAAQACAAoAAAATAAUAAQACAAoAAAATAAYAAQACAAoAAAATAAcAAQACAAoAAAATAAgAAQACAAoAAAATAAkAAQACAAoAAAATAAoAAQACAAoAAAATAAsAAQACAAoAAAATAAwAAQACAAoAAAATAA0AAQACAAoAAAABAAAAAQACAAoAAAACAAAAAQACAAoAAAADAAAAAQACAAoAAAAEAAAAAQACAAoAAAAFAAAAAQACAAoAAAAGAAAAAQACAAoAAAAHAAAAAQACAAoAAAAIAAAAAQACAAoAAAAJAAAAAQACAAoAAAAKAAAAAQACAAoAAAALAAAAAQACAAoAAAAMAAAAAQACAAoAAAANAAAAAQACAAoAAAAOAAAAAQACAAoAAAAPAAAAAQACAAoAAAAQAAAAAQACAAoAAAARAAAAAQACAAoAAAASAAAAAQACAAoAAAABAAEAAQADAAQAAAABAAIAAQADAAQAAAABAAMAAQADAAQAAAABAAQAAQADAAQAAAABAAUAAQADAAQAAAABAAYAAQADAAQAAAABAAcAAQADAAQAAAABAAgAAQADAAQAAAABAAkAAQADAAQAAAABAAoAAQADAAQAAAABAAsAAQADAAQAAAABAAwAAQADAAQAAAABAA0AAQADAAQAAAACAAEAAQADAAQAAAACAAIAAQADAAQAAAACAAMAAQADAAQAAAACAAQAAQADAAQAAAACAAUAAQADAAQAAAACAAYAAQADAAQAAAACAAcAAQADAAQAAAACAAgAAQADAAQAAAACAAkAAQADAAQAAAACAAoAAQADAAQAAAACAAsAAQADAAQAAAACAAwAAQADAAQAAAACAA0AAQADAAQAAAADAAEAAQADAAQAAAADAAIAAQADAAQAAAADAAMAAQADAAQAAAADAAQAAQADAAQAAAADAAUAAQADAAQAAAADAAYAAQADAAQAAAADAAcAAQADAAQAAAADAAgAAQADAAQAAAADAAkAAQADAAQAAAADAAoAAQADAAQAAAADAAsAAQADAAQAAAADAAwAAQADAAQAAAADAA0AAQADAAQAAAAEAAEAAQADAAQAAAAEAAIAAQADAAQAAAAEAAMAAQADAAQAAAAEAAQAAQADAAQAAAAEAAUAAQADAAQAAAAEAAYAAQADAAQAAAAEAAcAAQADAAQAAAAEAAgAAQADAAQAAAAEAAkAAQADAAQAAAAEAAoAAQADAAQAAAAEAAsAAQADAAQAAAAEAAwAAQADAAQAAAAEAA0AAQADAAQAAAAFAAEAAQADAAQAAAAFAAIAAQADAAQAAAAFAAMAAQADAAQAAAAFAAQAAQADAAQAAAAFAAUAAQADAAQAAAAFAAYAAQADAAQAAAAFAAcAAQADAAQAAAAFAAgAAQADAAQAAAAFAAkAAQADAAQAAAAFAAoAAQADAAQAAAAFAAsAAQADAAQAAAAFAAwAAQADAAQAAAAFAA0AAQADAAQAAAAGAAEAAQADAAQAAAAGAAIAAQADAAQAAAAGAAMAAQADAAQAAAAGAAQAAQADAAQAAAAGAAUAAQADAAQAAAAGAAYAAQADAAQAAAAGAAcAAQADAAQAAAAGAAgAAQADAAQAAAAGAAkAAQADAAQAAAAGAAoAAQADAAQAAAAGAAsAAQADAAQAAAAGAAwAAQADAAQAAAAGAA0AAQADAAQAAAAHAAEAAQADAAQAAAAHAAIAAQADAAQAAAAHAAMAAQADAAQAAAAHAAQAAQADAAQAAAAHAAUAAQADAAQAAAAHAAYAAQADAAQAAAAHAAcAAQADAAQAAAAHAAgAAQADAAQAAAAHAAkAAQADAAQAAAAHAAoAAQADAAQAAAAHAAsAAQADAAQAAAAHAAwAAQADAAQAAAAHAA0AAQADAAQAAAAIAAEAAQADAAQAAAAIAAIAAQADAAQAAAAIAAMAAQADAAQAAAAIAAQAAQADAAQAAAAIAAUAAQADAAQAAAAIAAYAAQADAAQAAAAIAAcAAQADAAQAAAAIAAgAAQADAAQAAAAIAAkAAQADAAQAAAAIAAoAAQADAAQAAAAIAAsAAQADAAQAAAAIAAwAAQADAAQAAAAIAA0AAQADAAQAAAAJAAEAAQADAAQAAAAJAAIAAQADAAQAAAAJAAMAAQADAAQAAAAJAAQAAQADAAQAAAAJAAUAAQADAAQAAAAJAAYAAQADAAQAAAAJAAcAAQADAAQAAAAJAAgAAQADAAQAAAAJAAkAAQADAAQAAAAJAAoAAQADAAQAAAAJAAsAAQADAAQAAAAJAAwAAQADAAQAAAAJAA0AAQADAAQAAAAKAAEAAQADAAQAAAAKAAIAAQADAAQAAAAKAAMAAQADAAQAAAAKAAQAAQADAAQAAAAKAAUAAQADAAQAAAAKAAYAAQADAAQAAAAKAAcAAQADAAQAAAAKAAgAAQADAAQAAAAKAAkAAQADAAQAAAAKAAoAAQADAAQAAAAKAAsAAQADAAQAAAAKAAwAAQADAAQAAAAKAA0AAQADAAQAAAALAAEAAQADAAQAAAALAAIAAQADAAQAAAALAAMAAQADAAQAAAALAAQAAQADAAQAAAALAAUAAQADAAQAAAALAAYAAQADAAQAAAALAAcAAQADAAQAAAALAAgAAQADAAQAAAALAAkAAQADAAQAAAALAAoAAQADAAQAAAALAAsAAQADAAQAAAALAAwAAQADAAQAAAALAA0AAQADAAQAAAAMAAEAAQADAAQAAAAMAAIAAQADAAQAAAAMAAMAAQADAAQAAAAMAAQAAQADAAQAAAAMAAUAAQADAAQAAAAMAAYAAQADAAQAAAAMAAcAAQADAAQAAAAMAAgAAQADAAQAAAAMAAkAAQADAAQAAAAMAAoAAQADAAQAAAAMAAsAAQADAAQAAAAMAAwAAQADAAQAAAAMAA0AAQADAAQAAAANAAEAAQADAAQAAAANAAIAAQADAAQAAAANAAMAAQADAAQAAAANAAQAAQADAAQAAAANAAUAAQADAAQAAAANAAYAAQADAAQAAAANAAcAAQADAAQAAAANAAgAAQADAAQAAAANAAkAAQADAAQAAAANAAoAAQADAAQAAAANAAsAAQADAAQAAAANAAwAAQADAAQAAAANAA0AAQADAAQAAAAOAAEAAQADAAQAAAAOAAIAAQADAAQAAAAOAAMAAQADAAQAAAAOAAQAAQADAAQAAAAOAAUAAQADAAQAAAAOAAYAAQADAAQAAAAOAAcAAQADAAQAAAAOAAgAAQADAAQAAAAOAAkAAQADAAQAAAAOAAoAAQADAAQAAAAOAAsAAQADAAQAAAAOAAwAAQADAAQAAAAOAA0AAQADAAQAAAAPAAEAAQADAAQAAAAPAAIAAQADAAQAAAAPAAMAAQADAAQAAAAPAAQAAQADAAQAAAAPAAUAAQADAAQAAAAPAAYAAQADAAQAAAAPAAcAAQADAAQAAAAPAAgAAQADAAQAAAAPAAkAAQADAAQAAAAPAAoAAQADAAQAAAAPAAsAAQADAAQAAAAPAAwAAQADAAQAAAAPAA0AAQADAAQAAAAQAAEAAQADAAQAAAAQAAIAAQADAAQAAAAQAAMAAQADAAQAAAAQAAQAAQADAAQAAAAQAAUAAQADAAQAAAAQAAYAAQADAAQAAAAQAAcAAQADAAQAAAAQAAgAAQADAAQAAAAQAAkAAQADAAQAAAAQAAoAAQADAAQAAAAQAAsAAQADAAQAAAAQAAwAAQADAAQAAAAQAA0AAQADAAQAAAARAAEAAQADAAQAAAARAAIAAQADAAQAAAARAAMAAQADAAQAAAARAAQAAQADAAQAAAARAAUAAQADAAQAAAARAAYAAQADAAQAAAARAAcAAQADAAQAAAARAAgAAQADAAQAAAARAAkAAQADAAQAAAARAAoAAQADAAQAAAARAAsAAQADAAQAAAARAAwAAQADAAQAAAARAA0AAQADAAQAAAASAAEAAQADAAQAAAASAAIAAQADAAQAAAASAAMAAQADAAQAAAASAAQAAQADAAQAAAASAAUAAQADAAQAAAASAAYAAQADAAQAAAASAAcAAQADAAQAAAASAAgAAQADAAQAAAASAAkAAQADAAQAAAASAAoAAQADAAQAAAASAAsAAQADAAQAAAASAAwAAQADAAQAAAASAA0AAQADAAQAAAA=")
 
-[node name="BlacksmithDialogueZone" parent="BlacksmithRoom" instance=ExtResource("20_ww7ku")]
-z_index = 0
+[node name="Blacksmith" type="StaticBody2D" parent="BlacksmithRoom"]
 position = Vector2(168, 120)
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="BlacksmithRoom/Blacksmith"]
+sprite_frames = SubResource("SpriteFrames_nim46")
+animation = &"Start"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="BlacksmithRoom/Blacksmith"]
+position = Vector2(1, 0)
+shape = SubResource("RectangleShape2D_q37av")
+
+[node name="BlacksmithDialogueZone" parent="BlacksmithRoom/Blacksmith" instance=ExtResource("20_ww7ku")]
+z_index = 0
 default_key = "blacksmith"
 
-[node name="CollisionShape2D" parent="BlacksmithRoom/BlacksmithDialogueZone" index="0"]
+[node name="CollisionShape2D" parent="BlacksmithRoom/Blacksmith/BlacksmithDialogueZone" index="0"]
 visible = false
 
-[node name="Sprite2D" type="Sprite2D" parent="BlacksmithRoom/BlacksmithDialogueZone"]
-position = Vector2(0, -5)
-texture = ExtResource("32_wblx4")
-hframes = 3
-vframes = 3
+[node name="Hammer" type="AudioStreamPlayer" parent="BlacksmithRoom/Blacksmith"]
+stream = ExtResource("32_gadgx")
 
 [node name="CombatRoom3" parent="." instance=ExtResource("8_rfjwi")]
 position = Vector2(1280, 0)
@@ -589,11 +784,26 @@ tile_map_data = PackedByteArray("AAAAAAAAAQACAAoAAAAAAAEAAQACAAoAAAAAAAIAAQACAAo
 position = Vector2(160, 16)
 transitionDestination = "dungeon_3"
 
+[node name="DoorButtonLeft" parent="DoorRoom/Door" instance=ExtResource("35_4qfi7")]
+position = Vector2(-24, 32)
+
+[node name="DoorButtonRight" parent="DoorRoom/Door" instance=ExtResource("35_4qfi7")]
+position = Vector2(24, 32)
+
+[node name="AnimatedSprite2D" parent="DoorRoom/Door/DoorButtonRight" index="0"]
+flip_h = true
+
+[node name="CollisionShape2D" parent="DoorRoom/Door/DoorButtonRight" index="1"]
+position = Vector2(16, 7)
+
+[node name="stand_door_button" type="Marker2D" parent="DoorRoom"]
+position = Vector2(120, 56)
+
 [node name="Princess" parent="." instance=ExtResource("17_8f62i")]
-position = Vector2(-480, -232)
+position = Vector2(1304, -336)
 
 [node name="Player" parent="." instance=ExtResource("16_d8joc")]
-position = Vector2(-480, -264)
+position = Vector2(1304, -368)
 
 [node name="ThePrisoner" parent="." instance=ExtResource("25_rfjwi")]
 position = Vector2(1120, -368)
@@ -623,4 +833,5 @@ default_key = "THE_prisoner_loop"
 [editable path="PuzzleRoom2/BoxPuzzle"]
 [editable path="PuzzleRoom2/SideDoor/SideDoorDialogueZone"]
 [editable path="PuzzleRoom2/PrincessFollowCheck2"]
-[editable path="BlacksmithRoom/BlacksmithDialogueZone"]
+[editable path="BlacksmithRoom/Blacksmith/BlacksmithDialogueZone"]
+[editable path="DoorRoom/Door/DoorButtonRight"]

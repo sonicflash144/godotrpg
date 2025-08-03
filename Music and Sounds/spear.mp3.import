@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://bu3w4bp16ofxd"
+path="res://.godot/imported/spear.mp3-7054e280f87363a1f8ddffa0048c85af.mp3str"
+
+[deps]
+
+source_file="res://Music and Sounds/spear.mp3"
+dest_files=["res://.godot/imported/spear.mp3-7054e280f87363a1f8ddffa0048c85af.mp3str"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

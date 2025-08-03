@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://catp8ei8wism"
+path="res://.godot/imported/king_attack.mp3-2e2c0fee7203e91b6cdfeac4ac6b50f8.mp3str"
+
+[deps]
+
+source_file="res://Music and Sounds/king_attack.mp3"
+dest_files=["res://.godot/imported/king_attack.mp3-2e2c0fee7203e91b6cdfeac4ac6b50f8.mp3str"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

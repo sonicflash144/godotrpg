@@ -79,6 +79,7 @@ texture = ExtResource("1_eej6r")
 2:4/0/terrains_peering_bit/top_right_corner = 0
 3:4/next_alternative_id = 2
 3:4/0 = 0
+3:4/0/z_index = -2
 3:4/0/terrain_set = 0
 3:4/0/terrain = 0
 3:4/0/terrains_peering_bit/right_side = 0

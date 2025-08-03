@@ -22,6 +22,8 @@ func _ready() -> void:
 
 func _physics_process(delta: float) -> void:
 	knockback = knockback.move_toward(Vector2.ZERO, 200 * delta)
+	if Events.inCutscene:
+		character.velocity = Vector2.ZERO
 	character.velocity += knockback
 	character.move_and_slide()
 	

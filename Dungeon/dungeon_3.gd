@@ -1,12 +1,17 @@
 extends Node2D
 
+@onready var princessHealthUI: Health_UI = $HealthCanvasLayer/PrincessHealthUI
 @onready var dialogueRoomManager: DialogueRoomManager = $DialogueRoomManager
 @onready var pathfindingManager: PathfindingManager = $PathfindingManager
 @onready var player: CharacterBody2D = $Player
 @onready var princess: CharacterBody2D = $Princess
 @onready var THE_Prisoner: CharacterBody2D = $ThePrisoner
 @onready var playerHealthComponent: Health_Component = $Player/Health_Component
+@onready var playerHitbox: Hitbox = $Player/HitboxPivot/SwordHitbox
 @onready var princessHealthComponent: Health_Component = $Princess/Health_Component
+@onready var princessHurtbox: Hurtbox = $Princess/Hurtbox
+@onready var THE_PrisonerHurtbox: Hurtbox = $ThePrisoner/Hurtbox
+@onready var THE_PrisonerHitbox: Hitbox = $ThePrisoner/Hitbox
 
 @onready var goBackdialogueBarrier: DialogueBarrier = $StartRoom/GoBackDialogueBarrier
 @onready var CampfireRoom: DungeonRoom = $CampfireRoom
@@ -20,8 +25,11 @@ extends Node2D
 @onready var princessFollowCheck1: DialogueBarrier = $PuzzleRoom1/PrincessFollowCheck1
 @onready var savePoint2 = $ChestRoom/SavePoint2/Marker2D
 @onready var DoorRoom: DungeonRoom = $DoorRoom
+@onready var doorDialogueZone = $DoorRoom/Door/DoorDialogueZone/CollisionShape2D
 
 @export var markers: Array[Marker2D]
+
+var DeathEffect = preload("res://Effects/death_effect.tscn")
 
 var last_valid_position: Vector2
 var num_pins_collected := 0
@@ -38,6 +46,8 @@ func _ready() -> void:
 	Events.room_locked.connect(_on_room_locked)
 	Events.player_died.connect(_on_player_died)
 	Events.dialogue_movement.connect(_on_dialogue_movement)
+	
+	doorDialogueZone.set_deferred("disabled", true)
 	
 	if not Events.deferred_load_data.is_empty() and Events.deferred_load_data.scene == "dungeon_3":
 		var save_position = Vector2(Events.deferred_load_data["player_x_pos"], Events.deferred_load_data["player_y_pos"])
@@ -100,6 +110,48 @@ func campfire_finished():
 	player.set_move_state()
 	princess.set_follow_state()
 
+func take_pin_1():
+	Events.set_flag("pin_1")
+	pin1.queue_free()
+
+func take_pin_2():
+	Events.set_flag("pin_2")
+	pin2.queue_free()
+	
+func take_pin_3():
+	Events.set_flag("pin_3")
+	pin3.queue_free()
+
+func start_the_prisoner_fight():
+	THE_PrisonerHurtbox.set_collision_layer_value(4, true)
+	THE_PrisonerHurtbox.set_collision_mask_value(7, true)
+	THE_PrisonerHitbox.set_collision_layer_value(8, true)
+	THE_PrisonerHitbox.set_collision_mask_value(3, true)
+	THE_PrisonerHitbox.set_collision_mask_value(9, true)
+	if princess:
+		princess.set_follow_state()
+	Events.currentRoom.combat_lock_room()
+
+func kill_princess():
+	princessHurtbox.set_collision_mask_value(7, true)
+	playerHitbox.set_collision_mask_value(9, true)
+	
+	player.set_nav_state()
+	_on_dialogue_movement("player_kill_princess")
+	
+	await get_tree().create_timer(1).timeout
+	Events.inCutscene = true
+	player.stats.attack += princess.stats.health
+	playerHitbox.update_damage()
+	player.attack_state()
+
+func princess_death_effect():
+	princess.queue_free()
+	princessHealthUI.visible = false
+	var deathEffect = DeathEffect.instantiate()
+	get_tree().current_scene.add_child(deathEffect)
+	deathEffect.global_position = princess.global_position
+
 func _on_room_locked(room):
 	if room == CampfireRoom and not Events.get_flag("campfire_completed"):
 		player.set_nav_state()
@@ -127,21 +179,11 @@ func _on_dialogue_movement(key: String):
 				princess.move_to_position_astar(marker.global_position, Vector2.UP)
 			elif key == "THE_prisoner_enter_door_room":
 				THE_Prisoner.move_to_position_astar(marker.global_position, Vector2.LEFT)
+			elif key == "player_kill_princess":
+				player.move_to_position_astar(marker.global_position, Vector2.LEFT)
 			else:
 				princess.move_to_position_astar(marker.global_position)
 			return
-
-func take_pin_1():
-	Events.set_flag("pin_1")
-	pin1.queue_free()
-
-func take_pin_2():
-	Events.set_flag("pin_2")
-	pin2.queue_free()
-	
-func take_pin_3():
-	Events.set_flag("pin_3")
-	pin3.queue_free()
 
 func _on_save_point_1_dialogue_zone_zone_triggered() -> void:
 	save_point_helper(savePoint1.global_position)

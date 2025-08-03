@@ -52,6 +52,10 @@ do campfire_finished()
 The power of the crystal flows through you. Your game progress was saved.
 => END
 
+~ chest_icy_sword
+You got the [color=yellow]Icy Sword[/color].
+=> END
+
 ~ jester
 if Events.get_flag("met_jester")
 	=> jester_loop
@@ -84,9 +88,9 @@ if Events.get_flag("received_jester_gift")
 do Events.set_flag("received_jester_gift")
 Jester: My pins! You've found them!
 Jester: As thanks for your efforts, here is a small reward from me. 
-Jester: As the saying goes, revenge is a dish best served with shiny armor!
-You got the [color=yellow]Revenge Armor[/color]. Use \[C\] to equip it in the equipment menu.
-do Events.give("Revenge Armor")
+Jester: It seems you're in a hurry to run away from the truth, so maybe this will help.
+You got the [color=yellow]Speedy Armor[/color]. Use \[C\] to equip it in the equipment menu.
+do Events.give("Speedy Armor")
 => END
 
 ~ jester_reward_loop
@@ -126,8 +130,8 @@ Princess: Nice work! [#portrait=happy]
 THE Prisoner: Took you long enough. [#portrait=neutral]
 => END
 
-~ chest_shock_sword
-You got the [color=yellow]Shock Sword[/color]. Use \[C\] to equip it in the equipment menu.
+~ chest_revenge_armor
+You got the [color=yellow]Revenge Armor[/color]. Use \[C\] to equip it in the equipment menu.
 => END
 
 ~ before_THE_prisoner_fight
@@ -166,5 +170,33 @@ Princess: But if that's true, you need me to open the door. So you can't kill me
 THE Prisoner: I don't need you alive to use your blood. Your rotten family is the reason I got stuck here. [#portrait=angry]
 THE Prisoner: Now, my ally, do what you must. [#portrait=happy_evil]
 - Attack
+	set Events.num_party_members = 1
+	do kill_princess()
+	Princess: How— how could you...
+	Princess: I thought we were... I only wanted to...
+	do wait(1)
+	do princess_death_effect()
+	THE Prisoner: I must say, I'm impressed! I didn't think you had it in you.
+	THE Prisoner: You've been a great help.
+	THE Prisoner: Unfortunately, I don't really want to share the bounty. 
+	THE Prisoner: It's like I've been telling you: trust is for the weak.
 - Do not
+	set Events.num_party_members = 2
+	THE Prisoner: You won't kill her? That's a shame.
+	THE Prisoner: I'm afraid I can't leave behind any witnesses. I'm sure you understand.
+do start_the_prisoner_fight()
+=> END
+
+~ after_solo_defeat
+Prisoner: Don’t give me that look.
+Prisoner: What are you still mad about? My betrayal? Hah!
+Prisoner: You’re a murderer now, too. Betrayal should be the least of your worries.
+Your hands are still slick with the Princess' blood.
+Looks like opening the door won't be a problem anymore.
+=> END
+
+~ after_team_defeat
+Prisoner: This isn’t the last you’ll see of me!
+Princess: Ew, I’m still bleeding from the fight…
+Princess: I guess at least it makes opening the door easy.
 => END

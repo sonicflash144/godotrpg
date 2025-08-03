@@ -28,6 +28,9 @@ func _ready() -> void:
 		update_stats()
 
 func _physics_process(_delta: float) -> void:
+	if Events.inCutscene:
+		return
+	
 	if state != ATTACK and state != NAV:
 		if Events.is_player_controlled:
 			state = MOVE
@@ -100,6 +103,11 @@ func set_move_state():
 
 func attack_animation_finished():
 	state = MOVE if Events.is_player_controlled else FOLLOW
+	if Events.inCutscene:
+		Events.inCutscene = false
+		stats.attack -= princess.stats.health
+		swordHitbox.update_damage()
+		set_move_state()
 
 func move_to_position_astar(target_position: Vector2, end_dir := Vector2.ZERO):
 	if Events.is_player_controlled:

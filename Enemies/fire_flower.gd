@@ -56,7 +56,7 @@ func seek_player():
 func slow_enemy():
 	swordSlowController.slow_enemy()
 	
-func handle_death():
+func handle_death(_area_name: String):
 	for bullet_instance in spawned_bullets:
 		if is_instance_valid(bullet_instance):
 			bullet_instance.queue_free()
@@ -73,3 +73,5 @@ func shoot_bullet(player: CharacterBody2D):
 	bullet_instance.direction = direction
 	get_parent().get_parent().add_child(bullet_instance)
 	spawned_bullets.append(bullet_instance)
+	
+	spawned_bullets = spawned_bullets.filter(func(b): return is_instance_valid(b))
