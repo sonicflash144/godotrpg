@@ -1,0 +1,45 @@
+~ enter_hall
+Princess: We did it! We escaped the [color=yellow]DUNGEON[/color]! [#portrait=happy_eyes_closed]
+Princess: Guess we're officially brave warriors now, huh? [#portrait=happy]
+Princess: Hopefully my father isn't in the palace right now. [#portrait=neutral]
+Princess: It would be kind of awkward running into him after I, uh, didn't listen to him... [#portrait=suspicious]
+=> END
+
+~ enter_arena
+if Events.num_party_members >= 2
+	Princess: Uh oh. [#portrait=surprise_upset]
+	King: Daughter. [#portrait=neutral_closed_mouth]
+	King: What did I say about leaving your room? And who is this trash heap you have bought into the palace? [#portrait=neutral]
+	Princess: Actually, Dad, he's my friend, not a trash heap. [#portrait=determined]
+	Princess: And friends of mine don't deserve to be rotting in the dungeon, wouldn't you agree? [#portrait=neutral]
+	King: Foolish daughter. [#portrait=angry_closed_mouth]
+	King: If you're so determined to stand by him, then die with him too! [#portrait=angry]
+else
+	King: She's dead, isn't she? [#portrait=neutral_closed_mouth]
+	King: Dead at your filthy hands. [#portrait=angry]
+	King: You look an awful lot like him, you know. The commoner who took everything from me. [#portrait=neutral]
+	King: What an... unfortunate coincidence for you. [#portrait=neutral_closed_mouth]
+	King: Just know I won't feel anything when I strike you down to the afterlife he now resides in. [#portrait=angry_closed_mouth]
+do start_king_fight()
+=> END
+
+~ after_defeat
+if Events.num_party_members >= 2
+	King: The truth is... your mother didn't die in an accident. A commoner killed her. [#portrait=sad_eyes_closed]
+	King: I covered the story up because we couldn't have the kingdom's security appearing weak. [#portrait=determined]
+	King: But that night, I personally killed that commoner and executed his entire family. [#portrait=neutral_closed_mouth]
+	King: But I wasn't satisfied. I wanted all those filthy vermin to suffer to the extent I had. [#portrait=angry]
+	King: So I built the [color=yellow]DUNGEON[/color]. [#portrait=neutral]
+	Princess: Oh, Dad... I'm so sorry. [#portrait=sad]
+	Princess: But this isn't right either. [#portrait=determined]
+	Princess: So many of the prisoners down in the [color=yellow]DUNGEON[/color] don't deserve the death sentence that befalls them. [#portrait=neutral]
+	King: ...I know. I'm sorry. [#portrait=sad_closed_mouth]
+	King: I'm going to put a stop to this. I should have done so many things differently. [#portrait=neutral]
+	King: I should have been a better king... a better father... [#portrait=sad]
+	Princess: It's okay, Dad. It's never too late to start working towards a brighter future. [#portrait=happy_closed_mouth]
+else
+	King: My guards will be here soon. Consider yourself lucky. [#portrait=angry_closed_mouth]
+	King: If I were you, I would start running. [#portrait=neutral]
+	King: You are not welcome in this kingdom. [#portrait=angry]
+do game_complete()
+=> END

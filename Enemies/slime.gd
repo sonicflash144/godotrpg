@@ -4,8 +4,8 @@ extends CharacterBody2D
 @onready var hurtbox: Hurtbox = $Hurtbox
 @onready var softCollision: Area2D = $SoftCollision
 @onready var enemyHitbox: Hitbox = $Hitbox
-@onready var wanderController: Node = $WanderController
-@onready var swordSlowController: Node = $SwordSlowController
+@onready var wanderController = $WanderController
+@onready var swordSlowController = $SwordSlowController
 @onready var actionTimer: Timer = $ActionTimer
 
 @export var stats: Stats
@@ -42,6 +42,7 @@ func _physics_process(delta: float) -> void:
 				update_wander_timer()
 
 			var direction = global_position.direction_to(wanderController.target_position)
+			enemyHitbox.knockback_vector = direction
 			velocity = direction * MAX_SPEED
 			sprite.flip_h = velocity.x > 0
 			

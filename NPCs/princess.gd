@@ -65,6 +65,7 @@ func attack_state():
 
 func set_nav_state():
 	state = NAV
+	navigation_component.update_physics_process()
 	
 func set_follow_state():
 	state = FOLLOW
@@ -92,7 +93,7 @@ func shoot_arrow():
 		arrow_instance.direction = arrow_direction
 		get_parent().add_child(arrow_instance)
 
-func move_to_position_astar(target_position: Vector2, end_dir := Vector2.ZERO):
+func move_to_position_astar(target_position: Vector2, end_dir := Vector2.ZERO, key := ""):
 	if Events.is_player_controlled:
-		state = NAV
-		navigation_component.move_to_position_astar(target_position, end_dir)
+		set_nav_state()
+		navigation_component.move_to_position_astar(target_position, end_dir, key)

@@ -1,155 +1,109 @@
-[gd_scene load_steps=22 format=3 uid="uid://duvw2r0v13h3w"]
+[gd_scene load_steps=11 format=3 uid="uid://duvw2r0v13h3w"]
 
 [ext_resource type="Script" uid="uid://c5aoisjpp2n5l" path="res://NPCs/spear.gd" id="1_rewcg"]
+[ext_resource type="Resource" uid="uid://cilsh03mua61j" path="res://Stats/king_stats.tres" id="2_5jnmv"]
 [ext_resource type="Texture2D" uid="uid://dut5t80502p2o" path="res://NPCs/Sprites/spear.png" id="2_rewcg"]
 [ext_resource type="PackedScene" uid="uid://lfrhnehwb41h" path="res://Combat/hitbox.tscn" id="4_imk51"]
 [ext_resource type="AudioStream" uid="uid://bu3w4bp16ofxd" path="res://Music and Sounds/spear.mp3" id="4_rewcg"]
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_rewcg"]
-atlas = ExtResource("2_rewcg")
-region = Rect2(0, 0, 64, 64)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_xa2rb"]
-atlas = ExtResource("2_rewcg")
-region = Rect2(64, 0, 64, 64)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_c4klv"]
-atlas = ExtResource("2_rewcg")
-region = Rect2(128, 0, 64, 64)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_imk51"]
-atlas = ExtResource("2_rewcg")
-region = Rect2(192, 0, 64, 64)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_txku7"]
-atlas = ExtResource("2_rewcg")
-region = Rect2(0, 64, 64, 64)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_ow6m5"]
-atlas = ExtResource("2_rewcg")
-region = Rect2(64, 64, 64, 64)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_wuvjf"]
-atlas = ExtResource("2_rewcg")
-region = Rect2(128, 64, 64, 64)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_c2p4p"]
-atlas = ExtResource("2_rewcg")
-region = Rect2(192, 64, 64, 64)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_rm328"]
-atlas = ExtResource("2_rewcg")
-region = Rect2(0, 128, 64, 64)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_jqjr8"]
-atlas = ExtResource("2_rewcg")
-region = Rect2(64, 128, 64, 64)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_h4iga"]
-atlas = ExtResource("2_rewcg")
-region = Rect2(128, 128, 64, 64)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_fkwn2"]
-atlas = ExtResource("2_rewcg")
-region = Rect2(192, 128, 64, 64)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_3erdj"]
-atlas = ExtResource("2_rewcg")
-region = Rect2(0, 192, 64, 64)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_5jnmv"]
-atlas = ExtResource("2_rewcg")
-region = Rect2(0, 192, 64, 64)
-
-[sub_resource type="SpriteFrames" id="SpriteFrames_xa2rb"]
-animations = [{
-"frames": [{
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_rewcg")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_xa2rb")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_c4klv")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_imk51")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_txku7")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_ow6m5")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_wuvjf")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_c2p4p")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_rm328")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_jqjr8")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_h4iga")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_fkwn2")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_3erdj")
-}],
-"loop": true,
-"name": &"Start",
-"speed": 10.0
-}, {
-"frames": [{
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_5jnmv")
-}],
-"loop": true,
-"name": &"default",
-"speed": 5.0
+[sub_resource type="Animation" id="Animation_5jnmv"]
+resource_name = "Start"
+step = 0.0625
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.0625, 0.125, 0.1875, 0.25, 0.3125, 0.375, 0.4375, 0.5, 0.5625, 0.625, 0.875, 0.9375),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
+}
+tracks/1/type = "method"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0.625),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"stop_tracking_player"
 }]
+}
+
+[sub_resource type="Animation" id="Animation_xa2rb"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [12]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_c4klv"]
+_data = {
+&"RESET": SubResource("Animation_xa2rb"),
+&"Start": SubResource("Animation_5jnmv")
+}
 
 [sub_resource type="ConvexPolygonShape2D" id="ConvexPolygonShape2D_5jnmv"]
-points = PackedVector2Array(-28, 20, -17, 4, -11, 8)
+points = PackedVector2Array(-28, 20, -16.9706, 2.82843, -11, 8)
 
 [sub_resource type="ConvexPolygonShape2D" id="ConvexPolygonShape2D_rewcg"]
-points = PackedVector2Array(-13, 10.5, -2, -6.5, 4, -1.5)
+points = PackedVector2Array(-13, 11, -2, -6, 4, -1)
 
 [node name="Spear" type="Area2D"]
 collision_layer = 0
-collision_mask = 9
+collision_mask = 261
 script = ExtResource("1_rewcg")
+stats = ExtResource("2_5jnmv")
 
-[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
-sprite_frames = SubResource("SpriteFrames_xa2rb")
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(0, 1)
+texture = ExtResource("2_rewcg")
+hframes = 4
+vframes = 4
+frame = 12
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("AnimationLibrary_c4klv")
+}
 autoplay = "Start"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 visible = false
-position = Vector2(6, 0)
+position = Vector2(6, 1)
 shape = SubResource("ConvexPolygonShape2D_5jnmv")
 
-[node name="ArrowHitbox" parent="." instance=ExtResource("4_imk51")]
-position = Vector2(6, 0)
-collision_layer = 64
-collision_mask = 8
-
-[node name="CollisionShape2D" parent="ArrowHitbox" index="0"]
+[node name="SpearHitbox" parent="." instance=ExtResource("4_imk51")]
 visible = false
-position = Vector2(-15, 9.5)
+position = Vector2(6, 0)
+collision_layer = 128
+collision_mask = 260
+
+[node name="CollisionShape2D" parent="SpearHitbox" index="0"]
+position = Vector2(-15, 10)
 shape = SubResource("ConvexPolygonShape2D_rewcg")
+
+[node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]
+visible = false
 
 [node name="SpearSound" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("4_rewcg")
 
-[connection signal="area_entered" from="." to="." method="_on_area_entered"]
-[connection signal="body_entered" from="." to="." method="_on_body_entered"]
+[connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_animation_player_animation_finished"]
+[connection signal="screen_exited" from="VisibleOnScreenNotifier2D" to="." method="_on_visible_on_screen_notifier_2d_screen_exited"]
 
-[editable path="ArrowHitbox"]
+[editable path="SpearHitbox"]

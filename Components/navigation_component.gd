@@ -2,12 +2,15 @@ extends Node
 
 class_name Navigation_Component
 
+signal target_reached(movement_id: String)
+
 @onready var pathfindingManager: PathfindingManager = $"../../PathfindingManager"
 @onready var character: CharacterBody2D = $".."
 @onready var movement_component: Movement_Component = $"../Movement_Component"
 
 var astar_path: Array[Vector2i] = []
 var ending_direction := Vector2.ZERO
+var current_movement_key: String
 
 func _ready() -> void:
 	update_physics_process()
@@ -28,12 +31,17 @@ func _physics_process(_delta: float) -> void:
 			astar_path.pop_front()
 		movement_component.move(direction.normalized())
 	else:
+		if current_movement_key:
+			target_reached.emit(current_movement_key)
+			current_movement_key = ""
 		movement_component.move(Vector2.ZERO)
 		if ending_direction != Vector2.ZERO:
 			movement_component.update_animation_direction(ending_direction)
 
-func move_to_position_astar(target_pos: Vector2, end_dir := Vector2.ZERO) -> void:
+func move_to_position_astar(target_pos: Vector2, end_dir := Vector2.ZERO, key := "") -> void:
 	ending_direction = end_dir
+	current_movement_key = key
+		
 	var cell_size := pathfindingManager.astar.cell_size
 	var start_cell = Vector2i(
 		floor(character.global_position.x / cell_size.x),
@@ -52,8 +60,6 @@ func move_to_position_astar(target_pos: Vector2, end_dir := Vector2.ZERO) -> voi
 			astar_path.pop_front()
 	else:
 		astar_path.clear()
-	
-	update_physics_process()
 
 func update_physics_process():
 	# Enable physics process only when in NAV state

@@ -136,7 +136,6 @@ func check_win() -> void:
 		dialogueRoomManager.dialogue(get_parent().flag)
 
 func start_puzzle():
-	princess.set_nav_state()
 	puzzleDialogueBarrierCollisionShape.set_deferred("disabled", false)
 	dialogueRoomManager.dialogue("enter_%s" % get_parent().flag)
 

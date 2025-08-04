@@ -1,0 +1,79 @@
+[gd_scene load_steps=12 format=3 uid="uid://deb7vepod72hg"]
+
+[ext_resource type="Script" uid="uid://dhvqxpsbreggw" path="res://NPCs/tornado.gd" id="1_vhpls"]
+[ext_resource type="Resource" uid="uid://cilsh03mua61j" path="res://Stats/king_stats.tres" id="2_vhpls"]
+[ext_resource type="Texture2D" uid="uid://dbjb4ah021c5t" path="res://NPCs/Sprites/tornado.png" id="2_xsobk"]
+[ext_resource type="PackedScene" uid="uid://lfrhnehwb41h" path="res://Combat/hitbox.tscn" id="4_6appl"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_x7mx0"]
+atlas = ExtResource("2_xsobk")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_q4yrh"]
+atlas = ExtResource("2_xsobk")
+region = Rect2(32, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_6appl"]
+atlas = ExtResource("2_xsobk")
+region = Rect2(0, 32, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_xjihl"]
+atlas = ExtResource("2_xsobk")
+region = Rect2(32, 32, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_34lb6"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_x7mx0")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_q4yrh")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_6appl")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_xjihl")
+}],
+"loop": true,
+"name": &"default",
+"speed": 10.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_xlt4l"]
+size = Vector2(8, 20)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_laksj"]
+size = Vector2(8, 20)
+
+[node name="Tornado" type="Area2D"]
+collision_layer = 128
+collision_mask = 261
+script = ExtResource("1_vhpls")
+stats = ExtResource("2_vhpls")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_34lb6")
+autoplay = "default"
+frame = 1
+frame_progress = 0.354672
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+visible = false
+position = Vector2(0, 6)
+shape = SubResource("RectangleShape2D_xlt4l")
+
+[node name="TornadoHitbox" parent="." instance=ExtResource("4_6appl")]
+visible = false
+collision_layer = 128
+collision_mask = 260
+
+[node name="CollisionShape2D" parent="TornadoHitbox" index="0"]
+position = Vector2(0, 6)
+shape = SubResource("RectangleShape2D_laksj")
+
+[connection signal="area_entered" from="." to="." method="_on_area_entered"]
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
+
+[editable path="TornadoHitbox"]

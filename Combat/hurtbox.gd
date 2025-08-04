@@ -17,13 +17,16 @@ var is_invincible := false
 var collider_disabled := false
 
 func _ready() -> void:
+	update_hurtbox_properties()
+
+func update_hurtbox_properties():
 	if get_parent().is_in_group("Player") or get_parent().is_in_group("Princess"):
 		invincibilityTime = 1.0
 		HurtSound = load("res://Music and Sounds/player_hurt_sound.tscn")
 	elif get_parent().is_in_group("Enemy"):
 		invincibilityTime = 0.2
 		HurtSound = load("res://Music and Sounds/player_hit_sound.tscn")
-
+		
 func disable_collider():
 	is_invincible = true
 	collider_disabled = true
@@ -70,7 +73,9 @@ func _on_area_entered(area: Area2D) -> void:
 	if is_invincible or Events.playerDead:
 		return
 	
-	if area.name == "LaserHitbox":
+	if not area.get("damage"):
+		return
+	elif area.name == "LaserHitbox":
 		overworld_damage_logic(area)
 	else:
 		if health:
@@ -83,6 +88,7 @@ func _on_area_entered(area: Area2D) -> void:
 	start_invincibility()
 	var hurtSound = HurtSound.instantiate()
 	get_tree().current_scene.add_child(hurtSound)
+	
 	if area.name == "ShockwaveHitbox":
 		var direction = (global_position - area.global_position).normalized()
 		trigger_knockback.emit(direction)
@@ -90,5 +96,6 @@ func _on_area_entered(area: Area2D) -> void:
 		var movement_component = get_node_or_null("../Movement_Component")
 		var direction = movement_component.animation_tree.get("parameters/Run/blend_position")
 		trigger_knockback.emit(-direction)
+		print(-direction)
 	else:
 		trigger_knockback.emit(area.knockback_vector)

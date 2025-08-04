@@ -6,6 +6,9 @@ extends Node2D
 
 @export var wander_range: int = 48
 
+func update_start_position(pos: Vector2):
+	start_position = pos
+
 func update_target_position():
 	var target_vector = Vector2(randf_range(-wander_range, wander_range), randf_range(-wander_range, wander_range))
 	target_position = start_position + target_vector

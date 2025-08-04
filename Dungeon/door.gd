@@ -6,6 +6,7 @@ extends StaticBody2D
 @onready var collisionShape = $CollisionShape2D
 
 @export var transitionDestination: String
+@export var dialogueAfterOpen := true
 
 var doorButtons: Array[Area2D]
 var bodies_on_button := {}
@@ -33,7 +34,8 @@ func check_all_buttons():
 
 func open_door():
 	door_opened = true
-	dungeon.open_door()
+	if dialogueAfterOpen:
+		dungeon.open_door()
 	
 	animationPlayer.play("Open")
 	collisionShape.set_deferred("disabled", true)

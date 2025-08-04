@@ -2,8 +2,8 @@
 
 [ext_resource type="Script" uid="uid://g4mrcckcqg67" path="res://NPCs/bomb.gd" id="1_sd18s"]
 [ext_resource type="Texture2D" uid="uid://bwkg66wsf44kj" path="res://NPCs/Sprites/bomb.png" id="2_sd18s"]
+[ext_resource type="Resource" uid="uid://bjk7urwkrck32" path="res://Stats/the_prisoner_stats.tres" id="2_ypegv"]
 [ext_resource type="PackedScene" uid="uid://lfrhnehwb41h" path="res://Combat/hitbox.tscn" id="4_mtsek"]
-[ext_resource type="AudioStream" uid="uid://ds6dilvs3tkqy" path="res://Music and Sounds/bomb ticking.mp3" id="4_sd18s"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_sd18s"]
 atlas = ExtResource("2_sd18s")
@@ -29,8 +29,26 @@ animations = [{
 }, {
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_d4d6d")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_sd18s")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_d4d6d")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_sd18s")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_d4d6d")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_sd18s")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_d4d6d")
 }],
-"loop": true,
+"loop": false,
 "name": &"Start",
 "speed": 8.0
 }, {
@@ -56,11 +74,15 @@ size = Vector2(6, 6)
 collision_layer = 0
 collision_mask = 9
 script = ExtResource("1_sd18s")
+stats = ExtResource("2_ypegv")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 position = Vector2(0, -3)
 sprite_frames = SubResource("SpriteFrames_d4d6d")
+animation = &"Start"
 autoplay = "default"
+frame = 7
+frame_progress = 1.0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 visible = false
@@ -69,17 +91,16 @@ shape = SubResource("RectangleShape2D_xlt4l")
 
 [node name="BombHitbox" parent="." instance=ExtResource("4_mtsek")]
 visible = false
-collision_layer = 64
-collision_mask = 8
+collision_layer = 128
+collision_mask = 260
 
 [node name="CollisionShape2D" parent="BombHitbox" index="0"]
 position = Vector2(0, -2)
 shape = SubResource("RectangleShape2D_laksj")
-
-[node name="TickingSound" type="AudioStreamPlayer" parent="."]
-stream = ExtResource("4_sd18s")
+disabled = true
 
 [connection signal="area_entered" from="." to="." method="_on_area_entered"]
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]
+[connection signal="animation_finished" from="AnimatedSprite2D" to="." method="_on_animated_sprite_2d_animation_finished"]
 
 [editable path="BombHitbox"]

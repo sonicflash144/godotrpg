@@ -9,6 +9,8 @@ class_name DialogueRoomManager
 const balloon_top = "res://Dialogue/balloon_top.tscn"
 const balloon_bottom = "res://Dialogue/balloon.tscn"
 
+var enableControlsOverride := false
+
 func _ready() -> void:
 	DialogueManager.dialogue_ended.connect(_on_dialogue_ended)
 	
@@ -18,7 +20,8 @@ func get_balloon_path():
 	else:
 		return balloon_bottom
 
-func dialogue(value: String, balloon_override: String = ""):
+func dialogue(value: String, balloon_override: String = "", controls_override := false):
+	enableControlsOverride = controls_override
 	var balloon_path
 	if balloon_override == "top":
 		balloon_path = balloon_top
@@ -30,7 +33,10 @@ func dialogue(value: String, balloon_override: String = ""):
 	DialogueManager.show_dialogue_balloon(dialogueResource, value, balloon_path)
 
 func _on_dialogue_ended(_resource: DialogueResource):
-	Events.enable_controls()
+	if enableControlsOverride:
+		enableControlsOverride = false
+	else:
+		Events.enable_controls()
 
 func nudge_player(valid_position: Vector2):
 	var direction = (valid_position - player.global_position).normalized()

@@ -5,6 +5,9 @@ class_name Movement_Component
 @onready var character: CharacterBody2D = $".."
 @onready var animation_tree = $"../AnimationTree"
 @onready var animation_state = animation_tree.get("parameters/playback")
+@onready var hitbox: Hitbox = get_node_or_null("../Hitbox")
+
+@export var bossAnimation := false
 
 var current_speed: float
 var MAX_SPEED := 80.0
@@ -73,6 +76,13 @@ func update_animation_direction(direction: Vector2):
 		animation_tree.set("parameters/Idle/blend_position", direction)
 		animation_tree.set("parameters/Run/blend_position", direction)
 		animation_tree.set("parameters/Attack/blend_position", direction)
+		
+		if bossAnimation:
+			animation_tree.set("parameters/Defend/blend_position", direction)
+			animation_tree.set("parameters/Slash/blend_position", direction)
+		
+		if hitbox:
+			hitbox.knockback_vector = direction
 
 func _on_hurtbox_trigger_knockback(knockback_vector: Vector2) -> void:
 	knockback = knockback_vector * 100

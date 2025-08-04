@@ -45,6 +45,7 @@ func _physics_process(delta: float) -> void:
 			if wanderController.get_time_left() == 0 or global_position.distance_to(wanderController.target_position) < 4:
 				update_wander_timer()
 			var direction = global_position.direction_to(wanderController.target_position)
+			enemyHitbox.knockback_vector = direction
 			velocity = direction * WANDER_SPEED
 
 		CHASE:

@@ -1,6 +1,7 @@
-[gd_scene load_steps=15 format=3 uid="uid://02x2x2o0qe7o"]
+[gd_scene load_steps=16 format=3 uid="uid://02x2x2o0qe7o"]
 
-[ext_resource type="Script" uid="uid://g4mrcckcqg67" path="res://NPCs/bomb.gd" id="1_o8vc0"]
+[ext_resource type="Script" uid="uid://8tgpm07i2e4d" path="res://NPCs/ninja_star.gd" id="1_hj26k"]
+[ext_resource type="Resource" uid="uid://bjk7urwkrck32" path="res://Stats/the_prisoner_stats.tres" id="2_jhggq"]
 [ext_resource type="Texture2D" uid="uid://ink18cb72gan" path="res://NPCs/Sprites/ninja star.png" id="2_o8vc0"]
 [ext_resource type="PackedScene" uid="uid://lfrhnehwb41h" path="res://Combat/hitbox.tscn" id="3_p4t8u"]
 
@@ -76,8 +77,9 @@ size = Vector2(7, 7)
 
 [node name="NinjaStar" type="Area2D"]
 collision_layer = 0
-collision_mask = 9
-script = ExtResource("1_o8vc0")
+collision_mask = 261
+script = ExtResource("1_hj26k")
+stats = ExtResource("2_jhggq")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_ge60u")
@@ -92,13 +94,12 @@ shape = SubResource("RectangleShape2D_xlt4l")
 
 [node name="NinjaStarHitbox" parent="." instance=ExtResource("3_p4t8u")]
 visible = false
-collision_layer = 64
-collision_mask = 8
+collision_layer = 128
+collision_mask = 260
 
 [node name="CollisionShape2D" parent="NinjaStarHitbox" index="0"]
 shape = SubResource("RectangleShape2D_laksj")
 
-[connection signal="area_entered" from="." to="." method="_on_area_entered"]
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]
 
 [editable path="NinjaStarHitbox"]

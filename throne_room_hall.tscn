@@ -6,7 +6,7 @@
 [ext_resource type="TileSet" uid="uid://clqyi38aahe5d" path="res://World/throne_room.tres" id="4_uno22"]
 [ext_resource type="PackedScene" uid="uid://sx4vdntx8vld" path="res://Components/debug_manager.tscn" id="5_gjgge"]
 [ext_resource type="PackedScene" uid="uid://cqv7hf2dkuljw" path="res://Dialogue/dialogue_room_manager.tscn" id="6_8nlf4"]
-[ext_resource type="Resource" uid="uid://ckhsuu4k1h8pm" path="res://Dialogue/Literal Dialogue/dungeon_2.dialogue" id="7_kbcfm"]
+[ext_resource type="Resource" uid="uid://poskps7oupo8" path="res://Dialogue/Literal Dialogue/throne_room.dialogue" id="7_tbdse"]
 [ext_resource type="PackedScene" uid="uid://l10kiwsexaab" path="res://Combat/combat_manager.tscn" id="8_2p25j"]
 [ext_resource type="PackedScene" uid="uid://cgnrs4ebb1dfe" path="res://World/pathfinding_manager.tscn" id="9_sbf70"]
 [ext_resource type="PackedScene" uid="uid://bixth4v8wdly8" path="res://NPCs/princess.tscn" id="10_qe67c"]
@@ -32,7 +32,7 @@ tile_set = ExtResource("4_uno22")
 [node name="DebugManager" parent="." instance=ExtResource("5_gjgge")]
 
 [node name="DialogueRoomManager" parent="." instance=ExtResource("6_8nlf4")]
-dialogueResource = ExtResource("7_kbcfm")
+dialogueResource = ExtResource("7_tbdse")
 
 [node name="CombatManager" parent="." instance=ExtResource("8_2p25j")]
 

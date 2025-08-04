@@ -110,8 +110,6 @@ func set_princess_follow_state():
 
 func _on_room_locked(room):
 	if room == CampfireRoom and not Events.get_flag("campfire_completed"):
-		player.set_nav_state()
-		princess.set_nav_state()
 		dialogueRoomManager.dialogue("campfire")
 	elif room == ThePrisonerRoom:
 		if not Events.get_flag("met_THE_prisoner"):
@@ -125,19 +123,13 @@ func _on_player_died():
 	await get_tree().create_timer(1).timeout
 	Events.load_game()
 
-func _on_dialogue_movement(key: String):
+func _on_dialogue_movement(key: String, character := "princess", direction := Vector2.ZERO):
 	for marker in markers:
 		if marker.name == key:
-			if key == "player_campfire":
-				player.move_to_position_astar(marker.global_position, Vector2.RIGHT)
-			elif key == "princess_campfire":
-				princess.move_to_position_astar(marker.global_position, Vector2.LEFT)
-			elif key == "princess_campfire_finished":
-				princess.move_to_position_astar(marker.global_position, Vector2.UP)
-			elif key == "enter_puzzle_1":
-				princess.move_to_position_astar(marker.global_position, Vector2.DOWN)
-			else:
-				princess.move_to_position_astar(marker.global_position)
+			if character == "player":
+				player.move_to_position_astar(marker.global_position, direction)
+			elif character == "princess":
+				princess.move_to_position_astar(marker.global_position, direction)
 			return
 
 func _on_side_door_dialogue_zone_zone_triggered() -> void:

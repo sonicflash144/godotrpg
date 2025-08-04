@@ -15,7 +15,6 @@ enum {
 
 @onready var THE_Prisoner: CharacterBody2D = get_node_or_null("../ThePrisoner")
 @onready var THE_PrisonerCollider = get_node_or_null("../ThePrisoner/CollisionShape2D")
-@onready var THE_PrisonerHurtbox: Hurtbox = get_node_or_null("../ThePrisoner/Hurtbox")
 @onready var THE_PrisonerBlinkAnimation = get_node_or_null("../ThePrisoner/BlinkAnimationPlayer")
 
 @export var flag: String
@@ -92,6 +91,12 @@ func spawn_ghosts(pos: Vector2):
 	for ghost in newGhosts:
 		get_tree().current_scene.call_deferred("add_child", ghost)
 
+func register_new_enemy(enemy: CharacterBody2D):
+	if enemy.is_in_group("Enemy"):
+		enemies.append(enemy)
+		var health_component = enemy.get_node_or_null("Health_Component")
+		health_component.enemy_died.connect(_on_enemy_died)
+
 func activate_spikes():
 	for spike in spikes:
 		var anim_sprite = spike.get_node_or_null("AnimatedSprite2D")
@@ -117,7 +122,6 @@ func start_overworld_hazard():
 	
 	if Events.num_party_members >= 3:
 		THE_PrisonerCollider.set_deferred("disabled", true)
-		THE_PrisonerHurtbox.disable_collider()
 		THE_PrisonerBlinkAnimation.play("Disabled")
 		THE_Prisoner.z_index = -1
 
@@ -132,7 +136,6 @@ func end_overworld_hazard():
 	
 	if Events.num_party_members >= 3:
 		THE_PrisonerCollider.set_deferred("disabled", false)
-		THE_PrisonerHurtbox.enable_collider()
 		THE_PrisonerBlinkAnimation.play("RESET")
 		THE_Prisoner.z_index = 0
 
@@ -156,11 +159,9 @@ func combat_lock_room():
 	
 	if Events.num_party_members >= 3:
 		THE_PrisonerCollider.set_deferred("disabled", true)
-		THE_PrisonerHurtbox.disable_collider()
 		THE_PrisonerBlinkAnimation.play("Disabled")
 		THE_Prisoner.z_index = -1
 		
-		THE_Prisoner.set_nav_state()
 		var marker = get_node_or_null("THE_prisoner_combat_room")
 		THE_Prisoner.move_to_position_astar(marker.global_position, Vector2.RIGHT)
 	
@@ -179,7 +180,6 @@ func un_combat_lock_room():
 		
 	if Events.num_party_members >= 3:
 		THE_PrisonerCollider.set_deferred("disabled", false)
-		THE_PrisonerHurtbox.enable_collider()
 		THE_PrisonerBlinkAnimation.play("RESET")
 		THE_Prisoner.z_index = 0
 		THE_Prisoner.set_follow_state()

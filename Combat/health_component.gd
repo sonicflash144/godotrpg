@@ -10,7 +10,6 @@ var healthUI: Health_UI
 var DeathEffect: PackedScene
 var invincible := false
 
-var SwordShockwaveScene = load("res://Enemies/shockwave_controller.tscn")
 const REVENGE_DAMANGE_MULTIPLIER := 2
 
 func _ready() -> void:
@@ -22,7 +21,10 @@ func _ready() -> void:
 		healthUI = get_node_or_null("../../HealthCanvasLayer/PrincessHealthUI")
 	elif get_parent().is_in_group("Enemy"):
 		DeathEffect = load("res://Effects/enemy_death_effect.tscn")
-	
+
+func get_health_percentage():
+	return float(health) / MAX_HEALTH
+
 func is_max_health():
 	return health >= MAX_HEALTH
 	
@@ -71,7 +73,9 @@ func death(area_name: String):
 		Events.princessDown = true
 		return
 		
-	if DeathEffect:
+	if get_parent().name == "ThePrisoner" or get_parent().name == "King":
+		get_parent().handle_death(area_name)
+	elif DeathEffect:
 		get_parent().handle_death(area_name)
 		var deathEffect = DeathEffect.instantiate()
 		get_tree().current_scene.add_child(deathEffect)

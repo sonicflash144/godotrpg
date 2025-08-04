@@ -11,7 +11,8 @@ extends Node2D
 @onready var princessHealthComponent: Health_Component = $Princess/Health_Component
 @onready var princessHurtbox: Hurtbox = $Princess/Hurtbox
 @onready var THE_PrisonerHurtbox: Hurtbox = $ThePrisoner/Hurtbox
-@onready var THE_PrisonerHitbox: Hitbox = $ThePrisoner/Hitbox
+@onready var THE_PrisonerHurtboxCollisionShape = $ThePrisoner/Hurtbox/CollisionShape2D
+@onready var THE_PrisonerHitboxCollisionShape = $ThePrisoner/Hitbox/CollisionShape2D
 
 @onready var goBackdialogueBarrier: DialogueBarrier = $StartRoom/GoBackDialogueBarrier
 @onready var CampfireRoom: DungeonRoom = $CampfireRoom
@@ -25,7 +26,9 @@ extends Node2D
 @onready var princessFollowCheck1: DialogueBarrier = $PuzzleRoom1/PrincessFollowCheck1
 @onready var savePoint2 = $ChestRoom/SavePoint2/Marker2D
 @onready var DoorRoom: DungeonRoom = $DoorRoom
+@onready var door = $DoorRoom/Door
 @onready var doorDialogueZone = $DoorRoom/Door/DoorDialogueZone/CollisionShape2D
+@onready var doorRoomDialogueBarrierCollisionShape = $DoorRoom/DialogueBarrier/CollisionShape2D
 
 @export var markers: Array[Marker2D]
 
@@ -72,6 +75,9 @@ func _ready() -> void:
 	if Events.get_flag("pin_3"):
 		pin3.queue_free()
 		num_pins_collected += 1
+	
+	princess.navigation_component.target_reached.connect(_on_dialogue_movement_finished)
+	THE_Prisoner.navigation_component.target_reached.connect(_on_dialogue_movement_finished)
 	
 func _physics_process(_delta: float) -> void:
 	last_valid_position = player.global_position
@@ -123,21 +129,29 @@ func take_pin_3():
 	pin3.queue_free()
 
 func start_the_prisoner_fight():
-	THE_PrisonerHurtbox.set_collision_layer_value(4, true)
-	THE_PrisonerHurtbox.set_collision_mask_value(7, true)
-	THE_PrisonerHitbox.set_collision_layer_value(8, true)
-	THE_PrisonerHitbox.set_collision_mask_value(3, true)
-	THE_PrisonerHitbox.set_collision_mask_value(9, true)
+	THE_Prisoner.add_to_group("Enemy")
+	THE_PrisonerHurtbox.update_hurtbox_properties()
+	THE_PrisonerHurtboxCollisionShape.set_deferred("disabled", false)
+	THE_PrisonerHitboxCollisionShape.set_deferred("disabled", false)
 	if princess:
 		princess.set_follow_state()
 	Events.currentRoom.combat_lock_room()
+	Events.currentRoom.register_new_enemy(THE_Prisoner)
+	THE_Prisoner.set_attack_state()
+
+func after_the_prisoner_fight():
+	Events.set_flag("after_THE_prisoner_fight")
+	THE_PrisonerHurtboxCollisionShape.set_deferred("disabled", true)
+	THE_PrisonerHitboxCollisionShape.set_deferred("disabled", true)
+	doorDialogueZone.set_deferred("disabled", false)
+	doorRoomDialogueBarrierCollisionShape.set_deferred("disabled", false)
+	dialogueRoomManager.dialogue("after_defeat", "bottom", true)
 
 func kill_princess():
 	princessHurtbox.set_collision_mask_value(7, true)
 	playerHitbox.set_collision_mask_value(9, true)
 	
-	player.set_nav_state()
-	_on_dialogue_movement("player_kill_princess")
+	_on_dialogue_movement("player_kill_princess", "player", Vector2.LEFT)
 	
 	await get_tree().create_timer(1).timeout
 	Events.inCutscene = true
@@ -152,38 +166,42 @@ func princess_death_effect():
 	get_tree().current_scene.add_child(deathEffect)
 	deathEffect.global_position = princess.global_position
 
+func open_door():
+	door.open_door()
+
 func _on_room_locked(room):
 	if room == CampfireRoom and not Events.get_flag("campfire_completed"):
-		player.set_nav_state()
-		princess.set_nav_state()
 		dialogueRoomManager.dialogue("campfire")
 	elif room == ThePrisonerRoom and not Events.get_flag("met_THE_prisoner"):
 		dialogueRoomManager.dialogue("THE_prisoner")
 	elif room == DoorRoom and not Events.get_flag("before_THE_prisoner_fight"):
-		princess.set_nav_state()
-		THE_Prisoner.set_nav_state()
+		Events.num_party_members = 2
 		dialogueRoomManager.dialogue("before_THE_prisoner_fight", "bottom")
 	
 func _on_player_died():
 	await get_tree().create_timer(1).timeout
 	Events.load_game()
 
-func _on_dialogue_movement(key: String):
+func _on_dialogue_movement(key: String, character := "princess", direction := Vector2.ZERO, ended_signal := false):
 	for marker in markers:
 		if marker.name == key:
-			if key == "player_campfire":
-				player.move_to_position_astar(marker.global_position, Vector2.RIGHT)
-			elif key == "princess_campfire":
-				princess.move_to_position_astar(marker.global_position, Vector2.LEFT)
-			elif key == "princess_campfire_finished":
-				princess.move_to_position_astar(marker.global_position, Vector2.UP)
-			elif key == "THE_prisoner_enter_door_room":
-				THE_Prisoner.move_to_position_astar(marker.global_position, Vector2.LEFT)
-			elif key == "player_kill_princess":
-				player.move_to_position_astar(marker.global_position, Vector2.LEFT)
-			else:
-				princess.move_to_position_astar(marker.global_position)
+			var endedSignalKey = key if ended_signal else ""
+			if character == "player":
+				player.move_to_position_astar(marker.global_position, direction, endedSignalKey)
+			elif character == "princess":
+				princess.move_to_position_astar(marker.global_position, direction, endedSignalKey)
+			elif character == "THE_prisoner":
+				THE_Prisoner.move_to_position_astar(marker.global_position, direction, endedSignalKey)
 			return
+
+func _on_dialogue_movement_finished(key: String):
+	if key == "THE_prisoner_exit_door_room":
+		if princess:
+			dialogueRoomManager.dialogue(key, "bottom", true)
+		else:
+			dialogueRoomManager.dialogue(key, "bottom")
+	elif key == "princess_open_door":
+		dialogueRoomManager.dialogue(key, "bottom")
 
 func _on_save_point_1_dialogue_zone_zone_triggered() -> void:
 	save_point_helper(savePoint1.global_position)

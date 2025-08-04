@@ -3,10 +3,10 @@ extends CharacterBody2D
 @onready var animatedSprite: AnimatedSprite2D = $AnimatedSprite
 @onready var playerDetectionZone: Area2D = $PlayerDetectionZone
 @onready var hurtbox: Hurtbox = $Hurtbox
-@onready var softCollision: Area2D = $SoftCollision
 @onready var enemyHitbox: Hitbox = $Hitbox
-@onready var wanderController: Node = $WanderController
-@onready var swordSlowController: Node = $SwordSlowController
+@onready var softCollision: Area2D = $SoftCollision
+@onready var wanderController = $WanderController
+@onready var swordSlowController = $SwordSlowController
 @onready var bulletCooldownTimer: Timer = $BulletCooldownTimer
 
 @export var stats: Stats
@@ -36,24 +36,20 @@ func _physics_process(delta: float) -> void:
 			velocity = Vector2.ZERO
 			if wanderController.get_time_left() == 0:
 				update_wander_state()
-			seek_player()
 				
 		WANDER:
 			if wanderController.get_time_left() == 0 or global_position.distance_to(wanderController.target_position) < 4:
 				update_wander_state()
 
 			var direction = global_position.direction_to(wanderController.target_position)
+			enemyHitbox.knockback_vector = direction
 			velocity = direction * WANDER_SPEED
-			seek_player()
-			
-		CHASE:
-			velocity = Vector2.ZERO
-			var player = playerDetectionZone.get_target_player()
-			if player:
-				shoot_bullet(player)
-			else:
-				update_wander_state()
 
+	if state == IDLE or state == WANDER:
+		var player = playerDetectionZone.get_target_player()
+		if player:
+			shoot_bullet(player)
+	
 	velocity += knockback
 	
 	if softCollision.is_colliding():
@@ -72,10 +68,6 @@ func update_wander_state():
 	state = state_list.pop_front()
 	wanderController.start_wander_timer(randf_range(1.0, 2.0))
 	animatedSprite.play("default")
-
-func seek_player():
-	if playerDetectionZone.get_target_player():
-		state = CHASE
 
 func shoot_bullet(player: CharacterBody2D):
 	if bulletCooldownTimer.time_left > 0:

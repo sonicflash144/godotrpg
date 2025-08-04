@@ -1,0 +1,16 @@
+[remap]
+
+importer="dialogue_manager"
+importer_version=15
+type="Resource"
+uid="uid://poskps7oupo8"
+path="res://.godot/imported/throne_room.dialogue-c5d766fc1a5fe434a1f3fa8b2026d438.tres"
+
+[deps]
+
+source_file="res://Dialogue/Literal Dialogue/throne_room.dialogue"
+dest_files=["res://.godot/imported/throne_room.dialogue-c5d766fc1a5fe434a1f3fa8b2026d438.tres"]
+
+[params]
+
+defaults=true

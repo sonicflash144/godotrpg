@@ -66,7 +66,7 @@ var equipment_abilities: Dictionary[String, bool] = {
 }
 
 func _ready() -> void:
-	load_game()
+	#load_game()
 	
 	LimboConsole.register_command(set_flag, "set_flag", "Set value for GAME_STATE flag")
 	LimboConsole.add_argument_autocomplete_source("set_flag", 0,

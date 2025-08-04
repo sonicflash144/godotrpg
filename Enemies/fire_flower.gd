@@ -3,7 +3,6 @@ extends CharacterBody2D
 @onready var animatedSprite = $AnimatedSprite
 @onready var playerDetectionZone = $PlayerDetectionZone
 @onready var hurtbox: Hurtbox = $Hurtbox
-@onready var enemyHitbox: Hitbox = $Hitbox
 @onready var swordSlowController = $SwordSlowController
 @onready var bulletCooldownTimer = $BulletCooldown
 

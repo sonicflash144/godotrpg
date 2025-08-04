@@ -6,9 +6,9 @@ Princess: Don't you want to see what else is around? [#portrait=happy_closed_mou
 ~ campfire
 do Events.set_flag("campfire_completed")
 Princess: Ooh, a campfire! Let's rest for a bit. [#portrait=happy]
-do Events.dialogue_movement.emit("princess_campfire")
+do Events.dialogue_movement.emit("princess_campfire", "princess", Vector2.LEFT)
 do wait(1)
-do Events.dialogue_movement.emit("player_campfire")
+do Events.dialogue_movement.emit("player_campfire", "player", Vector2.RIGHT)
 do wait(2)
 Princess: Hah, wish we had some marshmallows to toast right about now... [#portrait=wink]
 Princess: Hey, I... I feel like you deserve a better explanation for my behavior earlier. [#portrait=downcast]
@@ -20,7 +20,7 @@ Princess: But I'm not going to pretend anymore. I'll fight with you, side by sid
 Princess: Thanks for listening. I'm ready to go if you are. [#portrait=happy_closed_mouth]
 You can now use \[SHIFT\] to swap characters in battle. 
 Hold and release \[X\] to shoot the Girl's bow.
-do Events.dialogue_movement.emit("princess_campfire_finished")
+do Events.dialogue_movement.emit("princess_campfire_finished", "princess", Vector2.UP)
 do wait(1.5)
 do campfire_finished()
 => END
@@ -105,7 +105,7 @@ Princess: Come on, give it another try. [#portrait=neutral]
 ~ enter_puzzle_1
 Princess: Uh oh, this looks complicated. [#portrait=sad_closed_mouth]
 Princess: Um, you can figure it out, right? [#portrait=happy]
-do Events.dialogue_movement.emit("enter_puzzle_1")
+do Events.dialogue_movement.emit("enter_puzzle_1", "princess", Vector2.DOWN)
 => END
 
 ~ side_door

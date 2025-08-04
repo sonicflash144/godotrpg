@@ -50,7 +50,8 @@ class_name GameState
 		"received_jester_gift": false,
 		"puzzle_1": false,
 		"chest_revenge_armor": false,
-		"before_THE_prisoner_fight": false
+		"before_THE_prisoner_fight": false,
+		"after_THE_prisoner_fight": false
 	},
 	"throne_room_hall": {},
 	"throne_room": {}
