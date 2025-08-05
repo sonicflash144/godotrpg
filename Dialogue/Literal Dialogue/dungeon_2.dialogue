@@ -12,7 +12,7 @@ do Events.dialogue_movement.emit("player_campfire", "player", Vector2.RIGHT)
 do wait(2)
 Princess: Hah, wish we had some marshmallows to toast right about now... [#portrait=wink]
 Princess: Hey, I... I feel like you deserve a better explanation for my behavior earlier. [#portrait=downcast]
-Princess: The truth is, I always wanted to be a warrior. But... my dad refused. [#portrait=sad_closed_mouth]
+Princess: The truth is, I always wanted to be a warrior. But... my dad never let me. [#portrait=sad_closed_mouth]
 Princess: The closest I got was this toy bow for my birthday. [#portrait=neutral]
 Princess: Still, I loved it! I practiced for hours in my room, living out those stupid fantasies in my head. [#portrait=happy_closed_mouth]
 Princess: Convincing myself I could be just like those heroes who survived the [color=YELLOW]DUNGEON.[/color] [#portrait=happy_teeth]
@@ -82,12 +82,12 @@ Princess: He said to tell you that Granny Smith thinks we deserve a gift. [#port
 Shopkeeper: Oh, Granny Smith! It's been a while since I've heard from him.
 Shopkeeper: Very well, I suppose I can tap into my secret stock, just this once.
 =>< shopkeeper_blacksmith_loop
-You got the [color=yellow]Multi Bow[/color]. Use \[C\] to equip it in the equipment menu.
-do Events.give("Multi Bow")
+You got the [color=yellow]Icy Sword[/color]. Use \[C\] to equip it in the equipment menu.
+do Events.give("Icy Sword")
 => END
 
 ~ shopkeeper_blacksmith_loop
-Shopkeeper: Take this bow. And tell Granny Smith I said hi!
+Shopkeeper: Take this sword. And tell Granny Smith I said hi!
 => END
 
 ~ chest_iron_sword
@@ -129,7 +129,7 @@ Princess: And those red ones don't seem to turn off on their own... [#portrait=n
 => END
 
 ~ chest_better_bow
-You got the [color=yellow]Better Bow[/color].
+You got the [color=yellow]Better Bow[/color]. Use \[C\] to equip it in the equipment menu.
 => END
 
 ~ THE_prisoner
@@ -188,12 +188,15 @@ Princess: Nice work! [#portrait=happy]
 if Events.get_flag("met_sad_guy")
 	=> sad_guy_loop
 do Events.set_flag("met_sad_guy")
+Princess: Hey there! [#portrait=happy_closed_mouth]
+Princess: Is something wrong? You seem down... [#portrait=sad_closed_mouth]
 Sad Guy: There's no point anymore. In the last arena, my friend was killed. 
 Sad Guy: I didn't know him for long, but I told him we would get through this together. 
 Sad Guy: The worst part is, he didn't even do anything wrong. 
-Sad Guy: He was falsely accused of not paying his taxes, and the trial prosecutor had the money to bribe the judges.
-Sad Guy: Then again, when have the odds ever been fair for our kind?
-Princess: Don't give up! You should join us. We're going to make it out. [#portrait=sad]
+Sad Guy: He was falsely accused of not paying his taxes, and the trial prosecutor was wealthy enough to bribe the judges.
+Sad Guy: I don't know how things like this still surprise me. When have the odds ever been fair for our kind?
+Princess: That's awful... [#portrait=surprise_upset]
+Princess: But you can't give up! You should join us. We're going to make it out. [#portrait=sad]
 Sad Guy: Hah! So I have to watch more people die? I've had enough for a lifetime.
 => END
 
@@ -216,11 +219,12 @@ if Events.get_flag("chest_overpriced_armor")
 	Blacksmith: Looks like it's got a few cracks in it from old age. I can help fix it up for you, if you'd like.
 	=>< blacksmith_fix_armor
 Princess: Can we ask how you ended up down here? [#portrait=surprise]
-Blacksmith: I refused to design a... certain door at the end of the [color=yellow]DUNGEON[/color]. 
+Blacksmith: Shortly after the [color=yellow]QUEEN's[/color] passing, the [color=yellow]KING[/color] hired me to design a... certain door at the end of the [color=yellow]DUNGEON[/color]. 
 Blacksmith: I should have known the [color=yellow]KING[/color] would just find another blacksmith. Now look where I've ended up.
 Princess: What was so special about the door? [#portrait=neutral]
 Blacksmith: Trust me, you'd rather not know.
-Blacksmith: Wouldn't you rather have a fragment of hope alive inside you for the time you have left?
+Blacksmith: I don't want to snatch away your last fragments of hope in the little time you have left.
+Princess: No need to be so pessimistic... [#portrait=neutral_closed_mouth]
 => blacksmith_loop
 
 ~ blacksmith_fix_armor
@@ -248,7 +252,11 @@ if Events.get_flag("chest_overpriced_armor") and not Events.get_flag("blacksmith
 => END
 
 ~ chest_lucky_armor
-You got the [color=yellow]Lucky Armor[/color].
+You got the [color=yellow]Lucky Armor[/color]. Use \[C\] to equip it in the equipment menu.
+=> END
+
+~ door_room_dialogue_barrier
+Princess: ...Are you really trying to leave in the middle of our dramatic team door-opening moment? [#portrait=sad_closed_mouth]
 => END
 
 ~ door_description
@@ -257,10 +265,10 @@ Seems like you already have the help you need to open it.
 => END
 
 ~ door
-Princess: Oh look, another door! [#portrait=surprise]
+Princess: Look, another door! [#portrait=surprise]
 Princess: Seems like we can do the same thing as last time, right? [#portrait=happy_closed_mouth]
 do Events.dialogue_movement.emit("stand_door_button")
-do wait(0.5)
+do wait(1)
 => END
 
 ~ door_opened

@@ -1,0 +1,21 @@
+[gd_scene load_steps=5 format=3 uid="uid://bw7lmdnd7ipqw"]
+
+[ext_resource type="Script" uid="uid://d1twbg7q2hurt" path="res://Music and Sounds/music_manager.gd" id="1_fka1b"]
+[ext_resource type="AudioStream" uid="uid://b73m2cnftaf4h" path="res://Music and Sounds/VGM_dungeon.wav" id="2_jbm5m"]
+[ext_resource type="AudioStream" uid="uid://bb67dsmi2ygps" path="res://Music and Sounds/VGM_combat.wav" id="3_xs5e7"]
+[ext_resource type="AudioStream" uid="uid://dpucmmlkxrrxw" path="res://Music and Sounds/VGM_throne_room_hall.wav" id="4_jbm5m"]
+
+[node name="MusicManager" type="Node"]
+script = ExtResource("1_fka1b")
+
+[node name="Dungeon" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("2_jbm5m")
+volume_db = -12.0
+
+[node name="Combat" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("3_xs5e7")
+volume_db = -12.0
+
+[node name="Hall" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("4_jbm5m")
+volume_db = -12.0

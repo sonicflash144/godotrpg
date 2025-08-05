@@ -4,10 +4,10 @@
 
 [resource]
 script = ExtResource("1_rtc1y")
-attack = 2
+attack = 6
 defense = 0
 ability = "Multishot"
 name = "Multi Bow"
-description = "Shoots 3 arrows per shot for triple the fun!"
 type = 1
+description = "Shoots 3 arrows per shot for triple the fun!"
 metadata/_custom_type_script = "uid://dm55vrrn5ygm2"

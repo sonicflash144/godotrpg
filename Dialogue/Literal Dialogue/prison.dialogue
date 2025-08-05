@@ -13,7 +13,8 @@ It's an ancient-looking bloodstain. Doesn't seem like the guards around here are
 ~ vent
 It's a rusty-looking vent. Doesn't seem to be circulating any air anymore.
 - Peer inside
-	You intently observed several dust particles and an unidentifiable grey liquid.
+	You see a few dust bunnies that have formed a small, sad-looking civilization.
+	They seem to be worshipping a puddle of unidentifiable grey liquid.
 - Do not
 => END
 
@@ -119,6 +120,8 @@ Guard2: So, how does that sound? [#portrait=neutral]
 	Guard2: I'm glad you're excited, brave warrior. [#portrait=neutral]
 - Bad
 	Guard2: Well, good think we don't actually care what you think. [#portrait=neutral]
+	Guard: Don't worry, it'll be over before you know it. [#portrait=neutral]
 Guard2: We'll take you down there without further delay. [#portrait=neutral]
 do transition_to_dungeon()
+do wait(1)
 => END

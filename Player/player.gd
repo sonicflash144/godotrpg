@@ -19,10 +19,17 @@ enum {
 }
 var state = MOVE
 var storage: Array[Equipment]
+var overpricedArmor: Equipment = load("res://Equipment/Overpriced Armor.tres")
 
 func _ready() -> void:
 	follow_component.set_target(princess)
-	if not Events.deferred_load_data.is_empty():
+	
+	await get_tree().process_frame
+	
+	if Events.get_flag("blacksmith_armor_fixed", "dungeon_2"):
+		overpricedArmor.defense = 4
+	
+	if not Events.deferred_load_data.is_empty() and Events.deferred_load_data["scene"] == Events.currentScene:
 		load_equipment()
 	else:
 		update_stats()
@@ -73,6 +80,14 @@ func load_equipment():
 func update_stats():
 	stats.attack = 0
 	stats.defense = 0
+	
+	if not Events.playerEquipment.is_empty():
+		equipment = Events.playerEquipment.duplicate()
+		storage = Events.storage.duplicate()
+		
+		Events.playerEquipment.clear()
+		Events.storage.clear()
+	
 	for item in equipment:
 		stats.attack += item.attack
 		stats.defense += item.defense

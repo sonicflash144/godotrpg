@@ -6,6 +6,13 @@ extends Node
 @onready var princess: CharacterBody2D = get_node_or_null("../Princess")
 @onready var princessHealthComponent: Health_Component = get_node_or_null("../Princess/Health_Component")
 
+enum {
+	MOVE,
+	ATTACK,
+	FOLLOW,
+	NAV
+}
+
 func _ready() -> void:
 	Events.console_heal.connect(_on_console_heal)
 	Events.console_autocomplete.connect(_on_console_autocomplete)
@@ -13,11 +20,14 @@ func _ready() -> void:
 	Events.console_give.connect(_on_console_give)
 	Events.console_noclip.connect(_on_console_noclip)
 
+func reset_speed():
+	playerMovementComponent.MAX_SPEED = 80
+
 func _unhandled_key_input(event: InputEvent) -> void:
-	if not OS.is_debug_build():
+	if not OS.is_debug_build() or player.state != MOVE:
 		return
 		
-	if event.is_action_pressed("debug_run"):
+	if event.is_action_pressed("debug_run") and not Events.inCutscene:
 		playerMovementComponent.MAX_SPEED = 320
 	elif event.is_action_released("debug_run"):
 		playerMovementComponent.MAX_SPEED = 80

@@ -58,6 +58,7 @@ func _physics_process(delta: float) -> void:
 
 func set_idle_state():
 	state = IDLE
+	await get_tree().create_timer(randf_range(0, 3)).timeout
 	actionTimer.start()
 
 func update_wander_timer():

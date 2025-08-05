@@ -7,6 +7,7 @@ extends Area2D
 @onready var despawnTimer = $DespawnTimer
 
 var HealSound = load("res://Music and Sounds/heal_sound.tscn")
+const HEAL_AMOUNT := 8
 
 func _ready() -> void:
 	flickerTimer.start(3.5)
@@ -22,14 +23,14 @@ func _on_body_entered(body: Node2D) -> void:
 		pass
 	elif body.is_in_group("Player"):
 		if not playerMax:
-			playerHealthComponent.heal()
+			playerHealthComponent.heal(HEAL_AMOUNT)
 		else:
-			princessHealthComponent.heal()
+			princessHealthComponent.heal(HEAL_AMOUNT)
 	elif body.is_in_group("Princess"):
 		if not princessMax:
-			princessHealthComponent.heal()
+			princessHealthComponent.heal(HEAL_AMOUNT)
 		else:
-			playerHealthComponent.heal()
+			playerHealthComponent.heal(HEAL_AMOUNT)
 			
 	queue_free()
 

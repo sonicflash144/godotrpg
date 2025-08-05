@@ -41,7 +41,7 @@ class_name GameState
 	},
 	"dungeon_3": {
 		"campfire_completed": false,
-		"chest_icy_sword": false,
+		"chest_multi_bow": false,
 		"met_jester": false,
 		"pin_1": false,
 		"pin_2": false,

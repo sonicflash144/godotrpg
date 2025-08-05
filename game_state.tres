@@ -15,12 +15,15 @@ flags = {
 },
 "dungeon_2": {
 "THE_prisoner_after_blacksmith": false,
+"blacksmith_armor_fixed": false,
 "campfire_completed": false,
 "chest_better_bow": false,
 "chest_iron_sword": false,
+"chest_lucky_armor": false,
 "chest_overpriced_armor": false,
-"chest_revenge_armor": false,
 "combat_room_1": false,
+"combat_room_2": false,
+"combat_room_3": false,
 "laser_room_1": false,
 "laser_room_2": false,
 "met_THE_prisoner": false,
@@ -32,7 +35,11 @@ flags = {
 "received_blacksmith_gift": false
 },
 "dungeon_3": {
+"after_THE_prisoner_fight": false,
+"before_THE_prisoner_fight": false,
 "campfire_completed": false,
+"chest_multi_bow": false,
+"chest_revenge_armor": false,
 "met_THE_prisoner": false,
 "met_jester": false,
 "pin_1": false,

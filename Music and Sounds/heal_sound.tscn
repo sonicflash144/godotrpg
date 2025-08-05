@@ -5,5 +5,6 @@
 
 [node name="HealSound" type="AudioStreamPlayer"]
 stream = ExtResource("1_j5gai")
+volume_db = -6.0
 autoplay = true
 script = ExtResource("2_0y83o")

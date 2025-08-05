@@ -52,6 +52,9 @@ rotation = 3.14159
 position = Vector2(1.52588e-05, -4)
 shape = SubResource("RectangleShape2D_tbdse")
 
+[node name="Respawn" type="Marker2D" parent="."]
+position = Vector2(160, 32)
+
 [connection signal="body_entered" from="TransitionArea" to="." method="_on_transition_area_body_entered"]
 
 [editable path="TransitionArea"]

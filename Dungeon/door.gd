@@ -4,6 +4,8 @@ extends StaticBody2D
 @onready var dialogueZone: DialogueZone = $DoorDialogueZone
 @onready var animationPlayer = $AnimationPlayer
 @onready var collisionShape = $CollisionShape2D
+@onready var player: CharacterBody2D = $"../../Player"
+@onready var princess: CharacterBody2D = $"../../Princess"
 
 @export var transitionDestination: String
 @export var dialogueAfterOpen := true
@@ -66,3 +68,7 @@ func _on_door_transition_body_entered(body: Node2D) -> void:
 	if body.is_in_group("Player"):
 		TransitionHandler.console_fade_out(transitionDestination)
 		Events.player_transition = "up"
+		if princess:
+			Events.store_equipment(player.equipment, princess.equipment, player.storage)
+		else:
+			Events.store_equipment(player.equipment, [], player.storage)

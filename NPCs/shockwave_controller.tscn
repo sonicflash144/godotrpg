@@ -1,17 +1,10 @@
-[gd_scene load_steps=11 format=3 uid="uid://58rt0fsobtsq"]
+[gd_scene load_steps=10 format=3 uid="uid://58rt0fsobtsq"]
 
 [ext_resource type="Script" uid="uid://b3khbyt6dctnq" path="res://NPCs/shockwave_controller.gd" id="1_oydrp"]
-[ext_resource type="Script" uid="uid://bgdg8osb748gd" path="res://Stats/stats.gd" id="2_ai5p2"]
+[ext_resource type="Resource" uid="uid://bjk7urwkrck32" path="res://Stats/the_prisoner_stats.tres" id="2_12qx3"]
 [ext_resource type="Texture2D" uid="uid://btfsns24xqmwg" path="res://Enemies/Sprites/shockwave.png" id="3_uyt01"]
 [ext_resource type="PackedScene" uid="uid://lfrhnehwb41h" path="res://Combat/hitbox.tscn" id="4_uadig"]
 [ext_resource type="AudioStream" uid="uid://bb8xk6e3bj4m" path="res://Music and Sounds/shockwave.mp3" id="5_ojf2r"]
-
-[sub_resource type="Resource" id="Resource_xaho1"]
-script = ExtResource("2_ai5p2")
-health = 0
-attack = 1
-defense = 0
-metadata/_custom_type_script = "uid://bgdg8osb748gd"
 
 [sub_resource type="Animation" id="Animation_616ei"]
 resource_name = "Animate"
@@ -76,11 +69,11 @@ _data = {
 }
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_vcl7f"]
-radius = 48.0
+radius = 36.0
 
 [node name="ShockwaveController" type="Node2D"]
 script = ExtResource("1_oydrp")
-stats = SubResource("Resource_xaho1")
+stats = ExtResource("2_12qx3")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 z_index = -2

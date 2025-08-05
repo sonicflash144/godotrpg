@@ -8,11 +8,12 @@ class_name Movement_Component
 @onready var hitbox: Hitbox = get_node_or_null("../Hitbox")
 
 @export var bossAnimation := false
+@export var THE_PrisonerOverride := false
 
 var current_speed: float
 var MAX_SPEED := 80.0
 var ATTACK_MOVE_SPEED := 24.0
-const SPRINTMASTER_SPEED_MULTIPLIER = 1.2
+const SPRINTMASTER_SPEED_MULTIPLIER = 1.25
 
 var knockback := Vector2.ZERO
 var last_input_vector := Vector2.ZERO
@@ -60,7 +61,7 @@ func get_player_input_vector():
 
 func move(direction: Vector2, speed := MAX_SPEED, animationOverride := "", follower := false):
 	current_speed = speed
-	if Events.equipment_abilities["Speed"] and not follower:
+	if Events.equipment_abilities["Speed"] and not follower and not THE_PrisonerOverride:
 		current_speed *= SPRINTMASTER_SPEED_MULTIPLIER
 	update_animation_direction(direction)
 	character.velocity = direction * current_speed

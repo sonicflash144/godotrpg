@@ -1,0 +1,27 @@
+[gd_scene load_steps=2 format=3 uid="uid://cx8i26a2wkn67"]
+
+[ext_resource type="Theme" uid="uid://dqba535y85yao" path="res://UI/balloon_theme.tres" id="1_7o5yx"]
+
+[node name="GameComplete" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("1_7o5yx")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+layout_mode = 0
+offset_right = 320.0
+offset_bottom = 240.0
+color = Color(0, 0, 0, 1)
+
+[node name="RichTextLabel" type="RichTextLabel" parent="."]
+layout_mode = 0
+offset_right = 320.0
+offset_bottom = 240.0
+theme_override_font_sizes/normal_font_size = 18
+text = "Thank you for playing!"
+horizontal_alignment = 1
+vertical_alignment = 1

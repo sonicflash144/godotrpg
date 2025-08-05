@@ -52,8 +52,8 @@ do campfire_finished()
 The power of the crystal flows through you. Your game progress was saved.
 => END
 
-~ chest_icy_sword
-You got the [color=yellow]Icy Sword[/color].
+~ chest_multi_bow
+You got the [color=yellow]Multi Bow[/color]. Use \[C\] to equip it in the equipment menu.
 => END
 
 ~ jester
@@ -62,11 +62,12 @@ if Events.get_flag("met_jester")
 do Events.set_flag("met_jester")
 Jester: Ha ha ha... I just wanted to make people laugh. 
 Jester: But the [color=YELLOW]KING[/color] thought some of my jokes about what happened to the [color=YELLOW]QUEEN[/color] hit too close to home! 
-Jester: Ha ha ha... he was just scared that for once in his life, the joke would be on him...
+Jester: Ha ha ha... he was just scared that for once in his life, the joke would be on him.
+Jester: No one likes being reminded of their own failures, after all...
 Princess: Don't talk about my— about the [color=YELLOW]QUEEN[/color] like that. [#portrait=angry]
 Princess: It was a tragic accident, and you're making it seem like a joke. [#portrait=angry_closed_mouth]
 Jester: Ha ha ha... It seems the joke is on you too, my dear.
-Jester: Anyway, if you aren't too busy, will you do me a favor?
+Jester: Regardless, if you aren't too busy, will you do me a favor?
 Princess: What is it? [#portrait=neutral]
 => jester_loop
 
@@ -74,6 +75,7 @@ Princess: What is it? [#portrait=neutral]
 if num_pins_collected >= 3:
 	=> jester_reward
 Jester: I've lost my three prized juggling pins around here somewhere. 
+Jester: I inherited them from someone who appreciated my jokes a lot more than the [color=YELLOW]KING[/color].
 if num_pins_collected == 1
 	Jester: I see you've already found one! If you could find the rest and bring them back to me, I'd be most grateful.
 elif num_pins_collected == 2
@@ -87,7 +89,7 @@ if Events.get_flag("received_jester_gift")
 	=> jester_reward_loop
 do Events.set_flag("received_jester_gift")
 Jester: My pins! You've found them!
-Jester: As thanks for your efforts, here is a small reward from me. 
+Jester: As thanks for your efforts, here's a small reward from me. 
 Jester: It seems you're in a hurry to run away from the truth, so maybe this will help.
 You got the [color=yellow]Speedy Armor[/color]. Use \[C\] to equip it in the equipment menu.
 do Events.give("Speedy Armor")
@@ -105,6 +107,8 @@ THE Prisoner: I have a feeling we're nearing the exit of this wretched [color=ye
 THE Prisoner: You wouldn't mind if I tagged along with you for these last few rooms, would you? [#portrait=happy_closed_mouth]
 Princess: Uh... of course not. [#portrait=suspicious]
 THE Prisoner: You're too kind. Lead the way! [#portrait=happy]
+do THE_prisoner_join_party()
+do wait(1)
 => END
 
 ~ THE_prisoner_useless
@@ -144,12 +148,17 @@ Princess: Excuse you! At least I was helpful during battle, instead of hiding in
 Princess: Maybe there's a key or something we missed in one of the other rooms. I'm going to go check. [#portrait=neutral]
 do Events.dialogue_movement.emit("princess_exit_door_room")
 do wait(2)
+do MusicManager.stop_music()
 THE Prisoner: Hey. Surely you've figured out who she really is by now. She's the [color=yellow]PRINCESS[/color]. [#portrait=neutral]
 THE Prisoner: I have a proposition that I think you'll enjoy. When she returns, why don't we team up to kill her? [#portrait=happy_evil]
 THE Prisoner: I'm sure you're aware how high the bounty is on her head out on the black market. [#portrait=happy]
 THE Prisoner: We can split the money and still be filthy rich. [#portrait=smirk]
 - Agree
-	THE Prisoner: Good answer. I knew I could count on you. [#portrait=happy]
+	THE Prisoner: Good answer. I knew you were smart. A true survivor, just like me. [#portrait=happy]
+	THE Prisoner: Since we're allies and all now, I figure I can let you in on a little secret on who I really am. [#portrait=happy_closed_mouth]
+	THE Prisoner: Some call me [color=yellow]THE[/color] prisoner. [#portrait=neutral_closed_mouth]
+	THE Prisoner: The very one who almost killed the [color=yellow]PRINCESS[/color] a while back, and who is now here to finish the job. [#portrait=neutral]
+	THE Prisoner: I know, I know. Autographs will have to wait until after the assasination. [#portrait=happy]
 - Ask why
 	THE Prisoner: Why? You're asking why? Guess you haven't figured out who I am, either, huh... [#portrait=surprised]
 	THE Prisoner: Some call me [color=yellow]THE[/color] prisoner. [#portrait=smirk]
@@ -164,16 +173,24 @@ THE Prisoner: Oh, we sure did. [#portrait=happy_closed_mouth]
 Princess: Really? That's great! What's the idea? [#portrait=surprise]
 THE Prisoner: It's very simple, actually. It's killing you. [#portrait=happy]
 Princess: W— WHAT? Why would you do that? [#portrait=shocked_upset]
+THE Prisoner: God, it's a mystery if you're playing dumb or if you're really just that stupid. [#portrait=surprised]
 THE Prisoner: This door doesn't open without royal blood. That's why the [color=yellow]DUNGEON[/color] is the kingdom's most effective death trap. [#portrait=angry]
 THE Prisoner: I don't know why you wandered down here, [color=yellow]PRINCESS[/color], but it's the last mistake you'll ever make. [#portrait=angry_closed_mouth]
-Princess: But if that's true, you need me to open the door. So you can't kill me! [#portrait=surprise_upset]
-THE Prisoner: I don't need you alive to use your blood. Your rotten family is the reason I got stuck here. [#portrait=angry]
+Princess: No... no, you're lying. The [color=yellow]DUNGEON[/color] is a challenge... a way to prove oneself... [#portrait=shocked_angry]
+Princess: ... [#portrait=downcast_eyes_closed]
+Princess: ...They didn't... they didn't survive, did they? None of them. [#portrait=downcast]
+Princess: My father built this place for... for people to DIE in? [#portrait=shocked_upset]
+Princess: But... if that's true, you need me to open the door. So you can't kill me! [#portrait=surprise_upset]
+THE Prisoner: I don't need you alive to use your blood. [#portrait=neutral_closed_mouth]
+THE Prisoner: In fact, I think I prefer this option significantly. I won't have to listen to your annoying voice anymore. [#portrait=happy]
+THE Prisoner: What a fool the KING is. [#portrait=neutral]
+THE Prisoner: Spending all those resources designing this door, only for his own daughter to serve herself up as the key. [#portrait=smirk]
 THE Prisoner: Now, my ally, do what you must. [#portrait=happy_evil]
 - Attack
 	set Events.num_party_members = 1
 	do kill_princess()
-	Princess: How— how could you... [#portrait=shocked_upset]
-	Princess: I thought we were... I only wanted to... [#portrait=downcast_eyes_closed]
+	Princess: [custom_shake][speed=0.3]How— how could you...[/custom_shake] [#portrait=shocked_upset]
+	Princess: [custom_shake][speed=0.3]I thought we were... I only wanted to...[/custom_shake] [#portrait=downcast_eyes_closed]
 	do wait(1)
 	do princess_death_effect()
 	do wait(1)
@@ -190,7 +207,8 @@ do start_the_prisoner_fight()
 
 ~ after_defeat
 if Events.num_party_members >= 2
-	THE Prisoner: This isn't the last you'll see of me! [#portrait=angry]
+	THE Prisoner: This... this isn't the last you'll see of me! [#portrait=angry]
+	Princess: Yeah, yeah, whatever. [#portrait=suspicious]
 else
 	THE Prisoner: Don't give me that look. [#portrait=determined]
 	THE Prisoner: What are you still mad about? My betrayal? Hah! [#portrait=smirk]

@@ -4,7 +4,7 @@
 
 [resource]
 script = ExtResource("1_jxpg1")
-health = 5
-attack = 1
+health = 250
+attack = 10
 defense = 0
 metadata/_custom_type_script = "uid://bgdg8osb748gd"

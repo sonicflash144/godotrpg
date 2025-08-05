@@ -35,7 +35,7 @@ Princess: But look, I'm already kind of a fighter myself. [#portrait=smirk]
 => talked_loop
 
 ~ talked_loop
-Princess: Here, try hitting me. [#portrait=happy]
+Princess: Here, try attacking me. I bet you won't be able to land a hit! [#portrait=happy]
 => END
 
 ~ hit
@@ -68,12 +68,14 @@ Princess: DUDE! You can stop hitting me now. We're on the same team. [#portrait=
 => END
 
 ~ ghost_room
+do MusicManager.stop_music()
 do Events.set_flag("combat_room_2")
 Princess: AHHH! OH MY GOODNESS ARE THOSE MONSTERS??? [#portrait=shocked]
 do Events.dialogue_movement.emit("exit_ghost_room")
 set Events.num_party_members = 1
 do wait(1.5)
 do Events.currentRoom.combat_lock_room()
+do MusicManager.play_track(MusicManager.Track.DUNGEON)
 do wait(0.5)
 => END
 

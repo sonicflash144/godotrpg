@@ -1,7 +1,7 @@
 extends CanvasLayer
 
 @onready var player: CharacterBody2D = $"../Player"
-@onready var princess: CharacterBody2D = $"../Princess"
+@onready var princess: CharacterBody2D = get_node_or_null("../Princess")
 @onready var player_hbox: HBoxContainer = %PlayerHBox
 @onready var princess_hbox: HBoxContainer = %PrincessHBox
 @onready var weapon_hbox: HBoxContainer = %WeaponHBox
@@ -65,6 +65,7 @@ var unequip_armor_resource = load("res://Equipment/unequip_armor.tres")
 
 func _ready() -> void:
 	Events.controlsEnabled = false
+	DialogueManager.dialogue_started.connect(_on_dialogue_started)
 	selectSound.play()
 	if Events.num_party_members > 1 and not Events.princessDown:
 		characters = [player, princess]
@@ -255,7 +256,8 @@ func clear_inventory_list() -> void:
 func get_filtered_items(is_weapon_slot: bool) -> Array[Equipment]:
 	var all_equipped: Array[Equipment] = []
 	for current_char in [player, princess]:
-		all_equipped += current_char.equipment.filter(func(i): return i != null)
+		if current_char:
+			all_equipped += current_char.equipment.filter(func(i): return i != null)
 	
 	var filtered = all_equipment.filter(func(item: Equipment):
 		if all_equipped.has(item): return false
@@ -400,3 +402,7 @@ func equip_item(new_item: Equipment) -> void:
 	selected_character.update_stats()
 	refresh_equipped()
 	update_stats_display()
+
+func _on_dialogue_started(_resource: DialogueResource):
+	Events.menuOpen = false
+	queue_free()

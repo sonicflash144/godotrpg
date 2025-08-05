@@ -19,6 +19,7 @@ extends Node2D
 @onready var PuzzleRoom2: DungeonRoom = $PuzzleRoom2
 @onready var princessFollowCheck2 = $PuzzleRoom2/PrincessFollowCheck2
 @onready var DoorRoom: DungeonRoom = $DoorRoom
+@onready var doorRoomDialogueBarrierCollisionShape = $DoorRoom/DoorRoomDialogueBarrier/CollisionShape2D
 
 @export var markers: Array[Marker2D]
 
@@ -46,12 +47,15 @@ func _ready() -> void:
 		princess.position = save_position
 	elif Events.player_transition == "up":
 		player.global_position = goBackdialogueBarrier.global_position + Vector2(0, -16)
+		princess.global_position = goBackdialogueBarrier.global_position + Vector2(0, 16)
 		player.movement_component.update_animation_direction(Vector2.UP)
 	
 	await get_tree().process_frame
 	
 	if Events.get_flag("met_shopkeeper"):
 		remove_shopkeeper_dialogue_barrier()
+		
+	MusicManager.play_track(MusicManager.Track.DUNGEON)
 	
 func _physics_process(_delta: float) -> void:
 	last_valid_position = player.global_position
@@ -98,7 +102,7 @@ func blacksmith_fix_armor():
 	var hammerSound = blacksmith.get_node_or_null("Hammer")
 	animatedSprite.play("Start")
 	hammerSound.play()
-	overpricedArmor.defense = 3
+	overpricedArmor.defense = 4
 	player.update_stats()
 	princess.update_stats()
 
@@ -118,6 +122,7 @@ func _on_room_locked(room):
 			dialogueRoomManager.dialogue("THE_prisoner_after_blacksmith")
 	elif room == DoorRoom:
 		dialogueRoomManager.dialogue("door")
+		doorRoomDialogueBarrierCollisionShape.set_deferred("disabled", false)
 	
 func _on_player_died():
 	await get_tree().create_timer(1).timeout

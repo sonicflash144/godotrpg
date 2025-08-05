@@ -4,7 +4,7 @@
 
 [resource]
 script = ExtResource("1_iabhb")
-health = 10
-attack = 1
+health = 25
+attack = 6
 defense = 0
 metadata/_custom_type_script = "uid://bgdg8osb748gd"

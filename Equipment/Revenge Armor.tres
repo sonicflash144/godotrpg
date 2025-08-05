@@ -5,9 +5,9 @@
 [resource]
 script = ExtResource("1_rs68p")
 attack = 0
-defense = 2
+defense = 3
 ability = "Revenge"
 name = "Revenge Armor"
-description = "When a party member is down, the other will do increased damage."
 type = 2
+description = "When a party member is down, the other will do increased damage."
 metadata/_custom_type_script = "uid://dm55vrrn5ygm2"

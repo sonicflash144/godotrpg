@@ -17,15 +17,16 @@ var is_invincible := false
 var collider_disabled := false
 
 func _ready() -> void:
-	update_hurtbox_properties()
-
-func update_hurtbox_properties():
 	if get_parent().is_in_group("Player") or get_parent().is_in_group("Princess"):
 		invincibilityTime = 1.0
 		HurtSound = load("res://Music and Sounds/player_hurt_sound.tscn")
 	elif get_parent().is_in_group("Enemy"):
 		invincibilityTime = 0.2
 		HurtSound = load("res://Music and Sounds/player_hit_sound.tscn")
+
+func update_hurtbox_properties():
+	invincibilityTime = 0.2
+	HurtSound = load("res://Music and Sounds/player_hit_sound.tscn")
 		
 func disable_collider():
 	is_invincible = true
@@ -96,6 +97,5 @@ func _on_area_entered(area: Area2D) -> void:
 		var movement_component = get_node_or_null("../Movement_Component")
 		var direction = movement_component.animation_tree.get("parameters/Run/blend_position")
 		trigger_knockback.emit(-direction)
-		print(-direction)
 	else:
 		trigger_knockback.emit(area.knockback_vector)

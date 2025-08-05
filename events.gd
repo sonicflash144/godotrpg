@@ -55,7 +55,14 @@ var playerDown := false
 var princessDown := false
 var playerDead := false
 
+var THE_prisoner_fight_started := false
+var king_fight_started := false
+
 var debug_autocomplete := false
+
+var playerEquipment: Array[Equipment]
+var princessEquipment: Array[Equipment]
+var storage: Array[Equipment]
 
 var equipment_abilities: Dictionary[String, bool] = {
 	"Multishot": false,
@@ -66,7 +73,7 @@ var equipment_abilities: Dictionary[String, bool] = {
 }
 
 func _ready() -> void:
-	#load_game()
+	load_game()
 	
 	LimboConsole.register_command(set_flag, "set_flag", "Set value for GAME_STATE flag")
 	LimboConsole.add_argument_autocomplete_source("set_flag", 0,
@@ -85,7 +92,7 @@ func _ready() -> void:
 		func(): return ["Better Bow", "Icy Sword", "Iron Sword", "Lucky Armor", "Multi Bow", "Overpriced Armor", "Revenge Armor", "Speedy Armor"]
 	)
 
-func save_game(player_position: Vector2, player_equipment: Array[String], princess_equipment: Array[String], storage: Array[String]):
+func save_game(player_position: Vector2, player_equipment: Array[String], princess_equipment: Array[String], saved_storage: Array[String]):
 	var saveSound = SaveSound.instantiate()
 	get_tree().current_scene.add_child(saveSound)
 	
@@ -96,7 +103,7 @@ func save_game(player_position: Vector2, player_equipment: Array[String], prince
 		"flags": GAME_STATE.flags.duplicate(true),
 		"player_equipment": player_equipment,
 		"princess_equipment": princess_equipment,
-		"storage": storage
+		"storage": saved_storage
 	}
 	var file = FileAccess.open(SAVE_PATH, FileAccess.WRITE)
 	if file:
@@ -125,11 +132,18 @@ func load_game():
 	else:
 		push_error("Error loading game: %s" % FileAccess.get_open_error())
 
+func store_equipment(player_equipment: Array[Equipment], princess_equipment: Array[Equipment], saved_storage: Array[Equipment]):
+	playerEquipment = player_equipment.duplicate()
+	princessEquipment = princess_equipment.duplicate()
+	storage = saved_storage.duplicate()
+
 func set_flag(flag_name: String, value = true):
 	GAME_STATE.flags[Events.currentScene][flag_name] = value
 
-func get_flag(flag_name: String):
-	return GAME_STATE.flags[Events.currentScene].get(flag_name, false)
+func get_flag(flag_name: String, scene_name := ""):
+	if not scene_name:
+		scene_name = Events.currentScene
+	return GAME_STATE.flags[scene_name].get(flag_name, false)
 
 func heal():
 	console_heal.emit()

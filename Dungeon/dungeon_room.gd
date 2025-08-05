@@ -224,7 +224,9 @@ func _on_player_detector_body_exited(body: Node2D) -> void:
 		deactivate_lasers()
 
 func _on_room_detector_body_entered(body: Node2D) -> void:
-	if Events.num_party_members == 1 and body.is_in_group("Princess"):
+	if Events.num_party_members == 1 and not body.is_in_group("Player"):
+		return
+	elif Events.num_party_members == 2 and not body.is_in_group("Player") and not body.is_in_group("Princess"):
 		return
 		
 	players_in_room[body.get_instance_id()] = true
@@ -238,7 +240,9 @@ func _on_room_detector_body_entered(body: Node2D) -> void:
 		puzzle_lock_room()
 		
 func _on_room_detector_body_exited(body: Node2D) -> void:
-	if Events.num_party_members == 1 and body.is_in_group("Princess"):
+	if Events.num_party_members == 1 and not body.is_in_group("Player"):
+		return
+	elif Events.num_party_members == 2 and not body.is_in_group("Player") and not body.is_in_group("Princess"):
 		return
 		
 	players_in_room.erase(body.get_instance_id())

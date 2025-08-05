@@ -4,10 +4,10 @@
 
 [resource]
 script = ExtResource("1_trk2u")
-attack = 1
+attack = 4
 defense = 0
 ability = ""
 name = "Abandoned Sword"
-description = "Sword left behind by a guard who probably wasn't very good at using it anyway."
 type = 0
+description = "Sword left behind by a guard who probably wasn't very good at using it anyway."
 metadata/_custom_type_script = "uid://dm55vrrn5ygm2"

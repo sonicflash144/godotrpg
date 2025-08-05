@@ -49,7 +49,8 @@ func _unhandled_key_input(event: InputEvent) -> void:
 func open_menu():
 	Events.menuOpen = true
 	var menuScene = MenuScene.instantiate()
-	get_tree().current_scene.add_child(menuScene)
+	if get_tree().current_scene:
+		get_tree().current_scene.add_child(menuScene)
 
 func swap_controlled_player():
 	Events.is_player_controlled = not Events.is_player_controlled
@@ -98,10 +99,10 @@ func _on_room_un_combat_locked():
 		player.get_node("Follow_Component").clear_path_history()
 		princess.get_node("Follow_Component").clear_path_history()
 	if Events.playerDown:
-		playerHealthComponent.heal(1)
+		playerHealthComponent.heal(8)
 		Events.playerDown = false
 	elif Events.princessDown:
-		princessHealthComponent.heal(1)
+		princessHealthComponent.heal(8)
 		Events.princessDown = false
 	playerCollider.set_deferred("disabled", false)
 	princessCollider.set_deferred("disabled", false)
@@ -134,3 +135,4 @@ func _on_princess_down(down: bool) -> void:
 
 func _on_swap_cooldown_timer_timeout() -> void:
 	can_swap_control = true
+	

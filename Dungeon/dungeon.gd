@@ -37,6 +37,8 @@ func _ready() -> void:
 	if not Events.deferred_load_data.is_empty() and Events.deferred_load_data.scene == "dungeon":
 		var save_position = Vector2(Events.deferred_load_data["player_x_pos"], Events.deferred_load_data["player_y_pos"])
 		player.position = save_position
+		
+	MusicManager.play_track(MusicManager.Track.DUNGEON)
 
 func _physics_process(_delta: float) -> void:
 	last_valid_position = player.global_position
@@ -76,7 +78,6 @@ func _on_player_died():
 	Events.set_flag("met_princess", false)
 	Events.set_flag("hit_princess", false)
 	Events.set_flag("combat_room_2", false)
-	princessHealthComponent.heal(2)
 	await get_tree().create_timer(1).timeout
 	TransitionHandler.console_fade_out("dungeon")
 
@@ -87,6 +88,7 @@ func _on_dialogue_movement(key: String):
 			return
 
 func _on_princess_hurtbox_area_entered(_area: Area2D) -> void:
+	princessHealthComponent.heal(princessHealthComponent.MAX_HEALTH)
 	if not Events.get_flag("hit_princess"):
 		dialogueRoomManager.dialogue("hit")
 	else:

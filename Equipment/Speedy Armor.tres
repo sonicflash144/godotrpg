@@ -5,9 +5,9 @@
 [resource]
 script = ExtResource("1_ed0jn")
 attack = 0
-defense = 3
+defense = 2
 ability = "Speed"
 name = "Speedy Armor"
-description = "Increases the party's movement speed by 20%."
 type = 2
+description = "Increases the party's movement speed by 25%."
 metadata/_custom_type_script = "uid://dm55vrrn5ygm2"

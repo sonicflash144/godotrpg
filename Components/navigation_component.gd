@@ -25,7 +25,6 @@ func _physics_process(_delta: float) -> void:
 		var cell_size = pathfindingManager.astar.cell_size
 		var world_pos = Vector2(cell) * cell_size + cell_size * 0.5
 		var direction = world_pos - character.global_position
-
 		# 2) advance when close
 		if direction.length() < 2.0:
 			astar_path.pop_front()

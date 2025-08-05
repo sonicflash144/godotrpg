@@ -4,10 +4,10 @@
 
 [resource]
 script = ExtResource("1_ex8qw")
-attack = 1
+attack = 4
 defense = 0
 ability = ""
 name = "Toy Bow"
-description = "A flimsy toy bow. Impressively, still does real damage!"
 type = 1
+description = "A flimsy toy bow. Impressively, still does real damage!"
 metadata/_custom_type_script = "uid://dm55vrrn5ygm2"

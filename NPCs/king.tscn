@@ -1,4 +1,4 @@
-[gd_scene load_steps=84 format=3 uid="uid://bw4wwxrd1sb2w"]
+[gd_scene load_steps=85 format=3 uid="uid://bw4wwxrd1sb2w"]
 
 [ext_resource type="Script" uid="uid://bpmgmfigi2qe3" path="res://NPCs/king.gd" id="1_1l4t8"]
 [ext_resource type="Resource" uid="uid://cilsh03mua61j" path="res://Stats/king_stats.tres" id="2_1l4t8"]
@@ -8,6 +8,7 @@
 [ext_resource type="PackedScene" uid="uid://bhc7gpvpcip7x" path="res://Components/navigation_component.tscn" id="6_mj4g2"]
 [ext_resource type="PackedScene" uid="uid://hfj2qrgqwdms" path="res://Enemies/wander_controller.tscn" id="6_rj2o2"]
 [ext_resource type="Texture2D" uid="uid://byvord73r1ygq" path="res://NPCs/Sprites/king.png" id="6_t4kj3"]
+[ext_resource type="PackedScene" uid="uid://gh2hmf87o2ox" path="res://Enemies/sword_slow_controller.tscn" id="7_al0la"]
 [ext_resource type="Texture2D" uid="uid://c00ibt0krps00" path="res://NPCs/Sprites/king attack.png" id="7_w48fi"]
 [ext_resource type="Texture2D" uid="uid://bwstnetqxdwjd" path="res://NPCs/Sprites/king defend.png" id="8_w48fi"]
 [ext_resource type="Texture2D" uid="uid://bqf0f8gigr3in" path="res://NPCs/Sprites/king slash.png" id="9_024li"]
@@ -34,7 +35,7 @@ radius = 3.0
 height = 8.0
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_gbfbk"]
-size = Vector2(8, 13)
+size = Vector2(9, 13)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_024li"]
 size = Vector2(6, 8)
@@ -1513,6 +1514,8 @@ bossAnimation = true
 [node name="WanderController" parent="." instance=ExtResource("6_rj2o2")]
 wander_range = 64
 
+[node name="SwordSlowController" parent="." instance=ExtResource("7_al0la")]
+
 [node name="Sprite2D_RunIdle" type="Sprite2D" parent="."]
 material = SubResource("ShaderMaterial_ic0uy")
 position = Vector2(0, -5)
@@ -1594,15 +1597,18 @@ libraries = {
 
 [node name="AttackSound" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("10_t4kj3")
+volume_db = -12.0
 
 [node name="DefendSound" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("11_1l4t8")
+volume_db = -12.0
 
 [node name="SlashSound" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("16_7s780")
+volume_db = -6.0
 
 [node name="AttackTimer" type="Timer" parent="."]
-wait_time = 4.0
+wait_time = 3.0
 
 [node name="SpearTimer" type="Timer" parent="."]
 wait_time = 2.0

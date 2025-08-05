@@ -4,17 +4,14 @@ extends CharacterBody2D
 @onready var movement_component: Movement_Component = $Movement_Component
 @onready var navigation_component: Navigation_Component = $Navigation_Component
 @onready var wanderController = $WanderController
+@onready var swordSlowController = $SwordSlowController
 @onready var slashHitbox: Hitbox = $SlashHitbox
 @onready var attack_timer = $AttackTimer
+@onready var spear_timer = $SpearTimer
 @onready var attackSound: AudioStreamPlayer = $AttackSound
 @onready var defendSound: AudioStreamPlayer = $DefendSound
 @onready var slashSound: AudioStreamPlayer = $SlashSound
 @onready var marker = $"../arena_center"
-
-# --- MODIFICATION START ---
-# Add the new SpearTimer node. Ensure you have created this timer in the editor.
-@onready var spear_timer = $SpearTimer
-# --- MODIFICATION END ---
 
 @onready var player: CharacterBody2D = $"../Player"
 @onready var princess: CharacterBody2D = $"../Princess"
@@ -30,6 +27,7 @@ enum {
 	WANDER
 }
 var state = NAV
+var MAX_SPEED := 80.0
 var current_attack_animation: String
 var is_enraged := false
 var has_attacked_in_state := false
@@ -64,11 +62,20 @@ func _physics_process(_delta: float) -> void:
 			movement_component.move(direction)
 	
 	var health_percentage = health_component.get_health_percentage()
-	if health_percentage < 0.25 and not is_enraged:
+	if state != NAV and health_percentage < 0.25 and not is_enraged:
 		is_enraged = true
-		spear_timer.start()
+		if spear_timer:
+			spear_timer.start()
+		else:
+			set_nav_state()
+
+func slow_enemy():
+	swordSlowController.slow_enemy()
 
 func attack_state():
+	if health_component.get_health_percentage() <= 0:
+		return
+		
 	var player_position = get_target_player().global_position
 	var direction_to_player = global_position.direction_to(player_position)
 	
@@ -195,7 +202,10 @@ func shoot_tornado() -> void:
 			var spawn_position = global_position + direction * 16.0
 			spawn_tornado_instance(target, spawn_position)
 			await get_tree().create_timer(0.8).timeout
-			
+		if attack_timer:
+			attack_timer.start()
+		else:
+			set_nav_state()
 	else:
 		var spawn_position = global_position + snapped_direction * 16.0
 		spawn_tornado_instance(target, spawn_position)
@@ -235,8 +245,10 @@ func update_wander_timer():
 	wanderController.start_wander_timer(randf_range(1.0, 2.0))
 
 func handle_death(_area_name: String) -> void:
-	attack_timer.stop()
-	spear_timer.stop()
+	if not attack_timer:
+		return
+	attack_timer.queue_free()
+	spear_timer.queue_free()
 	set_nav_state()
 	
 	for spear in spawned_spears:
@@ -248,7 +260,7 @@ func handle_death(_area_name: String) -> void:
 		
 	Events.combat_locked = false
 	Events.emit_signal("room_un_combat_locked")
-	get_parent().dialogueRoomManager.dialogue("after_defeat")
+	get_parent().after_king_fight()
 
 func set_nav_state():
 	state = NAV
@@ -258,7 +270,10 @@ func set_attack_state():
 	state = IDLE
 	navigation_component.update_physics_process()
 	wanderController.update_start_position(marker.global_position)
-	attack_timer.start()
+	if attack_timer:
+		attack_timer.start()
+	else:
+		set_nav_state()
 
 func get_target_player():
 	return player if Events.is_player_controlled else princess

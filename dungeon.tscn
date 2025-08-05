@@ -92,9 +92,6 @@ tile_map_data = PackedByteArray("AAAAAAAAAQACAAoAAAAAAAEAAQACAAoAAAAAAAIAAQACAAo
 [node name="enter_ghost_room" type="Marker2D" parent="CombatRoom2"]
 position = Vector2(152, 176)
 
-[node name="Ghost1" parent="CombatRoom2" instance=ExtResource("11_7wc3a")]
-position = Vector2(184, 88)
-
 [node name="Ghost2" parent="CombatRoom2" instance=ExtResource("11_7wc3a")]
 position = Vector2(72, 144)
 

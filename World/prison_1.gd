@@ -27,6 +27,8 @@ func _ready() -> void:
 	await get_tree().process_frame
 	if Events.get_flag("ate_sandwich"):
 		sandwich.queue_free()
+		
+	MusicManager.play_track(MusicManager.Track.HALL)
 
 func eat_sandwich():
 	sandwich.queue_free()

@@ -18,15 +18,15 @@ func console_reload():
 	Events.load_game()
 	LimboConsole.close_console()
 
-func console_fade_in(scene_name: String):
+func console_fade_in(scene_name: String, duration := 0.8):
 	var scene_path = "res://%s.tscn" % scene_name
 	Events.currentScene = scene_name
-	fade_in(scene_path)
+	fade_in(scene_path, duration)
 
-func console_fade_out(scene_name: String):
+func console_fade_out(scene_name: String, duration := 0.8):
 	var scene_path = "res://%s.tscn" % scene_name
 	Events.currentScene = scene_name
-	fade_out(scene_path)
+	fade_out(scene_path, duration)
 	LimboConsole.close_console()
 
 func fade_out(to, duration := 0.8):

@@ -4,10 +4,10 @@
 
 [resource]
 script = ExtResource("1_lgsy3")
-attack = 2
+attack = 9
 defense = 0
 ability = ""
 name = "Better Bow"
-description = "A better bow for boisterous battlers."
 type = 1
+description = "A better bow for boisterous battlers."
 metadata/_custom_type_script = "uid://dm55vrrn5ygm2"

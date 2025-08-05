@@ -4,10 +4,10 @@
 
 [resource]
 script = ExtResource("1_shpsb")
-attack = 2
+attack = 8
 defense = 0
 ability = ""
 name = "Iron Sword"
-description = "Sharp and shiny-looking. Might even be as good as the one from Minecraft."
 type = 0
+description = "Sharp and shiny-looking. Might even be as good as the one from Minecraft."
 metadata/_custom_type_script = "uid://dm55vrrn5ygm2"

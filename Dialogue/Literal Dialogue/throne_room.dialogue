@@ -11,7 +11,7 @@ if Events.num_party_members >= 2
 	King: Daughter. [#portrait=neutral_closed_mouth]
 	King: What did I say about leaving your room? And who is this trash heap you have bought into the palace? [#portrait=neutral]
 	Princess: Actually, Dad, he's my friend, not a trash heap. [#portrait=determined]
-	Princess: And friends of mine don't deserve to be rotting in the dungeon, wouldn't you agree? [#portrait=neutral]
+	Princess: And friends of mine don't deserve to be rotting in the [color=yellow]DUNGEON[/color], wouldn't you agree? [#portrait=neutral]
 	King: Foolish daughter. [#portrait=angry_closed_mouth]
 	King: If you're so determined to stand by him, then die with him too! [#portrait=angry]
 else

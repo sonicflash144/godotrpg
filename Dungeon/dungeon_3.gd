@@ -10,9 +10,6 @@ extends Node2D
 @onready var playerHitbox: Hitbox = $Player/HitboxPivot/SwordHitbox
 @onready var princessHealthComponent: Health_Component = $Princess/Health_Component
 @onready var princessHurtbox: Hurtbox = $Princess/Hurtbox
-@onready var THE_PrisonerHurtbox: Hurtbox = $ThePrisoner/Hurtbox
-@onready var THE_PrisonerHurtboxCollisionShape = $ThePrisoner/Hurtbox/CollisionShape2D
-@onready var THE_PrisonerHitboxCollisionShape = $ThePrisoner/Hitbox/CollisionShape2D
 
 @onready var goBackdialogueBarrier: DialogueBarrier = $StartRoom/GoBackDialogueBarrier
 @onready var CampfireRoom: DungeonRoom = $CampfireRoom
@@ -21,7 +18,6 @@ extends Node2D
 @onready var pin2 = $LaserRoom2/JugglingPin2
 @onready var pin3 = $ThePrisonerRoom/JugglingPin3
 @onready var ThePrisonerRoom: DungeonRoom = $ThePrisonerRoom
-@onready var ThePrisonerFollowCheck: DialogueBarrier = $ThePrisonerRoom/ThePrisonerFollowCheck
 @onready var PuzzleRoom1: DungeonRoom = $PuzzleRoom1
 @onready var princessFollowCheck1: DialogueBarrier = $PuzzleRoom1/PrincessFollowCheck1
 @onready var savePoint2 = $ChestRoom/SavePoint2/Marker2D
@@ -29,10 +25,12 @@ extends Node2D
 @onready var door = $DoorRoom/Door
 @onready var doorDialogueZone = $DoorRoom/Door/DoorDialogueZone/CollisionShape2D
 @onready var doorRoomDialogueBarrierCollisionShape = $DoorRoom/DialogueBarrier/CollisionShape2D
+@onready var THE_PrisonerMarker = $DoorRoom/THE_prisoner_enter_door_room
 
 @export var markers: Array[Marker2D]
 
 var DeathEffect = preload("res://Effects/death_effect.tscn")
+var CombatLockSound = load("res://Music and Sounds/combat_lock_sound.tscn")
 
 var last_valid_position: Vector2
 var num_pins_collected := 0
@@ -43,7 +41,13 @@ func _ready() -> void:
 	Events.playerDead = false
 	Events.combat_locked = false
 	Events.player_has_sword = true
-	Events.num_party_members = 2
+	if Events.THE_prisoner_fight_started and Events.num_party_members == 1:
+		if princess:
+			princess.queue_free()
+		princessHealthUI.visible = false
+		Events.princessDown = true
+	else:
+		Events.num_party_members = 2
 	Events.is_player_controlled = true
 	
 	Events.room_locked.connect(_on_room_locked)
@@ -55,13 +59,19 @@ func _ready() -> void:
 	if not Events.deferred_load_data.is_empty() and Events.deferred_load_data.scene == "dungeon_3":
 		var save_position = Vector2(Events.deferred_load_data["player_x_pos"], Events.deferred_load_data["player_y_pos"])
 		player.position = save_position
-		princess.position = save_position
-		if Events.get_flag("met_THE_prisoner"):
+		if princess:
+			princess.position = save_position
+			
+		if Events.THE_prisoner_fight_started:
+			THE_Prisoner.global_position = THE_PrisonerMarker.global_position
+			THE_Prisoner.set_nav_state()
+		elif Events.get_flag("met_THE_prisoner"):
 			Events.num_party_members = 3
 			THE_Prisoner.position = save_position
 			THE_Prisoner.set_follow_state()
 	elif Events.player_transition == "up":
 		player.global_position = goBackdialogueBarrier.global_position + Vector2(0, -16)
+		princess.global_position = goBackdialogueBarrier.global_position + Vector2(0, 16)
 		player.movement_component.update_animation_direction(Vector2.UP)
 	
 	await get_tree().process_frame
@@ -76,18 +86,17 @@ func _ready() -> void:
 		pin3.queue_free()
 		num_pins_collected += 1
 	
-	princess.navigation_component.target_reached.connect(_on_dialogue_movement_finished)
+	if princess:
+		princess.navigation_component.target_reached.connect(_on_dialogue_movement_finished)
 	THE_Prisoner.navigation_component.target_reached.connect(_on_dialogue_movement_finished)
+	
+	MusicManager.play_track(MusicManager.Track.DUNGEON)
 	
 func _physics_process(_delta: float) -> void:
 	last_valid_position = player.global_position
 	
 func dialogue_barrier(key: String):
-	if key == "THE_prisoner_follow_check":
-		Events.num_party_members = 3
-		THE_Prisoner.set_follow_state()
-		ThePrisonerFollowCheck.queue_free()
-	elif key == "princess_follow_check_1":
+	if key == "princess_follow_check_1":
 		if PuzzleRoom1.roomCompleted:
 			princess.set_follow_state()
 			princessFollowCheck1.queue_free()
@@ -128,24 +137,31 @@ func take_pin_3():
 	Events.set_flag("pin_3")
 	pin3.queue_free()
 
+func THE_prisoner_join_party():
+	Events.num_party_members = 3
+	THE_Prisoner.set_follow_state()
+
 func start_the_prisoner_fight():
-	THE_Prisoner.add_to_group("Enemy")
-	THE_PrisonerHurtbox.update_hurtbox_properties()
-	THE_PrisonerHurtboxCollisionShape.set_deferred("disabled", false)
-	THE_PrisonerHitboxCollisionShape.set_deferred("disabled", false)
+	if THE_Prisoner.health_component.get_health_percentage() <= 0:
+		return
+		
 	if princess:
 		princess.set_follow_state()
-	Events.currentRoom.combat_lock_room()
-	Events.currentRoom.register_new_enemy(THE_Prisoner)
+	Events.THE_prisoner_fight_started = true
+	Events.combat_locked = true
+	Events.emit_signal("room_combat_locked")
+	var combatLockSound = CombatLockSound.instantiate()
+	get_tree().current_scene.add_child(combatLockSound)
+	Events.currentRoom.activate_spikes()
 	THE_Prisoner.set_attack_state()
+	MusicManager.play_track(MusicManager.Track.COMBAT)
 
 func after_the_prisoner_fight():
 	Events.set_flag("after_THE_prisoner_fight")
-	THE_PrisonerHurtboxCollisionShape.set_deferred("disabled", true)
-	THE_PrisonerHitboxCollisionShape.set_deferred("disabled", true)
 	doorDialogueZone.set_deferred("disabled", false)
 	doorRoomDialogueBarrierCollisionShape.set_deferred("disabled", false)
 	dialogueRoomManager.dialogue("after_defeat", "bottom", true)
+	MusicManager.stop_music()
 
 func kill_princess():
 	princessHurtbox.set_collision_mask_value(7, true)
@@ -155,6 +171,7 @@ func kill_princess():
 	
 	await get_tree().create_timer(1).timeout
 	Events.inCutscene = true
+	
 	player.stats.attack += princess.stats.health
 	playerHitbox.update_damage()
 	player.attack_state()
@@ -165,6 +182,7 @@ func princess_death_effect():
 	var deathEffect = DeathEffect.instantiate()
 	get_tree().current_scene.add_child(deathEffect)
 	deathEffect.global_position = princess.global_position
+	Events.update_equipment_abilities(player.equipment)
 
 func open_door():
 	door.open_door()
@@ -174,13 +192,18 @@ func _on_room_locked(room):
 		dialogueRoomManager.dialogue("campfire")
 	elif room == ThePrisonerRoom and not Events.get_flag("met_THE_prisoner"):
 		dialogueRoomManager.dialogue("THE_prisoner")
+	elif room == DoorRoom and Events.THE_prisoner_fight_started and not Events.combat_locked:
+		start_the_prisoner_fight()
 	elif room == DoorRoom and not Events.get_flag("before_THE_prisoner_fight"):
 		Events.num_party_members = 2
 		dialogueRoomManager.dialogue("before_THE_prisoner_fight", "bottom")
 	
 func _on_player_died():
 	await get_tree().create_timer(1).timeout
-	Events.load_game()
+	if Events.THE_prisoner_fight_started and Events.deferred_load_data["scene"] == "dungeon_3":
+		TransitionHandler.console_fade_out("dungeon_3")
+	else:
+		Events.load_game()
 
 func _on_dialogue_movement(key: String, character := "princess", direction := Vector2.ZERO, ended_signal := false):
 	for marker in markers:

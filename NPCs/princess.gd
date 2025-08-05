@@ -21,7 +21,7 @@ var arrow = load("res://NPCs/arrow.tscn")
 
 func _ready() -> void:
 	follow_component.set_target(player)
-	if Events.deferred_load_data.is_empty():
+	if Events.deferred_load_data.is_empty() or Events.deferred_load_data["scene"] != Events.currentScene:
 		update_stats()
 
 func _physics_process(_delta: float) -> void:
@@ -44,6 +44,11 @@ func _physics_process(_delta: float) -> void:
 func update_stats():
 	stats.attack = 0
 	stats.defense = 0
+		
+	if not Events.princessEquipment.is_empty():
+		equipment = Events.princessEquipment.duplicate()
+		Events.princessEquipment.clear()
+	
 	for item in equipment:
 		stats.attack += item.attack
 		stats.defense += item.defense

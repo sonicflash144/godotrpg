@@ -4,6 +4,11 @@ extends CharacterBody2D
 @onready var movement_component: Movement_Component = $Movement_Component
 @onready var follow_component: Follow_Component = $Follow_Component
 @onready var navigation_component: Navigation_Component = $Navigation_Component
+@onready var swordSlowController = $SwordSlowController
+@onready var hurtbox: Hurtbox = $Hurtbox
+@onready var hurtboxCollisionShape = $Hurtbox/CollisionShape2D
+@onready var hitbox: Hitbox = $Hitbox
+@onready var hitboxCollisionShape = $Hitbox/CollisionShape2D
 @onready var wanderController = $WanderController
 @onready var attack_timer: Timer = $AttackTimer
 @onready var marker = get_node_or_null("../DoorRoom/THE_prisoner_enter_door_room")
@@ -22,12 +27,15 @@ enum {
 	WANDER
 }
 var state = NAV
+var MAX_SPEED: float
+var WANDER_SPEED: float
 var currentAttack := "bomb"
 var has_attacked_in_state := false
 var spawned_bombs: Array[Area2D] = []
 var spawned_ninja_stars: Array[Area2D] = []
 var bomb_scene = load("res://NPCs/bomb.tscn")
 var ninja_star_scene = load("res://NPCs/ninja_star.tscn")
+var CombatLockSound = load("res://Music and Sounds/combat_lock_sound.tscn")
 
 func _ready() -> void:
 	follow_component.set_target(princess)
@@ -39,7 +47,7 @@ func _physics_process(_delta: float) -> void:
 		FOLLOW:
 			follow_component.follow()
 		NAV:
-			navigation_component.update_physics_process()		
+			navigation_component.update_physics_process()
 		IDLE:
 			movement_component.move(Vector2.ZERO)
 			if wanderController.get_time_left() == 0:
@@ -51,7 +59,10 @@ func _physics_process(_delta: float) -> void:
 			var direction = global_position.direction_to(wanderController.target_position)
 			movement_component.move(direction)
 
-func attack_state():
+func slow_enemy():
+	swordSlowController.slow_enemy()
+
+func attack_state():		
 	movement_component.move(Vector2.ZERO, movement_component.MAX_SPEED, "Attack")
 	
 	if not has_attacked_in_state:
@@ -150,15 +161,26 @@ func update_wander_timer():
 	wanderController.start_wander_timer(randf_range(1.0, 2.0))
 
 func handle_death(_area_name: String) -> void:
-	attack_timer.stop()
+	if not attack_timer:
+		return
+	attack_timer.queue_free()
 	set_nav_state()
+	hitbox.set_collision_layer_value(8, false)
+	hitbox.set_collision_mask_value(3, false)
+	hitbox.set_collision_mask_value(9, false)
+	
 	for bomb in spawned_bombs:
 		if is_instance_valid(bomb):
 			bomb.queue_free()
 	for ninja_star in spawned_ninja_stars:
 		if is_instance_valid(ninja_star):
 			ninja_star.queue_free()
-			
+	
+	Events.combat_locked = false
+	Events.emit_signal("room_un_combat_locked")
+	var combatLockSound = CombatLockSound.instantiate()
+	get_tree().current_scene.add_child(combatLockSound)
+	Events.currentRoom.deactivate_spikes()
 	get_parent().after_the_prisoner_fight()
 
 func set_follow_state():
@@ -173,7 +195,13 @@ func set_attack_state():
 	state = IDLE
 	navigation_component.update_physics_process()
 	wanderController.update_start_position(marker.global_position)
-	attack_timer.start()
+	hitboxCollisionShape.set_deferred("disabled", false)
+	hurtboxCollisionShape.set_deferred("disabled", false)
+	hurtbox.update_hurtbox_properties()
+	if attack_timer:
+		attack_timer.start()
+	else:
+		set_nav_state()
 	
 func get_target_player():
 	return player if Events.is_player_controlled else princess

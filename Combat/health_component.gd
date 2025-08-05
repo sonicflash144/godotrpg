@@ -10,7 +10,7 @@ var healthUI: Health_UI
 var DeathEffect: PackedScene
 var invincible := false
 
-const REVENGE_DAMANGE_MULTIPLIER := 2
+const REVENGE_DAMANGE_MULTIPLIER := 1.5
 
 func _ready() -> void:
 	MAX_HEALTH = get_parent().stats.health
@@ -57,6 +57,7 @@ func damage(base_damage: int, area_name: String):
 	var adjusted_damage = base_damage
 	if get_parent().is_in_group("Enemy") and Events.equipment_abilities["Revenge"] and (Events.playerDown or Events.princessDown):
 		adjusted_damage *= REVENGE_DAMANGE_MULTIPLIER
+		adjusted_damage = roundi(adjusted_damage)
 	if area_name != "LaserHitbox":
 		adjusted_damage = clamp(adjusted_damage - get_parent().stats.defense, 0, INF)
 	health -= adjusted_damage

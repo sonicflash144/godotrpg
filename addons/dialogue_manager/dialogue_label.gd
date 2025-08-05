@@ -66,7 +66,17 @@ var _last_wait_index: int = -1
 var _last_mutation_index: int = -1
 var _waiting_seconds: float = 0
 var _is_awaiting_mutation: bool = false
+var _shake_effect = preload("res://UI/rich_text_shake.gd").new()
 
+func _ready():
+	# Check if the effect is already added to prevent duplicates, especially in the editor.
+	var found = false
+	for effect in custom_effects:
+		if effect is RichTextShake:
+			found = true
+			break
+	if not found:
+		custom_effects.append(_shake_effect)
 
 func _process(delta: float) -> void:
 	if self.is_typing:
@@ -121,6 +131,10 @@ func skip_typing() -> void:
 	var unskippable_tag = dialogue_line.get_tag_value("unskippable")
 	if unskippable_tag:
 		return
+	# If any speed modifier is not 1, treat as unskippable
+	for speed in dialogue_line.speeds.values():
+		if speed != 1.0:
+			return
 	_mutate_remaining_mutations()
 	visible_characters = get_total_character_count()
 	self.is_typing = false
