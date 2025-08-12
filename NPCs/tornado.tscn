@@ -42,10 +42,10 @@ animations = [{
 }]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_xlt4l"]
-size = Vector2(8, 20)
+size = Vector2(8, 16)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_laksj"]
-size = Vector2(8, 20)
+size = Vector2(8, 16)
 
 [node name="Tornado" type="Area2D"]
 collision_layer = 128
@@ -54,23 +54,23 @@ script = ExtResource("1_vhpls")
 stats = ExtResource("2_vhpls")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+position = Vector2(0, -9)
 sprite_frames = SubResource("SpriteFrames_34lb6")
 autoplay = "default"
 frame = 1
 frame_progress = 0.354672
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-visible = false
-position = Vector2(0, 6)
+position = Vector2(0, -5)
 shape = SubResource("RectangleShape2D_xlt4l")
 
 [node name="TornadoHitbox" parent="." instance=ExtResource("4_6appl")]
-visible = false
+position = Vector2(0, -9)
 collision_layer = 128
 collision_mask = 260
 
 [node name="CollisionShape2D" parent="TornadoHitbox" index="0"]
-position = Vector2(0, 6)
+position = Vector2(0, 4)
 shape = SubResource("RectangleShape2D_laksj")
 
 [connection signal="area_entered" from="." to="." method="_on_area_entered"]

@@ -36,6 +36,7 @@ var slash_target_position: Vector2
 var spawned_spears: Array[Area2D] = []
 var spawned_tornadoes: Array[Area2D] = []
 var SPEAR_SCENE = load("res://NPCs/spear.tscn")
+var WARNING_SCENE = load("res://NPCs/warning.tscn")
 var TORNADO_SCENE = load("res://NPCs/tornado.tscn")
 
 func _physics_process(_delta: float) -> void:
@@ -176,6 +177,16 @@ func spawn_spear_instance(target: CharacterBody2D, target_pos: Vector2, directio
 	spawned_spears.append(spear_instance)
 	spawned_spears = spawned_spears.filter(func(s): return is_instance_valid(s))
 
+func spawn_warning_then_tornado(target: CharacterBody2D, spawn_position: Vector2) -> void:
+	var warning_instance = WARNING_SCENE.instantiate()
+	get_tree().current_scene.add_child(warning_instance)
+	warning_instance.global_position = spawn_position
+	
+	if warning_instance.has_signal("animation_finished"):
+		await warning_instance.animation_finished
+	
+	spawn_tornado_instance(target, spawn_position)
+
 func shoot_tornado() -> void:
 	attackSound.play()
 
@@ -200,7 +211,7 @@ func shoot_tornado() -> void:
 
 		for direction in directions:
 			var spawn_position = global_position + direction * 16.0
-			spawn_tornado_instance(target, spawn_position)
+			spawn_warning_then_tornado(target, spawn_position)
 			await get_tree().create_timer(0.8).timeout
 		if attack_timer:
 			attack_timer.start()
@@ -208,7 +219,7 @@ func shoot_tornado() -> void:
 			set_nav_state()
 	else:
 		var spawn_position = global_position + snapped_direction * 16.0
-		spawn_tornado_instance(target, spawn_position)
+		spawn_warning_then_tornado(target, spawn_position)
 
 func spawn_tornado_instance(target: CharacterBody2D, spawn_position: Vector2):
 	var tornado_instance = TORNADO_SCENE.instantiate()

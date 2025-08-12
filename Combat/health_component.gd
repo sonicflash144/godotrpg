@@ -55,7 +55,7 @@ func damage(base_damage: int, area_name: String):
 		return
 	
 	var adjusted_damage = base_damage
-	if get_parent().is_in_group("Enemy") and Events.equipment_abilities["Revenge"] and (Events.playerDown or Events.princessDown):
+	if get_parent().is_in_group("Enemy") and Events.equipment_abilities["Revenge"] and (Events.playerDown or Events.princessDown) and Events.num_party_members >= 2:
 		adjusted_damage *= REVENGE_DAMANGE_MULTIPLIER
 		adjusted_damage = roundi(adjusted_damage)
 	if area_name != "LaserHitbox":

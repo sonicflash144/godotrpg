@@ -186,8 +186,9 @@ func enter_state(new_state) -> void:
 			populate_inventory_list()
 			if onLoad:
 				onLoad = false
-				await get_tree().create_timer(0.1).timeout
-			update_pointer_position()
+				call_deferred("update_pointer_position")
+			else:
+				update_pointer_position()
 		SELECT_SLOT:
 			selected_character = characters[current_char_index]
 			refresh_equipped()

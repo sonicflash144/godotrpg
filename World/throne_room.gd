@@ -33,7 +33,7 @@ func start_king_fight():
 	Events.combat_locked = true
 	Events.emit_signal("room_combat_locked")
 	king.set_attack_state()
-	MusicManager.play_track(MusicManager.Track.COMBAT)
+	MusicManager.play_track(MusicManager.Track.KING)
 
 func after_king_fight():
 	dialogueRoomManager.dialogue("after_defeat")

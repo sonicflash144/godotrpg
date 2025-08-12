@@ -12,6 +12,8 @@ extends CharacterBody2D
 @onready var wanderController = $WanderController
 @onready var attack_timer: Timer = $AttackTimer
 @onready var marker = get_node_or_null("../DoorRoom/THE_prisoner_enter_door_room")
+@onready var attack_line: Line2D = $AttackLine
+@onready var camera = $"../DungeonCamera2D"
 
 @onready var player: CharacterBody2D = $"../Player"
 @onready var princess: CharacterBody2D = $"../Princess"
@@ -62,7 +64,7 @@ func _physics_process(_delta: float) -> void:
 func slow_enemy():
 	swordSlowController.slow_enemy()
 
-func attack_state():		
+func attack_state():        
 	movement_component.move(Vector2.ZERO, movement_component.MAX_SPEED, "Attack")
 	
 	if not has_attacked_in_state:
@@ -83,10 +85,40 @@ func attack_animation_finished():
 	elif currentAttack == "ninja star":
 		throw_ninja_star()
 
+func is_position_in_view(pos: Vector2) -> bool:
+	var margin_top := 32.0
+	var margin_left := 16.0
+	var margin_right := 16.0
+	var margin_bottom := 16.0
+	
+	var scaled_margin_top = margin_top / camera.zoom.y
+	var scaled_margin_left = margin_left / camera.zoom.x
+	var scaled_margin_right = margin_right / camera.zoom.x
+	var scaled_margin_bottom = margin_bottom / camera.zoom.y
+
+	var view_size = get_viewport().get_visible_rect().size / camera.zoom
+	var view_top_left = camera.global_position
+	var safe_area_pos = Vector2(
+		view_top_left.x + scaled_margin_left,
+		view_top_left.y + scaled_margin_top
+	)
+	var safe_area_size = Vector2(
+		view_size.x - scaled_margin_left - scaled_margin_right,
+		view_size.y - scaled_margin_top - scaled_margin_bottom
+	)
+	var safe_area_rect = Rect2(safe_area_pos, safe_area_size)
+	
+	if safe_area_size.x <= 0 or safe_area_size.y <= 0:
+		return false
+	
+	return safe_area_rect.has_point(pos)
+
 func throw_bomb():
 	var target = get_target_player()
 	var direct_direction = global_position.direction_to(target.global_position)
+	
 	if health_component.get_health_percentage() < 0.5:
+		# Enraged state: Throw up to 3 bombs
 		var angle_offset_rad = deg_to_rad(30.0)
 
 		var directions = [
@@ -98,16 +130,19 @@ func throw_bomb():
 		for i in range(directions.size()):
 			var throw_target_position
 			if i == 1:
-				# The second bomb is aimed directly at the player
 				throw_target_position = target.global_position
 			else:
-				# Calculate a target position along the spread direction
-				throw_target_position = global_position + directions[i] * 64 # Adjust distance as needed
+				throw_target_position = global_position + directions[i] * 64
 			
-			spawn_and_launch_bomb(direct_direction, throw_target_position)
-			await get_tree().create_timer(0.5).timeout # Stagger the throws
+			# Only throw the bomb if the target position is on screen.
+			if is_position_in_view(throw_target_position):
+				spawn_and_launch_bomb(direct_direction, throw_target_position)
+				await get_tree().create_timer(0.5).timeout
+
 	else:
-		spawn_and_launch_bomb(direct_direction, target.global_position)
+		var throw_target_position = target.global_position
+		spawn_and_launch_bomb(direct_direction, throw_target_position)
+
 
 func spawn_and_launch_bomb(direct_direction: Vector2, target_position: Vector2):
 	if state == NAV:
@@ -124,7 +159,11 @@ func spawn_and_launch_bomb(direct_direction: Vector2, target_position: Vector2):
 
 func throw_ninja_star(): 
 	var target = get_target_player()
+	if not is_instance_valid(target):
+		return
+
 	if health_component.get_health_percentage() < 0.5:
+		# Triple Shot
 		var base_direction = global_position.direction_to(target.global_position)
 		var angle_offset_rad = deg_to_rad(30.0)
 
@@ -136,11 +175,35 @@ func throw_ninja_star():
 		directions.shuffle()
 
 		for throw_direction in directions:
+			await telegraph_line(throw_direction)
 			spawn_and_throw_star(throw_direction)
-			await get_tree().create_timer(0.5).timeout
+			await get_tree().create_timer(0.2).timeout
 	else:
+		# Single Shot
 		var direction_to_target = global_position.direction_to(target.global_position)
+		await telegraph_line(direction_to_target)
 		spawn_and_throw_star(direction_to_target)
+
+func telegraph_line(direction: Vector2) -> void:
+	if state == NAV:
+		return
+
+	attack_line.global_position = global_position
+	attack_line.points = [Vector2.ZERO, direction.normalized() * 10000.0]
+	attack_line.default_color = Color(1, 0, 0, 0.5)
+	attack_line.width = 2.0
+
+	var tween = get_tree().create_tween()
+	var fps := 8.0
+	var flash_count := 3
+
+	for i in flash_count:
+		tween.tween_callback(func(): attack_line.visible = true)
+		tween.tween_interval(1 / fps)
+		tween.tween_callback(func(): attack_line.visible = false)
+		tween.tween_interval(1 / fps)
+
+	await tween.finished
 
 func spawn_and_throw_star(direction: Vector2):
 	if state == NAV:

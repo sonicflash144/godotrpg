@@ -76,7 +76,7 @@ script = ExtResource("1_oydrp")
 stats = ExtResource("2_12qx3")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-z_index = -2
+z_index = -4
 texture = ExtResource("3_uyt01")
 hframes = 3
 vframes = 3

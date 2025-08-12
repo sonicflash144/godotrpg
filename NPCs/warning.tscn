@@ -1,0 +1,47 @@
+[gd_scene load_steps=6 format=3 uid="uid://cistxnwsqrg2b"]
+
+[ext_resource type="Texture2D" uid="uid://dcn8623rpc6dc" path="res://NPCs/Sprites/warning.png" id="1_1t13v"]
+[ext_resource type="Script" uid="uid://bvfocj0qu5mpd" path="res://NPCs/warning.gd" id="2_qfys2"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_34lb6"]
+atlas = ExtResource("1_1t13v")
+region = Rect2(0, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_078oo"]
+atlas = ExtResource("1_1t13v")
+region = Rect2(0, 16, 16, 16)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_7m7hl"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_34lb6")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_078oo")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_34lb6")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_078oo")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_34lb6")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_078oo")
+}],
+"loop": false,
+"name": &"default",
+"speed": 8.0
+}]
+
+[node name="Warning" type="AnimatedSprite2D"]
+sprite_frames = SubResource("SpriteFrames_7m7hl")
+autoplay = "default"
+frame = 5
+frame_progress = 1.0
+script = ExtResource("2_qfys2")
+
+[connection signal="animation_finished" from="." to="." method="_on_animation_finished"]

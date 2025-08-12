@@ -16,8 +16,6 @@ extends Node2D
 
 @export var markers: Array[Marker2D]
 
-var last_valid_position: Vector2
-
 func _ready() -> void:
 	Events.playerDown = false
 	Events.princessDown = true
@@ -40,15 +38,12 @@ func _ready() -> void:
 		
 	MusicManager.play_track(MusicManager.Track.DUNGEON)
 
-func _physics_process(_delta: float) -> void:
-	last_valid_position = player.global_position
-
 func set_collision_masks(value: bool):
 	princessHurtbox.set_collision_mask_value(7, value)
 	playerHitbox.set_collision_mask_value(9, value)
 
 func dialogue_barrier(_key: String):
-	dialogueRoomManager.nudge_player(last_valid_position)
+	dialogueRoomManager.nudge_player()
 	if Events.get_flag("met_princess"):
 		dialogueRoomManager.dialogue("talked_loop")
 	else:
@@ -96,7 +91,9 @@ func _on_princess_hurtbox_area_entered(_area: Area2D) -> void:
 		set_collision_masks(false)
 		
 func _on_princess_dialogue_zone_zone_triggered() -> void:
-	if Events.get_flag("visited_door"):
+	if Events.get_flag("princess_door_ready"):
+		return
+	elif Events.get_flag("visited_door"):
 		set_collision_masks(false)
 		if Events.get_flag("princess_apology"):
 			dialogueRoomManager.dialogue("door_help")
@@ -127,4 +124,4 @@ func _on_save_point_dialogue_zone_zone_triggered() -> void:
 	for item in player.storage:
 		storage.append(item.name)
 		
-	Events.save_game(savePoint.global_position, playerEquipment, princessEquipment, storage)
+	Events.save_game(savePoint.global_position, playerEquipment, princessEquipment, storage, savePoint.get_parent().key)

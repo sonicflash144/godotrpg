@@ -17,8 +17,11 @@ Princess: The closest I got was this toy bow for my birthday. [#portrait=neutral
 Princess: Still, I loved it! I practiced for hours in my room, living out those stupid fantasies in my head. [#portrait=happy_closed_mouth]
 Princess: Convincing myself I could be just like those heroes who survived the [color=YELLOW]DUNGEON.[/color] [#portrait=happy_teeth]
 Princess: But I'm not going to pretend anymore. I'll fight with you, side by side. [#portrait=determined]
-Princess: Thanks for listening. I'm ready to go if you are. [#portrait=happy_closed_mouth]
-You can now use \[SHIFT\] to swap characters in battle. 
+- Thank you
+	Princess: No, thank you for listening. I'm ready to go if you are. [#portrait=happy_closed_mouth]
+- Remain silent
+	Princess: ...Right. Actions, not words. I get it. [#portrait=neutral]
+You can now use \[SHIFT\] to swap characters in battle.
 Hold and release \[X\] to shoot the Girl's bow.
 do Events.dialogue_movement.emit("princess_campfire_finished", "princess", Vector2.UP)
 do wait(1.5)

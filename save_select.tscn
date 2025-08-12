@@ -1,0 +1,110 @@
+[gd_scene load_steps=9 format=3 uid="uid://b5hv5b00elt"]
+
+[ext_resource type="Theme" uid="uid://dqba535y85yao" path="res://UI/balloon_theme.tres" id="1_dxtso"]
+[ext_resource type="Script" uid="uid://kfqq8go4yjck" path="res://UI/save_select.gd" id="2_42gfg"]
+[ext_resource type="FontFile" uid="uid://cvn7vqjya1eth" path="res://UI/8-bit-hud.ttf" id="3_aljcn"]
+[ext_resource type="Texture2D" uid="uid://hgd60yfrdk2k" path="res://UI/Sprites/pointer.png" id="4_wl1c6"]
+[ext_resource type="AudioStream" uid="uid://deuhhvad1fxlo" path="res://Music and Sounds/menu.mp3" id="5_wl1c6"]
+[ext_resource type="AudioStream" uid="uid://doatyjn0go37y" path="res://Music and Sounds/select.mp3" id="6_cnl5n"]
+[ext_resource type="AudioStream" uid="uid://dlh5cls0qowlb" path="res://Music and Sounds/disabled.mp3" id="7_yt0h5"]
+[ext_resource type="AudioStream" uid="uid://clo8qbwoy4pjj" path="res://Music and Sounds/reset.mp3" id="8_cnl5n"]
+
+[node name="SaveSelect" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("1_dxtso")
+script = ExtResource("2_42gfg")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+layout_mode = 0
+offset_right = 320.0
+offset_bottom = 240.0
+color = Color(0, 0, 0, 1)
+
+[node name="TitleLabel" type="Label" parent="."]
+layout_mode = 0
+offset_top = 32.0
+offset_right = 320.0
+offset_bottom = 96.0
+theme_override_fonts/font = ExtResource("3_aljcn")
+theme_override_font_sizes/font_size = 15
+text = "Crown Prisoners"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 0
+offset_left = 32.0
+offset_top = 128.0
+offset_right = 288.0
+offset_bottom = 192.0
+
+[node name="PanelContainer" type="PanelContainer" parent="MarginContainer"]
+layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/PanelContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 16
+theme_override_constants/margin_right = 16
+
+[node name="SaveFileVBoxContainer" type="VBoxContainer" parent="MarginContainer/PanelContainer/MarginContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/PanelContainer/MarginContainer/SaveFileVBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="LocationLabel" type="Label" parent="MarginContainer/PanelContainer/MarginContainer/SaveFileVBoxContainer/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Location"
+
+[node name="TimeLabel" type="Label" parent="MarginContainer/PanelContainer/MarginContainer/SaveFileVBoxContainer/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "0:00"
+
+[node name="ActionsHBoxContainer" type="HBoxContainer" parent="MarginContainer/PanelContainer/MarginContainer/SaveFileVBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+alignment = 1
+
+[node name="PlayLabel" type="Label" parent="MarginContainer/PanelContainer/MarginContainer/SaveFileVBoxContainer/ActionsHBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Continue"
+
+[node name="EraseLabel" type="Label" parent="MarginContainer/PanelContainer/MarginContainer/SaveFileVBoxContainer/ActionsHBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Erase"
+
+[node name="Pointer" type="TextureRect" parent="."]
+unique_name_in_owner = true
+offset_left = 48.0
+offset_top = 167.0
+offset_right = 236.0
+offset_bottom = 167.0
+texture = ExtResource("4_wl1c6")
+expand_mode = 1
+stretch_mode = 2
+
+[node name="MenuSound" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("5_wl1c6")
+
+[node name="Select" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("6_cnl5n")
+
+[node name="Disabled" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("7_yt0h5")
+
+[node name="Erase" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("8_cnl5n")

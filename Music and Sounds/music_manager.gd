@@ -3,11 +3,13 @@ extends Node
 @onready var dungeonPlayer: AudioStreamPlayer = $Dungeon
 @onready var combatPlayer: AudioStreamPlayer = $Combat
 @onready var hallPlayer: AudioStreamPlayer = $Hall
+@onready var kingPlayer: AudioStreamPlayer = $King
 
 enum Track {
 	DUNGEON,
 	COMBAT,
-	HALL
+	HALL,
+	KING
 }
 
 var current_track_player = null
@@ -24,6 +26,8 @@ func play_track(track_to_play: Track):
 			new_track_player = combatPlayer
 		Track.HALL:
 			new_track_player = hallPlayer
+		Track.KING:
+			new_track_player = kingPlayer
 
 	# If the requested track is already playing, do nothing.
 	if new_track_player == current_track_player and new_track_player.is_playing():
@@ -61,6 +65,8 @@ func switch_track_with_fade(new_track: Track, fade_duration: float = 1.0):
 			new_player = combatPlayer
 		Track.HALL:
 			new_player = hallPlayer
+		Track.KING:
+			new_player = kingPlayer
 
 	if new_player == current_track_player and new_player.is_playing():
 		return

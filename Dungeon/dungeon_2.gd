@@ -23,7 +23,6 @@ extends Node2D
 
 @export var markers: Array[Marker2D]
 
-var last_valid_position: Vector2
 var ironSword: Equipment = load("res://Equipment/Iron Sword.tres")
 var overpricedArmor: Equipment = load("res://Equipment/Overpriced Armor.tres")
 var puzzle_2_started := false
@@ -57,9 +56,6 @@ func _ready() -> void:
 		
 	MusicManager.play_track(MusicManager.Track.DUNGEON)
 	
-func _physics_process(_delta: float) -> void:
-	last_valid_position = player.global_position
-	
 func dialogue_barrier(key: String):
 	if key == "princess_follow_check_1":
 		if PuzzleRoom1.roomCompleted:
@@ -70,10 +66,10 @@ func dialogue_barrier(key: String):
 			princess.set_follow_state()
 			princessFollowCheck2.queue_free()
 	else:
-		dialogueRoomManager.nudge_player(last_valid_position)
+		dialogueRoomManager.nudge_player()
 		dialogueRoomManager.dialogue(key)
 
-func save_point_helper(savePosition: Vector2):
+func save_point_helper(savePosition: Vector2, save_point_name: String):
 	playerHealthComponent.heal(playerHealthComponent.MAX_HEALTH)
 	princessHealthComponent.heal(princessHealthComponent.MAX_HEALTH)
 	
@@ -88,7 +84,7 @@ func save_point_helper(savePosition: Vector2):
 	for item in player.storage:
 		storage.append(item.name)
 		
-	Events.save_game(savePosition, playerEquipment, princessEquipment, storage)
+	Events.save_game(savePosition, playerEquipment, princessEquipment, storage, save_point_name)
 
 func campfire_finished():
 	player.set_move_state()
@@ -144,7 +140,7 @@ func _on_side_door_dialogue_zone_zone_triggered() -> void:
 		dialogueRoomManager.dialogue("side_door_wrong_side")
 	
 func _on_save_point_1_dialogue_zone_zone_triggered() -> void:
-	save_point_helper(savePoint1.global_position)
+	save_point_helper(savePoint1.global_position, savePoint1.get_parent().key)
 
 func _on_save_point_2_dialogue_zone_zone_triggered() -> void:
-	save_point_helper(savePoint2.global_position)
+	save_point_helper(savePoint2.global_position, savePoint2.get_parent().key)

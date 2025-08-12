@@ -128,6 +128,10 @@ The door is locked. Seems like pushing those blocks onto the right spots might c
 Use \[Z\] while standing next to a box to push it.
 => END
 
+~ puzzle_dialogue_barrier
+Princess: Come on, give it another try. [#portrait=neutral]
+=> END
+
 ~ puzzle_1
 do Events.set_flag("puzzle_1")
 Princess: Nice work! [#portrait=happy]

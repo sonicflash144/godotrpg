@@ -17,7 +17,10 @@ const SPRINTMASTER_SPEED_MULTIPLIER = 1.25
 
 var knockback := Vector2.ZERO
 var last_input_vector := Vector2.ZERO
-var buffered_input := Vector2.ZERO
+
+var diagonal_buffer_timer := 0.0
+const DIAGONAL_BUFFER_DURATION := 0.05
+var last_diagonal_input: Vector2 = Vector2.ZERO
 
 func _ready() -> void:
 	current_speed = MAX_SPEED
@@ -30,34 +33,47 @@ func _physics_process(delta: float) -> void:
 		character.velocity = Vector2.ZERO
 	character.velocity += knockback
 	character.move_and_slide()
-	
-func get_player_input_vector():
+
+	if diagonal_buffer_timer > 0:
+		diagonal_buffer_timer -= delta
+
+func get_player_input_vector() -> Vector2:
 	if not Events.controlsEnabled:
 		last_input_vector = Vector2.ZERO
-		buffered_input = Vector2.ZERO
+		diagonal_buffer_timer = 0.0
 		return Vector2.ZERO
 
-	var input_vector = Vector2.ZERO
-	input_vector.x = Input.get_action_strength("ui_right") - Input.get_action_strength("ui_left")
-	input_vector.y = Input.get_action_strength("ui_down") - Input.get_action_strength("ui_up")
+	var input_vector = Vector2(
+		Input.get_action_strength("ui_right") - Input.get_action_strength("ui_left"),
+		Input.get_action_strength("ui_down") - Input.get_action_strength("ui_up")
+	)
 
-	var final_vector = input_vector
-
-	# Diagonal to cardinal direction buffering
+	# Check for a transition from diagonal to cardinal input
 	if last_input_vector.x != 0 and last_input_vector.y != 0 and \
-		((input_vector.x != 0 and input_vector.y == 0) or \
+	   ((input_vector.x != 0 and input_vector.y == 0) or \
 		(input_vector.x == 0 and input_vector.y != 0)):
-		buffered_input = input_vector
-		final_vector = last_input_vector
-	elif buffered_input != Vector2.ZERO:
-		if input_vector == Vector2.ZERO:
+		last_diagonal_input = last_input_vector
+		diagonal_buffer_timer = DIAGONAL_BUFFER_DURATION
+
+	var final_vector: Vector2
+	if diagonal_buffer_timer > 0:
+		# If a new diagonal is pressed during the buffer, use it immediately
+		if input_vector.x != 0 and input_vector.y != 0:
+			diagonal_buffer_timer = 0.0
+			final_vector = input_vector
+		# If no keys are pressed, stop moving and cancel the buffer
+		elif input_vector == Vector2.ZERO:
+			diagonal_buffer_timer = 0.0
 			final_vector = Vector2.ZERO
+		# Otherwise, maintain the last diagonal direction for the buffer duration
 		else:
-			final_vector = buffered_input
-		buffered_input = Vector2.ZERO
+			final_vector = last_diagonal_input
+	else:
+		final_vector = input_vector
 
 	last_input_vector = input_vector
-	return final_vector
+
+	return final_vector.normalized()
 
 func move(direction: Vector2, speed := MAX_SPEED, animationOverride := "", follower := false):
 	current_speed = speed

@@ -851,6 +851,11 @@ libraries = {
 &"": SubResource("AnimationLibrary_70uel")
 }
 
+[node name="AttackLine" type="Line2D" parent="."]
+visible = false
+z_index = -4
+width = 1.0
+
 [node name="AttackTimer" type="Timer" parent="."]
 wait_time = 4.0
 

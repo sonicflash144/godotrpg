@@ -1,5 +1,6 @@
-[gd_scene load_steps=5 format=3 uid="uid://cs7m8hnwn64hh"]
+[gd_scene load_steps=6 format=3 uid="uid://cs7m8hnwn64hh"]
 
+[ext_resource type="Script" uid="uid://ie213tnktin1" path="res://World/save_point.gd" id="1_2tlfo"]
 [ext_resource type="Texture2D" uid="uid://crx8txm0p5ox7" path="res://World/Sprites/crystal.png" id="1_at4fr"]
 [ext_resource type="PackedScene" uid="uid://damjysxl382ea" path="res://Dialogue/dialogue_zone.tscn" id="2_2tlfo"]
 
@@ -10,6 +11,7 @@ size = Vector2(11, 8)
 radius = 20.0
 
 [node name="SavePoint" type="StaticBody2D"]
+script = ExtResource("1_2tlfo")
 metadata/_edit_group_ = true
 
 [node name="Sprite2D" type="Sprite2D" parent="."]

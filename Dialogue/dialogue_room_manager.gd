@@ -38,7 +38,7 @@ func _on_dialogue_ended(_resource: DialogueResource):
 	else:
 		Events.enable_controls()
 
-func nudge_player(valid_position: Vector2):
-	var direction = (valid_position - player.global_position).normalized()
-	var push = direction * 4
+func nudge_player():
+	var direction = player.movement_component.animation_tree.get("parameters/Run/blend_position").normalized()
+	var push = -direction * 4
 	player.global_position += push

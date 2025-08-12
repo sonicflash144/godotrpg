@@ -51,6 +51,7 @@ tile_map_data = PackedByteArray("AAAAAAAAAQACAAoAAAAAAAEAAQACAAoAAAAAAAIAAQACAAo
 
 [node name="SavePoint" parent="StartRoom" instance=ExtResource("11_uj8uw")]
 position = Vector2(64, 64)
+key = "Dungeon - Start"
 
 [node name="CombatRoom1" parent="." instance=ExtResource("5_v3ata")]
 position = Vector2(320, 0)
