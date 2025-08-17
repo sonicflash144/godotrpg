@@ -6,6 +6,7 @@ Princess: Don't you want to see what else is around? [#portrait=happy_closed_mou
 ~ campfire
 do Events.set_flag("campfire_completed")
 Princess: Ooh, a campfire! Let's rest for a bit. [#portrait=happy]
+do MusicManager.play_track(MusicManager.Track.CAMPFIRE)
 do Events.dialogue_movement.emit("princess_campfire", "princess", Vector2.LEFT)
 do wait(1)
 do Events.dialogue_movement.emit("player_campfire", "player", Vector2.RIGHT)
@@ -26,6 +27,7 @@ Hold and release \[X\] to shoot the Girl's bow.
 do Events.dialogue_movement.emit("princess_campfire_finished", "princess", Vector2.UP)
 do wait(1.5)
 do campfire_finished()
+do MusicManager.crossfade_track(MusicManager.Track.DUNGEON)
 => END
 
 ~ save_point
@@ -116,6 +118,10 @@ The door is locked. Seems like pushing those blocks onto the right spots might c
 Use \[Z\] while standing next to a box to push it.
 => END
 
+~ puzzle_softlock
+Princess: Hmm, that doesn't seem like the right move... [#portrait=neutral]
+=> END
+
 ~ puzzle_1
 do Events.set_flag("puzzle_1")
 Princess: That was amazing! I wish I could be as smart as you. [#portrait=surprise_happy]
@@ -136,6 +142,7 @@ You got the [color=yellow]Better Bow[/color]. Use \[C\] to equip it in the equip
 => END
 
 ~ THE_prisoner
+do MusicManager.play_track(MusicManager.Track.PRISONER)
 do Events.set_flag("met_THE_prisoner", true)
 THE Prisoner: WHAT the— [#portrait=shocked]
 THE Prisoner: I mean, hello there. Who are you guys? [#portrait=happy]
@@ -150,6 +157,7 @@ THE Prisoner: So you don't need to worry about them. Because they don't, uh, exi
 - That's suspicious
 Princess: Hey, don't be rude. [#portrait=neutral]
 Princess: You take your time, sir. We'll, uh, see you around. [#portrait=happy_closed_mouth]
+do MusicManager.crossfade_track(MusicManager.Track.DUNGEON)
 => END
 
 ~ THE_prisoner_loop
@@ -159,6 +167,7 @@ THE Prisoner: You guys go on ahead. [#portrait=neutral_closed_mouth]
 => END
 
 ~ THE_prisoner_after_blacksmith
+do MusicManager.play_track(MusicManager.Track.PRISONER)
 do Events.set_flag("THE_prisoner_after_blacksmith")
 THE Prisoner: Oh, hey again! [#portrait=happy]
 THE Prisoner: What are you guys up to? Just asking for my imaginary friends. [#portrait=happy_closed_mouth]
@@ -173,6 +182,7 @@ THE Prisoner: What are you guys up to? Just asking for my imaginary friends. [#p
 => THE_prisoner_after_blacksmith_loop
 
 ~ THE_prisoner_after_blacksmith_loop
+do MusicManager.crossfade_track(MusicManager.Track.DUNGEON)
 THE Prisoner: Well, you guys have fun. Maybe I'll see you around again. [#portrait=neutral_closed_mouth]
 => END
 

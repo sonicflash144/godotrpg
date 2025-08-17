@@ -20,11 +20,17 @@ func console_reload():
 
 func console_fade_in(scene_name: String, duration := 0.8):
 	var scene_path = "res://%s.tscn" % scene_name
+	if not ResourceLoader.exists(scene_path, "PackedScene"):
+		push_error("Scene not found: %s" % scene_path)
+		return
 	Events.currentScene = scene_name
 	fade_in(scene_path, duration)
 
 func console_fade_out(scene_name: String, duration := 0.8):
 	var scene_path = "res://%s.tscn" % scene_name
+	if not ResourceLoader.exists(scene_path, "PackedScene"):
+		push_error("Scene not found: %s" % scene_path)
+		return
 	Events.currentScene = scene_name
 	fade_out(scene_path, duration)
 	LimboConsole.close_console()

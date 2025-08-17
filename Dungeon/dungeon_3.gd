@@ -150,7 +150,7 @@ func start_the_prisoner_fight():
 	get_tree().current_scene.add_child(combatLockSound)
 	Events.currentRoom.activate_spikes()
 	THE_Prisoner.set_attack_state()
-	MusicManager.play_track(MusicManager.Track.COMBAT)
+	MusicManager.play_track(MusicManager.Track.PRISONER_FIGHT)
 
 func after_the_prisoner_fight():
 	Events.set_flag("after_THE_prisoner_fight")

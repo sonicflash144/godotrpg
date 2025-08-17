@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://cma80s6g3q70r"
+path="res://.godot/imported/VGM_prisoner.wav-0ae581c496db7bf48e790b798ef0e233.sample"
+
+[deps]
+
+source_file="res://Music and Sounds/VGM_prisoner.wav"
+dest_files=["res://.godot/imported/VGM_prisoner.wav-0ae581c496db7bf48e790b798ef0e233.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=2
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=2

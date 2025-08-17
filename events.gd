@@ -28,7 +28,8 @@ signal console_give()
 signal console_noclip()
 
 const SAVE_PATH = "user://save_data.json"
-var GAME_STATE: GameState = preload("res://game_state.tres")
+var DEFAULT_GAME_STATE: GameState = preload("res://game_state.tres")
+var GAME_STATE
 var deferred_load_data: Dictionary = {}
 var SaveSound = preload("res://Music and Sounds/save_sound.tscn")
 
@@ -75,9 +76,11 @@ var equipment_abilities: Dictionary[String, bool] = {
 }
 
 func _ready() -> void:
+	GAME_STATE = DEFAULT_GAME_STATE.duplicate()
+	
 	LimboConsole.register_command(set_flag, "set_flag", "Set value for GAME_STATE flag")
 	LimboConsole.add_argument_autocomplete_source("set_flag", 0,
-			func(): return GAME_STATE.flags.get(Events.currentScene, {}).keys()
+			func(): return GAME_STATE.flags.get(currentScene, {}).keys()
 	)
 	LimboConsole.add_argument_autocomplete_source("set_flag", 1,
 			func(): return [true, false]
@@ -127,7 +130,7 @@ func save_game(player_position: Vector2, player_equipment: Array[String], prince
 	var save_data = {
 		"save_point_name": save_point_name,
 		"save_file_timer": format_elapsed_from_secs(total_playtime_secs),
-		"scene": Events.currentScene,
+		"scene": currentScene,
 		"player_x_pos": player_position.x,
 		"player_y_pos": player_position.y,
 		"flags": GAME_STATE.flags.duplicate(true),
@@ -147,7 +150,8 @@ func save_game(player_position: Vector2, player_equipment: Array[String], prince
 
 func load_save_data():
 	if not FileAccess.file_exists(SAVE_PATH):
-		print("No save file found.")
+		deferred_load_data.clear()
+		GAME_STATE = DEFAULT_GAME_STATE.duplicate()
 		return
 
 	var file = FileAccess.open(SAVE_PATH, FileAccess.READ)
@@ -157,7 +161,7 @@ func load_save_data():
 		var parse_result = JSON.parse_string(content)
 		if parse_result:
 			deferred_load_data = parse_result
-			Events.GAME_STATE.flags = parse_result.flags.duplicate(true)
+			GAME_STATE.flags = deferred_load_data.flags.duplicate(true)
 			if parse_result.has("save_file_timer"):
 				total_playtime_secs = parse_timer_to_secs(str(parse_result.get("save_file_timer", "0:00")))
 			return parse_result
@@ -179,11 +183,11 @@ func store_equipment(player_equipment: Array[Equipment], princess_equipment: Arr
 	storage = saved_storage.duplicate()
 
 func set_flag(flag_name: String, value = true):
-	GAME_STATE.flags[Events.currentScene][flag_name] = value
+	GAME_STATE.flags[currentScene][flag_name] = value
 
 func get_flag(flag_name: String, scene_name := ""):
 	if not scene_name:
-		scene_name = Events.currentScene
+		scene_name = currentScene
 	return GAME_STATE.flags[scene_name].get(flag_name, false)
 
 func heal():

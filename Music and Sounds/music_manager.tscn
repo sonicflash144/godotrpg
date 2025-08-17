@@ -1,19 +1,48 @@
-[gd_scene load_steps=6 format=3 uid="uid://bw7lmdnd7ipqw"]
+[gd_scene load_steps=12 format=3 uid="uid://bw7lmdnd7ipqw"]
 
 [ext_resource type="Script" uid="uid://d1twbg7q2hurt" path="res://Music and Sounds/music_manager.gd" id="1_fka1b"]
+[ext_resource type="AudioStream" uid="uid://ceruur0st5wsj" path="res://Music and Sounds/VGM_menu.wav" id="2_47ehh"]
 [ext_resource type="AudioStream" uid="uid://b73m2cnftaf4h" path="res://Music and Sounds/VGM_dungeon.wav" id="2_jbm5m"]
-[ext_resource type="AudioStream" uid="uid://bb67dsmi2ygps" path="res://Music and Sounds/VGM_combat.wav" id="3_xs5e7"]
+[ext_resource type="AudioStream" uid="uid://hv6j4ffr0rmb" path="res://Music and Sounds/VGM_tense.wav" id="3_6loju"]
+[ext_resource type="AudioStream" uid="uid://bmv6vgpoym0nl" path="res://Music and Sounds/VGM_prison.wav" id="3_f1xhy"]
+[ext_resource type="AudioStream" uid="uid://bb67dsmi2ygps" path="res://Music and Sounds/VGM_prisonerfight.wav" id="3_xs5e7"]
 [ext_resource type="AudioStream" uid="uid://dpucmmlkxrrxw" path="res://Music and Sounds/VGM_throne_room_hall.wav" id="4_jbm5m"]
 [ext_resource type="AudioStream" uid="uid://cmlds0dwktqhe" path="res://Music and Sounds/VGM_king.wav" id="5_xs5e7"]
+[ext_resource type="AudioStream" uid="uid://duqrcaly8bxdy" path="res://Music and Sounds/VGM_princess.wav" id="6_m26le"]
+[ext_resource type="AudioStream" uid="uid://sliojsqxl555" path="res://Music and Sounds/VGM_campfire.wav" id="7_y17dd"]
+[ext_resource type="AudioStream" uid="uid://bqobrmdymvivh" path="res://Music and Sounds/VGM_prisoner.wav" id="8_ake6j"]
 
 [node name="MusicManager" type="Node"]
 script = ExtResource("1_fka1b")
+
+[node name="Menu" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("2_47ehh")
+
+[node name="Prison" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("3_f1xhy")
+volume_db = -4.0
+
+[node name="Tense" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("3_6loju")
+volume_db = -8.0
 
 [node name="Dungeon" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("2_jbm5m")
 volume_db = -12.0
 
-[node name="Combat" type="AudioStreamPlayer" parent="."]
+[node name="Princess" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("6_m26le")
+volume_db = 2.0
+
+[node name="Campfire" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("7_y17dd")
+volume_db = -8.0
+
+[node name="Prisoner" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("8_ake6j")
+volume_db = -12.0
+
+[node name="PrisonerFight" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("3_xs5e7")
 volume_db = -12.0
 

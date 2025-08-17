@@ -40,6 +40,7 @@ func _ready() -> void:
 		timeLabel.text = Events.deferred_load_data["save_file_timer"]
 	
 	call_deferred("update_pointer_position")
+	MusicManager.play_track(MusicManager.Track.MENU)
 
 func _unhandled_input(event: InputEvent) -> void:
 	if not visible:
@@ -173,6 +174,7 @@ func erase_save_file() -> void:
 	if err == OK:
 		has_save_file = false
 		update_empty_save_labels()
+		Events.load_save_data()
 		print("Save file erased.")
 	else:
 		push_error("Error erasing save file.")

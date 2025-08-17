@@ -28,7 +28,7 @@ func _ready() -> void:
 	if Events.get_flag("ate_sandwich"):
 		sandwich.queue_free()
 		
-	MusicManager.play_track(MusicManager.Track.HALL)
+	MusicManager.play_track(MusicManager.Track.PRISON)
 
 func eat_sandwich():
 	sandwich.queue_free()

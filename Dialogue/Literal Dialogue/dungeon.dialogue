@@ -3,6 +3,7 @@ The power of the crystal flows through you. Your game progress was saved.
 => END
 
 ~ start
+do MusicManager.play_track(MusicManager.Track.PRINCESS)
 do Events.set_flag("met_princess")
 Princess: Oh hey there! [#portrait=happy_closed_mouth]
 Princess: WOWWW, are you a real warrior? [#portrait=surprise]
@@ -23,6 +24,7 @@ Princess: Here, try hitting me. [#portrait=happy]
 => END
 
 ~ ignore
+do MusicManager.play_track(MusicManager.Track.PRINCESS)
 do Events.set_flag("met_princess")
 Princess: HEY! Aren't you going to say hello? [#portrait=angry]
 - Sorry
@@ -40,9 +42,10 @@ Princess: Here, try attacking me. I bet you won't be able to land a hit! [#portr
 
 ~ hit
 do Events.set_flag("hit_princess")
-Princess: OWWW OW OWWW OW OW! [#portrait=angry_eyes_closed]
 if not Events.get_flag("met_princess"):
+	do MusicManager.play_track(MusicManager.Track.PRINCESS)
 	do Events.set_flag("met_princess")
+	Princess: OWWW OW OWWW OW OW! [#portrait=angry_eyes_closed]
 	Princess: WHAT THE HECK, DUDE? [#portrait=angry]
 	Princess: We haven't even talked yet, and you've already decided I'm a nuisance or something? [#portrait=angry]
 	Princess: What's your problem? [#portrait=angry]
@@ -54,9 +57,11 @@ if not Events.get_flag("met_princess"):
 	Princess: I know you think you need that big sword a lot more than a girl like me. [#portrait=neutral]
 	Princess: But I'll show you the kind of fighter I am! [#portrait=smirk]
 else:
+	Princess: OWWW OW OWWW OW OW! [#portrait=angry_eyes_closed]
 	Princess: Ow... don't worry, I'm okay. [#portrait=wince]
 Princess: Let's get going. [#portrait=neutral]
 Princess: The life of a brave warrior waits for no one! [#portrait=happy_teeth]
+do MusicManager.crossfade_track(MusicManager.Track.DUNGEON)
 do remove_dialogue_barrier()
 do Events.dialogue_movement.emit("enter_ghost_room")
 set Events.num_party_members = 2
@@ -80,6 +85,7 @@ do wait(0.5)
 => END
 
 ~ fled
+do MusicManager.play_track(MusicManager.Track.PRINCESS)
 do Events.set_flag("princess_apology")
 Princess: I'm sorry for running away earlier. [#portrait=sad_closed_mouth]
 Princess: I just got so scared... [#portrait=sad_eyes_closed]
@@ -93,6 +99,8 @@ Princess: It was silly of me to play pretend like this. I'm no hero. [#portrait=
 
 ~ fled_loop
 Princess: I'll prove myself soon, just you wait! [#portrait=determined]
+if not Events.get_flag("visited_door")
+	do MusicManager.crossfade_track(MusicManager.Track.DUNGEON)
 => END
 
 ~ fled_visited_door
@@ -103,6 +111,7 @@ Princess: I'll prove myself soon, just you wait! [#portrait=determined]
 ~ door_help
 Princess: What? There's a door up ahead you need my help with? [#portrait=surprise]
 Princess: I'll be right there! [#portrait=happy_closed_mouth]
+do MusicManager.crossfade_track(MusicManager.Track.DUNGEON)
 do Events.dialogue_movement.emit("enter_door_room")
 do wait(0.5)
 do Events.set_flag("princess_door_ready")

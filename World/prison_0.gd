@@ -26,6 +26,8 @@ func _ready() -> void:
 	await get_tree().process_frame
 	if Events.get_flag("prison_door_opened"):
 		door.queue_free()
+	
+	MusicManager.play_track(MusicManager.Track.PRISON)
 
 func open_prison_door():
 	door.queue_free()

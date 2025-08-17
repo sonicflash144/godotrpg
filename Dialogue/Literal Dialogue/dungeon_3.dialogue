@@ -29,7 +29,8 @@ You picked up the juggling pin. You have collected {{num_pins_collected}}.
 
 ~ campfire
 do Events.set_flag("campfire_completed")
-Princess: Nice, another campfire! Let's rest for a bit. [#portrait=happy]
+Princess: Look, another campfire! Let's rest for a bit. [#portrait=happy]
+do MusicManager.play_track(MusicManager.Track.CAMPFIRE)
 do Events.dialogue_movement.emit("princess_campfire", "princess", Vector2.LEFT)
 do wait(1)
 do Events.dialogue_movement.emit("player_campfire", "player", Vector2.RIGHT)
@@ -46,6 +47,7 @@ Princess: So thanks for... you know. Putting up with me all this time. [#portrai
 do Events.dialogue_movement.emit("princess_campfire_finished", "princess", Vector2.UP)
 do wait(1.5)
 do campfire_finished()
+do MusicManager.crossfade_track(MusicManager.Track.DUNGEON)
 => END
 
 ~ save_point
@@ -100,6 +102,7 @@ Jester: Ha ha ha... enjoy your new armor!
 => END
 
 ~ THE_prisoner
+do MusicManager.play_track(MusicManager.Track.PRISONER)
 do Events.set_flag("met_THE_prisoner")
 THE Prisoner: So we meet again after all! I'm glad you've made it this far. [#portrait=happy]
 Princess: Yeah, we are, too. [#portrait=neutral_closed_mouth]
@@ -109,6 +112,7 @@ Princess: Uh... of course not. [#portrait=suspicious]
 THE Prisoner: You're too kind. Lead the way! [#portrait=happy]
 do THE_prisoner_join_party()
 do wait(1)
+do MusicManager.crossfade_track(MusicManager.Track.DUNGEON)
 => END
 
 ~ THE_prisoner_useless
@@ -130,6 +134,11 @@ Use \[Z\] while standing next to a box to push it.
 
 ~ puzzle_dialogue_barrier
 Princess: Come on, give it another try. [#portrait=neutral]
+=> END
+
+~ puzzle_softlock
+Princess: Hmm, that doesn't seem like the right move... [#portrait=neutral]
+THE Prisoner: You sure are bad at this. [#portrait=neutral]
 => END
 
 ~ puzzle_1
@@ -176,6 +185,7 @@ Princess: Did you guys come up with any good ideas while I was gone? [#portrait=
 THE Prisoner: Oh, we sure did. [#portrait=happy_closed_mouth]
 Princess: Really? That's great! What's the idea? [#portrait=surprise]
 THE Prisoner: It's very simple, actually. It's killing you. [#portrait=happy]
+do MusicManager.play_track(MusicManager.Track.TENSE)
 Princess: W— WHAT? Why would you do that? [#portrait=shocked_upset]
 THE Prisoner: God, it's a mystery if you're playing dumb or if you're really just that stupid. [#portrait=surprised]
 THE Prisoner: This door doesn't open without royal blood. That's why the [color=yellow]DUNGEON[/color] is the kingdom's most effective death trap. [#portrait=angry]
@@ -187,10 +197,11 @@ Princess: My father built this place for... for people to DIE in? [#portrait=sho
 Princess: But... if that's true, you need me to open the door. So you can't kill me! [#portrait=surprise_upset]
 THE Prisoner: I don't need you alive to use your blood. [#portrait=neutral_closed_mouth]
 THE Prisoner: In fact, I think I prefer this option significantly. I won't have to listen to your annoying voice anymore. [#portrait=happy]
-THE Prisoner: What a fool the KING is. [#portrait=neutral]
+THE Prisoner: What a fool the [color=yellow]KING[/color] is. [#portrait=neutral]
 THE Prisoner: Spending all those resources designing this door, only for his own daughter to serve herself up as the key. [#portrait=smirk]
 THE Prisoner: Now, my ally, do what you must. [#portrait=happy_evil]
 - Attack
+	do MusicManager.stop_music()
 	set Events.num_party_members = 1
 	do kill_princess()
 	Princess: [custom_shake][speed=0.3]How— how could you...[/custom_shake] [#portrait=shocked_upset]
@@ -203,6 +214,7 @@ THE Prisoner: Now, my ally, do what you must. [#portrait=happy_evil]
 	THE Prisoner: Unfortunately, I don't really want to share the bounty. [#portrait=happy_evil]
 	THE Prisoner: You of all people should've known that trust is for the weak. [#portrait=happy_closed_mouth]
 - Do not
+	do MusicManager.stop_music()
 	set Events.num_party_members = 2
 	THE Prisoner: You won't kill her? That's a shame. [#portrait=surprised]
 	THE Prisoner: I'm afraid I can't leave behind any witnesses. I'm sure you understand. [#portrait=happy]

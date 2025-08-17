@@ -1,6 +1,7 @@
-[gd_scene load_steps=2 format=3 uid="uid://cx8i26a2wkn67"]
+[gd_scene load_steps=3 format=3 uid="uid://cx8i26a2wkn67"]
 
 [ext_resource type="Theme" uid="uid://dqba535y85yao" path="res://UI/balloon_theme.tres" id="1_7o5yx"]
+[ext_resource type="Script" uid="uid://bchxlm3kn0dwd" path="res://UI/game_complete.gd" id="2_4xff7"]
 
 [node name="GameComplete" type="Control"]
 layout_mode = 3
@@ -10,6 +11,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 theme = ExtResource("1_7o5yx")
+script = ExtResource("2_4xff7")
 
 [node name="ColorRect" type="ColorRect" parent="."]
 layout_mode = 0

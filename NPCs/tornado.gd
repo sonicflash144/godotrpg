@@ -8,7 +8,7 @@ var current_speed := 20.0
 var max_speed := 150.0
 var acceleration := 300.0
 var arc_strength := 180.0             # Controls how wide the arc is. Higher values mean a sharper curve.
-var steering_force := 2.5             # How quickly the tornado adjusts its path to the player.
+var steering_force := 2.0             # How quickly the tornado adjusts its path to the player.
 var lifetime := 2.5
 var target: CharacterBody2D
 var velocity := Vector2.ZERO

@@ -25,6 +25,7 @@ It's a prison door made of solid steel.
 => END
 
 ~ start
+do MusicManager.stop_music()
 do Events.dialogue_movement.emit("guard_enter")
 do wait(1.2)
 do open_prison_door()
@@ -73,6 +74,7 @@ It's a sword left behind by one of the guards. Take it?
 do take_sword()
 You picked up the sword. You can now use \[X\] to attack.
 do Events.dialogue_movement.emit("guard_return")
+do MusicManager.stop_music()
 do wait(0.5)
 do open_generic_door()
 do wait(1.5)
@@ -81,6 +83,7 @@ Guard: HEY! I told you to stay— [#portrait=neutral]
 if Events.get_flag("ate_sandwich"):
 	Guard: ...Did you seriously eat my sandwich? My mom made that for me, you know. [#portrait=neutral]
 Guard: Wait, is that my sword? Woah, woah, calm down. [#portrait=neutral]
+do MusicManager.play_track(MusicManager.Track.TENSE)
 Guard: You're not gonna hurt me or anything, right? [#portrait=neutral]
 Guard: I was a nice guard! I remembered to bring you your rations... most days of the week. [#portrait=sweat]
 Guard: Look, between you and me, I never wanted to work this job. [#portrait=neutral]

@@ -89,6 +89,7 @@ text = "Erase"
 
 [node name="Pointer" type="TextureRect" parent="."]
 unique_name_in_owner = true
+layout_mode = 0
 offset_left = 48.0
 offset_top = 167.0
 offset_right = 236.0
