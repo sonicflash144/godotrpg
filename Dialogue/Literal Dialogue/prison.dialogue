@@ -59,8 +59,9 @@ It's a sandwich, slightly squished from being hastily dropped on the floor. Eat 
 You can hear the muffled sounds of a commotion going on outside. 
 Listen through the crack in the door?
 - Listen
-	"...[color=yellow]THE[/color] prisoner... crazy... I think... up ahead..."
-	"...Wasn't he the one who... dangerous..."
+	% "...[color=yellow]THE[/color] prisoner... crazy... I think... up ahead..."
+	% "...Wasn't he the one who... dangerous..."
+	% "...How'd he even... door... locked..."
 - Do not
 => END
 
@@ -87,17 +88,19 @@ do MusicManager.play_track(MusicManager.Track.TENSE)
 Guard: You're not gonna hurt me or anything, right? [#portrait=neutral]
 Guard: I was a nice guard! I remembered to bring you your rations... most days of the week. [#portrait=sweat]
 Guard: Look, between you and me, I never wanted to work this job. [#portrait=neutral]
-Guard: The [color=yellow]KING[/color] forced me into this position in some... creative ways. [#portrait=neutral]
+Guard: The pay is awful, I hate working night shifts, and my back hurts from standing all the time! [#portrait=neutral]
+Guard: But the [color=yellow]KING[/color] forced me into this position in some... creative ways. [#portrait=neutral]
 Guard: So how about this. I let you go, and you, uh, don't stab me. Yeah? [#portrait=neutral]
 - Attack
 - Do not
 do Events.dialogue_movement.emit("guard2_enter")
 do wait(2)
 do guard_face_guard2()
-Guard2: We got him! [#portrait=neutral]
+Guard2: The situation has been taken care of. [#portrait=neutral]
 Guard: Took you guys long enough! This lunatic nearly killed me! [#portrait=neutral]
 Guard2: Please, this guy looks like a wimp compared to [color=yellow]THE[/color] prisoner. [#portrait=neutral]
 Guard2: While you were messing around, we were preventing his third escape attempt this week. [#portrait=neutral]
+Guard2: He's clever, I'll give him that much. But also completely unhinged. [#portrait=neutral]
 Guard: Did you relocate him to a higher security cell? [#portrait=neutral]
 Guard2: No, we decided on a more... permanent solution. [#portrait=neutral]
 Guard: You KILLED him?? [#portrait=neutral]
@@ -105,6 +108,7 @@ Guard2: No. Well... considering where he is now, we might as well have. [#portra
 Guard: Ahh, I get it. Smart. [#portrait=neutral]
 Guard2: We really should have stuck him there the minute we first captured him. [#portrait=neutral]
 Guard: You don't seriously believe the [color=yellow]PRINCESS[/color] was in any real danger. [#portrait=neutral]
+Guard: The [color=yellow]KING[/color] doesn't even let her out of her room. [#portrait=neutral]
 Guard2: SHH! Not in front of the prisoner! [#portrait=neutral]
 do guard_face_player()
 Guard: Oops. [#portrait=sweat]

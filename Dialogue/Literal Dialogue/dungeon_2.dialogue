@@ -11,13 +11,17 @@ do Events.dialogue_movement.emit("princess_campfire", "princess", Vector2.LEFT)
 do wait(1)
 do Events.dialogue_movement.emit("player_campfire", "player", Vector2.RIGHT)
 do wait(2)
+Princess: The fire's warm... it feels almost safe here. [#portrait=neutral]
 Princess: Hah, wish we had some marshmallows to toast right about now... [#portrait=wink]
+Princess: Or, like, a whole feast. Roasted turkey, apple pie... [#portrait=happy_closed_mouth]
+Princess: ...Okay, maybe I'm just hungry. [#portrait=embarassed]
 Princess: Hey, I... I feel like you deserve a better explanation for my behavior earlier. [#portrait=downcast]
 Princess: The truth is, I always wanted to be a warrior. But... my dad never let me. [#portrait=sad_closed_mouth]
 Princess: The closest I got was this toy bow for my birthday. [#portrait=neutral]
 Princess: Still, I loved it! I practiced for hours in my room, living out those stupid fantasies in my head. [#portrait=happy_closed_mouth]
 Princess: Convincing myself I could be just like those heroes who survived the [color=YELLOW]DUNGEON.[/color] [#portrait=happy_teeth]
-Princess: But I'm not going to pretend anymore. I'll fight with you, side by side. [#portrait=determined]
+Princess: I wonder if those heroes ever felt scared like I did. They never mention that in the stories... [#portrait=surprise_slight]
+Princess: ...Anyway, I'm not going to pretend anymore. I'll fight with you, side by side! [#portrait=determined]
 - Thank you
 	Princess: No, thank you for listening. I'm ready to go if you are. [#portrait=happy_closed_mouth]
 - Remain silent
@@ -118,10 +122,6 @@ The door is locked. Seems like pushing those blocks onto the right spots might c
 Use \[Z\] while standing next to a box to push it.
 => END
 
-~ puzzle_softlock
-Princess: Hmm, that doesn't seem like the right move... [#portrait=neutral]
-=> END
-
 ~ puzzle_1
 do Events.set_flag("puzzle_1")
 Princess: That was amazing! I wish I could be as smart as you. [#portrait=surprise_happy]
@@ -135,6 +135,7 @@ Princess: I did not sign up for this! Be careful, okay? [#portrait=determined]
 ~ laser_room_2
 Princess: Oh boy, more lasers. [#portrait=sad]
 Princess: And those red ones don't seem to turn off on their own... [#portrait=neutral]
+Princess: I swear these rooms get designed by someone with way too much free time. [#portrait=determined]
 => END
 
 ~ chest_better_bow
@@ -147,15 +148,20 @@ do Events.set_flag("met_THE_prisoner", true)
 THE Prisoner: WHAT the— [#portrait=shocked]
 THE Prisoner: I mean, hello there. Who are you guys? [#portrait=happy]
 Princess: I'm a brave adventurer, of course, just like my companion here. [#portrait=happy_teeth]
-Princess: Who are you? [#portrait=happy_closed_mouth]
-THE Prisoner: Just an ordinary prisoner who got thrown in the dungeon. [#portrait=neutral_closed_mouth]
-THE Prisoner: You guys go on ahead. I have some friends I need to talk to. [#portrait=neutral]
+THE Prisoner: Adventurers, huh? [#portrait=surprise]
+THE Prisoner: You must be lost. No one comes down here on purpose. [#portrait=smirk]
+Princess: And you are? [#portrait=neutral]
+THE Prisoner: Just an ordinary prisoner who got tossed down here for... reasons. [#portrait=neutral_closed_mouth]
+THE Prisoner: You guys go on ahead. I have some... friends I need to talk to. [#portrait=neutral]
 Princess: Friends? Can we meet them? [#portrait=surprise]
 THE Prisoner: Sorry, what I meant to say was, imaginary friends. [#portrait=happy_closed_mouth]
 THE Prisoner: So you don't need to worry about them. Because they don't, uh, exist. [#portrait=neutral]
 - That's sad
+	Princess: Hey, don't be rude. [#portrait=neutral]
+	Princess: Maybe he just gets lonely down here... [#portrait=neutral]
 - That's suspicious
-Princess: Hey, don't be rude. [#portrait=neutral]
+	Princess: Hey, let's not jump to conclusions. [#portrait=neutral]
+	THE Prisoner: I agree! [#portrait=happy]
 Princess: You take your time, sir. We'll, uh, see you around. [#portrait=happy_closed_mouth]
 do MusicManager.crossfade_track(MusicManager.Track.DUNGEON)
 => END
@@ -176,7 +182,7 @@ THE Prisoner: What are you guys up to? Just asking for my imaginary friends. [#p
 	THE Prisoner: Last I checked, there's no way ordinary prisoners like yourselves would be able to afford anything there. [#portrait=neutral]
 	Princess: Hah, totally! We're just there to chat. [#portrait=embarassed]
 - None of your business
-	THE Prisoner: Wow, someone woke up on the wrong side of the bed. [#portrait=angry_closed_mouth]
+	THE Prisoner: Wow, someone woke up on the wrong side of the [color=yellow]DUNGEON[/color]. [#portrait=surprise]
 	THE Prisoner: Nothing wrong with a few friendly questions here and there, right? [#portrait=neutral_closed_mouth]
 	Princess: Of course not! We're just, uh, in a hurry. [#portrait=happy_closed_mouth]
 => THE_prisoner_after_blacksmith_loop
@@ -203,18 +209,19 @@ if Events.get_flag("met_sad_guy")
 do Events.set_flag("met_sad_guy")
 Princess: Hey there! [#portrait=happy_closed_mouth]
 Princess: Is something wrong? You seem down... [#portrait=sad_closed_mouth]
-Sad Guy: There's no point anymore. In the last arena, my friend was killed. 
+Sad Guy: Down is an understatement. In the last arena, my friend was killed. 
 Sad Guy: I didn't know him for long, but I told him we would get through this together. 
-Sad Guy: The worst part is, he didn't even do anything wrong. 
-Sad Guy: He was falsely accused of not paying his taxes, and the trial prosecutor was wealthy enough to bribe the judges.
-Sad Guy: I don't know how things like this still surprise me. When have the odds ever been fair for our kind?
+Sad Guy: And then I watched the life leave his eyes... over nothing.
+Princess: Over nothing? [#portrait=sad_closed_mouth]
+Sad Guy: He was accused of not paying his taxes. A made-up charge. The prosecutor bribed the judges.
+Sad Guy: I don't know why things like this still surprise me. When have the odds ever been fair for our kind?
 Princess: That's awful... [#portrait=surprise_upset]
 Princess: But you can't give up! You should join us. We're going to make it out. [#portrait=sad]
 Sad Guy: Hah! So I have to watch more people die? I've had enough for a lifetime.
 => END
 
 ~ sad_guy_loop
-Sad Guy: Good luck out there. Not that it'll do anything for you.
+Sad Guy: Good luck out there. Not that luck ever did anything for me.
 => END
 
 ~ blacksmith
@@ -232,8 +239,15 @@ if Events.get_flag("chest_overpriced_armor")
 	Blacksmith: Looks like it's got a few cracks in it from old age. I can help fix it up for you, if you'd like.
 	=>< blacksmith_fix_armor
 Princess: Can we ask how you ended up down here? [#portrait=surprise]
-Blacksmith: Shortly after the [color=yellow]QUEEN's[/color] passing, the [color=yellow]KING[/color] hired me to design a... certain door at the end of the [color=yellow]DUNGEON[/color]. 
-Blacksmith: I should have known the [color=yellow]KING[/color] would just find another blacksmith. Now look where I've ended up.
+Blacksmith: Shortly after the [color=yellow]QUEEN's[/color] passing, the [color=yellow]KING[/color] hired me to design a... certain door at the end of the [color=yellow]DUNGEON[/color].
+Blacksmith: Now, I've spent my whole life at the forge. But nothing I've ever made compared to what he asked of me. 
+Blacksmith: So I refused. 
+Blacksmith: It was the first time I've ever disobeyed an order.
+Blacksmith: I should have known the [color=yellow]KING[/color] would just find another blacksmith.
+- You were right
+	Blacksmith: ...I wish I could be proud. But pride doesn't mean much down here.
+- You should have obeyed
+	Blacksmith: Hah! Spoken like a survivor.
 Princess: What was so special about the door? [#portrait=neutral]
 Blacksmith: Trust me, you'd rather not know.
 Blacksmith: I don't want to snatch away your last fragments of hope in the little time you have left.
@@ -279,9 +293,14 @@ Seems like you already have the help you need to open it.
 
 ~ door
 Princess: Look, another door! [#portrait=surprise]
-Princess: Seems like we can do the same thing as last time, right? [#portrait=happy_closed_mouth]
-do Events.dialogue_movement.emit("stand_door_button")
-do wait(1)
+Princess: Ready to go? [#portrait=happy]
+- Ready
+	do set_door_room_barrier()
+	Princess: Seems like we can do the same thing as last time, right? [#portrait=happy_closed_mouth]
+	do Events.dialogue_movement.emit("stand_door_button")
+	do wait(1)
+- Not yet
+	Princess: No worries, we can look around a bit longer first. [#portrait=happy_closed_mouth]
 => END
 
 ~ door_opened

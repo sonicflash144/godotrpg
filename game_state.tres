@@ -6,8 +6,8 @@
 script = ExtResource("1_ry6od")
 flags = {
 "dungeon": {
+"combat_room_1": false,
 "combat_room_2": false,
-"hit_princess": false,
 "met_princess": false,
 "princess_apology": false,
 "princess_door_ready": false,
@@ -40,6 +40,7 @@ flags = {
 "campfire_completed": false,
 "chest_multi_bow": false,
 "chest_revenge_armor": false,
+"laser_room_3": false,
 "met_THE_prisoner": false,
 "met_jester": false,
 "pin_1": false,

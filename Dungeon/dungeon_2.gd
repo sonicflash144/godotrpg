@@ -108,6 +108,9 @@ func open_door():
 func set_princess_follow_state():
 	princess.set_follow_state()
 
+func set_door_room_barrier():
+	doorRoomDialogueBarrierCollisionShape.set_deferred("disabled", false)
+
 func _on_room_locked(room):
 	if room == CampfireRoom and not Events.get_flag("campfire_completed"):
 		dialogueRoomManager.dialogue("campfire")
@@ -118,7 +121,6 @@ func _on_room_locked(room):
 			dialogueRoomManager.dialogue("THE_prisoner_after_blacksmith")
 	elif room == DoorRoom:
 		dialogueRoomManager.dialogue("door")
-		doorRoomDialogueBarrierCollisionShape.set_deferred("disabled", false)
 	
 func _on_player_died():
 	await get_tree().create_timer(1).timeout

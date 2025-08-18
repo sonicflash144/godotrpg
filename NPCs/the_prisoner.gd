@@ -157,7 +157,7 @@ func spawn_and_launch_bomb(direct_direction: Vector2, target_position: Vector2):
 	spawned_bombs.append(bomb_instance)
 	spawned_bombs = spawned_bombs.filter(func(b): return is_instance_valid(b))
 
-func throw_ninja_star(): 
+func throw_ninja_star():
 	var target = get_target_player()
 	if not is_instance_valid(target):
 		return
@@ -167,12 +167,14 @@ func throw_ninja_star():
 		var base_direction = global_position.direction_to(target.global_position)
 		var angle_offset_rad = deg_to_rad(30.0)
 
-		var directions = [
+		var center = base_direction
+		var sides = [
 			base_direction.rotated(-angle_offset_rad),
-			base_direction,
 			base_direction.rotated(angle_offset_rad)
 		]
-		directions.shuffle()
+		sides.shuffle()
+
+		var directions = [center] + sides
 
 		for throw_direction in directions:
 			await telegraph_line(throw_direction)

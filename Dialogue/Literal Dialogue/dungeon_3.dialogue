@@ -38,12 +38,23 @@ do wait(2)
 Princess: You know... I've never had a real friend before. [#portrait=sad_closed_mouth]
 Princess: The people I've gotten to meet... didn't really like me. They were just there because my dad told them to be. [#portrait=downcast]
 Princess: They never wanted to talk about cool stuff, like legendary swords or scary monsters. [#portrait=neutral]
+Princess: But you listen. Even when I'm annoying. [#portrait=happy_closed_mouth]
 Princess: This is the most fun I've ever had in my whole life. [#portrait=happy]
 Princess: So thanks for... you know. Putting up with me all this time. [#portrait=happy_closed_mouth]
 - Of course
 	Princess: That means a lot. I'll keep trying my hardest, okay? [#portrait=happy_teeth]
+	Princess: Who knows? Maybe one day, when people tell stories about the [color=yellow]DUNGEON[/color], they'll mention us too. [#portrait=happy_closed_mouth]
 - You're still a nuisance
 	Princess: Hah! You're not the nicest yourself. [#portrait=smirk]
+	Princess: Still... if you didn't care, you wouldn't have let me tag along. So I'm counting that as a win. [#portrait=happy_closed_mouth]
+Princess: Hey... can I ask you something? [#portrait=neutral]
+Princess: Why are YOU here? [#portrait=surprise]
+- To survive
+	Princess: Hah. That's fair. I'm hoping to survive myself. [#portrait=happy_teeth]
+- To get revenge
+	Princess: Ooo, scary. [#portrait=surprise]
+Princess: Whatever the reason, I'm glad we're in this together. [#portrait=happy_closed_mouth]
+Princess: When this is over, the first thing I'm doing is seeing the sun again. You should come too. [#portrait=happy]
 do Events.dialogue_movement.emit("princess_campfire_finished", "princess", Vector2.UP)
 do wait(1.5)
 do campfire_finished()
@@ -62,7 +73,9 @@ You got the [color=yellow]Multi Bow[/color]. Use \[C\] to equip it in the equipm
 if Events.get_flag("met_jester")
 	=> jester_loop
 do Events.set_flag("met_jester")
-Jester: Ha ha ha... I just wanted to make people laugh. 
+Jester: Ha ha ha... don't mind me. 
+Jester: I was once the life of the court. Now I'm the punchline rotting in its basement.  
+Jester: All I ever wanted was to make people laugh...
 Jester: But the [color=YELLOW]KING[/color] thought some of my jokes about what happened to the [color=YELLOW]QUEEN[/color] hit too close to home! 
 Jester: Ha ha ha... he was just scared that for once in his life, the joke would be on him.
 Jester: No one likes being reminded of their own failures, after all...
@@ -91,7 +104,9 @@ if Events.get_flag("received_jester_gift")
 	=> jester_reward_loop
 do Events.set_flag("received_jester_gift")
 Jester: My pins! You've found them!
-Jester: As thanks for your efforts, here's a small reward from me. 
+Jester: Ha ha ha... you don't know good how it feels to see these again.
+Jester: A jester without his toys is like a bird without wings.
+Jester: As thanks for your efforts, here's a small reward from me.
 Jester: It seems you're in a hurry to run away from the truth, so maybe this will help.
 You got the [color=yellow]Speedy Armor[/color]. Use \[C\] to equip it in the equipment menu.
 do Events.give("Speedy Armor")
@@ -136,15 +151,16 @@ Use \[Z\] while standing next to a box to push it.
 Princess: Come on, give it another try. [#portrait=neutral]
 => END
 
-~ puzzle_softlock
-Princess: Hmm, that doesn't seem like the right move... [#portrait=neutral]
-THE Prisoner: You sure are bad at this. [#portrait=neutral]
-=> END
-
 ~ puzzle_1
 do Events.set_flag("puzzle_1")
 Princess: Nice work! [#portrait=happy]
 THE Prisoner: Took you long enough. [#portrait=neutral]
+=> END
+
+~ laser_room_3
+THE Prisoner: You know, I've never been hit by one of these lasers before. [#portrait=happy]
+THE Prisoner: What can I say? Obstacles like this are child's play for someone of my caliber. [#portrait=smirk]
+Princess: ...Don't you ever get tired of talking about yourself? [#portrait=neutral_closed_mouth]
 => END
 
 ~ chest_revenge_armor
@@ -173,11 +189,17 @@ THE Prisoner: We can split the money and still be filthy rich. [#portrait=smirk]
 	THE Prisoner: The very one who almost killed the [color=yellow]PRINCESS[/color] a while back, and who is now here to finish the job. [#portrait=neutral]
 	THE Prisoner: I know, I know. Autographs will have to wait until after the assasination. [#portrait=happy]
 - Ask why
-	THE Prisoner: Why? You're asking why? Guess you haven't figured out who I am, either, huh... [#portrait=surprised]
+	THE Prisoner: Why? You're asking why? Guess you haven't figured out who I am, either, huh... [#portrait=surprise]
 	THE Prisoner: Some call me [color=yellow]THE[/color] prisoner. [#portrait=smirk]
 	THE Prisoner: The very one who almost killed the [color=yellow]PRINCESS[/color] a while back, and who is now here to finish the job. [#portrait=neutral]
-	THE Prisoner: Do you really think you can trust her? Please. [#portrait=angry_closed_mouth]
-	THE Prisoner: The moment we're out of here, she'll call for her guards to throw us right back in prison. Maybe even execute us for good. [#portrait=neutral_closed_mouth]
+	THE Prisoner: The guards who sneered at you, the monsters, the traps... it's all part of the [color=yellow]KING's[/color] rotten system. [#portrait=angry_closed_mouth]
+	THE Prisoner: Aren't you angry? Don't you want to make him pay for what he's done to you? [#portrait=neutral]
+	- Yes
+		THE Prisoner: Good. Then let's finish this. [#portrait=happy_evil]
+	- Not her fault
+		THE Prisoner: Not her fault? She is his daughter! His legacy! [#portrait=angry]
+		THE Prisoner: You think you can trust her? Please. Once we're out of here, you'll be just another commoner. [#portrait=angry_closed_mouth]
+		THE Prisoner: She'll throw us right back in prison. Maybe even execute us for good. [#portrait=neutral_closed_mouth]
 do Events.dialogue_movement.emit("princess_return_door_room")
 do wait(1)
 Princess: Sorry guys, I couldn't find anything useful. [#portrait=sad_closed_mouth]
@@ -187,7 +209,7 @@ Princess: Really? That's great! What's the idea? [#portrait=surprise]
 THE Prisoner: It's very simple, actually. It's killing you. [#portrait=happy]
 do MusicManager.play_track(MusicManager.Track.TENSE)
 Princess: W— WHAT? Why would you do that? [#portrait=shocked_upset]
-THE Prisoner: God, it's a mystery if you're playing dumb or if you're really just that stupid. [#portrait=surprised]
+THE Prisoner: God, it's a mystery if you're playing dumb or if you're really just that stupid. [#portrait=surprise]
 THE Prisoner: This door doesn't open without royal blood. That's why the [color=yellow]DUNGEON[/color] is the kingdom's most effective death trap. [#portrait=angry]
 THE Prisoner: I don't know why you wandered down here, [color=yellow]PRINCESS[/color], but it's the last mistake you'll ever make. [#portrait=angry_closed_mouth]
 Princess: No... no, you're lying. The [color=yellow]DUNGEON[/color] is a challenge... a way to prove oneself... [#portrait=shocked_angry]
@@ -209,14 +231,14 @@ THE Prisoner: Now, my ally, do what you must. [#portrait=happy_evil]
 	do wait(1)
 	do princess_death_effect()
 	do wait(1)
-	THE Prisoner: I must say, I'm impressed! I didn't think you had it in you. [#portrait=surprised]
+	THE Prisoner: I must say, I'm impressed! I didn't think you had it in you. [#portrait=surprise]
 	THE Prisoner: You've been a great help. [#portrait=happy]
 	THE Prisoner: Unfortunately, I don't really want to share the bounty. [#portrait=happy_evil]
 	THE Prisoner: You of all people should've known that trust is for the weak. [#portrait=happy_closed_mouth]
 - Do not
 	do MusicManager.stop_music()
 	set Events.num_party_members = 2
-	THE Prisoner: You won't kill her? That's a shame. [#portrait=surprised]
+	THE Prisoner: You won't kill her? That's a shame. [#portrait=surprise]
 	THE Prisoner: I'm afraid I can't leave behind any witnesses. I'm sure you understand. [#portrait=happy]
 do start_the_prisoner_fight()
 => END
@@ -228,13 +250,14 @@ if Events.num_party_members >= 2
 else
 	THE Prisoner: Don't give me that look. [#portrait=determined]
 	THE Prisoner: What are you still mad about? My betrayal? Hah! [#portrait=smirk]
-	THE Prisoner: You're a murderer now, too. Betrayal should be the least of your worries. [#portrait=happy]
+	THE Prisoner: Don't pretend you're any better than me. [#portrait=happy]
+	THE Prisoner: You're a murderer now, too. Betrayal should be the least of your worries. [#portrait=happy_evil]
 do Events.dialogue_movement.emit("THE_prisoner_exit_door_room", "THE_prisoner", Vector2.LEFT, true)
 => END
 
 ~ THE_prisoner_exit_door_room
 if Events.num_party_members >= 2
-	Princess: Ew, I'm still bleeding from the fight… [#portrait=wince]
+	Princess: Ew, I'm still bleeding from the fight... [#portrait=wince]
 	Princess: I guess at least it makes opening the door easy. [#portrait=neutral]
 	do Events.dialogue_movement.emit("princess_open_door", "princess", Vector2.UP, true)
 else

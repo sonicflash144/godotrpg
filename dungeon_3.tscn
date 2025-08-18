@@ -1,4 +1,4 @@
-[gd_scene load_steps=40 format=4 uid="uid://crej2ja7ku7gd"]
+[gd_scene load_steps=43 format=4 uid="uid://crej2ja7ku7gd"]
 
 [ext_resource type="Script" uid="uid://durfcss8llkph" path="res://Dungeon/dungeon_3.gd" id="1_tfgca"]
 [ext_resource type="PackedScene" uid="uid://c23uva3n3te25" path="res://UI/health_canvas_layer.tscn" id="2_4rglg"]
@@ -30,6 +30,7 @@
 [ext_resource type="Resource" uid="uid://dnaumst244w6n" path="res://Equipment/Revenge Armor.tres" id="27_p7k77"]
 [ext_resource type="PackedScene" uid="uid://6wkafegtbmeu" path="res://Enemies/spikeball.tscn" id="28_p7k77"]
 [ext_resource type="PackedScene" uid="uid://bw14uhwg0x8ca" path="res://Enemies/jellyfish.tscn" id="28_ts4pe"]
+[ext_resource type="PackedScene" uid="uid://bpm6agniem71" path="res://Dialogue/dialogue_trigger.tscn" id="29_jbqjv"]
 [ext_resource type="PackedScene" uid="uid://cpjqlhgfud2xd" path="res://Enemies/big_ghost.tscn" id="29_tlel4"]
 [ext_resource type="Texture2D" uid="uid://1dwfaumovt0p" path="res://NPCs/Sprites/jester.png" id="33_wahrm"]
 [ext_resource type="PackedScene" uid="uid://bixth4v8wdly8" path="res://NPCs/princess.tscn" id="34_7ol0f"]
@@ -45,13 +46,19 @@ radius = 24.0
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_vdg8j"]
 size = Vector2(32, 32)
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_4rglg"]
+size = Vector2(24, 208)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_5qy6q"]
+size = Vector2(24, 16)
+
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_p7k77"]
 size = Vector2(16, 32)
 
 [node name="Dungeon3" type="Node2D" node_paths=PackedStringArray("markers")]
 y_sort_enabled = true
 script = ExtResource("1_tfgca")
-markers = [NodePath("CampfireRoom/princess_campfire"), NodePath("CampfireRoom/player_campfire"), NodePath("CampfireRoom/princess_campfire_finished"), NodePath("PuzzleRoom1/enter_puzzle_1"), NodePath("ChestRoom/princess_exit_door_room"), NodePath("ChestRoom/THE_prisoner_exit_door_room"), NodePath("DoorRoom/THE_prisoner_enter_door_room"), NodePath("DoorRoom/princess_return_door_room"), NodePath("DoorRoom/player_kill_princess"), NodePath("DoorRoom/princess_open_door")]
+markers = [NodePath("CampfireRoom/princess_campfire"), NodePath("CampfireRoom/player_campfire"), NodePath("CampfireRoom/princess_campfire_finished"), NodePath("PuzzleRoom1/enter_puzzle_1"), NodePath("PuzzleRoom1/reset_puzzle_1"), NodePath("ChestRoom/princess_exit_door_room"), NodePath("ChestRoom/THE_prisoner_exit_door_room"), NodePath("DoorRoom/THE_prisoner_enter_door_room"), NodePath("DoorRoom/princess_return_door_room"), NodePath("DoorRoom/player_kill_princess"), NodePath("DoorRoom/princess_open_door")]
 
 [node name="HealthCanvasLayer" parent="." instance=ExtResource("2_4rglg")]
 
@@ -189,7 +196,7 @@ position = Vector2(24, 216)
 position = Vector2(88, 152)
 
 [node name="Ghost2" parent="CombatRoom1" instance=ExtResource("20_ja5ap")]
-position = Vector2(224, 88)
+position = Vector2(184, 72)
 
 [node name="Spikes1" parent="CombatRoom1" instance=ExtResource("22_pxxmv")]
 position = Vector2(160, 240)
@@ -203,13 +210,19 @@ rotation = 1.5708
 position = Vector2(0, 112)
 
 [node name="Jellyfish" parent="CombatRoom1" instance=ExtResource("28_ts4pe")]
-position = Vector2(96, 88)
+position = Vector2(88, 80)
 
 [node name="Slime" parent="CombatRoom1" instance=ExtResource("21_p7k77")]
-position = Vector2(168, 128)
+position = Vector2(128, 120)
 
-[node name="Jellyfish2" parent="CombatRoom1" instance=ExtResource("28_ts4pe")]
-position = Vector2(216, 160)
+[node name="Spikeball" parent="CombatRoom1" instance=ExtResource("28_p7k77")]
+position = Vector2(160, 168)
+
+[node name="Slime2" parent="CombatRoom1" instance=ExtResource("21_p7k77")]
+position = Vector2(224, 160)
+
+[node name="Spikeball2" parent="CombatRoom1" instance=ExtResource("28_p7k77")]
+position = Vector2(224, 112)
 
 [node name="LaserRoom2" parent="." instance=ExtResource("9_tjxw3")]
 position = Vector2(320, 480)
@@ -330,6 +343,9 @@ shape = SubResource("CircleShape2D_pxxmv")
 [node name="enter_puzzle_1" type="Marker2D" parent="PuzzleRoom1"]
 position = Vector2(200, 200)
 
+[node name="reset_puzzle_1" type="Marker2D" parent="PuzzleRoom1"]
+position = Vector2(176, 176)
+
 [node name="PrincessFollowCheck1" parent="PuzzleRoom1" instance=ExtResource("11_76h80")]
 position = Vector2(176, 176)
 key = "princess_follow_check_1"
@@ -393,6 +409,22 @@ active_length = 1.0
 position = Vector2(104, 24)
 active_length = 1.0
 
+[node name="DialogueTrigger" parent="LaserRoom3" instance=ExtResource("29_jbqjv")]
+position = Vector2(32, 72)
+key = "laser_room_3"
+
+[node name="CollisionShape2D" parent="LaserRoom3/DialogueTrigger" index="0"]
+position = Vector2(20, 48)
+shape = SubResource("RectangleShape2D_4rglg")
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="LaserRoom3/DialogueTrigger"]
+position = Vector2(-4, 0)
+shape = SubResource("RectangleShape2D_5qy6q")
+
+[node name="CollisionShape2D3" type="CollisionShape2D" parent="LaserRoom3/DialogueTrigger"]
+position = Vector2(-4, 80)
+shape = SubResource("RectangleShape2D_5qy6q")
+
 [node name="CombatRoom2" parent="." instance=ExtResource("9_tjxw3")]
 position = Vector2(1280, 240)
 flag = "combat_room_2"
@@ -418,13 +450,19 @@ position = Vector2(248, 144)
 position = Vector2(96, 80)
 
 [node name="BigGhost" parent="CombatRoom2" instance=ExtResource("29_tlel4")]
-position = Vector2(104, 144)
+position = Vector2(152, 120)
 
 [node name="FireFlower" parent="CombatRoom2" instance=ExtResource("21_etn0k")]
-position = Vector2(176, 112)
+position = Vector2(224, 104)
 
 [node name="BigGhost2" parent="CombatRoom2" instance=ExtResource("29_tlel4")]
 position = Vector2(216, 64)
+
+[node name="FireFlower2" parent="CombatRoom2" instance=ExtResource("21_etn0k")]
+position = Vector2(112, 168)
+
+[node name="Jellyfish2" parent="CombatRoom2" instance=ExtResource("28_ts4pe")]
+position = Vector2(192, 152)
 
 [node name="ChestRoom" parent="." instance=ExtResource("9_tjxw3")]
 position = Vector2(1280, 0)
@@ -505,6 +543,7 @@ position = Vector2(880, 592)
 [editable path="PuzzleRoom1/BoxPuzzle"]
 [editable path="PuzzleRoom1/SideDoor/SideDoorDialogueZone"]
 [editable path="PuzzleRoom1/PrincessFollowCheck1"]
+[editable path="LaserRoom3/DialogueTrigger"]
 [editable path="ChestRoom/SavePoint2"]
 [editable path="ChestRoom/SavePoint2/SavePointDialogueZone"]
 [editable path="DoorRoom/DialogueBarrier"]

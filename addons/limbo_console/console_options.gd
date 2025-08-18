@@ -8,7 +8,7 @@ const CONFIG_PATH := "res://addons/limbo_console.cfg"
 	"source": "exec",
 	"usage": "help",
 }
-@export var disable_in_release_build: bool = false
+@export var disable_in_release_build: bool = true
 @export var print_to_stdout: bool = false
 @export var pause_when_open: bool = true
 

@@ -100,7 +100,3 @@ func death(area_name: String):
 		Events.princessDown = true
 	elif get_parent().is_in_group("Enemy"):
 		enemy_died.emit(get_parent())
-		#if Events.equipment_abilities["Shockwave"] and area_name == "SwordHitbox" and randf() < SWORD_SHOCKWAVE_RATE:
-			#var swordShockwave = SwordShockwaveScene.instantiate()
-			#get_tree().current_scene.call_deferred("add_child", swordShockwave)
-			#swordShockwave.global_position = get_parent().global_position

@@ -7,6 +7,7 @@ enum {
 	PUZZLE,
 	LASER
 }
+@onready var camera = $"../DungeonCamera2D"
 @onready var dialogueRoomManager: DialogueRoomManager = $"../DialogueRoomManager"
 @onready var princess: CharacterBody2D = $"../Princess"
 @onready var princessCollider = $"../Princess/CollisionShape2D"
@@ -18,6 +19,7 @@ enum {
 @onready var THE_PrisonerBlinkAnimation = get_node_or_null("../ThePrisoner/BlinkAnimationPlayer")
 
 @export var flag: String
+@export var combatMusicOverride := false
 @export var combatLockOverride := false
 
 var roomType
@@ -73,20 +75,49 @@ func puzzle_lock_room():
 	else:
 		puzzle.start_puzzle()
 
+func is_spawn_position_valid(pos: Vector2) -> bool:
+	var margin := 16.0
+	
+	var scaled_margin_x = margin / camera.zoom.x
+	var scaled_margin_y = margin / camera.zoom.y
+
+	var view_size = get_viewport().get_visible_rect().size / camera.zoom
+	var view_top_left = camera.global_position
+
+	var safe_area_pos = Vector2(
+		view_top_left.x + scaled_margin_x,
+		view_top_left.y + scaled_margin_y
+	)
+	var safe_area_size = Vector2(
+		view_size.x - (scaled_margin_x * 2),
+		view_size.y - (scaled_margin_y * 2)
+	)
+	var safe_area_rect = Rect2(safe_area_pos, safe_area_size)
+
+	if safe_area_size.x <= 0 or safe_area_size.y <= 0:
+		return false
+
+	return safe_area_rect.has_point(pos)
+
 func spawn_ghosts(pos: Vector2):
 	var newGhosts: Array[CharacterBody2D]
 	for i in range(3):
-		var ghost_instance = GhostScene.instantiate()
-		ghost_instance.global_position = pos
 		var offset = Vector2(randf_range(-16.0, 16.0), randf_range(-16.0, 16.0))
-		ghost_instance.global_position += offset
+		var final_pos = pos + offset
 		
-		newGhosts.append(ghost_instance)
-		enemies.append(ghost_instance)
-		var health_component = ghost_instance.get_node_or_null("Health_Component")
-		health_component.enemy_died.connect(_on_enemy_died)
-		ghost_instance.set_idle_state()
+		if is_spawn_position_valid(final_pos):
+			var ghost_instance = GhostScene.instantiate()
+			ghost_instance.global_position = final_pos
+			
+			newGhosts.append(ghost_instance)
+			enemies.append(ghost_instance)
+			var health_component = ghost_instance.get_node_or_null("Health_Component")
+			health_component.enemy_died.connect(_on_enemy_died)
+			ghost_instance.set_idle_state()
 		
+	if newGhosts.is_empty():
+		return
+
 	await get_tree().create_timer(0.2).timeout
 	for ghost in newGhosts:
 		get_tree().current_scene.call_deferred("add_child", ghost)
@@ -169,6 +200,8 @@ func combat_lock_room():
 	var combatLockSound = CombatLockSound.instantiate()
 	get_tree().current_scene.add_child(combatLockSound)
 	activate_spikes()
+	if not combatMusicOverride:
+		MusicManager.play_track(MusicManager.Track.COMBAT)
 	
 	for enemy in enemies:
 		enemy.set_idle_state()
@@ -190,6 +223,7 @@ func un_combat_lock_room():
 	get_tree().current_scene.add_child(combatLockSound)
 	deactivate_spikes()
 	roomCompleted = true
+	MusicManager.crossfade_track(MusicManager.Track.DUNGEON)
 
 func debug_killall():
 	if not OS.is_debug_build() or not Events.combat_locked:

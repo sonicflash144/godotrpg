@@ -8,17 +8,22 @@ do Events.set_flag("met_princess")
 Princess: Oh hey there! [#portrait=happy_closed_mouth]
 Princess: WOWWW, are you a real warrior? [#portrait=surprise]
 - Yes
-	Princess: That's so cool. Like, this might be THE COOLEST moment of my life. [#portrait=happy_teeth]
+	Princess: Aha, I knew it! I could tell just from the way you walk! [#portrait=happy]
+	Princess: Like, uh, really steady. And mysterious! And brave! [#portrait=happy_closed_mouth]
+	Princess: This might very well be THE COOLEST moment of my life. [#portrait=happy_teeth]
+	Princess: Let me guess, you spent years training away in the mountains with nothing but that sword in your hands? [#portrait=surprise]
 - No
 	Princess: Hah, well, you sure look the part with that big sword. [#portrait=wink]
-Princess: I heard only the bravest warriors end up here. [#portrait=happy_closed_mouth]
+	Princess: Or... wait, are you lying? A warrior would totally do that. [#portrait=surprise]
+	Princess: Well, you can't fool me! You're definitely a mysterious loner with a tragic past... [#portrait=neutral]
+Princess: You know, I heard only the bravest warriors end up here. [#portrait=happy_closed_mouth]
 Princess: Not that I'm not brave, of course. [#portrait=surprise]
 Princess: I'm... a deadly prisoner, just like you! Yeah! [#portrait=neutral]
-Princess: May I join you on your adventures? [#portrait=happy]
+Princess: So! May I join you on your adventures? [#portrait=happy]
 - Yes
 	Princess: Oh my gosh, really? Awesome! [#portrait=happy_eyes_closed]
 - No
-	Princess: Aww, come on. Pretty please? [#portrait=sad_closed_mouth]
+	Princess: Aww, come on. Pretty please? With... I don't know... dungeon slime on top? [#portrait=sad_closed_mouth]
 Princess: I promise you won't regret it. I'm already kind of a fighter myself. [#portrait=smirk]
 Princess: Here, try hitting me. [#portrait=happy]
 => END
@@ -29,8 +34,12 @@ do Events.set_flag("met_princess")
 Princess: HEY! Aren't you going to say hello? [#portrait=angry]
 - Sorry
 	Princess: Sorry doesn't cut it! [#portrait=angry_closed_mouth]
+	Princess: I finally get to meet a real warrior in person, and you decide to act like I don't exist? [#portrait=determined]
+	Princess: This was supposed to be an epic moment, and now it's RUINED! [#portrait=angry]
 - I'm busy
 	Princess: Well, you're also a jerk! [#portrait=angry_closed_mouth]
+	Princess: And busy doing WHAT? There's nothing to look at here but sand and rocks! [#portrait=angry_closed_mouth]
+	Princess: Oh, please, forgive me for interrupting your super important rock-staring session. [#portrait=neutral]
 Princess: I could be a huge asset to your adventures and you tried to walk right past me. [#portrait=angry_closed_mouth]
 Princess: I know you think you need that big sword a lot more than a girl like me. [#portrait=neutral]
 Princess: But look, I'm already kind of a fighter myself. [#portrait=smirk]
@@ -41,7 +50,7 @@ Princess: Here, try attacking me. I bet you won't be able to land a hit! [#portr
 => END
 
 ~ hit
-do Events.set_flag("hit_princess")
+do set_hit_princess()
 if not Events.get_flag("met_princess"):
 	do MusicManager.play_track(MusicManager.Track.PRINCESS)
 	do Events.set_flag("met_princess")
@@ -50,15 +59,17 @@ if not Events.get_flag("met_princess"):
 	Princess: We haven't even talked yet, and you've already decided I'm a nuisance or something? [#portrait=angry]
 	Princess: What's your problem? [#portrait=angry]
 	- Sorry
+		Princess: Hmph. You're very lucky I'm feeling generous today. [#portrait=angry_closed_mouth]
 		Princess: Apology, like, 10 percent accepted. [#portrait=angry_closed_mouth]
 	- You are a nuisance
 		Princess: ... [#portrait=suspicious]
+		Princess: For your sake, I'm going to pretend I didn't hear that. [#portrait=neutral_closed_mouth]
 	Princess: You know, I could be a huge asset to your adventures. [#portrait=neutral]
 	Princess: I know you think you need that big sword a lot more than a girl like me. [#portrait=neutral]
 	Princess: But I'll show you the kind of fighter I am! [#portrait=smirk]
 else:
 	Princess: OWWW OW OWWW OW OW! [#portrait=angry_eyes_closed]
-	Princess: Ow... don't worry, I'm okay. [#portrait=wince]
+	Princess: Ow... don't worry, I'm okay... probably. [#portrait=wince]
 Princess: Let's get going. [#portrait=neutral]
 Princess: The life of a brave warrior waits for no one! [#portrait=happy_teeth]
 do MusicManager.crossfade_track(MusicManager.Track.DUNGEON)
@@ -74,13 +85,13 @@ Princess: DUDE! You can stop hitting me now. We're on the same team. [#portrait=
 
 ~ ghost_room
 do MusicManager.stop_music()
-do Events.set_flag("combat_room_2")
+do set_combat_room_2_start()
 Princess: AHHH! OH MY GOODNESS ARE THOSE MONSTERS??? [#portrait=shocked]
 do Events.dialogue_movement.emit("exit_ghost_room")
 set Events.num_party_members = 1
 do wait(1.5)
 do Events.currentRoom.combat_lock_room()
-do MusicManager.play_track(MusicManager.Track.DUNGEON)
+do MusicManager.play_track(MusicManager.Track.COMBAT)
 do wait(0.5)
 => END
 
@@ -94,7 +105,8 @@ Princess: It was silly of me to play pretend like this. I'm no hero. [#portrait=
 - Forgive
 	Princess: Aww, you shouldn't. [#portrait=embarassed_happy]
 - Do not
-	Princess: I understand. [#portrait=downcast]
+	Princess: ...I get it. [#portrait=downcast]
+	Princess: If I were you, I wouldn't trust me either. [#portrait=sad_closed_mouth]
 => fled_loop
 
 ~ fled_loop
@@ -114,7 +126,7 @@ Princess: I'll be right there! [#portrait=happy_closed_mouth]
 do MusicManager.crossfade_track(MusicManager.Track.DUNGEON)
 do Events.dialogue_movement.emit("enter_door_room")
 do wait(0.5)
-do Events.set_flag("princess_door_ready")
+do set_princess_door_ready()
 => END
 
 ~ door
@@ -127,7 +139,7 @@ do wait(0.5)
 ~ door_opened
 Princess: Woah, nice job! [#portrait=surprise_happy]
 Princess: We make a pretty good team, huh? [#portrait=happy_teeth]
-Princess: Come on, let's get going! [#portrait=happy_closed_mouth]
+Princess: Come on, let's keep going! [#portrait=happy_closed_mouth]
 do set_princess_follow_state() 
 => END
 

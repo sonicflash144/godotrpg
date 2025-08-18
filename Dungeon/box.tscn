@@ -1,24 +1,35 @@
-[gd_scene load_steps=4 format=3 uid="uid://bpbhwnjsuadvv"]
+[gd_scene load_steps=6 format=3 uid="uid://bpbhwnjsuadvv"]
 
+[ext_resource type="Script" uid="uid://cxe7ne8v35oud" path="res://Dungeon/box.gd" id="1_64ws0"]
 [ext_resource type="Texture2D" uid="uid://dgnpkhmggtrak" path="res://Dungeon/Sprites/box.png" id="1_de7vs"]
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_64ws0"]
-size = Vector2(16, 13)
+[ext_resource type="AudioStream" uid="uid://vfsq1mhli1iq" path="res://Music and Sounds/box_destroy.mp3" id="3_effwp"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_de7vs"]
 size = Vector2(16, 16)
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_64ws0"]
+size = Vector2(10, 10)
+
 [node name="Box" type="StaticBody2D" groups=["Box"]]
 collision_layer = 513
 collision_mask = 0
+script = ExtResource("1_64ws0")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 texture = ExtResource("1_de7vs")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_de7vs")
+
+[node name="Area2D" type="Area2D" parent="."]
 visible = false
-position = Vector2(0, 1)
+collision_layer = 0
+collision_mask = 64
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
 shape = SubResource("RectangleShape2D_64ws0")
 
-[node name="CollisionShape2D2" type="CollisionShape2D" parent="."]
-shape = SubResource("RectangleShape2D_de7vs")
+[node name="DestroySound" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("3_effwp")
+
+[connection signal="area_entered" from="Area2D" to="." method="_on_area_2d_area_entered"]

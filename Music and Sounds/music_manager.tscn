@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3 uid="uid://bw7lmdnd7ipqw"]
+[gd_scene load_steps=13 format=3 uid="uid://bw7lmdnd7ipqw"]
 
 [ext_resource type="Script" uid="uid://d1twbg7q2hurt" path="res://Music and Sounds/music_manager.gd" id="1_fka1b"]
 [ext_resource type="AudioStream" uid="uid://ceruur0st5wsj" path="res://Music and Sounds/VGM_menu.wav" id="2_47ehh"]
@@ -9,47 +9,52 @@
 [ext_resource type="AudioStream" uid="uid://dpucmmlkxrrxw" path="res://Music and Sounds/VGM_throne_room_hall.wav" id="4_jbm5m"]
 [ext_resource type="AudioStream" uid="uid://cmlds0dwktqhe" path="res://Music and Sounds/VGM_king.wav" id="5_xs5e7"]
 [ext_resource type="AudioStream" uid="uid://duqrcaly8bxdy" path="res://Music and Sounds/VGM_princess.wav" id="6_m26le"]
+[ext_resource type="AudioStream" uid="uid://bufpshfafnw8y" path="res://Music and Sounds/VGM_combat.wav" id="6_sc5vm"]
 [ext_resource type="AudioStream" uid="uid://sliojsqxl555" path="res://Music and Sounds/VGM_campfire.wav" id="7_y17dd"]
-[ext_resource type="AudioStream" uid="uid://bqobrmdymvivh" path="res://Music and Sounds/VGM_prisoner.wav" id="8_ake6j"]
+[ext_resource type="AudioStream" uid="uid://cma80s6g3q70r" path="res://Music and Sounds/VGM_prisoner.wav" id="8_ake6j"]
 
 [node name="MusicManager" type="Node"]
 script = ExtResource("1_fka1b")
 
 [node name="Menu" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("2_47ehh")
+volume_db = 2.0
 
 [node name="Prison" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("3_f1xhy")
-volume_db = -4.0
 
 [node name="Tense" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("3_6loju")
-volume_db = -8.0
+volume_db = -6.0
 
 [node name="Dungeon" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("2_jbm5m")
-volume_db = -12.0
+volume_db = -10.0
+
+[node name="Combat" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("6_sc5vm")
+volume_db = -8.0
 
 [node name="Princess" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("6_m26le")
-volume_db = 2.0
+volume_db = 4.0
 
 [node name="Campfire" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("7_y17dd")
-volume_db = -8.0
+volume_db = -6.0
 
 [node name="Prisoner" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("8_ake6j")
-volume_db = -12.0
+volume_db = -8.0
 
 [node name="PrisonerFight" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("3_xs5e7")
-volume_db = -12.0
+volume_db = -10.0
 
 [node name="Hall" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("4_jbm5m")
-volume_db = -12.0
+volume_db = -10.0
 
 [node name="King" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("5_xs5e7")
-volume_db = -12.0
+volume_db = -10.0

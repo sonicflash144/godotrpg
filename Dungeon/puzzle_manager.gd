@@ -127,6 +127,10 @@ func check_win() -> void:
 		if not boxes_dict.has(goal):
 			filled = false
 			break
+	for box in boxes_list:
+		if not box.visible:
+			filled = false
+			break
 	if filled:
 		is_puzzle_complete = true
 		get_parent().roomCompleted = true
@@ -147,6 +151,7 @@ func reset_puzzle() -> void:
 		var box = boxes_list[i]
 		var init_pos = initial_positions[i]
 		box.position = init_pos
+		box.reset_box()
 	boxes_dict.clear()
 	for i in range(boxes_list.size()):
 		boxes_dict[initial_grids[i]] = boxes_list[i]

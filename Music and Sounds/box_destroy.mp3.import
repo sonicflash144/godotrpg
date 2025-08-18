@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://vfsq1mhli1iq"
+path="res://.godot/imported/box_destroy.mp3-3fb2532d618535f912ade9ef048c06bb.mp3str"
+
+[deps]
+
+source_file="res://Music and Sounds/box_destroy.mp3"
+dest_files=["res://.godot/imported/box_destroy.mp3-3fb2532d618535f912ade9ef048c06bb.mp3str"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

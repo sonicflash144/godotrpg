@@ -34,15 +34,16 @@ if Events.num_party_members >= 2
 	King: So I built the [color=yellow]DUNGEON[/color]. [#portrait=neutral]
 	Princess: Oh, Dad... I'm so sorry. [#portrait=sad]
 	Princess: But this isn't right either. [#portrait=determined]
-	Princess: So many of the prisoners down in the [color=yellow]DUNGEON[/color] don't deserve the death sentence that befalls them. [#portrait=neutral]
-	King: ...I know. I'm sorry. [#portrait=sad_closed_mouth]
+	Princess: So many of the prisoners down in the [color=yellow]DUNGEON[/color] deserve more than the death sentence that befalls them. [#portrait=neutral]
+	Princess: And I deserve more than your lies. [#portrait=neutral]
+	King: ...I know. I'm sorry, my daughter. [#portrait=sad_closed_mouth]
 	King: I'm going to put a stop to this. I should have done so many things differently. [#portrait=neutral]
 	King: I should have been a better king... a better father... [#portrait=sad]
-	Princess: It's okay, Dad. It's never too late to start working towards a brighter future. [#portrait=happy_closed_mouth]
+	Princess: It's okay, Dad. We can still break this cycle. Together. [#portrait=happy_closed_mouth]
 else
 	King: ...my daughter... I'm sorry I couldn't save you... I couldn't avenge you... [#portrait=sad_eyes_closed]
 	King: My guards will be here soon. Consider yourself lucky. [#portrait=angry_closed_mouth]
-	King: If I were you, I would start running. [#portrait=neutral]
+	King: If I were you, I would start running. Take your hollow victory and choke on it. [#portrait=neutral]
 	King: You are not welcome in this kingdom. [#portrait=angry]
 do game_complete()
 => END

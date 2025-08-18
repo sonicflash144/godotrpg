@@ -16,6 +16,10 @@ extends Node2D
 
 @export var markers: Array[Marker2D]
 
+var combat_room_2_start := false
+var hit_princess_check := false
+var princess_door_ready := false
+
 func _ready() -> void:
 	Events.playerDown = false
 	Events.princessDown = true
@@ -32,9 +36,18 @@ func _ready() -> void:
 	set_collision_masks(true)
 	princess.set_nav_state()
 	
-	if not Events.deferred_load_data.is_empty() and Events.deferred_load_data.scene == "dungeon":
+	if Events.deferred_load_data.is_empty():
+		Events.set_flag("combat_room_1", false)
+	elif Events.deferred_load_data.scene == "dungeon":
 		var save_position = Vector2(Events.deferred_load_data["player_x_pos"], Events.deferred_load_data["player_y_pos"])
 		player.position = save_position
+		
+	await get_tree().process_frame
+	
+	if Events.get_flag("combat_room_2"):
+		combat_room_2_start = true
+		hit_princess_check = true
+		remove_dialogue_barrier()
 		
 	MusicManager.play_track(MusicManager.Track.DUNGEON)
 
@@ -52,6 +65,15 @@ func dialogue_barrier(_key: String):
 func remove_dialogue_barrier():
 	dialogueBarrier.queue_free()
 
+func set_hit_princess():
+	hit_princess_check = true
+
+func set_combat_room_2_start():
+	combat_room_2_start = true
+
+func set_princess_door_ready():
+	princess_door_ready = true
+
 func open_door():
 	dialogueRoomManager.dialogue("door_opened")
 	
@@ -64,17 +86,14 @@ func _on_room_entered(room):
 		Events.set_flag("visited_door")
 
 func _on_room_locked(room):
-	if room == CombatRoom2 and not Events.get_flag("combat_room_2"):
+	if room == CombatRoom2 and not combat_room_2_start:
 		dialogueRoomManager.dialogue("ghost_room")
-	elif room == DoorRoom and Events.get_flag("princess_door_ready"):
+	elif room == DoorRoom and princess_door_ready:
 		dialogueRoomManager.dialogue("door")
 	
 func _on_player_died():
-	Events.set_flag("met_princess", false)
-	Events.set_flag("hit_princess", false)
-	Events.set_flag("combat_room_2", false)
 	await get_tree().create_timer(1).timeout
-	TransitionHandler.console_fade_out("dungeon")
+	Events.load_game()
 
 func _on_dialogue_movement(key: String):
 	for marker in markers:
@@ -84,14 +103,14 @@ func _on_dialogue_movement(key: String):
 
 func _on_princess_hurtbox_area_entered(_area: Area2D) -> void:
 	princessHealthComponent.heal(princessHealthComponent.MAX_HEALTH)
-	if not Events.get_flag("hit_princess"):
+	if not hit_princess_check:
 		dialogueRoomManager.dialogue("hit")
 	else:
 		dialogueRoomManager.dialogue("hit_loop")
 		set_collision_masks(false)
 		
 func _on_princess_dialogue_zone_zone_triggered() -> void:
-	if Events.get_flag("princess_door_ready"):
+	if princess_door_ready:
 		return
 	elif Events.get_flag("visited_door"):
 		set_collision_masks(false)

@@ -12,11 +12,10 @@ class_name GameState
 	},
 	"dungeon": {
 		"met_princess": false,
-		"hit_princess": false,
+		"combat_room_1": false,
 		"combat_room_2": false,
 		"princess_apology": false,
 		"visited_door": false,
-		"princess_door_ready": false
 	},
 	"dungeon_2": {
 		"campfire_completed": false,
@@ -49,6 +48,7 @@ class_name GameState
 		"met_THE_prisoner": false,
 		"received_jester_gift": false,
 		"puzzle_1": false,
+		"laser_room_3": false,
 		"chest_revenge_armor": false,
 		"before_THE_prisoner_fight": false,
 		"after_THE_prisoner_fight": false
